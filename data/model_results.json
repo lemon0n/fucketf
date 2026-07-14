@@ -1,0 +1,3398 @@
+{
+  "summary": {
+    "cumulative_return": -14.05,
+    "hs300_cumulative_return": 6.01,
+    "alpha": -20.06,
+    "win_rate": 51.72,
+    "profit_loss_ratio": 0.83,
+    "trading_days": 124,
+    "experience_count": 116,
+    "etf_avg_performance": 7.46,
+    "final_capital": 859456.02,
+    "total_trades": 116,
+    "wins": 60,
+    "losses": 56,
+    "initial_capital": 1000000.0,
+    "commission_rate": 5e-05
+  },
+  "latest_decision": {
+    "date": "2026-07-14",
+    "trend": "bullish",
+    "decision": "buy",
+    "etf_selection": [
+      {
+        "code": "510150",
+        "name": "消费ETF",
+        "sector": "消费",
+        "weight": 0.5521,
+        "total_score": 2.5248
+      },
+      {
+        "code": "515120",
+        "name": "创新药ETF",
+        "sector": "医药",
+        "weight": 0.4479,
+        "total_score": 2.0482
+      }
+    ],
+    "weight": 1.0,
+    "reason": "趋势bullish，首选消费ETF(总分2.52)，情绪热点(0.80,3倍权重)、动量(-0.42)、量比(0.30)、均值回归(0.29)、经验(-0.04)",
+    "sentiment": {
+      "score": 0.8,
+      "bullish_count": 4,
+      "bearish_count": 0,
+      "hot_sectors": [
+        {
+          "sector": "消费",
+          "count": 3
+        },
+        {
+          "sector": "AI算力",
+          "count": 2
+        },
+        {
+          "sector": "医药",
+          "count": 2
+        },
+        {
+          "sector": "半导体",
+          "count": 1
+        },
+        {
+          "sector": "芯片",
+          "count": 1
+        },
+        {
+          "sector": "券商",
+          "count": 1
+        }
+      ],
+      "summary": "四大报共16条标题(看多4/看空0)，情绪分0.8，热点板块: 消费, AI算力, 医药"
+    },
+    "sector_performance": {
+      "date": "2026-07-13",
+      "prev_date": "2026-07-10",
+      "top5": [
+        {
+          "code": "515120",
+          "name": "创新药ETF",
+          "sector": "医药",
+          "change_pct": -0.936,
+          "close": 0.635,
+          "volume": 12069129
+        },
+        {
+          "code": "159592",
+          "name": "卫星产业ETF",
+          "sector": "商业航天",
+          "change_pct": -1.0471,
+          "close": 1.323,
+          "volume": 199991
+        },
+        {
+          "code": "510150",
+          "name": "消费ETF",
+          "sector": "消费",
+          "change_pct": -1.25,
+          "close": 0.474,
+          "volume": 496583
+        },
+        {
+          "code": "512000",
+          "name": "券商ETF",
+          "sector": "券商",
+          "change_pct": -1.3158,
+          "close": 0.525,
+          "volume": 22365618
+        },
+        {
+          "code": "518880",
+          "name": "黄金ETF",
+          "sector": "黄金",
+          "change_pct": -1.4284,
+          "close": 8.419,
+          "volume": 3020485
+        }
+      ],
+      "bottom5": [
+        {
+          "code": "512660",
+          "name": "军工ETF",
+          "sector": "军工",
+          "change_pct": -6.9477,
+          "close": 1.192,
+          "volume": 4441749
+        },
+        {
+          "code": "159995",
+          "name": "芯片ETF",
+          "sector": "芯片",
+          "change_pct": -5.0163,
+          "close": 1.458,
+          "volume": 15611359
+        },
+        {
+          "code": "512760",
+          "name": "半导体ETF",
+          "sector": "半导体",
+          "change_pct": -4.6271,
+          "close": 1.381,
+          "volume": 6336674
+        },
+        {
+          "code": "516160",
+          "name": "新能源ETF",
+          "sector": "新能源",
+          "change_pct": -4.3935,
+          "close": 2.459,
+          "volume": 722295
+        },
+        {
+          "code": "515980",
+          "name": "人工智能ETF",
+          "sector": "AI算力",
+          "change_pct": -3.437,
+          "close": 1.18,
+          "volume": 7044057
+        }
+      ],
+      "hs300": -1.7602,
+      "avg": -2.9236
+    },
+    "avg_score": 0.5314
+  },
+  "experiences": [
+    {
+      "date": "2026-01-07",
+      "etf_code": "512000",
+      "etf_name": "券商ETF",
+      "sector": "券商",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 1.593,
+      "sentiment_score": 0.0,
+      "intraday_return": -1.626,
+      "net_return": -0.01636,
+      "result": "loss",
+      "weight": 0.7023
+    },
+    {
+      "date": "2026-01-08",
+      "etf_code": "159592",
+      "etf_name": "卫星产业ETF",
+      "sector": "商业航天",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.4544,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.5913,
+      "net_return": -0.006013,
+      "result": "loss",
+      "weight": 0.4743
+    },
+    {
+      "date": "2026-01-09",
+      "etf_code": "512660",
+      "etf_name": "军工ETF",
+      "sector": "军工",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.8442,
+      "sentiment_score": 0.0,
+      "intraday_return": 2.6868,
+      "net_return": 0.026768,
+      "result": "win",
+      "weight": 0.8358
+    },
+    {
+      "date": "2026-01-12",
+      "etf_code": "512660",
+      "etf_name": "军工ETF",
+      "sector": "军工",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 1.3761,
+      "sentiment_score": 0.0,
+      "intraday_return": 5.9194,
+      "net_return": 0.059094,
+      "result": "win",
+      "weight": 0.6221
+    },
+    {
+      "date": "2026-01-13",
+      "etf_code": "512660",
+      "etf_name": "军工ETF",
+      "sector": "军工",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 1.1609,
+      "sentiment_score": 0.0,
+      "intraday_return": -6.1669,
+      "net_return": -0.061769,
+      "result": "loss",
+      "weight": 0.5372
+    },
+    {
+      "date": "2026-01-14",
+      "etf_code": "515120",
+      "etf_name": "创新药ETF",
+      "sector": "医药",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 0.3629,
+      "sentiment_score": 0.0,
+      "intraday_return": -1.0279,
+      "net_return": -0.010379,
+      "result": "loss",
+      "weight": 0.5688
+    },
+    {
+      "date": "2026-01-15",
+      "etf_code": "515980",
+      "etf_name": "人工智能ETF",
+      "sector": "AI算力",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 0.4961,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.7007,
+      "net_return": -0.007107,
+      "result": "loss",
+      "weight": 0.5301
+    },
+    {
+      "date": "2026-01-16",
+      "etf_code": "159592",
+      "etf_name": "卫星产业ETF",
+      "sector": "商业航天",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 1.0466,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.5966,
+      "net_return": -0.006066,
+      "result": "loss",
+      "weight": 0.502
+    },
+    {
+      "date": "2026-01-19",
+      "etf_code": "512760",
+      "etf_name": "半导体ETF",
+      "sector": "半导体",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.9137,
+      "sentiment_score": 0.0,
+      "intraday_return": -1.169,
+      "net_return": -0.01179,
+      "result": "loss",
+      "weight": 0.5201
+    },
+    {
+      "date": "2026-01-20",
+      "etf_code": "512660",
+      "etf_name": "军工ETF",
+      "sector": "军工",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 1.3584,
+      "sentiment_score": 0.0,
+      "intraday_return": -3.084,
+      "net_return": -0.03094,
+      "result": "loss",
+      "weight": 0.7231
+    },
+    {
+      "date": "2026-01-21",
+      "etf_code": "510150",
+      "etf_name": "消费ETF",
+      "sector": "消费",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.5352,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.354,
+      "net_return": -0.00364,
+      "result": "loss",
+      "weight": 0.7563
+    },
+    {
+      "date": "2026-01-22",
+      "etf_code": "518880",
+      "etf_name": "黄金ETF",
+      "sector": "黄金",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 1.5163,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.4956,
+      "net_return": 0.004856,
+      "result": "win",
+      "weight": 0.753
+    },
+    {
+      "date": "2026-01-23",
+      "etf_code": "515980",
+      "etf_name": "人工智能ETF",
+      "sector": "AI算力",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.7234,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.4077,
+      "net_return": -0.004177,
+      "result": "loss",
+      "weight": 0.5118
+    },
+    {
+      "date": "2026-01-26",
+      "etf_code": "516160",
+      "etf_name": "新能源ETF",
+      "sector": "新能源",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 1.578,
+      "sentiment_score": 0.0,
+      "intraday_return": -2.68,
+      "net_return": -0.0269,
+      "result": "loss",
+      "weight": 0.7078
+    },
+    {
+      "date": "2026-01-27",
+      "etf_code": "518880",
+      "etf_name": "黄金ETF",
+      "sector": "黄金",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.5123,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.4686,
+      "net_return": 0.004586,
+      "result": "win",
+      "weight": 0.5038
+    },
+    {
+      "date": "2026-01-28",
+      "etf_code": "159592",
+      "etf_name": "卫星产业ETF",
+      "sector": "商业航天",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 1.0258,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.3042,
+      "net_return": 0.002942,
+      "result": "win",
+      "weight": 0.8333
+    },
+    {
+      "date": "2026-01-29",
+      "etf_code": "510300",
+      "etf_name": "沪深300ETF",
+      "sector": "宽基",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.7347,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.9314,
+      "net_return": 0.009214,
+      "result": "win",
+      "weight": 0.537
+    },
+    {
+      "date": "2026-01-30",
+      "etf_code": "510150",
+      "etf_name": "消费ETF",
+      "sector": "消费",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 1.7641,
+      "sentiment_score": 0.0,
+      "intraday_return": -1.9678,
+      "net_return": -0.019778,
+      "result": "loss",
+      "weight": 0.6792
+    },
+    {
+      "date": "2026-02-02",
+      "etf_code": "159995",
+      "etf_name": "芯片ETF",
+      "sector": "芯片",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 0.7988,
+      "sentiment_score": 0.0,
+      "intraday_return": -3.4343,
+      "net_return": -0.034443,
+      "result": "loss",
+      "weight": 0.6461
+    },
+    {
+      "date": "2026-02-03",
+      "etf_code": "512660",
+      "etf_name": "军工ETF",
+      "sector": "军工",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 0.2606,
+      "sentiment_score": 0.0,
+      "intraday_return": 3.273,
+      "net_return": 0.03263,
+      "result": "win",
+      "weight": 0.4544
+    },
+    {
+      "date": "2026-02-04",
+      "etf_code": "518880",
+      "etf_name": "黄金ETF",
+      "sector": "黄金",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 1.9327,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.667,
+      "net_return": 0.00657,
+      "result": "win",
+      "weight": 0.5578
+    },
+    {
+      "date": "2026-02-05",
+      "etf_code": "518880",
+      "etf_name": "黄金ETF",
+      "sector": "黄金",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 1.2494,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.82,
+      "net_return": -0.0083,
+      "result": "loss",
+      "weight": 0.811
+    },
+    {
+      "date": "2026-02-06",
+      "etf_code": "510300",
+      "etf_name": "沪深300ETF",
+      "sector": "宽基",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.6586,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.1292,
+      "net_return": 0.001192,
+      "result": "win",
+      "weight": 0.6682
+    },
+    {
+      "date": "2026-02-09",
+      "etf_code": "515980",
+      "etf_name": "人工智能ETF",
+      "sector": "AI算力",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.6363,
+      "sentiment_score": 0.0,
+      "intraday_return": 1.9868,
+      "net_return": 0.019768,
+      "result": "win",
+      "weight": 0.5497
+    },
+    {
+      "date": "2026-02-10",
+      "etf_code": "515980",
+      "etf_name": "人工智能ETF",
+      "sector": "AI算力",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 1.3384,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.5382,
+      "net_return": 0.005282,
+      "result": "win",
+      "weight": 0.6939
+    },
+    {
+      "date": "2026-02-11",
+      "etf_code": "515120",
+      "etf_name": "创新药ETF",
+      "sector": "医药",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.3675,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.0,
+      "net_return": -0.0001,
+      "result": "loss",
+      "weight": 0.3793
+    },
+    {
+      "date": "2026-02-12",
+      "etf_code": "510300",
+      "etf_name": "沪深300ETF",
+      "sector": "宽基",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 0.5358,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.0423,
+      "net_return": -0.000523,
+      "result": "loss",
+      "weight": 0.8435
+    },
+    {
+      "date": "2026-02-13",
+      "etf_code": "159592",
+      "etf_name": "卫星产业ETF",
+      "sector": "商业航天",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.626,
+      "sentiment_score": 0.0,
+      "intraday_return": -1.2012,
+      "net_return": -0.012112,
+      "result": "loss",
+      "weight": 0.6279
+    },
+    {
+      "date": "2026-02-24",
+      "etf_code": "512660",
+      "etf_name": "军工ETF",
+      "sector": "军工",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 0.4126,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.6707,
+      "net_return": 0.006607,
+      "result": "win",
+      "weight": 0.8252
+    },
+    {
+      "date": "2026-02-25",
+      "etf_code": "518880",
+      "etf_name": "黄金ETF",
+      "sector": "黄金",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.7736,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.0548,
+      "net_return": 0.000448,
+      "result": "win",
+      "weight": 0.5095
+    },
+    {
+      "date": "2026-02-26",
+      "etf_code": "512000",
+      "etf_name": "券商ETF",
+      "sector": "券商",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.8355,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.8881,
+      "net_return": -0.008981,
+      "result": "loss",
+      "weight": 0.5489
+    },
+    {
+      "date": "2026-02-27",
+      "etf_code": "515980",
+      "etf_name": "人工智能ETF",
+      "sector": "AI算力",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 1.0023,
+      "sentiment_score": 0.0,
+      "intraday_return": 2.1505,
+      "net_return": 0.021405,
+      "result": "win",
+      "weight": 0.8206
+    },
+    {
+      "date": "2026-03-02",
+      "etf_code": "515120",
+      "etf_name": "创新药ETF",
+      "sector": "医药",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.2647,
+      "sentiment_score": 0.0,
+      "intraday_return": -1.4778,
+      "net_return": -0.014878,
+      "result": "loss",
+      "weight": 0.2737
+    },
+    {
+      "date": "2026-03-03",
+      "etf_code": "512660",
+      "etf_name": "军工ETF",
+      "sector": "军工",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 1.1261,
+      "sentiment_score": 0.0,
+      "intraday_return": -6.864,
+      "net_return": -0.06874,
+      "result": "loss",
+      "weight": 0.5074
+    },
+    {
+      "date": "2026-03-05",
+      "etf_code": "512760",
+      "etf_name": "半导体ETF",
+      "sector": "半导体",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 0.621,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.2291,
+      "net_return": -0.002391,
+      "result": "loss",
+      "weight": 0.837
+    },
+    {
+      "date": "2026-03-06",
+      "etf_code": "512760",
+      "etf_name": "半导体ETF",
+      "sector": "半导体",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 1.2338,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.5767,
+      "net_return": 0.005667,
+      "result": "win",
+      "weight": 0.5134
+    },
+    {
+      "date": "2026-03-09",
+      "etf_code": "515120",
+      "etf_name": "创新药ETF",
+      "sector": "医药",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 1.2891,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.1686,
+      "net_return": -0.001786,
+      "result": "loss",
+      "weight": 0.7743
+    },
+    {
+      "date": "2026-03-10",
+      "etf_code": "515980",
+      "etf_name": "人工智能ETF",
+      "sector": "AI算力",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.6729,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.1075,
+      "net_return": -0.001175,
+      "result": "loss",
+      "weight": 0.5185
+    },
+    {
+      "date": "2026-03-11",
+      "etf_code": "510150",
+      "etf_name": "消费ETF",
+      "sector": "消费",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.7576,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.1887,
+      "net_return": 0.001787,
+      "result": "win",
+      "weight": 0.5774
+    },
+    {
+      "date": "2026-03-12",
+      "etf_code": "516160",
+      "etf_name": "新能源ETF",
+      "sector": "新能源",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.3174,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.4326,
+      "net_return": 0.004226,
+      "result": "win",
+      "weight": 0.6348
+    },
+    {
+      "date": "2026-03-13",
+      "etf_code": "510300",
+      "etf_name": "沪深300ETF",
+      "sector": "宽基",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 0.2803,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.107,
+      "net_return": 0.00097,
+      "result": "win",
+      "weight": 0.2915
+    },
+    {
+      "date": "2026-03-16",
+      "etf_code": "510300",
+      "etf_name": "沪深300ETF",
+      "sector": "宽基",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 0.3237,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.107,
+      "net_return": 0.00097,
+      "result": "win",
+      "weight": 0.3643
+    },
+    {
+      "date": "2026-03-17",
+      "etf_code": "512760",
+      "etf_name": "半导体ETF",
+      "sector": "半导体",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 1.1168,
+      "sentiment_score": 0.0,
+      "intraday_return": -2.8902,
+      "net_return": -0.029002,
+      "result": "loss",
+      "weight": 0.627
+    },
+    {
+      "date": "2026-03-18",
+      "etf_code": "512000",
+      "etf_name": "券商ETF",
+      "sector": "券商",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 1.144,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.1873,
+      "net_return": -0.001973,
+      "result": "loss",
+      "weight": 0.7108
+    },
+    {
+      "date": "2026-03-19",
+      "etf_code": "515980",
+      "etf_name": "人工智能ETF",
+      "sector": "AI算力",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 1.8859,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.2262,
+      "net_return": 0.002162,
+      "result": "win",
+      "weight": 0.6853
+    },
+    {
+      "date": "2026-03-20",
+      "etf_code": "515980",
+      "etf_name": "人工智能ETF",
+      "sector": "AI算力",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 0.2348,
+      "sentiment_score": 0.0,
+      "intraday_return": -1.7897,
+      "net_return": -0.017997,
+      "result": "loss",
+      "weight": 0.273
+    },
+    {
+      "date": "2026-03-23",
+      "etf_code": "516160",
+      "etf_name": "新能源ETF",
+      "sector": "新能源",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 0.9242,
+      "sentiment_score": 0.0,
+      "intraday_return": -1.4171,
+      "net_return": -0.014271,
+      "result": "loss",
+      "weight": 0.9494
+    },
+    {
+      "date": "2026-03-25",
+      "etf_code": "518880",
+      "etf_name": "黄金ETF",
+      "sector": "黄金",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 2.5925,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.6082,
+      "net_return": -0.006182,
+      "result": "loss",
+      "weight": 0.6483
+    },
+    {
+      "date": "2026-03-26",
+      "etf_code": "518880",
+      "etf_name": "黄金ETF",
+      "sector": "黄金",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 1.902,
+      "sentiment_score": 0.0,
+      "intraday_return": -1.8488,
+      "net_return": -0.018588,
+      "result": "loss",
+      "weight": 0.5812
+    },
+    {
+      "date": "2026-03-27",
+      "etf_code": "510300",
+      "etf_name": "沪深300ETF",
+      "sector": "宽基",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.3691,
+      "sentiment_score": 0.0,
+      "intraday_return": 1.3034,
+      "net_return": 0.012934,
+      "result": "win",
+      "weight": 0.5717
+    },
+    {
+      "date": "2026-03-30",
+      "etf_code": "515120",
+      "etf_name": "创新药ETF",
+      "sector": "医药",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 1.5932,
+      "sentiment_score": 0.0,
+      "intraday_return": 1.6556,
+      "net_return": 0.016456,
+      "result": "win",
+      "weight": 0.7123
+    },
+    {
+      "date": "2026-03-31",
+      "etf_code": "510300",
+      "etf_name": "沪深300ETF",
+      "sector": "宽基",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 0.1937,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.8443,
+      "net_return": -0.008543,
+      "result": "loss",
+      "weight": 0.2328
+    },
+    {
+      "date": "2026-04-02",
+      "etf_code": "515980",
+      "etf_name": "人工智能ETF",
+      "sector": "AI算力",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 1.8297,
+      "sentiment_score": 0.0,
+      "intraday_return": -3.0374,
+      "net_return": -0.030474,
+      "result": "loss",
+      "weight": 0.5624
+    },
+    {
+      "date": "2026-04-07",
+      "etf_code": "512760",
+      "etf_name": "半导体ETF",
+      "sector": "半导体",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.4501,
+      "sentiment_score": 0.0,
+      "intraday_return": 1.1688,
+      "net_return": 0.011588,
+      "result": "win",
+      "weight": 0.4953
+    },
+    {
+      "date": "2026-04-08",
+      "etf_code": "512760",
+      "etf_name": "半导体ETF",
+      "sector": "半导体",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.5774,
+      "sentiment_score": 0.0,
+      "intraday_return": 3.4956,
+      "net_return": 0.034856,
+      "result": "win",
+      "weight": 0.5472
+    },
+    {
+      "date": "2026-04-09",
+      "etf_code": "510300",
+      "etf_name": "沪深300ETF",
+      "sector": "宽基",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 1.7064,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.0219,
+      "net_return": -0.000319,
+      "result": "loss",
+      "weight": 0.5155
+    },
+    {
+      "date": "2026-04-10",
+      "etf_code": "510150",
+      "etf_name": "消费ETF",
+      "sector": "消费",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 0.1677,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.3846,
+      "net_return": 0.003746,
+      "result": "win",
+      "weight": 0.1967
+    },
+    {
+      "date": "2026-04-13",
+      "etf_code": "512000",
+      "etf_name": "券商ETF",
+      "sector": "券商",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 1.4554,
+      "sentiment_score": 0.0,
+      "intraday_return": 1.581,
+      "net_return": 0.01571,
+      "result": "win",
+      "weight": 0.6652
+    },
+    {
+      "date": "2026-04-15",
+      "etf_code": "510150",
+      "etf_name": "消费ETF",
+      "sector": "消费",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.1783,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.7678,
+      "net_return": 0.007578,
+      "result": "win",
+      "weight": 0.2516
+    },
+    {
+      "date": "2026-04-16",
+      "etf_code": "515120",
+      "etf_name": "创新药ETF",
+      "sector": "医药",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 1.3707,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.1534,
+      "net_return": -0.001634,
+      "result": "loss",
+      "weight": 0.7069
+    },
+    {
+      "date": "2026-04-17",
+      "etf_code": "159592",
+      "etf_name": "卫星产业ETF",
+      "sector": "商业航天",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.7323,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.2941,
+      "net_return": -0.003041,
+      "result": "loss",
+      "weight": 0.5463
+    },
+    {
+      "date": "2026-04-21",
+      "etf_code": "512660",
+      "etf_name": "军工ETF",
+      "sector": "军工",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.484,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.4919,
+      "net_return": -0.005019,
+      "result": "loss",
+      "weight": 0.6917
+    },
+    {
+      "date": "2026-04-22",
+      "etf_code": "515120",
+      "etf_name": "创新药ETF",
+      "sector": "医药",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.1426,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.9631,
+      "net_return": 0.009531,
+      "result": "win",
+      "weight": 0.1577
+    },
+    {
+      "date": "2026-04-23",
+      "etf_code": "512760",
+      "etf_name": "半导体ETF",
+      "sector": "半导体",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.8515,
+      "sentiment_score": 0.0,
+      "intraday_return": -2.2876,
+      "net_return": -0.022976,
+      "result": "loss",
+      "weight": 0.596
+    },
+    {
+      "date": "2026-04-24",
+      "etf_code": "510150",
+      "etf_name": "消费ETF",
+      "sector": "消费",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 0.507,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.1938,
+      "net_return": -0.002038,
+      "result": "loss",
+      "weight": 0.7298
+    },
+    {
+      "date": "2026-04-27",
+      "etf_code": "512760",
+      "etf_name": "半导体ETF",
+      "sector": "半导体",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.7063,
+      "sentiment_score": 0.0,
+      "intraday_return": 3.2503,
+      "net_return": 0.032403,
+      "result": "win",
+      "weight": 0.6237
+    },
+    {
+      "date": "2026-04-28",
+      "etf_code": "512760",
+      "etf_name": "半导体ETF",
+      "sector": "半导体",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 1.0032,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.6336,
+      "net_return": -0.006436,
+      "result": "loss",
+      "weight": 0.6816
+    },
+    {
+      "date": "2026-04-29",
+      "etf_code": "515120",
+      "etf_name": "创新药ETF",
+      "sector": "医药",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 1.2156,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.159,
+      "net_return": -0.00169,
+      "result": "loss",
+      "weight": 0.6024
+    },
+    {
+      "date": "2026-04-30",
+      "etf_code": "516160",
+      "etf_name": "新能源ETF",
+      "sector": "新能源",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.9614,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.0912,
+      "net_return": -0.001012,
+      "result": "loss",
+      "weight": 0.5569
+    },
+    {
+      "date": "2026-05-06",
+      "etf_code": "515980",
+      "etf_name": "人工智能ETF",
+      "sector": "AI算力",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 1.1097,
+      "sentiment_score": 0.0,
+      "intraday_return": 1.4368,
+      "net_return": 0.014268,
+      "result": "win",
+      "weight": 0.6094
+    },
+    {
+      "date": "2026-05-07",
+      "etf_code": "510300",
+      "etf_name": "沪深300ETF",
+      "sector": "宽基",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 0.9539,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.1427,
+      "net_return": 0.001327,
+      "result": "win",
+      "weight": 0.5341
+    },
+    {
+      "date": "2026-05-08",
+      "etf_code": "510300",
+      "etf_name": "沪深300ETF",
+      "sector": "宽基",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.4996,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.0818,
+      "net_return": -0.000918,
+      "result": "loss",
+      "weight": 0.5314
+    },
+    {
+      "date": "2026-05-11",
+      "etf_code": "512660",
+      "etf_name": "军工ETF",
+      "sector": "军工",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 0.0873,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.135,
+      "net_return": 0.00125,
+      "result": "win",
+      "weight": 0.122
+    },
+    {
+      "date": "2026-05-12",
+      "etf_code": "515120",
+      "etf_name": "创新药ETF",
+      "sector": "医药",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 1.8254,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.4739,
+      "net_return": -0.004839,
+      "result": "loss",
+      "weight": 0.6034
+    },
+    {
+      "date": "2026-05-13",
+      "etf_code": "512000",
+      "etf_name": "券商ETF",
+      "sector": "券商",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 0.3106,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.1908,
+      "net_return": -0.002008,
+      "result": "loss",
+      "weight": 0.4211
+    },
+    {
+      "date": "2026-05-14",
+      "etf_code": "516160",
+      "etf_name": "新能源ETF",
+      "sector": "新能源",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.4396,
+      "sentiment_score": 0.0,
+      "intraday_return": -3.5896,
+      "net_return": -0.035996,
+      "result": "loss",
+      "weight": 0.5224
+    },
+    {
+      "date": "2026-05-15",
+      "etf_code": "518880",
+      "etf_name": "黄金ETF",
+      "sector": "黄金",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 0.2372,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.9435,
+      "net_return": -0.009535,
+      "result": "loss",
+      "weight": 0.4744
+    },
+    {
+      "date": "2026-05-18",
+      "etf_code": "515120",
+      "etf_name": "创新药ETF",
+      "sector": "医药",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 0.4013,
+      "sentiment_score": 0.0,
+      "intraday_return": -1.1785,
+      "net_return": -0.011885,
+      "result": "loss",
+      "weight": 0.8026
+    },
+    {
+      "date": "2026-05-19",
+      "etf_code": "512000",
+      "etf_name": "券商ETF",
+      "sector": "券商",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.7429,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.7984,
+      "net_return": 0.007884,
+      "result": "win",
+      "weight": 0.5431
+    },
+    {
+      "date": "2026-05-20",
+      "etf_code": "512760",
+      "etf_name": "半导体ETF",
+      "sector": "半导体",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 0.779,
+      "sentiment_score": 0.0,
+      "intraday_return": 5.3509,
+      "net_return": 0.053409,
+      "result": "win",
+      "weight": 0.5344
+    },
+    {
+      "date": "2026-05-21",
+      "etf_code": "512660",
+      "etf_name": "军工ETF",
+      "sector": "军工",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 1.092,
+      "sentiment_score": 0.0,
+      "intraday_return": -3.0457,
+      "net_return": -0.030557,
+      "result": "loss",
+      "weight": 0.5422
+    },
+    {
+      "date": "2026-05-22",
+      "etf_code": "512000",
+      "etf_name": "券商ETF",
+      "sector": "券商",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 1.341,
+      "sentiment_score": 0.0,
+      "intraday_return": -1.5873,
+      "net_return": -0.015973,
+      "result": "loss",
+      "weight": 0.6455
+    },
+    {
+      "date": "2026-05-25",
+      "etf_code": "510300",
+      "etf_name": "沪深300ETF",
+      "sector": "宽基",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.8114,
+      "sentiment_score": 0.0,
+      "intraday_return": 1.168,
+      "net_return": 0.01158,
+      "result": "win",
+      "weight": 0.6178
+    },
+    {
+      "date": "2026-05-26",
+      "etf_code": "510300",
+      "etf_name": "沪深300ETF",
+      "sector": "宽基",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.9603,
+      "sentiment_score": 0.0,
+      "intraday_return": 1.2215,
+      "net_return": 0.012115,
+      "result": "win",
+      "weight": 0.5476
+    },
+    {
+      "date": "2026-05-27",
+      "etf_code": "512000",
+      "etf_name": "券商ETF",
+      "sector": "券商",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.377,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.5976,
+      "net_return": -0.006076,
+      "result": "loss",
+      "weight": 0.4667
+    },
+    {
+      "date": "2026-05-28",
+      "etf_code": "510300",
+      "etf_name": "沪深300ETF",
+      "sector": "宽基",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 0.1518,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.3051,
+      "net_return": 0.002951,
+      "result": "win",
+      "weight": 0.3036
+    },
+    {
+      "date": "2026-05-29",
+      "etf_code": "512660",
+      "etf_name": "军工ETF",
+      "sector": "军工",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.4629,
+      "sentiment_score": 0.0,
+      "intraday_return": -4.5353,
+      "net_return": -0.045453,
+      "result": "loss",
+      "weight": 0.7577
+    },
+    {
+      "date": "2026-06-01",
+      "etf_code": "515120",
+      "etf_name": "创新药ETF",
+      "sector": "医药",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 1.2491,
+      "sentiment_score": 0.0,
+      "intraday_return": -1.2174,
+      "net_return": -0.012274,
+      "result": "loss",
+      "weight": 0.5409
+    },
+    {
+      "date": "2026-06-02",
+      "etf_code": "510150",
+      "etf_name": "消费ETF",
+      "sector": "消费",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.3529,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.4124,
+      "net_return": -0.004224,
+      "result": "loss",
+      "weight": 0.3607
+    },
+    {
+      "date": "2026-06-03",
+      "etf_code": "512760",
+      "etf_name": "半导体ETF",
+      "sector": "半导体",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 1.5605,
+      "sentiment_score": 0.0,
+      "intraday_return": 3.3929,
+      "net_return": 0.033829,
+      "result": "win",
+      "weight": 0.5563
+    },
+    {
+      "date": "2026-06-04",
+      "etf_code": "512760",
+      "etf_name": "半导体ETF",
+      "sector": "半导体",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 1.8592,
+      "sentiment_score": 0.0,
+      "intraday_return": 4.0564,
+      "net_return": 0.040464,
+      "result": "win",
+      "weight": 0.6308
+    },
+    {
+      "date": "2026-06-05",
+      "etf_code": "512760",
+      "etf_name": "半导体ETF",
+      "sector": "半导体",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 1.1987,
+      "sentiment_score": 0.0,
+      "intraday_return": -3.0277,
+      "net_return": -0.030377,
+      "result": "loss",
+      "weight": 0.847
+    },
+    {
+      "date": "2026-06-08",
+      "etf_code": "510150",
+      "etf_name": "消费ETF",
+      "sector": "消费",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 1.3144,
+      "sentiment_score": 0.0,
+      "intraday_return": -1.0616,
+      "net_return": -0.010716,
+      "result": "loss",
+      "weight": 0.727
+    },
+    {
+      "date": "2026-06-10",
+      "etf_code": "159592",
+      "etf_name": "卫星产业ETF",
+      "sector": "商业航天",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 1.6609,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.4441,
+      "net_return": -0.004541,
+      "result": "loss",
+      "weight": 0.5084
+    },
+    {
+      "date": "2026-06-11",
+      "etf_code": "512000",
+      "etf_name": "券商ETF",
+      "sector": "券商",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.6349,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.6186,
+      "net_return": -0.006286,
+      "result": "loss",
+      "weight": 0.5182
+    },
+    {
+      "date": "2026-06-12",
+      "etf_code": "512760",
+      "etf_name": "半导体ETF",
+      "sector": "半导体",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.7793,
+      "sentiment_score": 0.0,
+      "intraday_return": -4.1308,
+      "net_return": -0.041408,
+      "result": "loss",
+      "weight": 0.5352
+    },
+    {
+      "date": "2026-06-15",
+      "etf_code": "512000",
+      "etf_name": "券商ETF",
+      "sector": "券商",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 1.415,
+      "sentiment_score": 0.0,
+      "intraday_return": 2.1956,
+      "net_return": 0.021856,
+      "result": "win",
+      "weight": 0.5703
+    },
+    {
+      "date": "2026-06-16",
+      "etf_code": "510300",
+      "etf_name": "沪深300ETF",
+      "sector": "宽基",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 1.4,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.2033,
+      "net_return": -0.002133,
+      "result": "loss",
+      "weight": 0.5515
+    },
+    {
+      "date": "2026-06-17",
+      "etf_code": "516160",
+      "etf_name": "新能源ETF",
+      "sector": "新能源",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 0.3867,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.364,
+      "net_return": 0.00354,
+      "result": "win",
+      "weight": 0.5366
+    },
+    {
+      "date": "2026-06-18",
+      "etf_code": "512760",
+      "etf_name": "半导体ETF",
+      "sector": "半导体",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.7339,
+      "sentiment_score": 0.0,
+      "intraday_return": 4.5238,
+      "net_return": 0.045138,
+      "result": "win",
+      "weight": 0.5047
+    },
+    {
+      "date": "2026-06-22",
+      "etf_code": "515120",
+      "etf_name": "创新药ETF",
+      "sector": "医药",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 1.5536,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.9091,
+      "net_return": 0.008991,
+      "result": "win",
+      "weight": 0.675
+    },
+    {
+      "date": "2026-06-23",
+      "etf_code": "159592",
+      "etf_name": "卫星产业ETF",
+      "sector": "商业航天",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 1.3444,
+      "sentiment_score": 0.0,
+      "intraday_return": -2.5659,
+      "net_return": -0.025759,
+      "result": "loss",
+      "weight": 0.522
+    },
+    {
+      "date": "2026-06-24",
+      "etf_code": "515120",
+      "etf_name": "创新药ETF",
+      "sector": "医药",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 0.9517,
+      "sentiment_score": 0.0,
+      "intraday_return": 2.3009,
+      "net_return": 0.022909,
+      "result": "win",
+      "weight": 1.0
+    },
+    {
+      "date": "2026-06-25",
+      "etf_code": "515120",
+      "etf_name": "创新药ETF",
+      "sector": "医药",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 1.0976,
+      "sentiment_score": 0.0,
+      "intraday_return": 2.1016,
+      "net_return": 0.020916,
+      "result": "win",
+      "weight": 0.516
+    },
+    {
+      "date": "2026-06-26",
+      "etf_code": "510300",
+      "etf_name": "沪深300ETF",
+      "sector": "宽基",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.7789,
+      "sentiment_score": 0.0,
+      "intraday_return": -2.0168,
+      "net_return": -0.020268,
+      "result": "loss",
+      "weight": 0.5693
+    },
+    {
+      "date": "2026-06-29",
+      "etf_code": "518880",
+      "etf_name": "黄金ETF",
+      "sector": "黄金",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 0.7952,
+      "sentiment_score": 0.0,
+      "intraday_return": 0.0474,
+      "net_return": 0.000374,
+      "result": "win",
+      "weight": 1.0
+    },
+    {
+      "date": "2026-06-30",
+      "etf_code": "510150",
+      "etf_name": "消费ETF",
+      "sector": "消费",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 1.2056,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.4246,
+      "net_return": -0.004346,
+      "result": "loss",
+      "weight": 0.529
+    },
+    {
+      "date": "2026-07-01",
+      "etf_code": "515980",
+      "etf_name": "人工智能ETF",
+      "sector": "AI算力",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 2.6571,
+      "sentiment_score": 0.75,
+      "intraday_return": -1.4571,
+      "net_return": -0.014671,
+      "result": "loss",
+      "weight": 0.5916
+    },
+    {
+      "date": "2026-07-02",
+      "etf_code": "515120",
+      "etf_name": "创新药ETF",
+      "sector": "医药",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 3.2211,
+      "sentiment_score": 0.6667,
+      "intraday_return": 0.0,
+      "net_return": -0.0001,
+      "result": "loss",
+      "weight": 0.5939
+    },
+    {
+      "date": "2026-07-03",
+      "etf_code": "518880",
+      "etf_name": "黄金ETF",
+      "sector": "黄金",
+      "trend": "bearish",
+      "decision": "buy",
+      "total_score": 1.4762,
+      "sentiment_score": 0.2222,
+      "intraday_return": -0.3905,
+      "net_return": -0.004005,
+      "result": "loss",
+      "weight": 1.0
+    },
+    {
+      "date": "2026-07-06",
+      "etf_code": "510300",
+      "etf_name": "沪深300ETF",
+      "sector": "宽基",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 0.7228,
+      "sentiment_score": 0.0,
+      "intraday_return": -0.4694,
+      "net_return": -0.004794,
+      "result": "loss",
+      "weight": 0.5534
+    },
+    {
+      "date": "2026-07-07",
+      "etf_code": "512760",
+      "etf_name": "半导体ETF",
+      "sector": "半导体",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 1.3333,
+      "sentiment_score": 0.2222,
+      "intraday_return": 1.8103,
+      "net_return": 0.018003,
+      "result": "win",
+      "weight": 0.5922
+    },
+    {
+      "date": "2026-07-08",
+      "etf_code": "515980",
+      "etf_name": "人工智能ETF",
+      "sector": "AI算力",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 2.321,
+      "sentiment_score": 0.4444,
+      "intraday_return": 0.1691,
+      "net_return": 0.001591,
+      "result": "win",
+      "weight": 0.5157
+    },
+    {
+      "date": "2026-07-09",
+      "etf_code": "512760",
+      "etf_name": "半导体ETF",
+      "sector": "半导体",
+      "trend": "neutral",
+      "decision": "buy",
+      "total_score": 1.0821,
+      "sentiment_score": 0.0,
+      "intraday_return": 8.0893,
+      "net_return": 0.080793,
+      "result": "win",
+      "weight": 0.5327
+    },
+    {
+      "date": "2026-07-10",
+      "etf_code": "512000",
+      "etf_name": "券商ETF",
+      "sector": "券商",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 2.7737,
+      "sentiment_score": 0.8,
+      "intraday_return": -1.4815,
+      "net_return": -0.014915,
+      "result": "loss",
+      "weight": 0.5032
+    },
+    {
+      "date": "2026-07-13",
+      "etf_code": "512660",
+      "etf_name": "军工ETF",
+      "sector": "军工",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 2.1314,
+      "sentiment_score": 0.875,
+      "intraday_return": -6.4364,
+      "net_return": -0.064464,
+      "result": "loss",
+      "weight": 0.5183
+    }
+  ],
+  "all_daily_summaries": [
+    {
+      "date": "2026-01-06",
+      "trend": "neutral",
+      "decision": "hold",
+      "etf_names": [],
+      "return": 0.0,
+      "hs300": 1.4597,
+      "alpha": -1.4597,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-01-07",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "券商ETF",
+        "芯片ETF"
+      ],
+      "return": -1.1204,
+      "hs300": -0.3961,
+      "alpha": -0.7243,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-01-08",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "卫星产业ETF",
+        "半导体ETF"
+      ],
+      "return": 0.0569,
+      "hs300": -0.5247,
+      "alpha": 0.5815,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-01-09",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "军工ETF",
+        "黄金ETF"
+      ],
+      "return": 2.3182,
+      "hs300": 0.5915,
+      "alpha": 1.7267,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-01-12",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "军工ETF",
+        "人工智能ETF"
+      ],
+      "return": 5.7763,
+      "hs300": 0.4193,
+      "alpha": 5.357,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-01-13",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "军工ETF",
+        "人工智能ETF"
+      ],
+      "return": -6.2712,
+      "hs300": -0.5418,
+      "alpha": -5.7294,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-01-14",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "创新药ETF",
+        "券商ETF"
+      ],
+      "return": -0.6712,
+      "hs300": -0.6285,
+      "alpha": -0.0427,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-01-15",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "人工智能ETF",
+        "半导体ETF"
+      ],
+      "return": 0.5063,
+      "hs300": 0.5501,
+      "alpha": -0.0439,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-01-16",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "卫星产业ETF",
+        "沪深300ETF"
+      ],
+      "return": -0.7885,
+      "hs300": -0.9619,
+      "alpha": 0.1734,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-01-19",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "半导体ETF",
+        "军工ETF"
+      ],
+      "return": 0.8736,
+      "hs300": 0.0211,
+      "alpha": 0.8525,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-01-20",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "军工ETF",
+        "消费ETF"
+      ],
+      "return": -2.3377,
+      "hs300": -0.2323,
+      "alpha": -2.1054,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-01-21",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "消费ETF",
+        "黄金ETF"
+      ],
+      "return": -0.2495,
+      "hs300": 0.446,
+      "alpha": -0.6955,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-01-22",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "黄金ETF",
+        "创新药ETF"
+      ],
+      "return": 0.0207,
+      "hs300": -0.2953,
+      "alpha": 0.316,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-01-23",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "人工智能ETF",
+        "军工ETF"
+      ],
+      "return": 1.087,
+      "hs300": -0.5917,
+      "alpha": 1.6787,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-01-26",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "新能源ETF",
+        "军工ETF"
+      ],
+      "return": -3.0824,
+      "hs300": 0.0,
+      "alpha": -3.0824,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-01-27",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "黄金ETF",
+        "卫星产业ETF"
+      ],
+      "return": 0.2261,
+      "hs300": -0.0424,
+      "alpha": 0.2685,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-01-28",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "卫星产业ETF",
+        "半导体ETF"
+      ],
+      "return": 0.3126,
+      "hs300": 0.0,
+      "alpha": 0.3126,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-01-29",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "沪深300ETF",
+        "芯片ETF"
+      ],
+      "return": -1.3027,
+      "hs300": 0.9314,
+      "alpha": -2.2341,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-01-30",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "消费ETF",
+        "黄金ETF"
+      ],
+      "return": -2.6386,
+      "hs300": -0.5279,
+      "alpha": -2.1107,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-02-02",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "芯片ETF",
+        "沪深300ETF"
+      ],
+      "return": -2.8339,
+      "hs300": -1.7094,
+      "alpha": -1.1245,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-02-03",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "军工ETF",
+        "沪深300ETF"
+      ],
+      "return": 1.5166,
+      "hs300": 0.5172,
+      "alpha": 0.9993,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-02-04",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "黄金ETF",
+        "军工ETF"
+      ],
+      "return": 0.6016,
+      "hs300": 1.1823,
+      "alpha": -0.5807,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-02-05",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "黄金ETF",
+        "新能源ETF"
+      ],
+      "return": -1.305,
+      "hs300": -0.0214,
+      "alpha": -1.2836,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-02-06",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "沪深300ETF",
+        "半导体ETF"
+      ],
+      "return": 0.2305,
+      "hs300": 0.1292,
+      "alpha": 0.1013,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-02-09",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "人工智能ETF",
+        "半导体ETF"
+      ],
+      "return": 1.6948,
+      "hs300": 0.6816,
+      "alpha": 1.0132,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-02-10",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "人工智能ETF",
+        "半导体ETF"
+      ],
+      "return": 0.3635,
+      "hs300": 0.0,
+      "alpha": 0.3635,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-02-11",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "创新药ETF",
+        "军工ETF"
+      ],
+      "return": -0.1773,
+      "hs300": -0.0846,
+      "alpha": -0.0927,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-02-12",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "沪深300ETF",
+        "人工智能ETF"
+      ],
+      "return": 0.1912,
+      "hs300": -0.0423,
+      "alpha": 0.2335,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-02-13",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "卫星产业ETF",
+        "军工ETF"
+      ],
+      "return": -0.537,
+      "hs300": -0.9122,
+      "alpha": 0.3751,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-02-24",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "军工ETF"
+      ],
+      "return": 0.5452,
+      "hs300": -0.1905,
+      "alpha": 0.7357,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-02-25",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "黄金ETF",
+        "军工ETF"
+      ],
+      "return": 0.8681,
+      "hs300": 0.6996,
+      "alpha": 0.1685,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-02-26",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "券商ETF",
+        "军工ETF"
+      ],
+      "return": 0.3313,
+      "hs300": -0.3368,
+      "alpha": 0.6681,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-02-27",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "人工智能ETF",
+        "军工ETF"
+      ],
+      "return": 1.8244,
+      "hs300": 0.1059,
+      "alpha": 1.7185,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-03-02",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "创新药ETF",
+        "卫星产业ETF"
+      ],
+      "return": -0.3127,
+      "hs300": 0.9587,
+      "alpha": -1.2714,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-03-03",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "军工ETF",
+        "黄金ETF"
+      ],
+      "return": -4.1787,
+      "hs300": -1.3288,
+      "alpha": -2.8499,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-03-04",
+      "trend": "bearish",
+      "decision": "hold",
+      "etf_names": [],
+      "return": 0.0,
+      "hs300": -0.6466,
+      "alpha": 0.6466,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-03-05",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "半导体ETF",
+        "创新药ETF"
+      ],
+      "return": -0.2297,
+      "hs300": 0.1506,
+      "alpha": -0.3803,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-03-06",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "半导体ETF",
+        "人工智能ETF"
+      ],
+      "return": 0.9929,
+      "hs300": 0.5819,
+      "alpha": 0.411,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-03-09",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "创新药ETF",
+        "人工智能ETF"
+      ],
+      "return": 0.3133,
+      "hs300": 0.1298,
+      "alpha": 0.1836,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-03-10",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "人工智能ETF",
+        "新能源ETF"
+      ],
+      "return": 0.414,
+      "hs300": 0.8832,
+      "alpha": -0.4692,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-03-11",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "消费ETF",
+        "人工智能ETF"
+      ],
+      "return": -0.5834,
+      "hs300": 0.5335,
+      "alpha": -1.1169,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-03-12",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "新能源ETF"
+      ],
+      "return": 0.2683,
+      "hs300": -0.3609,
+      "alpha": 0.6291,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-03-13",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "沪深300ETF",
+        "黄金ETF"
+      ],
+      "return": -0.0984,
+      "hs300": 0.107,
+      "alpha": -0.2054,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-03-16",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "沪深300ETF",
+        "消费ETF"
+      ],
+      "return": 0.2482,
+      "hs300": 0.107,
+      "alpha": 0.1412,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-03-17",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "半导体ETF",
+        "人工智能ETF"
+      ],
+      "return": -2.9512,
+      "hs300": -0.8536,
+      "alpha": -2.0976,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-03-18",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "券商ETF",
+        "创新药ETF"
+      ],
+      "return": 0.1447,
+      "hs300": 0.215,
+      "alpha": -0.0703,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-03-19",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "人工智能ETF",
+        "沪深300ETF"
+      ],
+      "return": -0.0048,
+      "hs300": -0.4761,
+      "alpha": 0.4713,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-03-20",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "人工智能ETF",
+        "新能源ETF"
+      ],
+      "return": 0.0118,
+      "hs300": -0.4785,
+      "alpha": 0.4903,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-03-23",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "新能源ETF",
+        "卫星产业ETF"
+      ],
+      "return": -1.4884,
+      "hs300": -2.1643,
+      "alpha": 0.6759,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-03-24",
+      "trend": "bearish",
+      "decision": "hold",
+      "etf_names": [],
+      "return": 0.0,
+      "hs300": 0.3585,
+      "alpha": -0.3585,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-03-25",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "黄金ETF",
+        "军工ETF"
+      ],
+      "return": 0.2227,
+      "hs300": 0.7539,
+      "alpha": -0.5311,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-03-26",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "黄金ETF",
+        "半导体ETF"
+      ],
+      "return": -1.9624,
+      "hs300": -1.0582,
+      "alpha": -0.9042,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-03-27",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "沪深300ETF",
+        "消费ETF"
+      ],
+      "return": 1.1715,
+      "hs300": 1.3034,
+      "alpha": -0.1318,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-03-30",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "创新药ETF",
+        "人工智能ETF"
+      ],
+      "return": 1.5828,
+      "hs300": 0.8516,
+      "alpha": 0.7311,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-03-31",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "沪深300ETF",
+        "人工智能ETF"
+      ],
+      "return": -0.4388,
+      "hs300": -0.8443,
+      "alpha": 0.4054,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-04-01",
+      "trend": "bearish",
+      "decision": "hold",
+      "etf_names": [],
+      "return": 0.0,
+      "hs300": 0.3097,
+      "alpha": -0.3097,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-04-02",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "人工智能ETF",
+        "半导体ETF"
+      ],
+      "return": -2.989,
+      "hs300": -0.7078,
+      "alpha": -2.2812,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-04-03",
+      "trend": "bearish",
+      "decision": "hold",
+      "etf_names": [],
+      "return": 0.0,
+      "hs300": -0.9121,
+      "alpha": 0.9121,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-04-07",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "半导体ETF",
+        "新能源ETF"
+      ],
+      "return": 0.8402,
+      "hs300": -0.202,
+      "alpha": 1.0423,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-04-08",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "半导体ETF",
+        "卫星产业ETF"
+      ],
+      "return": 2.9952,
+      "hs300": 1.8367,
+      "alpha": 1.1585,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-04-09",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "沪深300ETF",
+        "券商ETF"
+      ],
+      "return": -0.6996,
+      "hs300": -0.0219,
+      "alpha": -0.6777,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-04-10",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "消费ETF",
+        "创新药ETF"
+      ],
+      "return": 0.1598,
+      "hs300": 1.177,
+      "alpha": -1.0172,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-04-13",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "券商ETF",
+        "卫星产业ETF"
+      ],
+      "return": 1.2186,
+      "hs300": 0.4969,
+      "alpha": 0.7217,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-04-14",
+      "trend": "neutral",
+      "decision": "hold",
+      "etf_names": [],
+      "return": 0.0,
+      "hs300": 0.7053,
+      "alpha": -0.7053,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-04-15",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "消费ETF",
+        "创新药ETF"
+      ],
+      "return": 0.2219,
+      "hs300": -0.803,
+      "alpha": 1.025,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-04-16",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "创新药ETF",
+        "消费ETF"
+      ],
+      "return": -0.0626,
+      "hs300": 0.8929,
+      "alpha": -0.9554,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-04-17",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "卫星产业ETF",
+        "新能源ETF"
+      ],
+      "return": 0.0004,
+      "hs300": 0.0422,
+      "alpha": -0.0418,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-04-20",
+      "trend": "bearish",
+      "decision": "hold",
+      "etf_names": [],
+      "return": 0.0,
+      "hs300": 0.6336,
+      "alpha": -0.6336,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-04-21",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "军工ETF",
+        "沪深300ETF"
+      ],
+      "return": -0.2803,
+      "hs300": 0.2519,
+      "alpha": -0.5322,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-04-22",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "创新药ETF",
+        "卫星产业ETF"
+      ],
+      "return": 0.2237,
+      "hs300": 1.0714,
+      "alpha": -0.8477,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-04-23",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "半导体ETF",
+        "券商ETF"
+      ],
+      "return": -1.6884,
+      "hs300": -0.3942,
+      "alpha": -1.2942,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-04-24",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "消费ETF",
+        "创新药ETF"
+      ],
+      "return": -0.0201,
+      "hs300": -0.0627,
+      "alpha": 0.0426,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-04-27",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "半导体ETF",
+        "芯片ETF"
+      ],
+      "return": 3.0582,
+      "hs300": -0.0836,
+      "alpha": 3.1418,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-04-28",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "半导体ETF",
+        "芯片ETF"
+      ],
+      "return": -0.6018,
+      "hs300": 0.0839,
+      "alpha": -0.6858,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-04-29",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "创新药ETF",
+        "券商ETF"
+      ],
+      "return": 0.2061,
+      "hs300": 1.388,
+      "alpha": -1.1819,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-04-30",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "新能源ETF",
+        "沪深300ETF"
+      ],
+      "return": -0.1158,
+      "hs300": -0.1242,
+      "alpha": 0.0084,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-05-06",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "人工智能ETF",
+        "沪深300ETF"
+      ],
+      "return": 1.0422,
+      "hs300": 0.4521,
+      "alpha": 0.5901,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-05-07",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "沪深300ETF",
+        "人工智能ETF"
+      ],
+      "return": 1.3421,
+      "hs300": 0.1427,
+      "alpha": 1.1993,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-05-08",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "沪深300ETF",
+        "黄金ETF"
+      ],
+      "return": -0.0108,
+      "hs300": -0.0818,
+      "alpha": 0.071,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-05-11",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "军工ETF",
+        "消费ETF"
+      ],
+      "return": 0.035,
+      "hs300": 1.1199,
+      "alpha": -1.0849,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-05-12",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "创新药ETF",
+        "券商ETF"
+      ],
+      "return": -0.0689,
+      "hs300": -0.2412,
+      "alpha": 0.1723,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-05-13",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "券商ETF",
+        "沪深300ETF"
+      ],
+      "return": 0.2253,
+      "hs300": 1.5587,
+      "alpha": -1.3334,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-05-14",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "新能源ETF",
+        "半导体ETF"
+      ],
+      "return": -3.0754,
+      "hs300": -1.9059,
+      "alpha": -1.1695,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-05-15",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "黄金ETF"
+      ],
+      "return": -0.4523,
+      "hs300": -1.155,
+      "alpha": 0.7027,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-05-18",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "创新药ETF"
+      ],
+      "return": -0.9539,
+      "hs300": -0.0618,
+      "alpha": -0.8921,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-05-19",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "券商ETF",
+        "军工ETF"
+      ],
+      "return": 0.4568,
+      "hs300": 0.5369,
+      "alpha": -0.08,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-05-20",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "半导体ETF",
+        "券商ETF"
+      ],
+      "return": 2.7568,
+      "hs300": 0.5366,
+      "alpha": 2.2201,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-05-21",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "军工ETF",
+        "半导体ETF"
+      ],
+      "return": -4.1279,
+      "hs300": -1.8174,
+      "alpha": -2.3104,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-05-22",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "券商ETF",
+        "创新药ETF"
+      ],
+      "return": -1.7472,
+      "hs300": 0.7042,
+      "alpha": -2.4514,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-05-25",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "沪深300ETF",
+        "军工ETF"
+      ],
+      "return": 1.0196,
+      "hs300": 1.168,
+      "alpha": -0.1484,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-05-26",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "沪深300ETF",
+        "人工智能ETF"
+      ],
+      "return": 0.9693,
+      "hs300": 1.2215,
+      "alpha": -0.2522,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-05-27",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "券商ETF",
+        "创新药ETF"
+      ],
+      "return": -0.2363,
+      "hs300": -0.6246,
+      "alpha": 0.3883,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-05-28",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "沪深300ETF"
+      ],
+      "return": 0.0896,
+      "hs300": 0.3051,
+      "alpha": -0.2155,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-05-29",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "军工ETF",
+        "人工智能ETF"
+      ],
+      "return": -4.0476,
+      "hs300": -0.465,
+      "alpha": -3.5825,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-06-01",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "创新药ETF",
+        "黄金ETF"
+      ],
+      "return": -0.9323,
+      "hs300": -1.1172,
+      "alpha": 0.1849,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-06-02",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "消费ETF",
+        "半导体ETF"
+      ],
+      "return": 0.3766,
+      "hs300": 1.4177,
+      "alpha": -1.0411,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-06-03",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "半导体ETF",
+        "人工智能ETF"
+      ],
+      "return": 3.1961,
+      "hs300": 0.5468,
+      "alpha": 2.6494,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-06-04",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "半导体ETF",
+        "芯片ETF"
+      ],
+      "return": 3.9735,
+      "hs300": 0.1423,
+      "alpha": 3.8312,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-06-05",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "半导体ETF",
+        "创新药ETF"
+      ],
+      "return": -2.7143,
+      "hs300": -1.3445,
+      "alpha": -1.3698,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-06-08",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "消费ETF",
+        "创新药ETF"
+      ],
+      "return": -1.1376,
+      "hs300": -1.0647,
+      "alpha": -0.0729,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-06-09",
+      "trend": "bearish",
+      "decision": "hold",
+      "etf_names": [],
+      "return": 0.0,
+      "hs300": 1.3014,
+      "alpha": -1.3014,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-06-10",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "卫星产业ETF",
+        "新能源ETF"
+      ],
+      "return": -0.5615,
+      "hs300": -0.1253,
+      "alpha": -0.4362,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-06-11",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "券商ETF",
+        "创新药ETF"
+      ],
+      "return": -0.3305,
+      "hs300": -0.3147,
+      "alpha": -0.0158,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-06-12",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "半导体ETF",
+        "卫星产业ETF"
+      ],
+      "return": -1.5988,
+      "hs300": 0.1663,
+      "alpha": -1.7651,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-06-15",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "券商ETF",
+        "黄金ETF"
+      ],
+      "return": 1.3,
+      "hs300": 1.2557,
+      "alpha": 0.0443,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-06-16",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "沪深300ETF",
+        "券商ETF"
+      ],
+      "return": 0.6725,
+      "hs300": -0.2033,
+      "alpha": 0.8757,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-06-17",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "新能源ETF",
+        "卫星产业ETF"
+      ],
+      "return": 0.2911,
+      "hs300": 1.225,
+      "alpha": -0.9338,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-06-18",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "半导体ETF",
+        "沪深300ETF"
+      ],
+      "return": 2.684,
+      "hs300": 0.8295,
+      "alpha": 1.8545,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-06-22",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "创新药ETF",
+        "半导体ETF"
+      ],
+      "return": 1.2644,
+      "hs300": 2.1674,
+      "alpha": -0.903,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-06-23",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "卫星产业ETF",
+        "消费ETF"
+      ],
+      "return": -1.7651,
+      "hs300": -2.6974,
+      "alpha": 0.9323,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-06-24",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "创新药ETF"
+      ],
+      "return": 2.2909,
+      "hs300": 0.7709,
+      "alpha": 1.5199,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-06-25",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "创新药ETF",
+        "消费ETF"
+      ],
+      "return": 1.2848,
+      "hs300": 1.5081,
+      "alpha": -0.2233,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-06-26",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "沪深300ETF",
+        "券商ETF"
+      ],
+      "return": -2.4226,
+      "hs300": -2.0168,
+      "alpha": -0.4058,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-06-29",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "黄金ETF"
+      ],
+      "return": 0.0374,
+      "hs300": 1.2661,
+      "alpha": -1.2287,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-06-30",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "消费ETF",
+        "创新药ETF"
+      ],
+      "return": -0.9273,
+      "hs300": 1.4554,
+      "alpha": -2.3827,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-07-01",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "人工智能ETF",
+        "半导体ETF"
+      ],
+      "return": -1.8493,
+      "hs300": -0.2196,
+      "alpha": -1.6297,
+      "sentiment_score": 0.75
+    },
+    {
+      "date": "2026-07-02",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "创新药ETF",
+        "券商ETF"
+      ],
+      "return": -0.8787,
+      "hs300": -2.1191,
+      "alpha": 1.2404,
+      "sentiment_score": 0.6667
+    },
+    {
+      "date": "2026-07-03",
+      "trend": "bearish",
+      "decision": "buy",
+      "etf_names": [
+        "黄金ETF"
+      ],
+      "return": -0.4005,
+      "hs300": 0.9524,
+      "alpha": -1.3529,
+      "sentiment_score": 0.2222
+    },
+    {
+      "date": "2026-07-06",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "沪深300ETF",
+        "军工ETF"
+      ],
+      "return": -1.0557,
+      "hs300": -0.4694,
+      "alpha": -0.5863,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-07-07",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "半导体ETF",
+        "人工智能ETF"
+      ],
+      "return": 1.097,
+      "hs300": -0.6587,
+      "alpha": 1.7557,
+      "sentiment_score": 0.2222
+    },
+    {
+      "date": "2026-07-08",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "人工智能ETF",
+        "半导体ETF"
+      ],
+      "return": -0.0255,
+      "hs300": -0.7858,
+      "alpha": 0.7603,
+      "sentiment_score": 0.4444
+    },
+    {
+      "date": "2026-07-09",
+      "trend": "neutral",
+      "decision": "buy",
+      "etf_names": [
+        "半导体ETF",
+        "人工智能ETF"
+      ],
+      "return": 6.4817,
+      "hs300": 2.14,
+      "alpha": 4.3417,
+      "sentiment_score": 0.0
+    },
+    {
+      "date": "2026-07-10",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "券商ETF",
+        "人工智能ETF"
+      ],
+      "return": -2.5578,
+      "hs300": -1.8097,
+      "alpha": -0.7481,
+      "sentiment_score": 0.8
+    },
+    {
+      "date": "2026-07-13",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "军工ETF",
+        "创新药ETF"
+      ],
+      "return": -3.7969,
+      "hs300": -1.2078,
+      "alpha": -2.5891,
+      "sentiment_score": 0.875
+    }
+  ],
+  "latest_newspapers": {
+    "中国证券报": [
+      "国务院批复同意《扩大消费“十五五”规划》",
+      "产业链涨价驱动中报业绩预增 化工有色等行业表现亮眼",
+      "上市公司分红回购增持三箭齐发协同加力",
+      "江丰电子： 打牢半导体材料“地基” 奔赴AI与全球化新征程"
+    ],
+    "上海证券报": [
+      "扩消费新蓝图来了 龙头企业抢抓消费升级新机遇",
+      "茅台拼转型",
+      "近40家上市药企产品纳入新版国家基药目录",
+      "从冰雪体验到IP社交 武商集团商文旅融合打造城市“微度假”新地标"
+    ],
+    "证券时报": [
+      "AI应用赛道热度抬升 12家公司上半年业绩亮眼",
+      "交易新规首周投资者新体验： 盘后成交倍增 定价效率提升",
+      "金融业网络安全新规落地 支付行业迎合规新格局",
+      "千亿康复医疗器械市场再迎政策加持"
+    ],
+    "证券日报": [
+      "国务院批复同意《扩大消费“十五五”规划》“十五五”时期消费市场扩量提质路线图清晰",
+      "从“拼规模”到“拼质效” 奶业价值重构进行时",
+      "A股市场向好发展不容谣言搅局",
+      "手握核心原料 放眼全球市场 安图生物踏浪前行"
+    ]
+  }
+}
