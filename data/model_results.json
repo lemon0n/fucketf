@@ -1,16 +1,16 @@
 {
   "summary": {
-    "cumulative_return": -14.05,
-    "hs300_cumulative_return": 6.01,
-    "alpha": -20.06,
-    "win_rate": 51.72,
-    "profit_loss_ratio": 0.83,
-    "trading_days": 124,
-    "experience_count": 116,
-    "etf_avg_performance": 7.46,
-    "final_capital": 859456.02,
-    "total_trades": 116,
-    "wins": 60,
+    "cumulative_return": -12.08,
+    "hs300_cumulative_return": 8.09,
+    "alpha": -20.17,
+    "win_rate": 52.14,
+    "profit_loss_ratio": 0.86,
+    "trading_days": 125,
+    "experience_count": 117,
+    "etf_avg_performance": 8.8,
+    "final_capital": 879219.18,
+    "total_trades": 117,
+    "wins": 61,
     "losses": 56,
     "initial_capital": 1000000.0,
     "commission_rate": 5e-05
@@ -24,19 +24,19 @@
         "code": "510150",
         "name": "消费ETF",
         "sector": "消费",
-        "weight": 0.5521,
-        "total_score": 2.5248
+        "weight": 0.5523,
+        "total_score": 2.5269
       },
       {
         "code": "515120",
         "name": "创新药ETF",
         "sector": "医药",
-        "weight": 0.4479,
+        "weight": 0.4477,
         "total_score": 2.0482
       }
     ],
     "weight": 1.0,
-    "reason": "趋势bullish，首选消费ETF(总分2.52)，情绪热点(0.80,3倍权重)、动量(-0.42)、量比(0.30)、均值回归(0.29)、经验(-0.04)",
+    "reason": "趋势bullish，首选消费ETF(总分2.53)，情绪热点(0.80,3倍权重)、动量(-0.42)、量比(0.30)、均值回归(0.29)、经验(-0.04)",
     "sentiment": {
       "score": 0.8,
       "bullish_count": 4,
@@ -159,7 +159,7 @@
       "hs300": -1.7602,
       "avg": -2.9236
     },
-    "avg_score": 0.5314
+    "avg_score": 0.5316
   },
   "experiences": [
     {
@@ -1785,6 +1785,20 @@
       "net_return": -0.064464,
       "result": "loss",
       "weight": 0.5183
+    },
+    {
+      "date": "2026-07-14",
+      "etf_code": "510150",
+      "etf_name": "消费ETF",
+      "sector": "消费",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 2.5248,
+      "sentiment_score": 0.8,
+      "intraday_return": 0.8403,
+      "net_return": 0.008303,
+      "result": "win",
+      "weight": 0.5521
     }
   ],
   "all_daily_summaries": [
@@ -3367,6 +3381,19 @@
       "hs300": -1.2078,
       "alpha": -2.5891,
       "sentiment_score": 0.875
+    },
+    {
+      "date": "2026-07-14",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "消费ETF",
+        "创新药ETF"
+      ],
+      "return": 2.2995,
+      "hs300": 1.9604,
+      "alpha": 0.3391,
+      "sentiment_score": 0.8
     }
   ],
   "latest_newspapers": {
