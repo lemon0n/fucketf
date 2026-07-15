@@ -536,6 +536,7 @@ body{background:var(--bg);color:var(--ink);font-family:var(--IS);font-size:15px;
 
 .formula-2col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
 .formula-col{min-width:0}
+.rec-2col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
 
 table{width:100%;border-collapse:collapse;font-size:0.8rem}
 thead th{text-align:left;font-weight:600;color:var(--muted);padding:6px 8px;border-bottom:2px solid var(--rule);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.5px}
@@ -593,6 +594,7 @@ footer{text-align:center;font-size:0.7rem;color:var(--muted);margin-top:36px;pad
   .metrics{grid-template-columns:repeat(2,1fr)}
   .np-grid{grid-template-columns:1fr}
   .formula-2col{grid-template-columns:1fr}
+  .rec-2col{grid-template-columns:1fr}
 }
 """
 
@@ -903,11 +905,11 @@ def gen_formulas(model_data, econ_data):
 </div>"""
 
     return f"""<div class="sec-title">模型公式</div>
+{rule_card}
 <div class="formula-2col">
-<div class="formula-col">{rule_card}</div>
 <div class="formula-col">{logit_card}</div>
-</div>
-{ols_card}"""
+<div class="formula-col">{ols_card}</div>
+</div>"""
 
 
 def gen_recommendation(model_data, econ_data):
@@ -1025,10 +1027,69 @@ def gen_recommendation(model_data, econ_data):
   </table>
 </div>"""
 
+    # ── 好看/看空双列布局 ──
+    # 好看板块：规则推荐的3只ETF
+    bullish_picks = ""
+    for p in d['picks']:
+        w_pct = int(p['weight'] * 100)
+        lp = logit_lookup.get(p['name'], {})
+        logit_dir = lp.get('direction', '')
+        logit_prob = lp.get('prob', '')
+        warning_tag = ''
+        if logit_dir == '跌' and float(logit_prob) < 45:
+            warning_tag = f' <span class="tag t-bear" style="margin-left:4px;font-size:0.7rem">⚠分歧</span>'
+        bullish_picks += (
+            f'<div class="pick">'
+            f'<span class="pick-code">{esc(p["code"])}</span>'
+            f'<span class="pick-name">{esc(p["name"])}<span class="pick-score">评分{p["score"]:.2f}</span></span>'
+            f'<span class="pick-w">{w_pct}%</span>'
+            f'{warning_tag}'
+            f'</div>\n'
+        )
+
+    bullish_html = f"""<div class="card" style="border-color:var(--green);border-width:1.5px">
+  <div class="card-title" style="color:var(--green)">看好板块</div>
+  <div class="picks">{bullish_picks}</div>
+  <div class="reason" style="margin-top:8px">{reason}</div>
+  <div style="margin-top:8px;font-size:0.75rem;color:var(--muted)"><strong style="color:var(--accent)">报纸热点:</strong> {sectors_str}</div>
+</div>"""
+
+    # 看空板块：Logit预测看跌概率最高的3个ETF
+    bearish_picks = ""
+    for wp in top3_warnings:
+        prob_val = float(wp.get('prob', '50'))
+        bear_prob = round(100 - prob_val, 1)
+        bearish_picks += (
+            f'<div class="pick">'
+            f'<span class="pick-code">{esc(wp.get("code", ""))}</span>'
+            f'<span class="pick-name">{esc(wp.get("etf", ""))}</span>'
+            f'<span class="pick-w down" style="background:var(--accent2)">跌{bear_prob}%</span>'
+            f'</div>\n'
+        )
+
+    bearish_html = f"""<div class="card" style="border-color:var(--accent2);border-width:1.5px">
+  <div class="card-title" style="color:var(--accent2)">看空预警</div>
+  <div class="picks">{bearish_picks}</div>
+  <div style="margin-top:8px;font-size:0.75rem;color:var(--muted)">基于Logit模型P(跌)最高的3个板块</div>
+</div>"""
+
+    # 趋势+信号概要
+    signal_bar = f"""<div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap">
+  <div>{trend}</div>
+  <span class="conf-pill">置信度 {conf}</span>
+  <span style="font-size:0.8rem;color:var(--muted)"><span class="dot bull"></span> 多头{bull}</span>
+  <span style="font-size:0.8rem;color:var(--muted)"><span class="dot bear"></span> 空头{bear}</span>
+  <span style="font-size:0.8rem;color:var(--gold)">情绪分 {sent}</span>
+  <span style="font-size:0.75rem;color:var(--muted)">基于 {esc(date)} 四大报 + 前日行情</span>
+</div>"""
+
     return f"""<div class="sec-title">今日推荐</div>
-{decision_html}
-{perf_html}
-{warning_html}"""
+{signal_bar}
+<div class="rec-2col">
+{bullish_html}
+{bearish_html}
+</div>
+{perf_html}"""
 
 
 def gen_econometric(model_data, econ_data):
@@ -1284,13 +1345,13 @@ def generate_html(model_data, econ_data):
     sections = [
         gen_date_badge(model_data),
         gen_overview(model_data),
-        gen_formulas(model_data, econ_data),
         gen_recommendation(model_data, econ_data),
         gen_econometric(model_data, econ_data),
         gen_cross_validation(model_data, econ_data),
         gen_research(model_data),
         gen_charts_section(),
         gen_experience(model_data),
+        gen_formulas(model_data, econ_data),
     ]
 
     body = '\n\n'.join(sections)
