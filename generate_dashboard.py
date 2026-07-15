@@ -307,7 +307,8 @@ def normalize_model_data(raw):
         'etf_performance': _calc_etf_performance(raw.get('experiences', [])),
     }
 
-    # 标准化 experiences（最近20条，构造可读文本）
+    # 标准化 experiences（最近20条，最新在前，构造可读文本）
+    recent_exp = raw.get('experiences', [])[-20:][::-1]
     m['experiences'] = [
         {
             'date': e['date'],
@@ -315,7 +316,7 @@ def normalize_model_data(raw):
                     f'评分{e.get("total_score", 0):.2f} | 情绪{e.get("sentiment_score", 0):.2f} | '
                     f'日内{e.get("intraday_return", 0):.2f}% | 净收益{e.get("net_return", 0)*100:.2f}% | {e.get("result", "")}'
         }
-        for e in raw.get('experiences', [])[:20]
+        for e in recent_exp
     ]
 
     # 标准化 all_daily_summaries
@@ -533,6 +534,9 @@ body{background:var(--bg);color:var(--ink);font-family:var(--IS);font-size:15px;
 .formula-legend{font-size:0.72rem;color:var(--muted);line-height:1.9;margin-top:8px}
 .formula-legend b{color:var(--ink)}
 
+.formula-2col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.formula-col{min-width:0}
+
 table{width:100%;border-collapse:collapse;font-size:0.8rem}
 thead th{text-align:left;font-weight:600;color:var(--muted);padding:6px 8px;border-bottom:2px solid var(--rule);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.5px}
 tbody td{padding:5px 8px;border-bottom:1px solid var(--bg2)}
@@ -555,6 +559,8 @@ td.down,span.down{color:var(--accent2)}
 .pick{background:var(--bg);border:1px solid var(--rule);border-radius:var(--radius-sm);padding:8px 12px;display:flex;align-items:center;gap:8px}
 .pick-code{font-family:var(--JM);font-size:0.72rem;color:var(--muted)}
 .pick-name{font-size:0.82rem;font-weight:500}
+.pick-score{font-family:var(--JM);font-size:0.68rem;color:var(--muted);margin-left:4px}
+.pick-logit{font-size:0.7rem;color:var(--muted);margin-left:4px}
 .pick-w{font-family:var(--JM);font-size:0.78rem;color:var(--accent);font-weight:600}
 .reason{font-size:0.8rem;color:var(--ink);line-height:1.7;background:var(--bg);border-radius:var(--radius-sm);padding:10px 12px}
 
@@ -586,6 +592,7 @@ footer{text-align:center;font-size:0.7rem;color:var(--muted);margin-top:36px;pad
 @media(max-width:760px){
   .metrics{grid-template-columns:repeat(2,1fr)}
   .np-grid{grid-template-columns:1fr}
+  .formula-2col{grid-template-columns:1fr}
 }
 """
 
@@ -800,36 +807,27 @@ def gen_formulas(model_data, econ_data):
     logit = econ_data['logit']
     ols = econ_data['ols']
 
-    # ── 规则模型公式 ──
+    # ── 规则模型公式（精简） ──
     rule_card = """<div class="card">
   <div class="card-title">规则模型 · 评分逻辑</div>
   <div class="formula-box">
     <div class="f-title">走势研判</div>
-    <div class="formula">Bull<sub>signal</sub> = f<sub>1</sub>(S) + f<sub>2</sub>(&Delta;HS300) + f<sub>3</sub>(S, &Delta;HS300) + f<sub>4</sub>(Exp)</div>
-    <div class="formula-legend"><b>S</b> = 四大报情绪分 &nbsp; <b>&Delta;HS300</b> = 前日沪深300涨跌幅 &nbsp; <b>Exp</b> = 经验库匹配信号</div>
-    <div class="formula" style="margin-top:8px">Bear<sub>signal</sub> = g<sub>1</sub>(S) + g<sub>2</sub>(&Delta;HS300) + g<sub>3</sub>(&Delta;Vol)</div>
-    <div class="formula-legend"><b>&Delta;Vol</b> = 前日量比变化 &nbsp; 看涨信号 &gt; 看跌信号 → 看涨; 反之 → 看跌; 相等 → 震荡</div>
-    <div class="formula" style="margin-top:12px">Trend = argmax(Bull<sub>signal</sub>, Bear<sub>signal</sub>, Neutral)</div>
+    <div class="formula">Bull<sub>s</sub> = f(S, &Delta;HS300, S&times;&Delta;HS300, Exp)</div>
+    <div class="formula" style="margin-top:4px">Bear<sub>s</sub> = g(S, &Delta;HS300, &Delta;Vol)</div>
+    <div class="formula" style="margin-top:4px">Trend = argmax(Bull<sub>s</sub>, Bear<sub>s</sub>, Neutral)</div>
+    <div class="formula-legend"><b>S</b>=情绪分 <b>&Delta;HS300</b>=前日涨跌 <b>Exp</b>=经验信号 <b>&Delta;Vol</b>=量比变化</div>
   </div>
   <div class="formula-box">
     <div class="f-title">选基评分</div>
-    <div class="formula">Score<sub>ETF</sub> = w<sub>1</sub>&middot;Sent + w<sub>2</sub>&middot;Perf + w<sub>3</sub>&middot;Hot + w<sub>4</sub>&middot;Exp</div>
-    <div class="formula-legend">
-      <b>Sent</b> = 报纸情绪匹配度 &nbsp; <b>Perf</b> = 历史推荐表现 &nbsp; <b>Hot</b> = 热点板块匹配 &nbsp; <b>Exp</b> = 经验库增益<br>
-      趋势看涨 → 选 2 只高分 ETF; 震荡 → 选 1 高分 + 1 宽基; 看跌 → 选 1 宽基 + 1 防御
-    </div>
-  </div>
-  <div class="formula-box">
-    <div class="f-title">收益结算</div>
-    <div class="formula">R<sub>t</sub> = &Sigma; w<sub>i</sub> &middot; r<sub>i,t</sub> &nbsp;&nbsp; Alpha = R<sub>t</sub> - R<sub>HS300,t</sub></div>
-    <div class="formula-legend">每日按推荐 ETF 权重计算组合收益, 初始资金 ¥1,000,000, 每日等额调仓</div>
+    <div class="formula">Score<sub>ETF</sub> = 3&middot;Sent + Mom + Vol + MR + Exp</div>
+    <div class="formula-legend"><b>Sent</b>=情绪热点(3x) <b>Mom</b>=动量 <b>Vol</b>=量比 <b>MR</b>=均值回归 <b>Exp</b>=经验 | 选前3只高分ETF</div>
   </div>
 </div>"""
 
-    # ── OLS 公式 ──
+    # ── OLS 公式（精简 + 附带因素重要性） ──
     ols_eq = _gen_equation(
         ols['coefficients'], 'r&#770;<sub>i,t</sub>',
-        terms_per_line=[4, 3, 3],
+        terms_per_line=[5, 4],
         suffix='&epsilon;<sub>i,t</sub>'
     )
     lasso_kept = ols.get('lasso_features', [])
@@ -838,106 +836,100 @@ def gen_formulas(model_data, econ_data):
         for i, v in enumerate(lasso_kept)
     )
     lasso_removed = ols.get('lasso_removed', [])
-    lasso_removed_str = '、'.join(
-        f'{VAR_SHORT.get(v, v)}（{FACTOR_DESC.get(v, v)}）'
-        for v in lasso_removed
-    )
+    lasso_removed_str = '、'.join(VAR_SHORT.get(v, v) for v in lasso_removed) if lasso_removed else '无'
+
+    # 因素重要性表（精简，合并到OLS卡片下方）
+    fi = ols['factor_importance']
+    fi_rows = ""
+    for f in fi:
+        sig_str = f" {f['sig']}" if f.get('sig') else ''
+        fi_rows += (
+            f'<tr>'
+            f'<td>{esc(f["factor"])}</td>'
+            f'<td class="{cls_val(f["beta"])}">{fmt_coef(f["beta"])}</td>'
+            f'<td>{fmt_num(f["p"], 4)}{sig_str}</td>'
+            f'<td>{fmt_num(f["sigma"])}</td>'
+            f'<td>{fmt_num(f["importance"])}</td>'
+            f'</tr>\n'
+        )
+    sig_factors = [f for f in fi if f.get('sig')]
+    if sig_factors:
+        fi_conclusion = '显著: ' + '、'.join(f'{f["factor"]}({f["sig"]})' for f in sig_factors)
+    else:
+        fi_conclusion = '所有因素均不显著(p>=0.1)'
+
     ols_card = f"""<div class="card">
   <div class="card-title">OLS 回归 &middot; 收益率预测</div>
   <div class="formula-box">
-    <div class="f-title">拟合方程（N = {ols["n"]}, R&sup2; = {ols["r2"]}, F = {ols["f_stat"]}, p = {ols["f_p"]}）</div>
+    <div class="f-title">拟合方程（N={ols["n"]}, R&sup2;={ols["r2"]}, F={ols["f_stat"]}）</div>
 {ols_eq}
-    <div class="formula-legend">
-      <b>r&#770;</b> = ETF当日日内收益率%（开盘&rarr;收盘）&nbsp; <b>S</b> = 情绪分 &nbsp; <b>B</b> = 看涨次数 &nbsp; <b>D</b> = 看跌次数<br>
-      <b>P</b> = 前日涨跌幅% &nbsp; <b>VR</b> = 前日量比 &nbsp; <b>I</b> = 前日日内收益率% &nbsp; <b>M</b> = 板块提及(0/1) &nbsp; <b>C</b> = 提及次数<br>
-      <b>&epsilon;</b> = 随机误差项 &nbsp; 显著性: *** p&lt;0.01 &nbsp; ** p&lt;0.05 &nbsp; * p&lt;0.1
-    </div>
+    <div class="formula-legend">变量: <b>S</b>=情绪 <b>B</b>=看涨 <b>D</b>=看跌 <b>P</b>=涨跌% <b>VR</b>=量比 <b>I</b>=日内% <b>M</b>=提及 <b>C</b>=次数 | ***p&lt;0.01 **p&lt;0.05 *p&lt;0.1</div>
   </div>
   <div class="formula-box">
-    <div class="f-title">Lasso 变量选择（&alpha; = {ols.get("lasso_alpha", "N/A")}）</div>
-    <div class="formula">r&#770;<sub>i,t</sub> = &beta;<sub>0</sub> + {lasso_kept_str}</div>
-    <div class="formula-legend">被剔除：{lasso_removed_str}</div>
+    <div class="f-title">Lasso（&alpha;={ols.get("lasso_alpha", "N/A")}）</div>
+    <div class="formula">r&#770; = &beta;<sub>0</sub> + {lasso_kept_str}</div>
+    <div class="formula-legend">剔除: {lasso_removed_str}</div>
+  </div>
+  <div class="formula-box">
+    <div class="f-title">因素重要性 |&beta;|&times;&sigma;</div>
+    <table style="margin-top:6px;width:100%;font-size:0.78rem">
+      <tr style="border-bottom:2px solid var(--rule)">
+        <td style="font-weight:600;color:var(--muted)">因素</td>
+        <td style="font-weight:600;color:var(--muted)">&beta;</td>
+        <td style="font-weight:600;color:var(--muted)">p</td>
+        <td style="font-weight:600;color:var(--muted)">&sigma;</td>
+        <td style="font-weight:600;color:var(--muted)">重要性</td>
+      </tr>
+{fi_rows}    </table>
+    <div class="formula-legend" style="margin-top:6px">{fi_conclusion}</div>
   </div>
 </div>"""
 
-    # ── Logit 公式 ──
+    # ── Logit 公式（精简） ──
     logit_eq = _gen_equation(
         logit['coefficients'], 'z',
-        terms_per_line=[4, 5]
+        terms_per_line=[5, 4]
     )
     logit_card = f"""<div class="card">
   <div class="card-title">Logit 回归 &middot; 涨跌方向预测</div>
   <div class="formula-box">
-    <div class="f-title">拟合方程（N = {logit["n"]}, 伪R&sup2; = {logit["pseudo_r2"]}, 准确率 = {logit["accuracy"]}%）</div>
+    <div class="f-title">拟合方程（N={logit["n"]}, 伪R&sup2;={logit["pseudo_r2"]}, 准确率={logit["accuracy"]}%）</div>
     <div class="formula">P(y=1) = 1 / (1 + e<sup>&minus;z</sup>)</div>
 {logit_eq}
     <div class="formula-legend">
-      <b>y=1</b> = 次日上涨 &nbsp; <b>z</b> = 线性组合 &nbsp; 变量同 OLS<br>
-      <b>CV准确率</b> = {logit["cv_accuracy"]}%（5折时序交叉验证）&nbsp;
-      <b>CV AUC</b> = {logit["cv_auc"]} &nbsp;
-      <b>Lasso</b> = {logit.get("lasso_note", "N/A")}
+      <b>y=1</b>=次日上涨 &nbsp; CV准确率={logit["cv_accuracy"]}% &nbsp; Lasso={logit.get("lasso_note", "N/A")}
     </div>
   </div>
 </div>"""
 
-    # ── 因素重要性 ──
-    fi = ols['factor_importance']
-    fi_rows = ""
-    for f in fi:
-        desc = FACTOR_DESC.get(f['factor'], '')
-        sig_str = f" {f['sig']}" if f.get('sig') else ''
-        fi_rows += (
-            f'<tr>'
-            f'<td class="v">{esc(f["factor"])}</td>'
-            f'<td class="b {cls_val(f["beta"])}">{fmt_coef(f["beta"])}</td>'
-            f'<td>{fmt_num(f["p"], 4)}{sig_str}</td>'
-            f'<td>{fmt_num(f["sigma"])}</td>'
-            f'<td class="b">{fmt_num(f["importance"])}</td>'
-            f'<td style="font-size:0.75rem;color:var(--muted)">{esc(desc)}</td>'
-            f'</tr>\n'
-        )
-    # 结论
-    sig_factors = [f for f in fi if f.get('sig')]
-    if sig_factors:
-        parts = []
-        for f in sig_factors:
-            direction = '正' if f['beta'] >= 0 else '负'
-            stars = f['sig']
-            parts.append(f'{f["factor"]}（p={f["p"]:.4f} {stars}，系数为{direction}）')
-        fi_conclusion = '统计显著因素：' + '；'.join(parts)
-    else:
-        fi_conclusion = '所有因素均不统计显著（p&ge;0.1）'
-
-    fi_card = f"""<div class="card">
-  <div class="card-title">因素重要性（|&beta;| &times; &sigma; 标准化影响）</div>
-  <div class="formula-box">
-    <div class="formula">Importance<sub>j</sub> = |&beta;<sub>j</sub>| &times; &sigma;<sub>j</sub></div>
-    <div class="formula-legend"><b>&beta;</b> = OLS回归系数 &nbsp; <b>&sigma;</b> = 自变量标准差 &nbsp; 重要性 = 因素对收益的标准化影响幅度</div>
-    <table style="margin-top:12px;width:100%;font-size:0.82rem">
-      <tr style="border-bottom:2px solid var(--rule)">
-        <td class="v" style="width:25%;font-weight:600;color:var(--muted)">因素</td>
-        <td class="b" style="width:12%;font-weight:600;color:var(--muted)">&beta;</td>
-        <td style="width:10%;font-weight:600;color:var(--muted)">p值</td>
-        <td style="width:10%;font-weight:600;color:var(--muted)">&sigma;</td>
-        <td class="b" style="width:15%;font-weight:600;color:var(--muted)">重要性</td>
-        <td style="width:28%;font-weight:600;color:var(--muted)">变量说明</td>
-      </tr>
-{fi_rows}    </table>
-    <div class="formula-legend" style="margin-top:10px">结论：{fi_conclusion}</div>
-  </div>
-</div>"""
-
     return f"""<div class="sec-title">模型公式</div>
-{rule_card}
-{ols_card}
-{logit_card}
-{fi_card}"""
+<div class="formula-2col">
+<div class="formula-col">{rule_card}</div>
+<div class="formula-col">{logit_card}</div>
+</div>
+{ols_card}"""
 
 
-def gen_recommendation(model_data):
+def gen_recommendation(model_data, econ_data):
     d = model_data['latest_decision']
     s = model_data['summary']
     date = s['report_date']
+
+    # 构建 Logit 预测查找表
+    logit_preds = econ_data['logit'].get('latest_predictions', [])
+    logit_lookup = {}
+    for lp in logit_preds:
+        logit_lookup[lp.get('etf', '')] = lp
+
+    # 构建预警列表：Logit预测看跌概率最高的3个ETF（按prob_up升序=看跌概率降序）
+    bearish_preds = [lp for lp in logit_preds if lp.get('direction') == '跌']
+    bearish_preds_sorted = sorted(bearish_preds, key=lambda x: float(x.get('prob', '50')))
+    top3_warnings = bearish_preds_sorted[:3]
+    if len(top3_warnings) < 3:
+        # 补充非看跌但概率最低的ETF
+        remaining = [lp for lp in logit_preds if lp not in top3_warnings]
+        remaining_sorted = sorted(remaining, key=lambda x: float(x.get('prob', '50')))
+        top3_warnings.extend(remaining_sorted[:3 - len(top3_warnings)])
 
     # 趋势标签
     trend = trend_tag(d['trend'])
@@ -947,11 +939,20 @@ def gen_recommendation(model_data):
     bull = d.get('bull_signals', 0)
     bear = d.get('bear_signals', 0)
     sent = d.get('sentiment_score', 0)
-    # ETF 选择卡片
+    # ETF 选择卡片（含交叉验证）
     picks_html = ""
     for p in d['picks']:
         w_pct = int(p['weight'] * 100)
-        picks_html += f'<div class="pick"><span class="pick-code">{esc(p["code"])}</span><span class="pick-name">{esc(p["name"])}</span><span class="pick-w">{w_pct}%</span></div>\n'
+        # 交叉验证：检查Logit预测
+        lp = logit_lookup.get(p['name'], {})
+        logit_dir = lp.get('direction', '')
+        logit_prob = lp.get('prob', '')
+        warning_tag = ''
+        if logit_dir == '跌' and float(logit_prob) < 45:  # prob_up < 45% => bearish > 55%
+            warning_tag = f' <span class="tag t-bear" style="margin-left:6px">⚠ 计量分歧</span>'
+        logit_info = f'<span class="pick-logit">Logit:{esc(logit_dir)}({logit_prob}%)</span>'
+        picks_html += f'<div class="pick"><span class="pick-code">{esc(p["code"])}</span><span class="pick-name">{esc(p["name"])}<span class="pick-score">评分{p["score"]:.2f}</span></span><span class="pick-w">{w_pct}%</span>{logit_info}{warning_tag}</div>\n'
+
     # 理由
     reason = esc(d.get('reason', ''))
     # 热点板块
@@ -1000,9 +1001,34 @@ def gen_recommendation(model_data):
   </table>
 </div>"""
 
+    # 预警关注区域：Logit预测看跌概率最高的3个ETF
+    warning_rows = ""
+    for wp in top3_warnings:
+        prob_val = float(wp.get('prob', '50'))
+        bear_prob = round(100 - prob_val, 1)
+        warning_rows += (
+            f'<tr>'
+            f'<td>{esc(wp.get("etf", ""))}</td>'
+            f'<td>{esc(wp.get("sector", ""))}</td>'
+            f'<td class="down">{prob_val}%</td>'
+            f'<td class="down">{bear_prob}%</td>'
+            f'<td class="down">{esc(wp.get("direction", ""))}</td>'
+            f'</tr>\n'
+        )
+
+    warning_html = f"""<div class="card" style="border-color:var(--accent2);border-width:1px">
+  <div class="card-title" style="color:var(--accent2)">预警关注 · Logit看跌概率最高</div>
+  <table>
+    <thead><tr><th>ETF</th><th>板块</th><th>P(涨)</th><th>P(跌)</th><th>方向</th></tr></thead>
+    <tbody>
+{warning_rows}    </tbody>
+  </table>
+</div>"""
+
     return f"""<div class="sec-title">今日推荐</div>
 {decision_html}
-{perf_html}"""
+{perf_html}
+{warning_html}"""
 
 
 def gen_econometric(model_data, econ_data):
@@ -1168,82 +1194,25 @@ def gen_cross_validation(model_data, econ_data):
 
 
 def gen_research(model_data):
-    mv = model_data.get('market_review', {})
-    wp = model_data.get('weekly_performance', {})
-    lwp = model_data.get('last_week_performance', {})
     newspapers = model_data.get('latest_newspapers', {})
     d = model_data['latest_decision']
-
-    # ── 昨日市场回顾 ──
-    hs300_ret = mv.get('hs300_prev_return', 0)
-    sent = mv.get('sentiment_score', 0)
-    bull = mv.get('bullish_count', 0)
-    bear = mv.get('bearish_count', 0)
-    judgment = mv.get('judgment', '')
-    gainers = mv.get('gainers', [])
-    losers = mv.get('losers', [])
-    gainers_str = '、'.join(f'{g["name"]}({fmt_pct(g["return"])})' for g in gainers)
-    losers_str = '、'.join(f'{l["name"]}({fmt_pct(l["return"])})' for l in losers)
-
-    rpt1 = f"""<div class="rpt">
-  <h3>一、昨日市场回顾</h3>
-  <p>沪深300昨日收 <span class="{'hl' if hs300_ret>=0 else 'wl'}">{fmt_pct(hs300_ret)}</span>。四大报情绪分{sent}，看涨{bull}条/看跌{bear}条。四大报{esc(judgment)}，共{bull}条利好/{bear}条利空，热点板块：{', '.join(s['name'] for s in d.get('hot_sectors', [])[:1])}</p>
-  <p><strong>领涨:</strong> {gainers_str}</p>
-  <p><strong>领跌:</strong> {losers_str}</p>
-</div>"""
-
-    # ── 四大报精华 ──
-    rpt2_parts = ""
     paper_names = ['中国证券报', '上海证券报', '证券时报', '证券日报']
-    for name in paper_names:
-        titles = newspapers.get(name, [])
-        if titles:
-            titles_str = ' / '.join(esc(t) for t in titles)
-            rpt2_parts += f'  <p><strong>{esc(name)}:</strong> {titles_str}</p>\n'
-    rpt2 = f"""<div class="rpt">
-  <h3>二、四大报精华</h3>
-{rpt2_parts}</div>"""
 
-    # ── 四大报卡片 ──
+    # 四大报卡片（无数据时显示"今日暂无数据"）
     np_cards = ""
     for name in paper_names:
         titles = newspapers.get(name, [])
-        if not titles:
-            continue
-        items = ''.join(f'<li>{esc(t)}</li>' for t in titles)
-        np_cards += f'<div class="np-card"><div class="np-src">{esc(name)}</div><ul>{items}</ul></div>\n'
+        if titles:
+            items = ''.join(f'<li>{esc(t)}</li>' for t in titles)
+            np_cards += f'<div class="np-card"><div class="np-src">{esc(name)}</div><ul>{items}</ul></div>\n'
+        else:
+            np_cards += f'<div class="np-card"><div class="np-src">{esc(name)}</div><ul><li style="color:var(--muted)">今日暂无数据</li></ul></div>\n'
 
     np_grid = f"""<div class="np-grid">
 {np_cards}</div>"""
 
-    # ── 情绪评分 ──
-    sectors = d.get('hot_sectors', [])
-    sectors_str = ', '.join(f'{esc(s["name"])}({s["count"]})' for s in sectors)
-    rpt3 = f"""<div class="rpt">
-  <h3>三、模型测算情绪评分</h3>
-  <p>四大报情绪分 <span class="hl">{sent}</span>（看涨{bull}条 - 看跌{bear}条 = {bull - bear}）→ 判定: <strong>{esc(judgment)}</strong></p>
-  <p><strong style="color:var(--accent)">热点板块:</strong> {sectors_str}</p>
-</div>"""
-
-    # ── 本周表现 ──
-    rpt4 = f"""<div class="rpt">
-  <h3>四、本周表现</h3>
-  <p>本周交易 <span class="hl">{wp.get("trading_days", 0)}天</span>，模型收益 <span class="{'wl' if wp.get('model_return',0)<0 else 'hl'}">{fmt_pct(wp.get("model_return", 0))}</span>，沪深300 <span class="{'wl' if wp.get('hs300_return',0)<0 else 'hl'}">{fmt_pct(wp.get("hs300_return", 0))}</span>，Alpha = <span class="{'wl' if wp.get('alpha',0)<0 else 'hl'}">{fmt_pct(wp.get("alpha", 0))}</span>，胜率 {wp.get("wins", 0)}/{wp.get("total", 0)}。</p>
-</div>"""
-
-    # ── 上周对比 ──
-    rpt5 = f"""<div class="rpt">
-  <h3>五、上周对比</h3>
-  <p>上周模型 <span class="{'wl' if lwp.get('model_return',0)<0 else 'hl'}">{fmt_pct(lwp.get("model_return", 0))}</span>，沪深300 <span class="{'wl' if lwp.get('hs300_return',0)<0 else 'hl'}">{fmt_pct(lwp.get("hs300_return", 0))}</span>，Alpha = <span class="{'wl' if lwp.get('alpha',0)<0 else 'hl'}">{fmt_pct(lwp.get("alpha", 0))}</span>。</p>
-</div>"""
-
     return f"""<div class="sec-title">专业研报</div>
-{rpt1}
-{rpt2}
-{np_grid}
-{rpt3}
-{rpt4}
-{rpt5}"""
+{np_grid}"""
 
 
 def gen_charts_section():
@@ -1266,16 +1235,17 @@ def gen_charts_section():
 
 
 def gen_experience(model_data):
-    # 经验记录
+    # 经验记录 (已在 normalize_model_data 中按最新在前排序)
     experiences = model_data.get('experiences', [])[:20]
     exp_items = ""
     for e in experiences:
         exp_items += f'<div class="exp-row"><span class="exp-d">{esc(e["date"])}</span><span class="exp-t">{esc(e["text"])}</span></div>\n'
 
-    # 最近交易记录表
-    summaries = model_data.get('all_daily_summaries', [])[:20]
+    # 最近交易记录表（最新在前）
+    summaries = model_data.get('all_daily_summaries', [])
+    recent_summaries = summaries[-20:][::-1]
     rec_rows = ""
-    for s in summaries:
+    for s in recent_summaries:
         rec_rows += (
             f'<tr>'
             f'<td>{esc(s["date"])}</td>'
@@ -1315,7 +1285,7 @@ def generate_html(model_data, econ_data):
         gen_date_badge(model_data),
         gen_overview(model_data),
         gen_formulas(model_data, econ_data),
-        gen_recommendation(model_data),
+        gen_recommendation(model_data, econ_data),
         gen_econometric(model_data, econ_data),
         gen_cross_validation(model_data, econ_data),
         gen_research(model_data),

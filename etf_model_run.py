@@ -270,13 +270,13 @@ def make_decision(date, prev_date, etf_data, newspapers, experiences):
     else:
         trend = 'neutral'
 
-    # ETF选择: 评分>0 取前2, 按评分分配权重(满仓由 position_scale 控制)
+    # ETF选择: 评分>0 取前3, 按评分分配权重(满仓由 position_scale 控制)
     positive = [e for e in etf_scores if e['total_score'] > 0]
     selection = []
     if positive:
         best = positive[0]
         position_scale = round(min(1.0, best['total_score'] / SCORE_FULL), 4)
-        chosen = positive[:2]
+        chosen = positive[:3]
         total_pos = sum(e['total_score'] for e in chosen)
         for e in chosen:
             w = round(e['total_score'] / total_pos * position_scale, 4) if total_pos > 0 else 0.0

@@ -1,109 +1,124 @@
 {
   "summary": {
-    "cumulative_return": -12.08,
-    "hs300_cumulative_return": 8.09,
-    "alpha": -20.17,
-    "win_rate": 52.14,
-    "profit_loss_ratio": 0.86,
-    "trading_days": 125,
-    "experience_count": 117,
-    "etf_avg_performance": 8.8,
-    "final_capital": 879219.18,
-    "total_trades": 117,
-    "wins": 61,
-    "losses": 56,
+    "cumulative_return": -9.79,
+    "hs300_cumulative_return": 6.01,
+    "alpha": -15.8,
+    "win_rate": 50.86,
+    "profit_loss_ratio": 0.88,
+    "trading_days": 124,
+    "experience_count": 116,
+    "etf_avg_performance": 7.46,
+    "final_capital": 902082.81,
+    "total_trades": 116,
+    "wins": 59,
+    "losses": 57,
     "initial_capital": 1000000.0,
     "commission_rate": 5e-05
   },
   "latest_decision": {
-    "date": "2026-07-15",
+    "date": "2026-07-14",
     "trend": "bullish",
     "decision": "buy",
     "etf_selection": [
       {
-        "code": "510300",
-        "name": "沪深300ETF",
-        "sector": "宽基",
-        "weight": 0.5772,
-        "total_score": 2.2273
+        "code": "510150",
+        "name": "消费ETF",
+        "sector": "消费",
+        "weight": 0.4689,
+        "total_score": 2.5248
       },
       {
-        "code": "516160",
-        "name": "新能源ETF",
-        "sector": "新能源",
-        "weight": 0.4228,
-        "total_score": 1.6317
+        "code": "515120",
+        "name": "创新药ETF",
+        "sector": "医药",
+        "weight": 0.3804,
+        "total_score": 2.0482
+      },
+      {
+        "code": "512760",
+        "name": "半导体ETF",
+        "sector": "半导体",
+        "weight": 0.1506,
+        "total_score": 0.811
       }
     ],
-    "weight": 1.0,
-    "reason": "趋势bullish，首选沪深300ETF(总分2.23)，情绪热点(0.22,3倍权重)、动量(0.65)、量比(0.97)、均值回归(-0.02)、经验(-0.04)",
+    "weight": 0.9999,
+    "reason": "趋势bullish，首选消费ETF(总分2.52)，情绪热点(0.80,3倍权重)、动量(-0.42)、量比(0.30)、均值回归(0.29)、经验(-0.04)",
     "sentiment": {
-      "score": 0.4,
-      "bullish_count": 3,
-      "bearish_count": 1,
+      "score": 0.8,
+      "bullish_count": 4,
+      "bearish_count": 0,
       "hot_sectors": [
+        {
+          "sector": "消费",
+          "count": 3
+        },
         {
           "sector": "AI算力",
           "count": 2
         },
         {
-          "sector": "消费",
+          "sector": "医药",
+          "count": 2
+        },
+        {
+          "sector": "半导体",
+          "count": 1
+        },
+        {
+          "sector": "芯片",
           "count": 1
         },
         {
           "sector": "券商",
           "count": 1
-        },
-        {
-          "sector": "宽基",
-          "count": 1
         }
       ],
-      "summary": "四大报共16条标题(看多3/看空1)，情绪分0.4，热点板块: AI算力, 消费, 券商"
+      "summary": "四大报共16条标题(看多4/看空0)，情绪分0.8，热点板块: 消费, AI算力, 医药"
     },
     "sector_performance": {
-      "date": "2026-07-14",
-      "prev_date": "2026-07-13",
+      "date": "2026-07-13",
+      "prev_date": "2026-07-10",
       "top5": [
         {
           "code": "515120",
           "name": "创新药ETF",
           "sector": "医药",
-          "change_pct": 3.4646,
-          "close": 0.657,
-          "volume": 17982058
-        },
-        {
-          "code": "515980",
-          "name": "人工智能ETF",
-          "sector": "AI算力",
-          "change_pct": 2.2034,
-          "close": 1.206,
-          "volume": 2957026
-        },
-        {
-          "code": "510300",
-          "name": "沪深300ETF",
-          "sector": "宽基",
-          "change_pct": 1.9604,
-          "close": 4.837,
-          "volume": 18084400
+          "change_pct": -0.936,
+          "close": 0.635,
+          "volume": 12069129
         },
         {
           "code": "159592",
           "name": "卫星产业ETF",
           "sector": "商业航天",
-          "change_pct": 1.8896,
-          "close": 1.348,
-          "volume": 201750
+          "change_pct": -1.0471,
+          "close": 1.323,
+          "volume": 199991
         },
         {
-          "code": "516160",
-          "name": "新能源ETF",
-          "sector": "新能源",
-          "change_pct": 1.7487,
-          "close": 2.502,
-          "volume": 735612
+          "code": "510150",
+          "name": "消费ETF",
+          "sector": "消费",
+          "change_pct": -1.25,
+          "close": 0.474,
+          "volume": 496583
+        },
+        {
+          "code": "512000",
+          "name": "券商ETF",
+          "sector": "券商",
+          "change_pct": -1.3158,
+          "close": 0.525,
+          "volume": 22365618
+        },
+        {
+          "code": "518880",
+          "name": "黄金ETF",
+          "sector": "黄金",
+          "change_pct": -1.4284,
+          "close": 8.419,
+          "volume": 3020485
         }
       ],
       "bottom5": [
@@ -111,47 +126,47 @@
           "code": "512660",
           "name": "军工ETF",
           "sector": "军工",
-          "change_pct": -2.8523,
-          "close": 1.158,
-          "volume": 3700219
+          "change_pct": -6.9477,
+          "close": 1.192,
+          "volume": 4441749
         },
         {
-          "code": "518880",
-          "name": "黄金ETF",
-          "sector": "黄金",
-          "change_pct": -0.5464,
-          "close": 8.373,
-          "volume": 2362128
-        },
-        {
-          "code": "512000",
-          "name": "券商ETF",
-          "sector": "券商",
-          "change_pct": 0.5714,
-          "close": 0.528,
-          "volume": 27706250
+          "code": "159995",
+          "name": "芯片ETF",
+          "sector": "芯片",
+          "change_pct": -5.0163,
+          "close": 1.458,
+          "volume": 15611359
         },
         {
           "code": "512760",
           "name": "半导体ETF",
           "sector": "半导体",
-          "change_pct": 1.1586,
-          "close": 1.397,
-          "volume": 6776351
+          "change_pct": -4.6271,
+          "close": 1.381,
+          "volume": 6336674
         },
         {
-          "code": "510150",
-          "name": "消费ETF",
-          "sector": "消费",
-          "change_pct": 1.2658,
-          "close": 0.48,
-          "volume": 706773
+          "code": "516160",
+          "name": "新能源ETF",
+          "sector": "新能源",
+          "change_pct": -4.3935,
+          "close": 2.459,
+          "volume": 722295
+        },
+        {
+          "code": "515980",
+          "name": "人工智能ETF",
+          "sector": "AI算力",
+          "change_pct": -3.437,
+          "close": 1.18,
+          "volume": 7044057
         }
       ],
-      "hs300": 1.9604,
-      "avg": 1.131
+      "hs300": -1.7602,
+      "avg": -2.9236
     },
-    "avg_score": 0.9939
+    "avg_score": 0.5314
   },
   "experiences": [
     {
@@ -166,7 +181,7 @@
       "intraday_return": -1.626,
       "net_return": -0.01636,
       "result": "loss",
-      "weight": 0.7023
+      "weight": 0.5798
     },
     {
       "date": "2026-01-08",
@@ -180,7 +195,7 @@
       "intraday_return": -0.5913,
       "net_return": -0.006013,
       "result": "loss",
-      "weight": 0.4743
+      "weight": 0.324
     },
     {
       "date": "2026-01-09",
@@ -194,7 +209,7 @@
       "intraday_return": 2.6868,
       "net_return": 0.026768,
       "result": "win",
-      "weight": 0.8358
+      "weight": 0.7468
     },
     {
       "date": "2026-01-12",
@@ -208,7 +223,7 @@
       "intraday_return": 5.9194,
       "net_return": 0.059094,
       "result": "win",
-      "weight": 0.6221
+      "weight": 0.5479
     },
     {
       "date": "2026-01-13",
@@ -222,7 +237,7 @@
       "intraday_return": -6.1669,
       "net_return": -0.061769,
       "result": "loss",
-      "weight": 0.5372
+      "weight": 0.4476
     },
     {
       "date": "2026-01-14",
@@ -250,7 +265,7 @@
       "intraday_return": -0.7007,
       "net_return": -0.007107,
       "result": "loss",
-      "weight": 0.5301
+      "weight": 0.365
     },
     {
       "date": "2026-01-16",
@@ -264,7 +279,7 @@
       "intraday_return": -0.5966,
       "net_return": -0.006066,
       "result": "loss",
-      "weight": 0.502
+      "weight": 0.4674
     },
     {
       "date": "2026-01-19",
@@ -278,7 +293,7 @@
       "intraday_return": -1.169,
       "net_return": -0.01179,
       "result": "loss",
-      "weight": 0.5201
+      "weight": 0.3863
     },
     {
       "date": "2026-01-20",
@@ -292,7 +307,7 @@
       "intraday_return": -3.084,
       "net_return": -0.03094,
       "result": "loss",
-      "weight": 0.7231
+      "weight": 0.5686
     },
     {
       "date": "2026-01-21",
@@ -306,7 +321,7 @@
       "intraday_return": -0.354,
       "net_return": -0.00364,
       "result": "loss",
-      "weight": 0.7563
+      "weight": 0.6252
     },
     {
       "date": "2026-01-22",
@@ -320,7 +335,7 @@
       "intraday_return": 0.4956,
       "net_return": 0.004856,
       "result": "win",
-      "weight": 0.753
+      "weight": 0.6291
     },
     {
       "date": "2026-01-23",
@@ -334,7 +349,7 @@
       "intraday_return": -0.4077,
       "net_return": -0.004177,
       "result": "loss",
-      "weight": 0.5118
+      "weight": 0.4449
     },
     {
       "date": "2026-01-26",
@@ -348,7 +363,7 @@
       "intraday_return": -2.68,
       "net_return": -0.0269,
       "result": "loss",
-      "weight": 0.7078
+      "weight": 0.6026
     },
     {
       "date": "2026-01-27",
@@ -362,7 +377,7 @@
       "intraday_return": 0.4686,
       "net_return": 0.004586,
       "result": "win",
-      "weight": 0.5038
+      "weight": 0.3425
     },
     {
       "date": "2026-01-28",
@@ -376,7 +391,7 @@
       "intraday_return": 0.3042,
       "net_return": 0.002942,
       "result": "win",
-      "weight": 0.8333
+      "weight": 0.746
     },
     {
       "date": "2026-01-29",
@@ -390,7 +405,7 @@
       "intraday_return": 0.9314,
       "net_return": 0.009214,
       "result": "win",
-      "weight": 0.537
+      "weight": 0.3947
     },
     {
       "date": "2026-01-30",
@@ -404,7 +419,7 @@
       "intraday_return": -1.9678,
       "net_return": -0.019778,
       "result": "loss",
-      "weight": 0.6792
+      "weight": 0.5457
     },
     {
       "date": "2026-02-02",
@@ -418,7 +433,7 @@
       "intraday_return": -3.4343,
       "net_return": -0.034443,
       "result": "loss",
-      "weight": 0.6461
+      "weight": 0.5435
     },
     {
       "date": "2026-02-03",
@@ -446,7 +461,7 @@
       "intraday_return": 0.667,
       "net_return": 0.00657,
       "result": "win",
-      "weight": 0.5578
+      "weight": 0.4188
     },
     {
       "date": "2026-02-05",
@@ -460,7 +475,7 @@
       "intraday_return": -0.82,
       "net_return": -0.0083,
       "result": "loss",
-      "weight": 0.811
+      "weight": 0.7105
     },
     {
       "date": "2026-02-06",
@@ -474,7 +489,7 @@
       "intraday_return": 0.1292,
       "net_return": 0.001192,
       "result": "win",
-      "weight": 0.6682
+      "weight": 0.544
     },
     {
       "date": "2026-02-09",
@@ -488,7 +503,7 @@
       "intraday_return": 1.9868,
       "net_return": 0.019768,
       "result": "win",
-      "weight": 0.5497
+      "weight": 0.4092
     },
     {
       "date": "2026-02-10",
@@ -502,7 +517,7 @@
       "intraday_return": 0.5382,
       "net_return": 0.005282,
       "result": "win",
-      "weight": 0.6939
+      "weight": 0.6172
     },
     {
       "date": "2026-02-11",
@@ -516,7 +531,7 @@
       "intraday_return": 0.0,
       "net_return": -0.0001,
       "result": "loss",
-      "weight": 0.3793
+      "weight": 0.2871
     },
     {
       "date": "2026-02-12",
@@ -530,7 +545,7 @@
       "intraday_return": -0.0423,
       "net_return": -0.000523,
       "result": "loss",
-      "weight": 0.8435
+      "weight": 0.7538
     },
     {
       "date": "2026-02-13",
@@ -544,7 +559,7 @@
       "intraday_return": -1.2012,
       "net_return": -0.012112,
       "result": "loss",
-      "weight": 0.6279
+      "weight": 0.5031
     },
     {
       "date": "2026-02-24",
@@ -572,7 +587,7 @@
       "intraday_return": 0.0548,
       "net_return": 0.000448,
       "result": "win",
-      "weight": 0.5095
+      "weight": 0.4301
     },
     {
       "date": "2026-02-26",
@@ -586,7 +601,7 @@
       "intraday_return": -0.8881,
       "net_return": -0.008981,
       "result": "loss",
-      "weight": 0.5489
+      "weight": 0.4087
     },
     {
       "date": "2026-02-27",
@@ -600,7 +615,7 @@
       "intraday_return": 2.1505,
       "net_return": 0.021405,
       "result": "win",
-      "weight": 0.8206
+      "weight": 0.7008
     },
     {
       "date": "2026-03-02",
@@ -614,7 +629,7 @@
       "intraday_return": -1.4778,
       "net_return": -0.014878,
       "result": "loss",
-      "weight": 0.2737
+      "weight": 0.1887
     },
     {
       "date": "2026-03-03",
@@ -628,7 +643,7 @@
       "intraday_return": -6.864,
       "net_return": -0.06874,
       "result": "loss",
-      "weight": 0.5074
+      "weight": 0.419
     },
     {
       "date": "2026-03-05",
@@ -642,7 +657,7 @@
       "intraday_return": -0.2291,
       "net_return": -0.002391,
       "result": "loss",
-      "weight": 0.837
+      "weight": 0.7771
     },
     {
       "date": "2026-03-06",
@@ -656,7 +671,7 @@
       "intraday_return": 0.5767,
       "net_return": 0.005667,
       "result": "win",
-      "weight": 0.5134
+      "weight": 0.3866
     },
     {
       "date": "2026-03-09",
@@ -670,7 +685,7 @@
       "intraday_return": -0.1686,
       "net_return": -0.001786,
       "result": "loss",
-      "weight": 0.7743
+      "weight": 0.636
     },
     {
       "date": "2026-03-10",
@@ -684,7 +699,7 @@
       "intraday_return": -0.1075,
       "net_return": -0.001175,
       "result": "loss",
-      "weight": 0.5185
+      "weight": 0.365
     },
     {
       "date": "2026-03-11",
@@ -698,7 +713,7 @@
       "intraday_return": 0.1887,
       "net_return": 0.001787,
       "result": "win",
-      "weight": 0.5774
+      "weight": 0.4308
     },
     {
       "date": "2026-03-12",
@@ -740,7 +755,7 @@
       "intraday_return": 0.107,
       "net_return": 0.00097,
       "result": "win",
-      "weight": 0.3643
+      "weight": 0.2873
     },
     {
       "date": "2026-03-17",
@@ -754,7 +769,7 @@
       "intraday_return": -2.8902,
       "net_return": -0.029002,
       "result": "loss",
-      "weight": 0.627
+      "weight": 0.5167
     },
     {
       "date": "2026-03-18",
@@ -768,7 +783,7 @@
       "intraday_return": -0.1873,
       "net_return": -0.001973,
       "result": "loss",
-      "weight": 0.7108
+      "weight": 0.5647
     },
     {
       "date": "2026-03-19",
@@ -782,7 +797,7 @@
       "intraday_return": 0.2262,
       "net_return": 0.002162,
       "result": "win",
-      "weight": 0.6853
+      "weight": 0.5279
     },
     {
       "date": "2026-03-20",
@@ -796,7 +811,7 @@
       "intraday_return": -1.7897,
       "net_return": -0.017997,
       "result": "loss",
-      "weight": 0.273
+      "weight": 0.1982
     },
     {
       "date": "2026-03-23",
@@ -824,7 +839,7 @@
       "intraday_return": -0.6082,
       "net_return": -0.006182,
       "result": "loss",
-      "weight": 0.6483
+      "weight": 0.4959
     },
     {
       "date": "2026-03-26",
@@ -838,7 +853,7 @@
       "intraday_return": -1.8488,
       "net_return": -0.018588,
       "result": "loss",
-      "weight": 0.5812
+      "weight": 0.4298
     },
     {
       "date": "2026-03-27",
@@ -852,7 +867,7 @@
       "intraday_return": 1.3034,
       "net_return": 0.012934,
       "result": "win",
-      "weight": 0.5717
+      "weight": 0.4689
     },
     {
       "date": "2026-03-30",
@@ -866,7 +881,7 @@
       "intraday_return": 1.6556,
       "net_return": 0.016456,
       "result": "win",
-      "weight": 0.7123
+      "weight": 0.5609
     },
     {
       "date": "2026-03-31",
@@ -880,7 +895,7 @@
       "intraday_return": -0.8443,
       "net_return": -0.008543,
       "result": "loss",
-      "weight": 0.2328
+      "weight": 0.2083
     },
     {
       "date": "2026-04-02",
@@ -894,7 +909,7 @@
       "intraday_return": -3.0374,
       "net_return": -0.030474,
       "result": "loss",
-      "weight": 0.5624
+      "weight": 0.4235
     },
     {
       "date": "2026-04-07",
@@ -908,7 +923,7 @@
       "intraday_return": 1.1688,
       "net_return": 0.011588,
       "result": "win",
-      "weight": 0.4953
+      "weight": 0.3578
     },
     {
       "date": "2026-04-08",
@@ -922,7 +937,7 @@
       "intraday_return": 3.4956,
       "net_return": 0.034856,
       "result": "win",
-      "weight": 0.5472
+      "weight": 0.394
     },
     {
       "date": "2026-04-09",
@@ -936,7 +951,7 @@
       "intraday_return": -0.0219,
       "net_return": -0.000319,
       "result": "loss",
-      "weight": 0.5155
+      "weight": 0.3727
     },
     {
       "date": "2026-04-10",
@@ -964,7 +979,7 @@
       "intraday_return": 1.581,
       "net_return": 0.01571,
       "result": "win",
-      "weight": 0.6652
+      "weight": 0.5047
     },
     {
       "date": "2026-04-15",
@@ -1006,7 +1021,7 @@
       "intraday_return": -0.2941,
       "net_return": -0.003041,
       "result": "loss",
-      "weight": 0.5463
+      "weight": 0.4065
     },
     {
       "date": "2026-04-21",
@@ -1020,7 +1035,7 @@
       "intraday_return": -0.4919,
       "net_return": -0.005019,
       "result": "loss",
-      "weight": 0.6917
+      "weight": 0.6337
     },
     {
       "date": "2026-04-22",
@@ -1034,7 +1049,7 @@
       "intraday_return": 0.9631,
       "net_return": 0.009531,
       "result": "win",
-      "weight": 0.1577
+      "weight": 0.1341
     },
     {
       "date": "2026-04-23",
@@ -1048,7 +1063,7 @@
       "intraday_return": -2.2876,
       "net_return": -0.022976,
       "result": "loss",
-      "weight": 0.596
+      "weight": 0.4669
     },
     {
       "date": "2026-04-24",
@@ -1076,7 +1091,7 @@
       "intraday_return": 3.2503,
       "net_return": 0.032403,
       "result": "win",
-      "weight": 0.6237
+      "weight": 0.4706
     },
     {
       "date": "2026-04-28",
@@ -1090,7 +1105,7 @@
       "intraday_return": -0.6336,
       "net_return": -0.006436,
       "result": "loss",
-      "weight": 0.6816
+      "weight": 0.5199
     },
     {
       "date": "2026-04-29",
@@ -1104,7 +1119,7 @@
       "intraday_return": -0.159,
       "net_return": -0.00169,
       "result": "loss",
-      "weight": 0.6024
+      "weight": 0.4957
     },
     {
       "date": "2026-04-30",
@@ -1118,7 +1133,7 @@
       "intraday_return": -0.0912,
       "net_return": -0.001012,
       "result": "loss",
-      "weight": 0.5569
+      "weight": 0.4908
     },
     {
       "date": "2026-05-06",
@@ -1132,7 +1147,7 @@
       "intraday_return": 1.4368,
       "net_return": 0.014268,
       "result": "win",
-      "weight": 0.6094
+      "weight": 0.445
     },
     {
       "date": "2026-05-07",
@@ -1146,7 +1161,7 @@
       "intraday_return": 0.1427,
       "net_return": 0.001327,
       "result": "win",
-      "weight": 0.5341
+      "weight": 0.3845
     },
     {
       "date": "2026-05-08",
@@ -1160,7 +1175,7 @@
       "intraday_return": -0.0818,
       "net_return": -0.000918,
       "result": "loss",
-      "weight": 0.5314
+      "weight": 0.4859
     },
     {
       "date": "2026-05-11",
@@ -1188,7 +1203,7 @@
       "intraday_return": -0.4739,
       "net_return": -0.004839,
       "result": "loss",
-      "weight": 0.6034
+      "weight": 0.4757
     },
     {
       "date": "2026-05-13",
@@ -1216,7 +1231,7 @@
       "intraday_return": -3.5896,
       "net_return": -0.035996,
       "result": "loss",
-      "weight": 0.5224
+      "weight": 0.427
     },
     {
       "date": "2026-05-15",
@@ -1258,7 +1273,7 @@
       "intraday_return": 0.7984,
       "net_return": 0.007884,
       "result": "win",
-      "weight": 0.5431
+      "weight": 0.3747
     },
     {
       "date": "2026-05-20",
@@ -1272,7 +1287,7 @@
       "intraday_return": 5.3509,
       "net_return": 0.053409,
       "result": "win",
-      "weight": 0.5344
+      "weight": 0.4288
     },
     {
       "date": "2026-05-21",
@@ -1286,7 +1301,7 @@
       "intraday_return": -3.0457,
       "net_return": -0.030557,
       "result": "loss",
-      "weight": 0.5422
+      "weight": 0.4041
     },
     {
       "date": "2026-05-22",
@@ -1300,7 +1315,7 @@
       "intraday_return": -1.5873,
       "net_return": -0.015973,
       "result": "loss",
-      "weight": 0.6455
+      "weight": 0.5143
     },
     {
       "date": "2026-05-25",
@@ -1314,7 +1329,7 @@
       "intraday_return": 1.168,
       "net_return": 0.01158,
       "result": "win",
-      "weight": 0.6178
+      "weight": 0.4781
     },
     {
       "date": "2026-05-26",
@@ -1328,7 +1343,7 @@
       "intraday_return": 1.2215,
       "net_return": 0.012115,
       "result": "win",
-      "weight": 0.5476
+      "weight": 0.4233
     },
     {
       "date": "2026-05-27",
@@ -1342,7 +1357,7 @@
       "intraday_return": -0.5976,
       "net_return": -0.006076,
       "result": "loss",
-      "weight": 0.4667
+      "weight": 0.4196
     },
     {
       "date": "2026-05-28",
@@ -1384,7 +1399,7 @@
       "intraday_return": -1.2174,
       "net_return": -0.012274,
       "result": "loss",
-      "weight": 0.5409
+      "weight": 0.4223
     },
     {
       "date": "2026-06-02",
@@ -1398,7 +1413,7 @@
       "intraday_return": -0.4124,
       "net_return": -0.004224,
       "result": "loss",
-      "weight": 0.3607
+      "weight": 0.2586
     },
     {
       "date": "2026-06-03",
@@ -1412,7 +1427,7 @@
       "intraday_return": 3.3929,
       "net_return": 0.033829,
       "result": "win",
-      "weight": 0.5563
+      "weight": 0.4205
     },
     {
       "date": "2026-06-04",
@@ -1426,7 +1441,7 @@
       "intraday_return": 4.0564,
       "net_return": 0.040464,
       "result": "win",
-      "weight": 0.6308
+      "weight": 0.4699
     },
     {
       "date": "2026-06-05",
@@ -1440,7 +1455,7 @@
       "intraday_return": -3.0277,
       "net_return": -0.030377,
       "result": "loss",
-      "weight": 0.847
+      "weight": 0.7635
     },
     {
       "date": "2026-06-08",
@@ -1454,7 +1469,7 @@
       "intraday_return": -1.0616,
       "net_return": -0.010716,
       "result": "loss",
-      "weight": 0.727
+      "weight": 0.6663
     },
     {
       "date": "2026-06-10",
@@ -1468,7 +1483,7 @@
       "intraday_return": -0.4441,
       "net_return": -0.004541,
       "result": "loss",
-      "weight": 0.5084
+      "weight": 0.3858
     },
     {
       "date": "2026-06-11",
@@ -1482,7 +1497,7 @@
       "intraday_return": -0.6186,
       "net_return": -0.006286,
       "result": "loss",
-      "weight": 0.5182
+      "weight": 0.3539
     },
     {
       "date": "2026-06-12",
@@ -1496,7 +1511,7 @@
       "intraday_return": -4.1308,
       "net_return": -0.041408,
       "result": "loss",
-      "weight": 0.5352
+      "weight": 0.3967
     },
     {
       "date": "2026-06-15",
@@ -1510,7 +1525,7 @@
       "intraday_return": 2.1956,
       "net_return": 0.021856,
       "result": "win",
-      "weight": 0.5703
+      "weight": 0.406
     },
     {
       "date": "2026-06-16",
@@ -1524,7 +1539,7 @@
       "intraday_return": -0.2033,
       "net_return": -0.002133,
       "result": "loss",
-      "weight": 0.5515
+      "weight": 0.4037
     },
     {
       "date": "2026-06-17",
@@ -1552,7 +1567,7 @@
       "intraday_return": 4.5238,
       "net_return": 0.045138,
       "result": "win",
-      "weight": 0.5047
+      "weight": 0.4569
     },
     {
       "date": "2026-06-22",
@@ -1566,7 +1581,7 @@
       "intraday_return": 0.9091,
       "net_return": 0.008991,
       "result": "win",
-      "weight": 0.675
+      "weight": 0.5616
     },
     {
       "date": "2026-06-23",
@@ -1580,7 +1595,7 @@
       "intraday_return": -2.5659,
       "net_return": -0.025759,
       "result": "loss",
-      "weight": 0.522
+      "weight": 0.3758
     },
     {
       "date": "2026-06-24",
@@ -1608,7 +1623,7 @@
       "intraday_return": 2.1016,
       "net_return": 0.020916,
       "result": "win",
-      "weight": 0.516
+      "weight": 0.3858
     },
     {
       "date": "2026-06-26",
@@ -1622,7 +1637,7 @@
       "intraday_return": -2.0168,
       "net_return": -0.020268,
       "result": "loss",
-      "weight": 0.5693
+      "weight": 0.4524
     },
     {
       "date": "2026-06-29",
@@ -1650,7 +1665,7 @@
       "intraday_return": -0.4246,
       "net_return": -0.004346,
       "result": "loss",
-      "weight": 0.529
+      "weight": 0.3759
     },
     {
       "date": "2026-07-01",
@@ -1664,7 +1679,7 @@
       "intraday_return": -1.4571,
       "net_return": -0.014671,
       "result": "loss",
-      "weight": 0.5916
+      "weight": 0.4345
     },
     {
       "date": "2026-07-02",
@@ -1678,7 +1693,7 @@
       "intraday_return": 0.0,
       "net_return": -0.0001,
       "result": "loss",
-      "weight": 0.5939
+      "weight": 0.4482
     },
     {
       "date": "2026-07-03",
@@ -1706,7 +1721,7 @@
       "intraday_return": -0.4694,
       "net_return": -0.004794,
       "result": "loss",
-      "weight": 0.5534
+      "weight": 0.3968
     },
     {
       "date": "2026-07-07",
@@ -1720,7 +1735,7 @@
       "intraday_return": 1.8103,
       "net_return": 0.018003,
       "result": "win",
-      "weight": 0.5922
+      "weight": 0.4903
     },
     {
       "date": "2026-07-08",
@@ -1734,7 +1749,7 @@
       "intraday_return": 0.1691,
       "net_return": 0.001591,
       "result": "win",
-      "weight": 0.5157
+      "weight": 0.4433
     },
     {
       "date": "2026-07-09",
@@ -1748,7 +1763,7 @@
       "intraday_return": 8.0893,
       "net_return": 0.080793,
       "result": "win",
-      "weight": 0.5327
+      "weight": 0.3903
     },
     {
       "date": "2026-07-10",
@@ -1762,7 +1777,7 @@
       "intraday_return": -1.4815,
       "net_return": -0.014915,
       "result": "loss",
-      "weight": 0.5032
+      "weight": 0.3518
     },
     {
       "date": "2026-07-13",
@@ -1776,21 +1791,7 @@
       "intraday_return": -6.4364,
       "net_return": -0.064464,
       "result": "loss",
-      "weight": 0.5183
-    },
-    {
-      "date": "2026-07-14",
-      "etf_code": "510150",
-      "etf_name": "消费ETF",
-      "sector": "消费",
-      "trend": "bullish",
-      "decision": "buy",
-      "total_score": 2.5248,
-      "sentiment_score": 0.8,
-      "intraday_return": 0.8403,
-      "net_return": 0.008303,
-      "result": "win",
-      "weight": 0.5521
+      "weight": 0.3524
     }
   ],
   "all_daily_summaries": [
@@ -1810,11 +1811,12 @@
       "decision": "buy",
       "etf_names": [
         "券商ETF",
-        "芯片ETF"
+        "芯片ETF",
+        "军工ETF"
       ],
-      "return": -1.1204,
+      "return": -1.0111,
       "hs300": -0.3961,
-      "alpha": -0.7243,
+      "alpha": -0.615,
       "sentiment_score": 0.0
     },
     {
@@ -1823,11 +1825,12 @@
       "decision": "buy",
       "etf_names": [
         "卫星产业ETF",
-        "半导体ETF"
+        "半导体ETF",
+        "芯片ETF"
       ],
-      "return": 0.0569,
+      "return": 0.2504,
       "hs300": -0.5247,
-      "alpha": 0.5815,
+      "alpha": 0.775,
       "sentiment_score": 0.0
     },
     {
@@ -1836,11 +1839,12 @@
       "decision": "buy",
       "etf_names": [
         "军工ETF",
-        "黄金ETF"
+        "黄金ETF",
+        "消费ETF"
       ],
-      "return": 2.3182,
+      "return": 2.1637,
       "hs300": 0.5915,
-      "alpha": 1.7267,
+      "alpha": 1.5722,
       "sentiment_score": 0.0
     },
     {
@@ -1849,11 +1853,12 @@
       "decision": "buy",
       "etf_names": [
         "军工ETF",
-        "人工智能ETF"
+        "人工智能ETF",
+        "沪深300ETF"
       ],
-      "return": 5.7763,
+      "return": 5.1365,
       "hs300": 0.4193,
-      "alpha": 5.357,
+      "alpha": 4.7173,
       "sentiment_score": 0.0
     },
     {
@@ -1862,11 +1867,12 @@
       "decision": "buy",
       "etf_names": [
         "军工ETF",
-        "人工智能ETF"
+        "人工智能ETF",
+        "沪深300ETF"
       ],
-      "return": -6.2712,
+      "return": -5.3172,
       "hs300": -0.5418,
-      "alpha": -5.7294,
+      "alpha": -4.7754,
       "sentiment_score": 0.0
     },
     {
@@ -1888,11 +1894,12 @@
       "decision": "buy",
       "etf_names": [
         "人工智能ETF",
-        "半导体ETF"
+        "半导体ETF",
+        "芯片ETF"
       ],
-      "return": 0.5063,
+      "return": 0.8355,
       "hs300": 0.5501,
-      "alpha": -0.0439,
+      "alpha": 0.2854,
       "sentiment_score": 0.0
     },
     {
@@ -1901,11 +1908,12 @@
       "decision": "buy",
       "etf_names": [
         "卫星产业ETF",
-        "沪深300ETF"
+        "沪深300ETF",
+        "半导体ETF"
       ],
-      "return": -0.7885,
+      "return": -0.5613,
       "hs300": -0.9619,
-      "alpha": 0.1734,
+      "alpha": 0.4006,
       "sentiment_score": 0.0
     },
     {
@@ -1914,11 +1922,12 @@
       "decision": "buy",
       "etf_names": [
         "半导体ETF",
-        "军工ETF"
+        "军工ETF",
+        "芯片ETF"
       ],
-      "return": 0.8736,
+      "return": 0.4658,
       "hs300": 0.0211,
-      "alpha": 0.8525,
+      "alpha": 0.4447,
       "sentiment_score": 0.0
     },
     {
@@ -1927,11 +1936,12 @@
       "decision": "buy",
       "etf_names": [
         "军工ETF",
-        "消费ETF"
+        "消费ETF",
+        "卫星产业ETF"
       ],
-      "return": -2.3377,
+      "return": -1.8726,
       "hs300": -0.2323,
-      "alpha": -2.1054,
+      "alpha": -1.6403,
       "sentiment_score": 0.0
     },
     {
@@ -1940,11 +1950,12 @@
       "decision": "buy",
       "etf_names": [
         "消费ETF",
-        "黄金ETF"
+        "黄金ETF",
+        "沪深300ETF"
       ],
-      "return": -0.2495,
+      "return": -0.1307,
       "hs300": 0.446,
-      "alpha": -0.6955,
+      "alpha": -0.5767,
       "sentiment_score": 0.0
     },
     {
@@ -1953,11 +1964,12 @@
       "decision": "buy",
       "etf_names": [
         "黄金ETF",
-        "创新药ETF"
+        "创新药ETF",
+        "沪深300ETF"
       ],
-      "return": 0.0207,
+      "return": -0.0329,
       "hs300": -0.2953,
-      "alpha": 0.316,
+      "alpha": 0.2624,
       "sentiment_score": 0.0
     },
     {
@@ -1966,11 +1978,12 @@
       "decision": "buy",
       "etf_names": [
         "人工智能ETF",
-        "军工ETF"
+        "军工ETF",
+        "卫星产业ETF"
       ],
-      "return": 1.087,
+      "return": 0.8343,
       "hs300": -0.5917,
-      "alpha": 1.6787,
+      "alpha": 1.426,
       "sentiment_score": 0.0
     },
     {
@@ -1979,11 +1992,12 @@
       "decision": "buy",
       "etf_names": [
         "新能源ETF",
-        "军工ETF"
+        "军工ETF",
+        "黄金ETF"
       ],
-      "return": -3.0824,
+      "return": -2.5736,
       "hs300": 0.0,
-      "alpha": -3.0824,
+      "alpha": -2.5736,
       "sentiment_score": 0.0
     },
     {
@@ -1992,11 +2006,12 @@
       "decision": "buy",
       "etf_names": [
         "黄金ETF",
-        "卫星产业ETF"
+        "卫星产业ETF",
+        "创新药ETF"
       ],
-      "return": 0.2261,
+      "return": -0.3412,
       "hs300": -0.0424,
-      "alpha": 0.2685,
+      "alpha": -0.2988,
       "sentiment_score": 0.0
     },
     {
@@ -2005,11 +2020,12 @@
       "decision": "buy",
       "etf_names": [
         "卫星产业ETF",
-        "半导体ETF"
+        "半导体ETF",
+        "芯片ETF"
       ],
-      "return": 0.3126,
+      "return": 0.34,
       "hs300": 0.0,
-      "alpha": 0.3126,
+      "alpha": 0.34,
       "sentiment_score": 0.0
     },
     {
@@ -2018,11 +2034,12 @@
       "decision": "buy",
       "etf_names": [
         "沪深300ETF",
-        "芯片ETF"
+        "芯片ETF",
+        "半导体ETF"
       ],
-      "return": -1.3027,
+      "return": -1.9456,
       "hs300": 0.9314,
-      "alpha": -2.2341,
+      "alpha": -2.8771,
       "sentiment_score": 0.0
     },
     {
@@ -2031,11 +2048,12 @@
       "decision": "buy",
       "etf_names": [
         "消费ETF",
-        "黄金ETF"
+        "黄金ETF",
+        "券商ETF"
       ],
-      "return": -2.6386,
+      "return": -2.3265,
       "hs300": -0.5279,
-      "alpha": -2.1107,
+      "alpha": -1.7986,
       "sentiment_score": 0.0
     },
     {
@@ -2044,11 +2062,12 @@
       "decision": "buy",
       "etf_names": [
         "芯片ETF",
-        "沪深300ETF"
+        "沪深300ETF",
+        "军工ETF"
       ],
-      "return": -2.8339,
+      "return": -2.6492,
       "hs300": -1.7094,
-      "alpha": -1.1245,
+      "alpha": -0.9398,
       "sentiment_score": 0.0
     },
     {
@@ -2070,11 +2089,12 @@
       "decision": "buy",
       "etf_names": [
         "黄金ETF",
-        "军工ETF"
+        "军工ETF",
+        "新能源ETF"
       ],
-      "return": 0.6016,
+      "return": 0.9184,
       "hs300": 1.1823,
-      "alpha": -0.5807,
+      "alpha": -0.2639,
       "sentiment_score": 0.0
     },
     {
@@ -2083,11 +2103,12 @@
       "decision": "buy",
       "etf_names": [
         "黄金ETF",
-        "新能源ETF"
+        "新能源ETF",
+        "券商ETF"
       ],
-      "return": -1.305,
+      "return": -1.101,
       "hs300": -0.0214,
-      "alpha": -1.2836,
+      "alpha": -1.0796,
       "sentiment_score": 0.0
     },
     {
@@ -2096,11 +2117,12 @@
       "decision": "buy",
       "etf_names": [
         "沪深300ETF",
-        "半导体ETF"
+        "半导体ETF",
+        "人工智能ETF"
       ],
-      "return": 0.2305,
+      "return": 0.1233,
       "hs300": 0.1292,
-      "alpha": 0.1013,
+      "alpha": -0.0059,
       "sentiment_score": 0.0
     },
     {
@@ -2109,11 +2131,12 @@
       "decision": "buy",
       "etf_names": [
         "人工智能ETF",
-        "半导体ETF"
+        "半导体ETF",
+        "沪深300ETF"
       ],
-      "return": 1.6948,
+      "return": 1.4332,
       "hs300": 0.6816,
-      "alpha": 1.0132,
+      "alpha": 0.7517,
       "sentiment_score": 0.0
     },
     {
@@ -2122,11 +2145,12 @@
       "decision": "buy",
       "etf_names": [
         "人工智能ETF",
-        "半导体ETF"
+        "半导体ETF",
+        "芯片ETF"
       ],
-      "return": 0.3635,
+      "return": 0.3567,
       "hs300": 0.0,
-      "alpha": 0.3635,
+      "alpha": 0.3567,
       "sentiment_score": 0.0
     },
     {
@@ -2135,11 +2159,12 @@
       "decision": "buy",
       "etf_names": [
         "创新药ETF",
-        "军工ETF"
+        "军工ETF",
+        "人工智能ETF"
       ],
-      "return": -0.1773,
+      "return": -0.3658,
       "hs300": -0.0846,
-      "alpha": -0.0927,
+      "alpha": -0.2812,
       "sentiment_score": 0.0
     },
     {
@@ -2148,11 +2173,12 @@
       "decision": "buy",
       "etf_names": [
         "沪深300ETF",
-        "人工智能ETF"
+        "人工智能ETF",
+        "军工ETF"
       ],
-      "return": 0.1912,
+      "return": 0.3305,
       "hs300": -0.0423,
-      "alpha": 0.2335,
+      "alpha": 0.3728,
       "sentiment_score": 0.0
     },
     {
@@ -2161,11 +2187,12 @@
       "decision": "buy",
       "etf_names": [
         "卫星产业ETF",
-        "军工ETF"
+        "军工ETF",
+        "黄金ETF"
       ],
-      "return": -0.537,
+      "return": -0.4454,
       "hs300": -0.9122,
-      "alpha": 0.3751,
+      "alpha": 0.4668,
       "sentiment_score": 0.0
     },
     {
@@ -2186,11 +2213,12 @@
       "decision": "buy",
       "etf_names": [
         "黄金ETF",
-        "军工ETF"
+        "军工ETF",
+        "沪深300ETF"
       ],
-      "return": 0.8681,
+      "return": 0.8402,
       "hs300": 0.6996,
-      "alpha": 0.1685,
+      "alpha": 0.1406,
       "sentiment_score": 0.0
     },
     {
@@ -2199,11 +2227,12 @@
       "decision": "buy",
       "etf_names": [
         "券商ETF",
-        "军工ETF"
+        "军工ETF",
+        "沪深300ETF"
       ],
-      "return": 0.3313,
+      "return": 0.1579,
       "hs300": -0.3368,
-      "alpha": 0.6681,
+      "alpha": 0.4947,
       "sentiment_score": 0.0
     },
     {
@@ -2212,11 +2241,12 @@
       "decision": "buy",
       "etf_names": [
         "人工智能ETF",
-        "军工ETF"
+        "军工ETF",
+        "卫星产业ETF"
       ],
-      "return": 1.8244,
+      "return": 1.5015,
       "hs300": 0.1059,
-      "alpha": 1.7185,
+      "alpha": 1.3955,
       "sentiment_score": 0.0
     },
     {
@@ -2225,11 +2255,12 @@
       "decision": "buy",
       "etf_names": [
         "创新药ETF",
-        "卫星产业ETF"
+        "卫星产业ETF",
+        "沪深300ETF"
       ],
-      "return": -0.3127,
+      "return": -0.0596,
       "hs300": 0.9587,
-      "alpha": -1.2714,
+      "alpha": -1.0182,
       "sentiment_score": 0.0
     },
     {
@@ -2238,11 +2269,12 @@
       "decision": "buy",
       "etf_names": [
         "军工ETF",
-        "黄金ETF"
+        "黄金ETF",
+        "沪深300ETF"
       ],
-      "return": -4.1787,
+      "return": -3.684,
       "hs300": -1.3288,
-      "alpha": -2.8499,
+      "alpha": -2.3551,
       "sentiment_score": 0.0
     },
     {
@@ -2261,11 +2293,12 @@
       "decision": "buy",
       "etf_names": [
         "半导体ETF",
-        "创新药ETF"
+        "创新药ETF",
+        "芯片ETF"
       ],
-      "return": -0.2297,
+      "return": -0.237,
       "hs300": 0.1506,
-      "alpha": -0.3803,
+      "alpha": -0.3876,
       "sentiment_score": 0.0
     },
     {
@@ -2274,11 +2307,12 @@
       "decision": "buy",
       "etf_names": [
         "半导体ETF",
-        "人工智能ETF"
+        "人工智能ETF",
+        "卫星产业ETF"
       ],
-      "return": 0.9929,
+      "return": 0.9554,
       "hs300": 0.5819,
-      "alpha": 0.411,
+      "alpha": 0.3736,
       "sentiment_score": 0.0
     },
     {
@@ -2287,11 +2321,12 @@
       "decision": "buy",
       "etf_names": [
         "创新药ETF",
-        "人工智能ETF"
+        "人工智能ETF",
+        "券商ETF"
       ],
-      "return": 0.3133,
+      "return": 0.1553,
       "hs300": 0.1298,
-      "alpha": 0.1836,
+      "alpha": 0.0255,
       "sentiment_score": 0.0
     },
     {
@@ -2300,11 +2335,12 @@
       "decision": "buy",
       "etf_names": [
         "人工智能ETF",
-        "新能源ETF"
+        "新能源ETF",
+        "黄金ETF"
       ],
-      "return": 0.414,
+      "return": 0.2695,
       "hs300": 0.8832,
-      "alpha": -0.4692,
+      "alpha": -0.6137,
       "sentiment_score": 0.0
     },
     {
@@ -2313,11 +2349,12 @@
       "decision": "buy",
       "etf_names": [
         "消费ETF",
-        "人工智能ETF"
+        "人工智能ETF",
+        "创新药ETF"
       ],
-      "return": -0.5834,
+      "return": -0.6872,
       "hs300": 0.5335,
-      "alpha": -1.1169,
+      "alpha": -1.2207,
       "sentiment_score": 0.0
     },
     {
@@ -2351,11 +2388,12 @@
       "decision": "buy",
       "etf_names": [
         "沪深300ETF",
-        "消费ETF"
+        "消费ETF",
+        "创新药ETF"
       ],
-      "return": 0.2482,
+      "return": 0.3323,
       "hs300": 0.107,
-      "alpha": 0.1412,
+      "alpha": 0.2254,
       "sentiment_score": 0.0
     },
     {
@@ -2364,7 +2402,8 @@
       "decision": "buy",
       "etf_names": [
         "半导体ETF",
-        "人工智能ETF"
+        "人工智能ETF",
+        "芯片ETF"
       ],
       "return": -2.9512,
       "hs300": -0.8536,
@@ -2377,11 +2416,12 @@
       "decision": "buy",
       "etf_names": [
         "券商ETF",
-        "创新药ETF"
+        "创新药ETF",
+        "黄金ETF"
       ],
-      "return": 0.1447,
+      "return": 0.051,
       "hs300": 0.215,
-      "alpha": -0.0703,
+      "alpha": -0.164,
       "sentiment_score": 0.0
     },
     {
@@ -2390,11 +2430,12 @@
       "decision": "buy",
       "etf_names": [
         "人工智能ETF",
-        "沪深300ETF"
+        "沪深300ETF",
+        "军工ETF"
       ],
-      "return": -0.0048,
+      "return": -0.2394,
       "hs300": -0.4761,
-      "alpha": 0.4713,
+      "alpha": 0.2367,
       "sentiment_score": 0.0
     },
     {
@@ -2403,11 +2444,12 @@
       "decision": "buy",
       "etf_names": [
         "人工智能ETF",
-        "新能源ETF"
+        "新能源ETF",
+        "卫星产业ETF"
       ],
-      "return": 0.0118,
+      "return": 0.0171,
       "hs300": -0.4785,
-      "alpha": 0.4903,
+      "alpha": 0.4956,
       "sentiment_score": 0.0
     },
     {
@@ -2439,11 +2481,12 @@
       "decision": "buy",
       "etf_names": [
         "黄金ETF",
-        "军工ETF"
+        "军工ETF",
+        "创新药ETF"
       ],
-      "return": 0.2227,
+      "return": 0.2893,
       "hs300": 0.7539,
-      "alpha": -0.5311,
+      "alpha": -0.4646,
       "sentiment_score": 0.0
     },
     {
@@ -2452,11 +2495,12 @@
       "decision": "buy",
       "etf_names": [
         "黄金ETF",
-        "半导体ETF"
+        "半导体ETF",
+        "人工智能ETF"
       ],
-      "return": -1.9624,
+      "return": -2.1369,
       "hs300": -1.0582,
-      "alpha": -0.9042,
+      "alpha": -1.0787,
       "sentiment_score": 0.0
     },
     {
@@ -2465,11 +2509,12 @@
       "decision": "buy",
       "etf_names": [
         "沪深300ETF",
-        "消费ETF"
+        "消费ETF",
+        "黄金ETF"
       ],
-      "return": 1.1715,
+      "return": 1.1526,
       "hs300": 1.3034,
-      "alpha": -0.1318,
+      "alpha": -0.1507,
       "sentiment_score": 0.0
     },
     {
@@ -2478,11 +2523,12 @@
       "decision": "buy",
       "etf_names": [
         "创新药ETF",
-        "人工智能ETF"
+        "人工智能ETF",
+        "消费ETF"
       ],
-      "return": 1.5828,
+      "return": 1.4953,
       "hs300": 0.8516,
-      "alpha": 0.7311,
+      "alpha": 0.6436,
       "sentiment_score": 0.0
     },
     {
@@ -2491,11 +2537,12 @@
       "decision": "buy",
       "etf_names": [
         "沪深300ETF",
-        "人工智能ETF"
+        "人工智能ETF",
+        "军工ETF"
       ],
-      "return": -0.4388,
+      "return": -0.4117,
       "hs300": -0.8443,
-      "alpha": 0.4054,
+      "alpha": 0.4325,
       "sentiment_score": 0.0
     },
     {
@@ -2514,11 +2561,12 @@
       "decision": "buy",
       "etf_names": [
         "人工智能ETF",
-        "半导体ETF"
+        "半导体ETF",
+        "消费ETF"
       ],
-      "return": -2.989,
+      "return": -2.3003,
       "hs300": -0.7078,
-      "alpha": -2.2812,
+      "alpha": -1.5925,
       "sentiment_score": 0.0
     },
     {
@@ -2537,11 +2585,12 @@
       "decision": "buy",
       "etf_names": [
         "半导体ETF",
-        "新能源ETF"
+        "新能源ETF",
+        "人工智能ETF"
       ],
-      "return": 0.8402,
+      "return": 0.843,
       "hs300": -0.202,
-      "alpha": 1.0423,
+      "alpha": 1.0451,
       "sentiment_score": 0.0
     },
     {
@@ -2550,11 +2599,12 @@
       "decision": "buy",
       "etf_names": [
         "半导体ETF",
-        "卫星产业ETF"
+        "卫星产业ETF",
+        "券商ETF"
       ],
-      "return": 2.9952,
+      "return": 2.7785,
       "hs300": 1.8367,
-      "alpha": 1.1585,
+      "alpha": 0.9418,
       "sentiment_score": 0.0
     },
     {
@@ -2563,11 +2613,12 @@
       "decision": "buy",
       "etf_names": [
         "沪深300ETF",
-        "券商ETF"
+        "券商ETF",
+        "半导体ETF"
       ],
-      "return": -0.6996,
+      "return": -0.1022,
       "hs300": -0.0219,
-      "alpha": -0.6777,
+      "alpha": -0.0803,
       "sentiment_score": 0.0
     },
     {
@@ -2589,11 +2640,12 @@
       "decision": "buy",
       "etf_names": [
         "券商ETF",
-        "卫星产业ETF"
+        "卫星产业ETF",
+        "新能源ETF"
       ],
-      "return": 1.2186,
+      "return": 1.5252,
       "hs300": 0.4969,
-      "alpha": 0.7217,
+      "alpha": 1.0283,
       "sentiment_score": 0.0
     },
     {
@@ -2638,11 +2690,12 @@
       "decision": "buy",
       "etf_names": [
         "卫星产业ETF",
-        "新能源ETF"
+        "新能源ETF",
+        "人工智能ETF"
       ],
-      "return": 0.0004,
+      "return": 0.4165,
       "hs300": 0.0422,
-      "alpha": -0.0418,
+      "alpha": 0.3743,
       "sentiment_score": 0.0
     },
     {
@@ -2661,11 +2714,12 @@
       "decision": "buy",
       "etf_names": [
         "军工ETF",
-        "沪深300ETF"
+        "沪深300ETF",
+        "创新药ETF"
       ],
-      "return": -0.2803,
+      "return": -0.3349,
       "hs300": 0.2519,
-      "alpha": -0.5322,
+      "alpha": -0.5868,
       "sentiment_score": 0.0
     },
     {
@@ -2674,11 +2728,12 @@
       "decision": "buy",
       "etf_names": [
         "创新药ETF",
-        "卫星产业ETF"
+        "卫星产业ETF",
+        "新能源ETF"
       ],
-      "return": 0.2237,
+      "return": 0.2377,
       "hs300": 1.0714,
-      "alpha": -0.8477,
+      "alpha": -0.8337,
       "sentiment_score": 0.0
     },
     {
@@ -2687,11 +2742,12 @@
       "decision": "buy",
       "etf_names": [
         "半导体ETF",
-        "券商ETF"
+        "券商ETF",
+        "沪深300ETF"
       ],
-      "return": -1.6884,
+      "return": -1.4102,
       "hs300": -0.3942,
-      "alpha": -1.2942,
+      "alpha": -1.016,
       "sentiment_score": 0.0
     },
     {
@@ -2713,11 +2769,12 @@
       "decision": "buy",
       "etf_names": [
         "半导体ETF",
-        "芯片ETF"
+        "芯片ETF",
+        "创新药ETF"
       ],
-      "return": 3.0582,
+      "return": 2.3848,
       "hs300": -0.0836,
-      "alpha": 3.1418,
+      "alpha": 2.4684,
       "sentiment_score": 0.0
     },
     {
@@ -2726,11 +2783,12 @@
       "decision": "buy",
       "etf_names": [
         "半导体ETF",
-        "芯片ETF"
+        "芯片ETF",
+        "创新药ETF"
       ],
-      "return": -0.6018,
+      "return": -0.3098,
       "hs300": 0.0839,
-      "alpha": -0.6858,
+      "alpha": -0.3937,
       "sentiment_score": 0.0
     },
     {
@@ -2739,11 +2797,12 @@
       "decision": "buy",
       "etf_names": [
         "创新药ETF",
-        "券商ETF"
+        "券商ETF",
+        "卫星产业ETF"
       ],
-      "return": 0.2061,
+      "return": 0.4682,
       "hs300": 1.388,
-      "alpha": -1.1819,
+      "alpha": -0.9198,
       "sentiment_score": 0.0
     },
     {
@@ -2752,11 +2811,12 @@
       "decision": "buy",
       "etf_names": [
         "新能源ETF",
-        "沪深300ETF"
+        "沪深300ETF",
+        "人工智能ETF"
       ],
-      "return": -0.1158,
+      "return": 0.1589,
       "hs300": -0.1242,
-      "alpha": 0.0084,
+      "alpha": 0.2831,
       "sentiment_score": 0.0
     },
     {
@@ -2765,11 +2825,12 @@
       "decision": "buy",
       "etf_names": [
         "人工智能ETF",
-        "沪深300ETF"
+        "沪深300ETF",
+        "半导体ETF"
       ],
-      "return": 1.0422,
+      "return": 1.1789,
       "hs300": 0.4521,
-      "alpha": 0.5901,
+      "alpha": 0.7268,
       "sentiment_score": 0.0
     },
     {
@@ -2778,11 +2839,12 @@
       "decision": "buy",
       "etf_names": [
         "沪深300ETF",
-        "人工智能ETF"
+        "人工智能ETF",
+        "新能源ETF"
       ],
-      "return": 1.3421,
+      "return": 0.7076,
       "hs300": 0.1427,
-      "alpha": 1.1993,
+      "alpha": 0.5649,
       "sentiment_score": 0.0
     },
     {
@@ -2791,11 +2853,12 @@
       "decision": "buy",
       "etf_names": [
         "沪深300ETF",
-        "黄金ETF"
+        "黄金ETF",
+        "卫星产业ETF"
       ],
-      "return": -0.0108,
+      "return": -0.0292,
       "hs300": -0.0818,
-      "alpha": 0.071,
+      "alpha": 0.0526,
       "sentiment_score": 0.0
     },
     {
@@ -2817,11 +2880,12 @@
       "decision": "buy",
       "etf_names": [
         "创新药ETF",
-        "券商ETF"
+        "券商ETF",
+        "消费ETF"
       ],
-      "return": -0.0689,
+      "return": -0.0564,
       "hs300": -0.2412,
-      "alpha": 0.1723,
+      "alpha": 0.1848,
       "sentiment_score": 0.0
     },
     {
@@ -2843,11 +2907,12 @@
       "decision": "buy",
       "etf_names": [
         "新能源ETF",
-        "半导体ETF"
+        "半导体ETF",
+        "黄金ETF"
       ],
-      "return": -3.0754,
+      "return": -2.491,
       "hs300": -1.9059,
-      "alpha": -1.1695,
+      "alpha": -0.5851,
       "sentiment_score": 0.0
     },
     {
@@ -2880,11 +2945,12 @@
       "decision": "buy",
       "etf_names": [
         "券商ETF",
-        "军工ETF"
+        "军工ETF",
+        "沪深300ETF"
       ],
-      "return": 0.4568,
+      "return": 0.4785,
       "hs300": 0.5369,
-      "alpha": -0.08,
+      "alpha": -0.0584,
       "sentiment_score": 0.0
     },
     {
@@ -2893,11 +2959,12 @@
       "decision": "buy",
       "etf_names": [
         "半导体ETF",
-        "券商ETF"
+        "券商ETF",
+        "消费ETF"
       ],
-      "return": 2.7568,
+      "return": 2.1307,
       "hs300": 0.5366,
-      "alpha": 2.2201,
+      "alpha": 1.594,
       "sentiment_score": 0.0
     },
     {
@@ -2906,11 +2973,12 @@
       "decision": "buy",
       "etf_names": [
         "军工ETF",
-        "半导体ETF"
+        "半导体ETF",
+        "创新药ETF"
       ],
-      "return": -4.1279,
+      "return": -2.8628,
       "hs300": -1.8174,
-      "alpha": -2.3104,
+      "alpha": -1.0453,
       "sentiment_score": 0.0
     },
     {
@@ -2919,11 +2987,12 @@
       "decision": "buy",
       "etf_names": [
         "券商ETF",
-        "创新药ETF"
+        "创新药ETF",
+        "消费ETF"
       ],
-      "return": -1.7472,
+      "return": -1.6781,
       "hs300": 0.7042,
-      "alpha": -2.4514,
+      "alpha": -2.3823,
       "sentiment_score": 0.0
     },
     {
@@ -2932,11 +3001,12 @@
       "decision": "buy",
       "etf_names": [
         "沪深300ETF",
-        "军工ETF"
+        "军工ETF",
+        "人工智能ETF"
       ],
-      "return": 1.0196,
+      "return": 1.5637,
       "hs300": 1.168,
-      "alpha": -0.1484,
+      "alpha": 0.3957,
       "sentiment_score": 0.0
     },
     {
@@ -2945,11 +3015,12 @@
       "decision": "buy",
       "etf_names": [
         "沪深300ETF",
-        "人工智能ETF"
+        "人工智能ETF",
+        "军工ETF"
       ],
-      "return": 0.9693,
+      "return": 0.3986,
       "hs300": 1.2215,
-      "alpha": -0.2522,
+      "alpha": -0.8229,
       "sentiment_score": 0.0
     },
     {
@@ -2958,11 +3029,12 @@
       "decision": "buy",
       "etf_names": [
         "券商ETF",
-        "创新药ETF"
+        "创新药ETF",
+        "黄金ETF"
       ],
-      "return": -0.2363,
+      "return": -0.273,
       "hs300": -0.6246,
-      "alpha": 0.3883,
+      "alpha": 0.3516,
       "sentiment_score": 0.0
     },
     {
@@ -2996,11 +3068,12 @@
       "decision": "buy",
       "etf_names": [
         "创新药ETF",
-        "黄金ETF"
+        "黄金ETF",
+        "消费ETF"
       ],
-      "return": -0.9323,
+      "return": -0.8199,
       "hs300": -1.1172,
-      "alpha": 0.1849,
+      "alpha": 0.2973,
       "sentiment_score": 0.0
     },
     {
@@ -3009,11 +3082,12 @@
       "decision": "buy",
       "etf_names": [
         "消费ETF",
-        "半导体ETF"
+        "半导体ETF",
+        "沪深300ETF"
       ],
-      "return": 0.3766,
+      "return": 0.5512,
       "hs300": 1.4177,
-      "alpha": -1.0411,
+      "alpha": -0.8665,
       "sentiment_score": 0.0
     },
     {
@@ -3022,11 +3096,12 @@
       "decision": "buy",
       "etf_names": [
         "半导体ETF",
-        "人工智能ETF"
+        "人工智能ETF",
+        "芯片ETF"
       ],
-      "return": 3.1961,
+      "return": 3.1836,
       "hs300": 0.5468,
-      "alpha": 2.6494,
+      "alpha": 2.6369,
       "sentiment_score": 0.0
     },
     {
@@ -3035,11 +3110,12 @@
       "decision": "buy",
       "etf_names": [
         "半导体ETF",
-        "芯片ETF"
+        "芯片ETF",
+        "人工智能ETF"
       ],
-      "return": 3.9735,
+      "return": 3.1112,
       "hs300": 0.1423,
-      "alpha": 3.8312,
+      "alpha": 2.9689,
       "sentiment_score": 0.0
     },
     {
@@ -3048,11 +3124,12 @@
       "decision": "buy",
       "etf_names": [
         "半导体ETF",
-        "创新药ETF"
+        "创新药ETF",
+        "芯片ETF"
       ],
-      "return": -2.7143,
+      "return": -2.7187,
       "hs300": -1.3445,
-      "alpha": -1.3698,
+      "alpha": -1.3743,
       "sentiment_score": 0.0
     },
     {
@@ -3061,11 +3138,12 @@
       "decision": "buy",
       "etf_names": [
         "消费ETF",
-        "创新药ETF"
+        "创新药ETF",
+        "券商ETF"
       ],
-      "return": -1.1376,
+      "return": -1.1129,
       "hs300": -1.0647,
-      "alpha": -0.0729,
+      "alpha": -0.0482,
       "sentiment_score": 0.0
     },
     {
@@ -3084,11 +3162,12 @@
       "decision": "buy",
       "etf_names": [
         "卫星产业ETF",
-        "新能源ETF"
+        "新能源ETF",
+        "半导体ETF"
       ],
-      "return": -0.5615,
+      "return": -0.3197,
       "hs300": -0.1253,
-      "alpha": -0.4362,
+      "alpha": -0.1944,
       "sentiment_score": 0.0
     },
     {
@@ -3097,11 +3176,12 @@
       "decision": "buy",
       "etf_names": [
         "券商ETF",
-        "创新药ETF"
+        "创新药ETF",
+        "沪深300ETF"
       ],
-      "return": -0.3305,
+      "return": -0.3287,
       "hs300": -0.3147,
-      "alpha": -0.0158,
+      "alpha": -0.014,
       "sentiment_score": 0.0
     },
     {
@@ -3110,11 +3190,12 @@
       "decision": "buy",
       "etf_names": [
         "半导体ETF",
-        "卫星产业ETF"
+        "卫星产业ETF",
+        "沪深300ETF"
       ],
-      "return": -1.5988,
+      "return": -1.1445,
       "hs300": 0.1663,
-      "alpha": -1.7651,
+      "alpha": -1.3108,
       "sentiment_score": 0.0
     },
     {
@@ -3123,11 +3204,12 @@
       "decision": "buy",
       "etf_names": [
         "券商ETF",
-        "黄金ETF"
+        "黄金ETF",
+        "沪深300ETF"
       ],
-      "return": 1.3,
+      "return": 1.2845,
       "hs300": 1.2557,
-      "alpha": 0.0443,
+      "alpha": 0.0288,
       "sentiment_score": 0.0
     },
     {
@@ -3136,11 +3218,12 @@
       "decision": "buy",
       "etf_names": [
         "沪深300ETF",
-        "券商ETF"
+        "券商ETF",
+        "黄金ETF"
       ],
-      "return": 0.6725,
+      "return": 0.5016,
       "hs300": -0.2033,
-      "alpha": 0.8757,
+      "alpha": 0.7048,
       "sentiment_score": 0.0
     },
     {
@@ -3162,11 +3245,12 @@
       "decision": "buy",
       "etf_names": [
         "半导体ETF",
-        "沪深300ETF"
+        "沪深300ETF",
+        "人工智能ETF"
       ],
-      "return": 2.684,
+      "return": 2.983,
       "hs300": 0.8295,
-      "alpha": 1.8545,
+      "alpha": 2.1536,
       "sentiment_score": 0.0
     },
     {
@@ -3175,11 +3259,12 @@
       "decision": "buy",
       "etf_names": [
         "创新药ETF",
-        "半导体ETF"
+        "半导体ETF",
+        "人工智能ETF"
       ],
-      "return": 1.2644,
+      "return": 1.2273,
       "hs300": 2.1674,
-      "alpha": -0.903,
+      "alpha": -0.9401,
       "sentiment_score": 0.0
     },
     {
@@ -3188,11 +3273,12 @@
       "decision": "buy",
       "etf_names": [
         "卫星产业ETF",
-        "消费ETF"
+        "消费ETF",
+        "券商ETF"
       ],
-      "return": -1.7651,
+      "return": -1.2216,
       "hs300": -2.6974,
-      "alpha": 0.9323,
+      "alpha": 1.4757,
       "sentiment_score": 0.0
     },
     {
@@ -3213,11 +3299,12 @@
       "decision": "buy",
       "etf_names": [
         "创新药ETF",
-        "消费ETF"
+        "消费ETF",
+        "沪深300ETF"
       ],
-      "return": 1.2848,
+      "return": 1.3386,
       "hs300": 1.5081,
-      "alpha": -0.2233,
+      "alpha": -0.1695,
       "sentiment_score": 0.0
     },
     {
@@ -3226,11 +3313,12 @@
       "decision": "buy",
       "etf_names": [
         "沪深300ETF",
-        "券商ETF"
+        "券商ETF",
+        "卫星产业ETF"
       ],
-      "return": -2.4226,
+      "return": -2.5944,
       "hs300": -2.0168,
-      "alpha": -0.4058,
+      "alpha": -0.5776,
       "sentiment_score": 0.0
     },
     {
@@ -3251,11 +3339,12 @@
       "decision": "buy",
       "etf_names": [
         "消费ETF",
-        "创新药ETF"
+        "创新药ETF",
+        "卫星产业ETF"
       ],
-      "return": -0.9273,
+      "return": -0.3648,
       "hs300": 1.4554,
-      "alpha": -2.3827,
+      "alpha": -1.8202,
       "sentiment_score": 0.0
     },
     {
@@ -3264,11 +3353,12 @@
       "decision": "buy",
       "etf_names": [
         "人工智能ETF",
-        "半导体ETF"
+        "半导体ETF",
+        "新能源ETF"
       ],
-      "return": -1.8493,
+      "return": -1.6541,
       "hs300": -0.2196,
-      "alpha": -1.6297,
+      "alpha": -1.4345,
       "sentiment_score": 0.75
     },
     {
@@ -3277,11 +3367,12 @@
       "decision": "buy",
       "etf_names": [
         "创新药ETF",
-        "券商ETF"
+        "券商ETF",
+        "消费ETF"
       ],
-      "return": -0.8787,
+      "return": -0.5619,
       "hs300": -2.1191,
-      "alpha": 1.2404,
+      "alpha": 1.5572,
       "sentiment_score": 0.6667
     },
     {
@@ -3302,11 +3393,12 @@
       "decision": "buy",
       "etf_names": [
         "沪深300ETF",
-        "军工ETF"
+        "军工ETF",
+        "黄金ETF"
       ],
-      "return": -1.0557,
+      "return": -0.9713,
       "hs300": -0.4694,
-      "alpha": -0.5863,
+      "alpha": -0.5019,
       "sentiment_score": 0.0
     },
     {
@@ -3315,11 +3407,12 @@
       "decision": "buy",
       "etf_names": [
         "半导体ETF",
-        "人工智能ETF"
+        "人工智能ETF",
+        "芯片ETF"
       ],
-      "return": 1.097,
+      "return": 1.2216,
       "hs300": -0.6587,
-      "alpha": 1.7557,
+      "alpha": 1.8803,
       "sentiment_score": 0.2222
     },
     {
@@ -3328,11 +3421,12 @@
       "decision": "buy",
       "etf_names": [
         "人工智能ETF",
-        "半导体ETF"
+        "半导体ETF",
+        "新能源ETF"
       ],
-      "return": -0.0255,
+      "return": -0.683,
       "hs300": -0.7858,
-      "alpha": 0.7603,
+      "alpha": 0.1028,
       "sentiment_score": 0.4444
     },
     {
@@ -3341,11 +3435,12 @@
       "decision": "buy",
       "etf_names": [
         "半导体ETF",
-        "人工智能ETF"
+        "人工智能ETF",
+        "沪深300ETF"
       ],
-      "return": 6.4817,
+      "return": 5.3185,
       "hs300": 2.14,
-      "alpha": 4.3417,
+      "alpha": 3.1784,
       "sentiment_score": 0.0
     },
     {
@@ -3354,11 +3449,12 @@
       "decision": "buy",
       "etf_names": [
         "券商ETF",
-        "人工智能ETF"
+        "人工智能ETF",
+        "卫星产业ETF"
       ],
-      "return": -2.5578,
+      "return": -2.3867,
       "hs300": -1.8097,
-      "alpha": -0.7481,
+      "alpha": -0.5771,
       "sentiment_score": 0.8
     },
     {
@@ -3367,51 +3463,39 @@
       "decision": "buy",
       "etf_names": [
         "军工ETF",
-        "创新药ETF"
+        "创新药ETF",
+        "券商ETF"
       ],
-      "return": -3.7969,
+      "return": -2.8268,
       "hs300": -1.2078,
-      "alpha": -2.5891,
+      "alpha": -1.619,
       "sentiment_score": 0.875
-    },
-    {
-      "date": "2026-07-14",
-      "trend": "bullish",
-      "decision": "buy",
-      "etf_names": [
-        "消费ETF",
-        "创新药ETF"
-      ],
-      "return": 2.2995,
-      "hs300": 1.9604,
-      "alpha": 0.3391,
-      "sentiment_score": 0.8
     }
   ],
   "latest_newspapers": {
     "中国证券报": [
-      "创新动能足 主体活力强 开放水平高 上半年我国进出口规模首次突破25万亿元",
-      "自然资源部： 探索建立资源权益指标 交易激励机制",
-      "头部企业已提价10轮 覆铜板行业上市公司业绩向好",
-      "与业绩改善形成正反馈 今年以来券商境内发债规模同比增长近一倍"
+      "国务院批复同意《扩大消费“十五五”规划》",
+      "产业链涨价驱动中报业绩预增 化工有色等行业表现亮眼",
+      "上市公司分红回购增持三箭齐发协同加力",
+      "江丰电子： 打牢半导体材料“地基” 奔赴AI与全球化新征程"
     ],
     "上海证券报": [
-      "动力新 规模增 结构优 上半年我国外贸规模首次突破25万亿元",
-      "首部消费专项规划“独立成篇” 60万亿元目标如何实现？",
-      "需求井喷 高端算力服务大单频现",
-      "景气度攀升 覆铜板领涨产业链 PCB行业盈利能力大增"
+      "扩消费新蓝图来了 龙头企业抢抓消费升级新机遇",
+      "茅台拼转型",
+      "近40家上市药企产品纳入新版国家基药目录",
+      "从冰雪体验到IP社交 武商集团商文旅融合打造城市“微度假”新地标"
     ],
     "证券时报": [
-      "水网、新型电网、算力网、新一代通信网、城市地下管网、物流网 扩投资稳经济大盘 “六张网”建设提速",
-      "PCB产业链量价齐升 结构性分化凸显",
-      "最高超900% 光通信企业上半年业绩普遍预增",
-      "年内3900余次调研 外资机构青睐中国硬科技赛道"
+      "AI应用赛道热度抬升 12家公司上半年业绩亮眼",
+      "交易新规首周投资者新体验： 盘后成交倍增 定价效率提升",
+      "金融业网络安全新规落地 支付行业迎合规新格局",
+      "千亿康复医疗器械市场再迎政策加持"
     ],
     "证券日报": [
-      "北交所新三板精准适配创新型中小微企业发展需求",
-      "聚焦四大违规场景 监管从严规范上市公司募集资金使用",
-      "利通电子预计上半年净利润同比增超1172%",
-      "天齐锂业上半年净利润同比预增超32倍"
+      "国务院批复同意《扩大消费“十五五”规划》“十五五”时期消费市场扩量提质路线图清晰",
+      "从“拼规模”到“拼质效” 奶业价值重构进行时",
+      "A股市场向好发展不容谣言搅局",
+      "手握核心原料 放眼全球市场 安图生物踏浪前行"
     ]
   }
 }
