@@ -363,8 +363,12 @@ def normalize_econ_data(raw, model_data):
     for p in lm.get('latest_predictions', []):
         prob_pct = p.get('prob_up', 0) * 100
         logit_preds.append({
-            'etf': p.get('etf_name', ''), 'sector': p.get('sector', ''),
-            'prob': f'{prob_pct:.1f}',
+            # etf_code -> code, etf_name -> etf/name, prob_up(小数) -> prob(百分比数值)
+            'code': p.get('etf_code', ''),
+            'name': p.get('etf_name', ''),
+            'etf': p.get('etf_name', ''),
+            'sector': p.get('sector', ''),
+            'prob': round(prob_pct, 1),
             'direction': '涨' if p.get('predicted_direction') == 'up' else '跌',
             'confidence': f'{abs(prob_pct - 50) * 2:.0f}%',
         })
@@ -534,8 +538,6 @@ body{background:var(--bg);color:var(--ink);font-family:var(--IS);font-size:15px;
 .formula-legend{font-size:0.72rem;color:var(--muted);line-height:1.9;margin-top:8px}
 .formula-legend b{color:var(--ink)}
 
-.formula-2col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-.formula-col{min-width:0}
 .rec-2col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
 
 table{width:100%;border-collapse:collapse;font-size:0.8rem}
@@ -593,7 +595,6 @@ footer{text-align:center;font-size:0.7rem;color:var(--muted);margin-top:36px;pad
 @media(max-width:760px){
   .metrics{grid-template-columns:repeat(2,1fr)}
   .np-grid{grid-template-columns:1fr}
-  .formula-2col{grid-template-columns:1fr}
   .rec-2col{grid-template-columns:1fr}
 }
 """
@@ -906,10 +907,30 @@ def gen_formulas(model_data, econ_data):
 
     return f"""<div class="sec-title">模型公式</div>
 {rule_card}
-<div class="formula-2col">
-<div class="formula-col">{logit_card}</div>
-<div class="formula-col">{ols_card}</div>
-</div>"""
+{logit_card}
+{ols_card}"""
+
+
+def _bull_advice(prob):
+    """看好板块建议文字，prob 为 P(涨) 百分比"""
+    if prob >= 65:
+        return '模型看好，可重点关注'
+    if prob >= 55:
+        return '模型偏多，适量参与'
+    if prob >= 45:
+        return '多空均衡，观望为主'
+    return '模型看涨概率较低，谨慎参与'
+
+
+def _bear_advice(bear_prob):
+    """看空预警建议文字，bear_prob 为 P(跌) 百分比"""
+    if bear_prob >= 85:
+        return '强烈看空，建议回避'
+    if bear_prob >= 75:
+        return '看空，建议减仓'
+    if bear_prob >= 65:
+        return '偏空，谨慎持有'
+    return '略偏空，注意风险'
 
 
 def gen_recommendation(model_data, econ_data):
@@ -917,68 +938,86 @@ def gen_recommendation(model_data, econ_data):
     s = model_data['summary']
     date = s['report_date']
 
-    # 构建 Logit 预测查找表
+    # Logit 预测（已标准化：code/name/sector/prob[百分比数值]/direction）
     logit_preds = econ_data['logit'].get('latest_predictions', [])
+    # 按名称建立查找表，供规则模型对比交叉验证使用
     logit_lookup = {}
     for lp in logit_preds:
         logit_lookup[lp.get('etf', '')] = lp
 
-    # 构建预警列表：Logit预测看跌概率最高的3个ETF（按prob_up升序=看跌概率降序）
-    bearish_preds = [lp for lp in logit_preds if lp.get('direction') == '跌']
-    bearish_preds_sorted = sorted(bearish_preds, key=lambda x: float(x.get('prob', '50')))
-    top3_warnings = bearish_preds_sorted[:3]
-    if len(top3_warnings) < 3:
-        # 补充非看跌但概率最低的ETF
-        remaining = [lp for lp in logit_preds if lp not in top3_warnings]
-        remaining_sorted = sorted(remaining, key=lambda x: float(x.get('prob', '50')))
-        top3_warnings.extend(remaining_sorted[:3 - len(top3_warnings)])
+    # ── 看好板块：Logit 预测 P(涨) 最高的 3 个（概率从高到低） ──
+    top3_bullish = sorted(
+        logit_preds, key=lambda x: float(x.get('prob', 0)), reverse=True
+    )[:3]
+    bullish_items = ""
+    for lp in top3_bullish:
+        prob_val = float(lp.get('prob', 0))
+        advice = _bull_advice(prob_val)
+        name = lp.get('name', '') or lp.get('etf', '')
+        bullish_items += (
+            f'<div class="pick" style="flex-direction:column;align-items:stretch;gap:4px;width:100%">'
+            f'<div style="display:flex;align-items:center;gap:8px">'
+            f'<span class="pick-code">{esc(lp.get("code", ""))}</span>'
+            f'<span class="pick-name">{esc(name)}</span>'
+            f'<span class="pick-w" style="margin-left:auto">P(涨){prob_val:.1f}%</span>'
+            f'</div>'
+            f'<div style="display:flex;justify-content:space-between;gap:8px;font-size:0.72rem;color:var(--muted)">'
+            f'<span>板块: {esc(lp.get("sector", ""))}</span>'
+            f'<span>{esc(advice)}</span>'
+            f'</div>'
+            f'</div>\n'
+        )
 
-    # 趋势标签
-    trend = trend_tag(d['trend'])
-    # 置信度
-    conf = esc(d.get('confidence', ''))
-    # 信号
-    bull = d.get('bull_signals', 0)
-    bear = d.get('bear_signals', 0)
-    sent = d.get('sentiment_score', 0)
-    # ETF 选择卡片（含交叉验证）
-    picks_html = ""
+    # ── 看空预警：Logit 预测 P(涨) 最低（即 P(跌) 最高）的 3 个 ──
+    top3_bearish = sorted(
+        logit_preds, key=lambda x: float(x.get('prob', 0))
+    )[:3]
+    bearish_items = ""
+    for lp in top3_bearish:
+        prob_val = float(lp.get('prob', 0))
+        bear_prob = round(100 - prob_val, 1)
+        advice = _bear_advice(bear_prob)
+        name = lp.get('name', '') or lp.get('etf', '')
+        bearish_items += (
+            f'<div class="pick" style="flex-direction:column;align-items:stretch;gap:4px;width:100%">'
+            f'<div style="display:flex;align-items:center;gap:8px">'
+            f'<span class="pick-code">{esc(lp.get("code", ""))}</span>'
+            f'<span class="pick-name">{esc(name)}</span>'
+            f'<span class="pick-w" style="margin-left:auto;background:var(--accent2);color:#fff">P(跌){bear_prob:.1f}%</span>'
+            f'</div>'
+            f'<div style="display:flex;justify-content:space-between;gap:8px;font-size:0.72rem;color:var(--muted)">'
+            f'<span>板块: {esc(lp.get("sector", ""))}</span>'
+            f'<span>{esc(advice)}</span>'
+            f'</div>'
+            f'</div>\n'
+        )
+
+    # ── 规则模型推荐（作为对比参考） ──
+    rule_picks_html = ""
     for p in d['picks']:
         w_pct = int(p['weight'] * 100)
-        # 交叉验证：检查Logit预测
         lp = logit_lookup.get(p['name'], {})
         logit_dir = lp.get('direction', '')
         logit_prob = lp.get('prob', '')
-        warning_tag = ''
-        if logit_dir == '跌' and float(logit_prob) < 45:  # prob_up < 45% => bearish > 55%
-            warning_tag = f' <span class="tag t-bear" style="margin-left:6px">⚠ 计量分歧</span>'
-        logit_info = f'<span class="pick-logit">Logit:{esc(logit_dir)}({logit_prob}%)</span>'
-        picks_html += f'<div class="pick"><span class="pick-code">{esc(p["code"])}</span><span class="pick-name">{esc(p["name"])}<span class="pick-score">评分{p["score"]:.2f}</span></span><span class="pick-w">{w_pct}%</span>{logit_info}{warning_tag}</div>\n'
+        rule_picks_html += (
+            f'<div class="pick">'
+            f'<span class="pick-code">{esc(p["code"])}</span>'
+            f'<span class="pick-name">{esc(p["name"])}<span class="pick-score">评分{p["score"]:.2f}</span></span>'
+            f'<span class="pick-w">{w_pct}%</span>'
+            f'<span class="pick-logit">Logit:{esc(logit_dir)}({logit_prob}%)</span>'
+            f'</div>\n'
+        )
 
-    # 理由
+    # 趋势标签与信号
+    trend = trend_tag(d['trend'])
+    conf = esc(d.get('confidence', ''))
+    bull = d.get('bull_signals', 0)
+    bear = d.get('bear_signals', 0)
+    sent = d.get('sentiment_score', 0)
+    # 理由与热点板块
     reason = esc(d.get('reason', ''))
-    # 热点板块
     sectors = d.get('hot_sectors', [])
     sectors_str = ', '.join(f'{esc(s_["name"])}({s_["count"]})' for s_ in sectors)
-
-    decision_html = f"""<div class="decision">
-  <div class="dec-head">
-    <div>
-      {trend}
-      <span class="conf-pill" style="margin-left:8px">置信度 {conf}</span>
-    </div>
-    <div style="font-size:0.78rem;color:var(--muted)">基于 {esc(date)} 四大报 + 前日行情</div>
-  </div>
-  <div class="sig-bar">
-    <span><span class="dot bull"></span>多头信号: {bull}</span>
-    <span><span class="dot bear"></span>空头信号: {bear}</span>
-    <span style="color:var(--gold)">情绪分: {sent}</span>
-  </div>
-  <div class="picks">
-{picks_html}  </div>
-  <div class="reason">{reason}</div>
-  <div style="margin-top:12px;font-size:0.78rem;color:var(--muted)"><strong style="color:var(--accent)">报纸热点:</strong> {sectors_str}</div>
-</div>"""
 
     # ETF 绩效表
     perf = d.get('etf_performance', [])
@@ -1003,74 +1042,27 @@ def gen_recommendation(model_data, econ_data):
   </table>
 </div>"""
 
-    # 预警关注区域：Logit预测看跌概率最高的3个ETF
-    warning_rows = ""
-    for wp in top3_warnings:
-        prob_val = float(wp.get('prob', '50'))
-        bear_prob = round(100 - prob_val, 1)
-        warning_rows += (
-            f'<tr>'
-            f'<td>{esc(wp.get("etf", ""))}</td>'
-            f'<td>{esc(wp.get("sector", ""))}</td>'
-            f'<td class="down">{prob_val}%</td>'
-            f'<td class="down">{bear_prob}%</td>'
-            f'<td class="down">{esc(wp.get("direction", ""))}</td>'
-            f'</tr>\n'
-        )
-
-    warning_html = f"""<div class="card" style="border-color:var(--accent2);border-width:1px">
-  <div class="card-title" style="color:var(--accent2)">预警关注 · Logit看跌概率最高</div>
-  <table>
-    <thead><tr><th>ETF</th><th>板块</th><th>P(涨)</th><th>P(跌)</th><th>方向</th></tr></thead>
-    <tbody>
-{warning_rows}    </tbody>
-  </table>
+    # 看好板块卡片：Logit 预测 P(涨) 最高的 3 个（按概率从高到低）
+    bullish_html = f"""<div class="card" style="border-color:var(--green);border-width:1.5px">
+  <div class="card-title" style="color:var(--green)">看好板块 · Logit P(涨) 最高</div>
+  <div class="picks" style="flex-direction:column">
+{bullish_items}  </div>
 </div>"""
 
-    # ── 好看/看空双列布局 ──
-    # 好看板块：规则推荐的3只ETF
-    bullish_picks = ""
-    for p in d['picks']:
-        w_pct = int(p['weight'] * 100)
-        lp = logit_lookup.get(p['name'], {})
-        logit_dir = lp.get('direction', '')
-        logit_prob = lp.get('prob', '')
-        warning_tag = ''
-        if logit_dir == '跌' and float(logit_prob) < 45:
-            warning_tag = f' <span class="tag t-bear" style="margin-left:4px;font-size:0.7rem">⚠分歧</span>'
-        bullish_picks += (
-            f'<div class="pick">'
-            f'<span class="pick-code">{esc(p["code"])}</span>'
-            f'<span class="pick-name">{esc(p["name"])}<span class="pick-score">评分{p["score"]:.2f}</span></span>'
-            f'<span class="pick-w">{w_pct}%</span>'
-            f'{warning_tag}'
-            f'</div>\n'
-        )
+    # 看空预警卡片：Logit 预测 P(跌) 最高的 3 个（即 P(涨) 最低）
+    bearish_html = f"""<div class="card" style="border-color:var(--accent2);border-width:1.5px">
+  <div class="card-title" style="color:var(--accent2)">看空预警 · Logit P(跌) 最高</div>
+  <div class="picks" style="flex-direction:column">
+{bearish_items}  </div>
+</div>"""
 
-    bullish_html = f"""<div class="card" style="border-color:var(--green);border-width:1.5px">
-  <div class="card-title" style="color:var(--green)">看好板块</div>
-  <div class="picks">{bullish_picks}</div>
+    # 规则模型推荐（作为对比参考，置于看好板块下方）
+    rule_compare_html = f"""<div class="card">
+  <div class="card-title">规则模型推荐（对比参考）</div>
+  <div class="picks">
+{rule_picks_html}  </div>
   <div class="reason" style="margin-top:8px">{reason}</div>
   <div style="margin-top:8px;font-size:0.75rem;color:var(--muted)"><strong style="color:var(--accent)">报纸热点:</strong> {sectors_str}</div>
-</div>"""
-
-    # 看空板块：Logit预测看跌概率最高的3个ETF
-    bearish_picks = ""
-    for wp in top3_warnings:
-        prob_val = float(wp.get('prob', '50'))
-        bear_prob = round(100 - prob_val, 1)
-        bearish_picks += (
-            f'<div class="pick">'
-            f'<span class="pick-code">{esc(wp.get("code", ""))}</span>'
-            f'<span class="pick-name">{esc(wp.get("etf", ""))}</span>'
-            f'<span class="pick-w down" style="background:var(--accent2)">跌{bear_prob}%</span>'
-            f'</div>\n'
-        )
-
-    bearish_html = f"""<div class="card" style="border-color:var(--accent2);border-width:1.5px">
-  <div class="card-title" style="color:var(--accent2)">看空预警</div>
-  <div class="picks">{bearish_picks}</div>
-  <div style="margin-top:8px;font-size:0.75rem;color:var(--muted)">基于Logit模型P(跌)最高的3个板块</div>
 </div>"""
 
     # 趋势+信号概要
@@ -1089,6 +1081,7 @@ def gen_recommendation(model_data, econ_data):
 {bullish_html}
 {bearish_html}
 </div>
+{rule_compare_html}
 {perf_html}"""
 
 
