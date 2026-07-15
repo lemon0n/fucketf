@@ -398,6 +398,8 @@ def run_model():
     hs300_cum = round((hs300_capital / INITIAL_CAPITAL - 1) * 100, 2)
     alpha_cum = round(cum_return - hs300_cum, 2)
     win_rate = round(wins / total_trades * 100, 2) if total_trades else 0.0
+    avg_win = round(total_profit / wins, 4) if wins > 0 else 0.0
+    avg_loss = round(total_loss / losses, 4) if losses > 0 else 0.0
     if total_loss > 0:
         profit_loss_ratio = round(total_profit / total_loss, 2)
     elif total_profit > 0:
@@ -415,20 +417,25 @@ def run_model():
                                    etf_data, newspapers, experiences)
 
     summary = {
+        'report_date': latest_dec['date'],
         'cumulative_return': cum_return,
+        'hs300_return': hs300_cum,
         'hs300_cumulative_return': hs300_cum,
         'alpha': alpha_cum,
         'win_rate': win_rate,
         'profit_loss_ratio': profit_loss_ratio,
         'trading_days': len(all_daily),
+        'total_trades': total_trades,
         'experience_count': len(experiences),
         'etf_avg_performance': etf_avg,
         'final_capital': round(capital, 2),
-        'total_trades': total_trades,
-        'wins': wins,
-        'losses': losses,
         'initial_capital': INITIAL_CAPITAL,
         'commission_rate': COMMISSION_RATE,
+        'wins': wins,
+        'losses': losses,
+        'avg_profit': avg_win,
+        'avg_loss': avg_loss,
+        'start_date': all_daily[0]['date'] if all_daily else None,
     }
 
     sp = latest_dec['sector_performance']
