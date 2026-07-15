@@ -156,42 +156,42 @@
     "lasso_variable_selection": [
       {
         "feature": "bullish_count",
-        "coef": -0.626593,
+        "coef": -0.626794,
         "selected": true
       },
       {
         "feature": "bearish_count",
-        "coef": 0.303293,
+        "coef": 0.303378,
         "selected": true
       },
       {
         "feature": "sentiment_score",
-        "coef": 0.257151,
+        "coef": 0.257276,
         "selected": true
       },
       {
         "feature": "prev_intraday_return",
-        "coef": -0.109274,
+        "coef": -0.109286,
         "selected": true
       },
       {
         "feature": "prev_change_pct",
-        "coef": -0.064436,
+        "coef": -0.064435,
         "selected": true
       },
       {
         "feature": "prev_volume_ratio",
-        "coef": -0.037519,
+        "coef": -0.037525,
         "selected": true
       },
       {
         "feature": "sector_mention_count",
-        "coef": 0.017306,
+        "coef": 0.017299,
         "selected": true
       },
       {
         "feature": "sector_mentioned",
-        "coef": 0.016372,
+        "coef": 0.016405,
         "selected": true
       }
     ],
@@ -206,8 +206,8 @@
       "sector_mentioned"
     ],
     "dropped_features": [],
-    "lasso_cv_C": 1291.549665,
-    "lasso_selection_C": 430.516555,
+    "lasso_cv_C": 10000.0,
+    "lasso_selection_C": 3333.333333,
     "latest_predictions": [
       {
         "etf_code": "512760",
