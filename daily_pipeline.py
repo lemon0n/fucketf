@@ -31,9 +31,28 @@ def run_script(script_name, timeout=300):
         return False
     return True
 
+def ensure_dependencies():
+    """检查并安装必要的Python依赖"""
+    missing = []
+    for mod in ['requests', 'pandas', 'numpy', 'statsmodels', 'sklearn']:
+        try:
+            __import__(mod)
+        except ImportError:
+            missing.append(mod)
+    if missing:
+        log(f'安装缺失依赖: {", ".join(missing)}')
+        subprocess.run(
+            [sys.executable, '-m', 'pip', 'install'] + missing + ['--break-system-packages', '-q'],
+            capture_output=True, text=True, timeout=120
+        )
+        log('依赖安装完成')
+
 def main():
     start = datetime.now()
     log(f'ETF预测模型每日流水线启动 — {start.strftime("%Y-%m-%d %H:%M")}')
+
+    # Step 0: 检查依赖
+    ensure_dependencies()
 
     # Step 1: 增量更新ETF数据
     log('=== Step 1: ETF数据增量更新 ===')
