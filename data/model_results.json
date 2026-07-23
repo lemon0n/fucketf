@@ -1,165 +1,173 @@
 {
   "summary": {
-    "report_date": "2026-07-23",
-    "cumulative_return": -10.96,
-    "hs300_return": 8.07,
-    "hs300_cumulative_return": 8.07,
-    "alpha": -19.03,
-    "win_rate": 51.22,
-    "profit_loss_ratio": 0.88,
-    "trading_days": 131,
-    "total_trades": 123,
-    "experience_count": 123,
-    "etf_avg_performance": 4.54,
-    "final_capital": 890399.97,
+    "report_date": "2026-07-24",
+    "cumulative_return": -12.7,
+    "hs300_return": 8.36,
+    "hs300_cumulative_return": 8.36,
+    "alpha": -21.06,
+    "win_rate": 50.81,
+    "profit_loss_ratio": 0.86,
+    "trading_days": 132,
+    "total_trades": 124,
+    "experience_count": 124,
+    "etf_avg_performance": 3.78,
+    "final_capital": 873007.81,
     "initial_capital": 1000000.0,
     "commission_rate": 5e-05,
     "wins": 63,
-    "losses": 60,
+    "losses": 61,
     "avg_profit": 0.0112,
-    "avg_loss": 0.0133,
+    "avg_loss": 0.0135,
     "start_date": "2026-01-06"
   },
   "latest_decision": {
-    "date": "2026-07-23",
+    "date": "2026-07-24",
     "trend": "bullish",
     "decision": "buy",
     "etf_selection": [
       {
-        "code": "512760",
-        "name": "半导体ETF",
-        "sector": "半导体",
-        "weight": 0.3876,
-        "total_score": 1.2673
+        "code": "515120",
+        "name": "创新药ETF",
+        "sector": "医药",
+        "weight": 0.3544,
+        "total_score": 2.2777
       },
       {
-        "code": "518880",
-        "name": "黄金ETF",
-        "sector": "黄金",
-        "weight": 0.3809,
-        "total_score": 1.2453
+        "code": "510150",
+        "name": "消费ETF",
+        "sector": "消费",
+        "weight": 0.3435,
+        "total_score": 2.2079
       },
       {
-        "code": "159592",
-        "name": "卫星产业ETF",
-        "sector": "商业航天",
-        "weight": 0.2315,
-        "total_score": 0.7569
+        "code": "516160",
+        "name": "新能源ETF",
+        "sector": "新能源",
+        "weight": 0.3021,
+        "total_score": 1.9417
       }
     ],
     "weight": 1.0,
-    "reason": "趋势bullish，首选半导体ETF(总分1.27)，情绪热点(0.07,3倍权重)、动量(0.19)、量比(0.13)、均值回归(0.54)、经验(0.19)",
+    "reason": "趋势bullish，首选创新药ETF(总分2.28)，情绪热点(0.53,3倍权重)、动量(-0.20)、量比(0.42)、均值回归(0.37)、经验(0.12)",
     "sentiment": {
-      "score": 0.25,
-      "bullish_count": 2,
-      "bearish_count": 1,
+      "score": 0.75,
+      "bullish_count": 3,
+      "bearish_count": 0,
       "hot_sectors": [
         {
+          "sector": "消费",
+          "count": 3
+        },
+        {
           "sector": "AI算力",
+          "count": 2
+        },
+        {
+          "sector": "医药",
           "count": 1
         },
         {
-          "sector": "商业航天",
+          "sector": "新能源",
           "count": 1
         },
         {
-          "sector": "军工",
+          "sector": "券商",
           "count": 1
         }
       ],
-      "summary": "四大报共16条标题(看多2/看空1)，情绪分0.25，热点板块: AI算力, 商业航天, 军工"
+      "summary": "四大报共16条标题(看多3/看空0)，情绪分0.75，热点板块: 消费, AI算力, 医药"
     },
     "sector_performance": {
-      "date": "2026-07-22",
-      "prev_date": "2026-07-21",
+      "date": "2026-07-23",
+      "prev_date": "2026-07-22",
       "top5": [
         {
-          "code": "518880",
-          "name": "黄金ETF",
-          "sector": "黄金",
-          "change_pct": 1.0864,
-          "close": 8.56,
-          "volume": 6494273
-        },
-        {
-          "code": "512760",
-          "name": "半导体ETF",
-          "sector": "半导体",
-          "change_pct": 0.5632,
-          "close": 1.25,
-          "volume": 7131238
-        },
-        {
-          "code": "510150",
-          "name": "消费ETF",
-          "sector": "消费",
-          "change_pct": 0.202,
-          "close": 0.496,
-          "volume": 1483481
-        },
-        {
-          "code": "515120",
-          "name": "创新药ETF",
-          "sector": "医药",
-          "change_pct": 0.152,
-          "close": 0.659,
-          "volume": 16092582
-        },
-        {
-          "code": "159592",
-          "name": "卫星产业ETF",
-          "sector": "商业航天",
-          "change_pct": -0.1462,
-          "close": 1.366,
-          "volume": 173249
-        }
-      ],
-      "bottom5": [
-        {
-          "code": "515980",
-          "name": "人工智能ETF",
-          "sector": "AI算力",
-          "change_pct": -0.954,
-          "close": 1.142,
-          "volume": 3838102
-        },
-        {
-          "code": "512000",
-          "name": "券商ETF",
-          "sector": "券商",
-          "change_pct": -0.7463,
-          "close": 0.532,
-          "volume": 16975060
+          "code": "516160",
+          "name": "新能源ETF",
+          "sector": "新能源",
+          "change_pct": 4.1039,
+          "close": 2.486,
+          "volume": 948154
         },
         {
           "code": "512660",
           "name": "军工ETF",
           "sector": "军工",
-          "change_pct": -0.6422,
-          "close": 1.083,
-          "volume": 3517393
+          "change_pct": 1.662,
+          "close": 1.101,
+          "volume": 2726827
         },
         {
-          "code": "516160",
-          "name": "新能源ETF",
-          "sector": "新能源",
-          "change_pct": -0.6242,
-          "close": 2.388,
-          "volume": 970555
+          "code": "512000",
+          "name": "券商ETF",
+          "sector": "券商",
+          "change_pct": 1.3158,
+          "close": 0.539,
+          "volume": 19082721
+        },
+        {
+          "code": "159592",
+          "name": "卫星产业ETF",
+          "sector": "商业航天",
+          "change_pct": 0.8053,
+          "close": 1.377,
+          "volume": 166698
         },
         {
           "code": "510300",
           "name": "沪深300ETF",
           "sector": "宽基",
-          "change_pct": -0.4596,
-          "close": 4.765,
-          "volume": 12650379
+          "change_pct": 0.4617,
+          "close": 4.787,
+          "volume": 5811786
         }
       ],
-      "hs300": -0.4596,
-      "avg": -0.1771
+      "bottom5": [
+        {
+          "code": "512760",
+          "name": "半导体ETF",
+          "sector": "半导体",
+          "change_pct": -4.08,
+          "close": 1.199,
+          "volume": 5016731
+        },
+        {
+          "code": "159995",
+          "name": "芯片ETF",
+          "sector": "芯片",
+          "change_pct": -3.811,
+          "close": 1.262,
+          "volume": 8215664
+        },
+        {
+          "code": "515980",
+          "name": "人工智能ETF",
+          "sector": "AI算力",
+          "change_pct": -2.4518,
+          "close": 1.114,
+          "volume": 2753848
+        },
+        {
+          "code": "515120",
+          "name": "创新药ETF",
+          "sector": "医药",
+          "change_pct": -0.607,
+          "close": 0.655,
+          "volume": 12150577
+        },
+        {
+          "code": "510150",
+          "name": "消费ETF",
+          "sector": "消费",
+          "change_pct": -0.2016,
+          "close": 0.495,
+          "volume": 1284791
+        }
+      ],
+      "hs300": 0.4617,
+      "avg": -0.2548
     },
-    "avg_score": 0.5939
+    "avg_score": 0.9605
   },
   "experiences": [
     {
@@ -1883,6 +1891,20 @@
       "net_return": 0.006067,
       "result": "win",
       "weight": 0.431
+    },
+    {
+      "date": "2026-07-23",
+      "etf_code": "512760",
+      "etf_name": "半导体ETF",
+      "sector": "半导体",
+      "trend": "bullish",
+      "decision": "buy",
+      "total_score": 1.2673,
+      "sentiment_score": 0.25,
+      "intraday_return": -4.9921,
+      "net_return": -0.050021,
+      "result": "loss",
+      "weight": 0.3876
     }
   ],
   "all_daily_summaries": [
@@ -3659,32 +3681,46 @@
       "hs300": 0.3158,
       "alpha": 0.3532,
       "sentiment_score": 0.8
+    },
+    {
+      "date": "2026-07-23",
+      "trend": "bullish",
+      "decision": "buy",
+      "etf_names": [
+        "半导体ETF",
+        "黄金ETF",
+        "卫星产业ETF"
+      ],
+      "return": -1.9533,
+      "hs300": 0.2723,
+      "alpha": -2.2256,
+      "sentiment_score": 0.25
     }
   ],
   "latest_newspapers": {
     "中国证券报": [
-      "海关总署：持续创新监管优化服务",
-      "硬科技企业密集登陆 港股IPO市场活力持续释放",
-      "商业航天企业多元布局 探索全链条发展模式",
-      "“竖店”崛起 剧组扎堆 银行如何破局微短剧“贫血”怪圈"
+      "硬件“吃饱”应用“挨饿”，公募为何集体押注AI硬件？",
+      "银行日均Token调用量激增 背后的“新基建”棋局",
+      "债基基金经理大秀“真功夫” 找准周期位置才是制胜关键",
+      "商务部：加快修订 外资并购境内企业规定"
     ],
     "上海证券报": [
-      "A股电力设备公司中标喜讯不断",
-      "日元汇率跌至近40年谷底 干预预期升温",
-      "稳市场聚合力 证监会系列座谈会释放四大信号",
-      "上海“eVTOL五小龙”同台秀肌肉 业内共探适航与商业化路径"
+      "江波龙、澜起科技领衔回购潮！多家公司密集出手",
+      "新机潮叠加AI机遇 消费电子产业链全速备货",
+      "头部险资机构拥抱硬科技 全行业转型仍需多方合力",
+      "拼产品，拼场景，拼渠道 食品饮料公司上半年业绩可圈可点"
     ],
     "证券时报": [
-      "全域联动多点开花 数字人民币迎来新一轮应用落地高峰",
-      "国资央企上半年实现利润1.4万亿元 将制定人工智能赋能科学研究方案",
-      "实探MLCC产业链：订单大增产能拉满 上游原料扩产竞速",
-      "超节点建设周期开启 国产光互连生态加速结盟"
+      "全球燃机行业景气度高企 产业链公司出海提速",
+      "促消费有了“路线图” 券商首席经济学家支招稳就业增收入",
+      "锚定十项重点任务 中医药振兴发展有望迈上新台阶",
+      "海上风电步入高质量增长期 融资资金重点加仓9只概念股"
     ],
     "证券日报": [
-      "公私募机构网下“打新”长鑫科技获配总额超122亿元",
-      "今年新增专项债发行进度过半 三季度进入供给高峰期",
-      "暑期档电影票房已超48亿元",
-      "多家上市银行成立市值管理小组"
+      "年内科创债发行总规模超1万亿元 专家表示，科创债发行火热是政策引导、企业融资需求释放与市场配置偏好共振的结果",
+      "从“卖电”到“卖调度” 新能源汽车充电行业转型正当时",
+      "6月份实际使用外资同比增长15.1%",
+      "公募二季度持仓揭晓： 贵州茅台近十年首次退出重仓股前十"
     ]
   }
 }
