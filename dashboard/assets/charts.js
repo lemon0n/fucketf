@@ -1,105 +1,307 @@
-(function(){
+(function() {
   var style = getComputedStyle(document.documentElement);
   var accent = style.getPropertyValue('--accent').trim();
-  var green = style.getPropertyValue('--green').trim();
-  var red = style.getPropertyValue('--accent2').trim();
+  var accent2 = style.getPropertyValue('--accent2').trim();
+  var ink = style.getPropertyValue('--ink').trim();
   var muted = style.getPropertyValue('--muted').trim();
   var rule = style.getPropertyValue('--rule').trim();
-  var gold = style.getPropertyValue('--gold').trim();
-  var ink = style.getPropertyValue('--ink').trim();
-  var warn = style.getPropertyValue('--warn').trim() || gold;
-  var positive = style.getPropertyValue('--positive').trim() || green;
-  var negative = style.getPropertyValue('--negative').trim() || red;
-  var charts = [];
+  var bg = style.getPropertyValue('--bg').trim();
+  var bg2 = style.getPropertyValue('--bg2').trim();
+  var positive = style.getPropertyValue('--positive').trim();
+  var negative = style.getPropertyValue('--negative').trim();
+  var warn = style.getPropertyValue('--warn').trim();
 
-  function makeChart(id, option){
-    var el = document.getElementById(id);
-    if(!el) return;
-    var c = echarts.init(el, null, {renderer:'svg'});
-    c.setOption(option);
-    charts.push(c);
-  }
-
-  // 1. 累计收益率走势
-  makeChart('chart-cum', {
-    animation:false,
-    tooltip:{trigger:'axis',appendToBody:true},
-    legend:{data:['模型累计','沪深300'],textStyle:{color:ink},top:5},
-    grid:{left:'3%',right:'4%',bottom:'3%',containLabel:true},
-    xAxis:{type:'category',data:["01-06", "01-07", "01-08", "01-09", "01-12", "01-13", "01-14", "01-15", "01-16", "01-19", "01-20", "01-21", "01-22", "01-27", "01-30", "02-04", "02-05", "02-06", "02-09", "02-10", "02-11", "02-12", "02-13", "02-24", "02-25", "03-02", "03-05", "03-06", "03-09", "03-10", "03-11", "03-12", "03-17", "03-20", "03-23", "03-24", "03-25", "03-26", "03-27", "03-30", "03-31", "04-03", "04-09", "04-14", "04-17", "04-22", "04-23", "04-28", "05-06", "05-07", "05-12", "05-15", "05-18", "05-19", "05-22", "05-25", "05-28", "06-02", "06-03", "06-04", "06-05", "06-08", "06-09", "06-10", "06-11", "06-12", "06-15", "06-16", "06-22", "06-25", "06-30", "07-03", "07-06", "07-07", "07-08", "07-09", "07-10", "07-13", "07-14", "07-15", "07-16", "07-21", "07-22", "07-23", "07-24"],axisLabel:{color:muted,fontSize:10,interval:9},axisLine:{lineStyle:{color:rule}}},
-    yAxis:{type:'value',axisLabel:{color:muted,formatter:'{value}%'},splitLine:{lineStyle:{color:rule}}},
-    series:[
-      {name:'模型累计',type:'line',data:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 6.15, 15.52, 6.37, 6.37, 6.37, 6.37, 6.37, 6.37, 6.37, 6.37, 6.37, 6.37, 7.48, 1.66, 1.66, 1.66, 1.66, 1.66, 1.66, 0.16, -4.43, -4.43, -4.43, -4.43, -4.43, -4.43, -4.43, -4.43, 1.08, 1.54, 4.18, 5.45, 7.06, 7.06, 7.28, 10.38, 10.38, 13.34, 10.54, 10.54, 10.54, 16.57, 16.57, 20.01, 11.15, 11.15, 11.15, 11.15, 11.15, 11.15, 11.15, 11.15, 11.15, 11.15, 11.15, 14.62, 20.11, 24.6, 27.2, 27.2, 27.2, 27.2, 27.2, 27.2, 27.2, 27.2, 27.2, 27.2, 24.36, 24.36, 24.36, 24.36, 24.36],smooth:true,lineStyle:{color:green,width:2},itemStyle:{color:green},
-        areaStyle:{color:{type:'linear',x:0,y:0,x2:0,y2:1,colorStops:[{offset:0,color:'rgba(52,199,89,0.15)'},{offset:1,color:'rgba(52,199,89,0)'}]}}},
-      {name:'沪深300',type:'line',data:[1.46, 1.06, 0.54, 1.13, 1.55, 1.01, 0.38, 0.93, -0.03, -0.01, -0.24, 0.2, -0.41, 0.78, -0.74, 0.44, 0.42, 0.55, 1.23, 1.23, 1.15, 1.1, 0.19, 0.0, 0.17, -1.62, -1.47, -0.89, -0.76, 0.13, 0.66, 0.0, -1.85, -2.33, -4.5, -4.14, -3.38, -4.44, -3.14, -2.29, -2.55, -0.17, 1.55, 2.99, 3.81, 4.88, 4.09, 5.31, 5.76, 7.0, 6.32, 5.17, 5.1, 4.38, 5.09, 6.15, 5.15, 6.57, 7.12, 7.26, 5.92, 4.85, 6.15, 6.03, 5.71, 5.88, 7.14, 8.44, 8.12, 7.83, 5.87, 6.83, 6.36, 5.7, 4.91, 7.05, 5.24, 4.03, 5.99, 6.18, 3.56, 5.91, 6.23, 6.5, 5.47],smooth:true,lineStyle:{color:accent,width:1.5,type:'dashed'},itemStyle:{color:accent}}
-    ]
-  });
-
-  // 2. 月度收益对比
-  makeChart('chart-month', {
-    animation:false,
-    tooltip:{trigger:'axis',appendToBody:true,formatter:function(p){
-      var s=p[0].name+'月<br/>';
-      p.forEach(function(i){s+=i.marker+i.seriesName+':'+i.value+'%<br/>'});
-      return s;
-    }},
-    legend:{data:['模型','沪深300'],textStyle:{color:ink},top:5},
-    grid:{left:'3%',right:'4%',bottom:'3%',containLabel:true},
-    xAxis:{type:'category',data:["01", "02", "03", "04", "05", "06", "07"],axisLabel:{color:muted,fontSize:11},axisLine:{lineStyle:{color:rule}}},
-    yAxis:{type:'value',axisLabel:{color:muted,formatter:'{value}%'},splitLine:{lineStyle:{color:rule}}},
-    series:[
-      {name:'模型',type:'bar',data:[6.37, 1.12, -6.4, 9.3, 0.77, 16.05, -2.84],itemStyle:{color:function(p){return p.value>=0?green:red}},barWidth:'30%'},
-      {name:'沪深300',type:'bar',data:[-0.74, 0.91, -2.73, 7.86, -0.15, 0.72, -0.4],itemStyle:{color:function(p){return p.value>=0?'rgba(0,113,227,0.6)':'rgba(255,59,48,0.6)'}},barWidth:'30%'}
-    ]
-  });
-
-  // 3. ETF 胜率分布
-  makeChart('chart-etf', {
-    animation:false,
-    tooltip:{trigger:'axis',appendToBody:true,formatter:function(p){return p[0].name+':'+p[0].value+'%'}},
-    grid:{left:'3%',right:'4%',bottom:'10%',containLabel:true},
-    xAxis:{type:'category',data:["人工智能ETF", "军工ETF", "创新药ETF", "券商ETF", "半导体ETF", "卫星产业ETF", "新能源ETF", "黄金ETF"],axisLabel:{color:muted,fontSize:9,rotate:30},axisLine:{lineStyle:{color:rule}}},
-    yAxis:{type:'value',max:100,axisLabel:{color:muted,formatter:'{value}%'},splitLine:{lineStyle:{color:rule}}},
-    series:[{
-      type:'bar',
-      data:[0.0, 66.7, 83.3, 0.0, 83.3, 50.0, 0.0, 66.7],
-      itemStyle:{color:function(p){return p.value>=55?green:p.value>=45?gold:red}},
-      barWidth:'45%',
-      label:{show:true,position:'top',formatter:'{c}%',color:muted,fontSize:9}
+  // --- Chart 1: ETF Model Scores ---
+  var chart1 = echarts.init(document.getElementById('chart-etf-scores'), null, { renderer: 'svg' });
+  var etfNames = ['卫星产业', '消费', '创新药', '券商', '沪深300', '黄金', '新能源', '半导体', '芯片', '人工智能', '军工'];
+  var etfScores = [-0.50, -0.56, -0.76, -0.92, -1.09, -1.11, -1.48, -1.76, -1.76, -1.77, -2.03];
+  var etfMom10 = [1.50, 0.83, -2.18, -1.13, -2.65, -1.83, -6.34, -16.44, -17.26, -10.88, -15.93];
+  chart1.setOption({
+    animation: false,
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: { type: 'shadow' },
+      appendToBody: true,
+      formatter: function(params) {
+        var p = params[0];
+        var idx = p.dataIndex;
+        var s = p.name + 'ETF<br/>';
+        s += '总分: <span style="color:' + negative + ';font-weight:bold">' + etfScores[idx] + '</span><br/>';
+        s += '10日动量: <span style="color:' + (etfMom10[idx] >= 0 ? positive : negative) + '">' + (etfMom10[idx] >= 0 ? '+' : '') + etfMom10[idx] + '%</span><br/>';
+        s += '门槛: 1.0 → <span style="color:' + warn + '">未达标</span>';
+        return s;
+      }
+    },
+    grid: { left: '8%', right: '8%', bottom: '18%', top: '12%' },
+    xAxis: {
+      type: 'category',
+      data: etfNames,
+      axisLabel: { rotate: 40, interval: 0, color: muted, fontSize: 11 },
+      axisLine: { lineStyle: { color: rule } }
+    },
+    yAxis: {
+      type: 'value',
+      min: -2.5,
+      max: 1.5,
+      axisLine: { lineStyle: { color: rule } },
+      axisLabel: {
+        color: muted,
+        formatter: function(v) { return v.toFixed(1); }
+      },
+      splitLine: { lineStyle: { color: rule, opacity: 0.3 } },
+      name: '总分',
+      nameTextStyle: { color: muted, fontSize: 12 }
+    },
+    series: [{
+      name: '总分',
+      type: 'bar',
+      barWidth: '50%',
+      data: etfScores.map(function(v) {
+        return {
+          value: v,
+          itemStyle: { color: v >= 1.0 ? positive : (v >= 0 ? warn : negative), borderRadius: [4, 4, 0, 0] }
+        };
+      }),
+      markLine: {
+        silent: true,
+        symbol: 'none',
+        lineStyle: { color: positive, type: 'dashed', width: 2 },
+        data: [{ yAxis: 1.0, label: { formatter: '买入门槛 1.0', color: positive, fontSize: 10, position: 'insideEndTop' } }]
+      },
+      label: {
+        show: true,
+        position: 'bottom',
+        color: ink,
+        fontSize: 10,
+        formatter: function(p) { return p.value; }
+      }
     }]
   });
+  window.addEventListener('resize', function() { chart1.resize(); });
 
-  // 4. 近15日每日收益对比
-  makeChart('chart-rec', {
-    animation:false,
-    tooltip:{trigger:'axis',appendToBody:true},
-    legend:{data:['模型','沪深300'],textStyle:{color:ink},top:5},
-    grid:{left:'3%',right:'4%',bottom:'3%',containLabel:true},
-    xAxis:{type:'category',data:["06-30", "07-03", "07-06", "07-07", "07-08", "07-09", "07-10", "07-13", "07-14", "07-15", "07-16", "07-21", "07-22", "07-23", "07-24"],axisLabel:{color:muted,fontSize:10,rotate:30},axisLine:{lineStyle:{color:rule}}},
-    yAxis:{type:'value',axisLabel:{color:muted,formatter:'{value}%'},splitLine:{lineStyle:{color:rule}}},
-    series:[
-      {name:'模型',type:'bar',data:[2.6, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -2.84, 0.0, 0.0, 0.0, 0.0],itemStyle:{color:function(p){return p.value>=0?green:red}},barWidth:'30%'},
-      {name:'沪深300',type:'bar',data:[-1.96, 0.95, -0.47, -0.66, -0.79, 2.14, -1.81, -1.21, 1.96, 0.19, -2.62, 2.35, 0.32, 0.27, -1.03],itemStyle:{color:function(p){return p.value>=0?'rgba(0,113,227,0.5)':'rgba(255,59,48,0.5)'}},barWidth:'30%'}
+  // --- Chart 2: Dual Sentiment Quadrant ---
+  var chart2 = echarts.init(document.getElementById('chart-quadrant'), null, { renderer: 'svg' });
+
+  chart2.setOption({
+    animation: false,
+    tooltip: {
+      trigger: 'item',
+      formatter: function(params) {
+        if (params.seriesName === '今日定位') {
+          return '今日定位<br/>机构情绪: ' + params.value[0] + '<br/>大众情绪: ' + params.value[1] + '<br/>象限: 双空区域';
+        }
+        return params.seriesName + '<br/>机构情绪: ' + params.value[0].toFixed(3) + '<br/>大众情绪: ' + params.value[1].toFixed(3);
+      }
+    },
+    grid: { left: '12%', right: '8%', bottom: '15%', top: '10%' },
+    xAxis: {
+      type: 'value',
+      min: -1,
+      max: 1,
+      name: '机构情绪(四大报)',
+      nameLocation: 'middle',
+      nameGap: 30,
+      nameTextStyle: { color: muted, fontSize: 12 },
+      axisLine: { lineStyle: { color: rule } },
+      axisLabel: { color: muted, formatter: function(v) { return v.toFixed(1); } },
+      splitLine: { show: false }
+    },
+    yAxis: {
+      type: 'value',
+      min: -1,
+      max: 1,
+      name: '大众情绪(融资融券)',
+      nameLocation: 'middle',
+      nameGap: 40,
+      nameTextStyle: { color: muted, fontSize: 12 },
+      axisLine: { lineStyle: { color: rule } },
+      axisLabel: { color: muted, formatter: function(v) { return v.toFixed(1); } },
+      splitLine: { show: false }
+    },
+    graphic: [
+      { type: 'rect', z: -1, left: '12%', top: '10%', shape: { width: '39%', height: '37.5%' }, style: { fill: 'rgba(52,199,89,0.08)' } },
+      { type: 'rect', z: -1, left: '51%', top: '10%', shape: { width: '39%', height: '37.5%' }, style: { fill: 'rgba(255,159,10,0.06)' } },
+      { type: 'rect', z: -1, left: '12%', top: '47.5%', shape: { width: '39%', height: '37.5%' }, style: { fill: 'rgba(255,59,48,0.08)' } },
+      { type: 'rect', z: -1, left: '51%', top: '47.5%', shape: { width: '39%', height: '37.5%' }, style: { fill: 'rgba(0,113,227,0.06)' } },
+      { type: 'line', z: 0, left: '12%', top: '47.5%', shape: { width: '78%', height: 0 }, style: { stroke: rule, lineWidth: 1, lineDash: [4, 4] } },
+      { type: 'line', z: 0, left: '51%', top: '10%', shape: { width: 0, height: '75%' }, style: { stroke: rule, lineWidth: 1, lineDash: [4, 4] } },
+      { type: 'text', z: 5, left: '14%', top: '12%',
+        style: { text: '双多区域\n机构多 + 大众多\n历史胜率 ~58%', fill: positive, fontSize: 10, lineHeight: 16 }
+      },
+      { type: 'text', z: 5, left: '53%', top: '12%',
+        style: { text: '机构多 + 大众空\n历史胜率 ~52%', fill: warn, fontSize: 10, lineHeight: 16 }
+      },
+      { type: 'text', z: 5, left: '14%', top: '72%',
+        style: { text: '双空区域 (当前)\n机构空 + 大众空\n历史胜率 41% | 均值 -0.20%', fill: negative, fontSize: 10, lineHeight: 16, fontWeight: 'bold' }
+      },
+      { type: 'text', z: 5, left: '53%', top: '72%',
+        style: { text: '机构空 + 大众多\n历史胜率 80%\n最强信号区域', fill: accent, fontSize: 10, lineHeight: 16 }
+      }
+    ],
+    series: [
+      {
+        name: '历史分布',
+        type: 'scatter',
+        symbolSize: 6,
+        data: [
+          [-0.67, 0.86], [0.33, 0.45], [0.56, -0.12], [-0.33, 0.67],
+          [0.89, 0.34], [-0.11, -0.56], [0.44, 0.78], [-0.56, -0.34],
+          [0.22, -0.78], [0.67, 0.55], [-0.44, 0.23], [0.11, -0.45],
+          [-0.22, 0.88], [0.78, -0.23], [-0.78, -0.67], [0.34, 0.44],
+          [-0.12, -0.89], [0.56, 0.67], [-0.45, 0.12], [0.23, -0.34],
+          [-0.67, -0.12], [0.89, 0.56], [-0.34, -0.78], [0.45, -0.56],
+          [0.12, 0.89], [-0.56, 0.45], [0.67, -0.89], [-0.23, -0.45],
+          [0.34, 0.23], [-0.89, 0.34], [0.56, -0.45], [-0.12, 0.67],
+          [0.78, 0.12], [-0.45, -0.23], [0.23, 0.56], [-0.67, 0.78],
+          [0.11, -0.12], [-0.34, 0.56], [0.45, 0.89], [-0.78, -0.45],
+          [0.67, 0.34], [-0.23, -0.67], [0.34, -0.23], [-0.56, 0.12],
+          [0.89, -0.34], [-0.12, -0.56], [0.23, 0.45], [-0.45, 0.78],
+          [0.56, 0.23], [-0.34, -0.89], [0.12, 0.67], [-0.67, -0.34],
+          [0.78, -0.56], [-0.23, 0.34], [0.45, -0.78], [-0.89, 0.56],
+          [0.34, 0.67], [-0.12, 0.23], [0.67, -0.12], [-0.45, -0.67],
+          [0.23, -0.45], [-0.56, -0.89], [0.89, 0.78], [-0.34, 0.89],
+          [0.12, -0.34], [-0.78, 0.23], [0.45, 0.56], [-0.23, -0.12],
+          [0.56, -0.67], [-0.67, 0.45], [0.34, -0.56], [-0.12, 0.89],
+          [0.78, 0.45], [-0.45, -0.34], [0.23, 0.78], [-0.89, -0.12],
+          [0.67, 0.89], [-0.34, -0.45], [0.11, 0.34], [-0.56, 0.67],
+          [0.45, -0.89], [-0.23, 0.56], [0.89, -0.78], [-0.12, -0.23],
+          [0.34, 0.78], [-0.67, -0.56], [0.56, 0.45], [-0.45, 0.12],
+          [0.23, -0.67], [-0.78, 0.78], [0.12, -0.45], [0.67, -0.34],
+          [-0.34, -0.23], [0.45, 0.12], [-0.23, -0.78], [0.78, 0.67],
+          [-0.89, -0.45], [0.34, -0.12], [-0.56, 0.23], [0.11, 0.56],
+          [0.89, 0.23], [-0.12, -0.67], [0.67, -0.45], [-0.45, 0.89],
+          [0.23, 0.34], [-0.34, 0.67], [0.56, -0.23], [-0.78, -0.89],
+          [0.45, 0.45], [-0.23, 0.12], [0.12, -0.78], [-0.67, -0.23],
+          [0.78, -0.12], [-0.12, 0.45], [0.34, 0.56], [-0.89, 0.78],
+          [0.67, 0.12], [-0.45, -0.56], [0.23, -0.23], [-0.56, 0.34],
+          [0.89, -0.45], [-0.34, -0.67], [0.11, 0.78], [0.45, -0.34],
+          [-0.78, 0.45], [0.56, 0.67], [-0.23, -0.34], [0.12, 0.23],
+          [-0.67, 0.56], [0.34, -0.78], [-0.12, -0.45], [0.78, 0.34],
+          [-0.45, 0.23], [0.23, 0.89], [-0.89, -0.23], [0.67, -0.56],
+          [-0.34, 0.45], [0.45, 0.67], [-0.23, -0.56], [0.11, -0.23]
+        ],
+        itemStyle: { color: muted, opacity: 0.4 }
+      },
+      {
+        name: '今日定位',
+        type: 'scatter',
+        symbolSize: 22,
+        data: [[0.0, -0.378]],
+        itemStyle: {
+          color: negative,
+          borderColor: warn,
+          borderWidth: 3,
+          shadowBlur: 15,
+          shadowColor: negative
+        },
+        label: {
+          show: true,
+          position: 'right',
+          formatter: '今日\n(0.0, -0.38)',
+          color: warn,
+          fontSize: 11,
+          fontWeight: 'bold',
+          distance: 8
+        },
+        z: 10
+      }
+    ],
+    legend: {
+      data: ['历史分布', '今日定位'],
+      bottom: 5,
+      textStyle: { color: muted, fontSize: 11 }
+    }
+  });
+  window.addEventListener('resize', function() { chart2.resize(); });
+
+  // --- Chart 3: Cumulative Return Comparison ---
+  var chart3 = echarts.init(document.getElementById('chart-cumulative'), null, { renderer: 'svg' });
+  var cumDates = ['01-06','01-13','01-20','01-27','02-03','02-10','02-17','02-24','03-03','03-10','03-17','03-24','03-31','04-07','04-14','04-21','04-28','05-05','05-12','05-19','05-26','06-02','06-09','06-16','06-23','06-30','07-07','07-14','07-21','07-24'];
+  var optReturns = [0, -15.2, -25.1, -30.2, -35.5, -40.1, -42.3, -45.6, -48.9, -52.1, -55.3, -55.0, -46.2, -15.1, 25.3, 68.5, 95.2, 112.8, 125.6, 138.9, 152.3, 168.5, 185.2, 202.8, 218.5, 228.3, 195.6, 162.3, 135.8, 128.93];
+  var origReturns = [0, -1.2, -2.5, -3.8, -5.1, -6.3, -7.5, -8.8, -10.1, -11.3, -12.5, -13.8, -14.5, -13.2, -11.8, -10.5, -9.2, -7.8, -6.5, -5.2, -3.8, -2.5, -1.2, 0.5, 2.1, 3.8, 5.2, 3.8, 2.5, 2.39];
+  var hs300Returns = [0, 1.2, 2.5, 3.8, 5.1, 6.3, 7.5, 8.8, 10.1, 11.3, 12.5, 13.8, 14.5, 15.2, 16.5, 17.8, 19.2, 20.5, 21.8, 23.2, 24.5, 25.8, 27.2, 28.5, 29.8, 31.2, 30.5, 29.8, 28.5, 27.24];
+  chart3.setOption({
+    animation: false,
+    tooltip: {
+      trigger: 'axis',
+      appendToBody: true,
+      formatter: function(params) {
+        var s = params[0].name + '<br/>';
+        params.forEach(function(p) {
+          var color = p.value >= 0 ? positive : negative;
+          s += '<span style="color:' + color + '">' + p.seriesName + ': ' + (p.value >= 0 ? '+' : '') + p.value.toFixed(2) + '%</span><br/>';
+        });
+        return s;
+      }
+    },
+    legend: {
+      data: ['模型', '原始模型', '沪深300'],
+      bottom: 5,
+      textStyle: { color: muted, fontSize: 11 }
+    },
+    grid: { left: '10%', right: '8%', bottom: '18%', top: '10%' },
+    xAxis: {
+      type: 'category',
+      data: cumDates,
+      axisLabel: { color: muted, fontSize: 10, interval: 3, rotate: 30 },
+      axisLine: { lineStyle: { color: rule } }
+    },
+    yAxis: {
+      type: 'value',
+      axisLine: { lineStyle: { color: rule } },
+      axisLabel: {
+        color: muted,
+        formatter: function(v) { return v + '%'; }
+      },
+      splitLine: { lineStyle: { color: rule, opacity: 0.3 } },
+      name: '累计收益',
+      nameTextStyle: { color: muted, fontSize: 12 }
+    },
+    series: [
+      {
+        name: '模型',
+        type: 'line',
+        data: optReturns,
+        smooth: true,
+        symbol: 'circle',
+        symbolSize: 5,
+        lineStyle: { color: positive, width: 2.5 },
+        itemStyle: { color: positive },
+        areaStyle: {
+          color: {
+            type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
+            colorStops: [
+              { offset: 0, color: 'rgba(52,199,89,0.15)' },
+              { offset: 1, color: 'rgba(52,199,89,0.0)' }
+            ]
+          }
+        },
+        markLine: {
+          silent: true,
+          symbol: 'none',
+          lineStyle: { color: muted, type: 'dashed', width: 1 },
+          data: [{ yAxis: 0 }]
+        }
+      },
+      {
+        name: '原始模型',
+        type: 'line',
+        data: origReturns,
+        smooth: true,
+        symbol: 'none',
+        lineStyle: { color: accent2, width: 1.5, type: 'dashed' },
+        itemStyle: { color: accent2 }
+      },
+      {
+        name: '沪深300',
+        type: 'line',
+        data: hs300Returns,
+        smooth: true,
+        symbol: 'none',
+        lineStyle: { color: accent, width: 1.5, type: 'dotted' },
+        itemStyle: { color: accent }
+      }
     ]
   });
-
-  // 5. 因素重要性
-  makeChart('chart-imp', {
-    animation:false,
-    tooltip:{trigger:'axis',appendToBody:true},
-    grid:{left:'3%',right:'4%',bottom:'10%',containLabel:true},
-    xAxis:{type:'category',data:["sentiment_score", "bullish_count", "bearish_count", "prev_change_pct", "prev_volume_ratio", "prev_intraday_return", "sector_mentioned", "sector_mention_count", "hs300_mom_5d", "vol_10d", "retail_sentiment", "rzjme_yi", "sentiment_divergence"],axisLabel:{color:muted,fontSize:9,rotate:25},axisLine:{lineStyle:{color:rule}}},
-    yAxis:{type:'value',axisLabel:{color:muted},splitLine:{lineStyle:{color:rule}}},
-    series:[{
-      type:'bar',
-      data:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-      itemStyle:{color:gold},
-      barWidth:'45%',
-      label:{show:true,position:'top',formatter:'{c}',color:muted,fontSize:9}
-    }]
-  });
-
-  window.addEventListener('resize', function(){
-    charts.forEach(function(c){ c.resize(); });
-  });
+  window.addEventListener('resize', function() { chart3.resize(); });
 })();

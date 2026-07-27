@@ -523,10 +523,10 @@ CSS = r"""
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:radial-gradient(ellipse 600px 400px at 15% 5%,rgba(0,113,227,0.18),transparent 60%),radial-gradient(ellipse 500px 350px at 85% 15%,rgba(52,199,89,0.15),transparent 60%),radial-gradient(ellipse 700px 500px at 50% 45%,rgba(255,149,0,0.12),transparent 70%),radial-gradient(ellipse 400px 300px at 90% 80%,rgba(255,59,48,0.13),transparent 60%),radial-gradient(ellipse 500px 400px at 10% 90%,rgba(210,153,34,0.13),transparent 60%),radial-gradient(ellipse 300px 200px at 70% 60%,rgba(175,82,222,0.10),transparent 60%),var(--bg);background-attachment:fixed;color:var(--ink);font-family:var(--IS);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+body{background:radial-gradient(ellipse 600px 400px at 15% 5%,rgba(0,113,227,0.15),transparent 60%),radial-gradient(ellipse 500px 350px at 85% 15%,rgba(0,113,227,0.10),transparent 60%),radial-gradient(ellipse 700px 500px at 50% 45%,rgba(0,113,227,0.08),transparent 70%),var(--bg);background-attachment:fixed;color:var(--ink);font-family:var(--IS);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
 
 /* Decorative blurred color blobs for glass refraction visibility */
-body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle 200px at 20% 30%,rgba(0,113,227,0.15),transparent),radial-gradient(circle 180px at 80% 20%,rgba(52,199,89,0.12),transparent),radial-gradient(circle 250px at 60% 70%,rgba(255,149,0,0.10),transparent),radial-gradient(circle 150px at 30% 80%,rgba(255,59,48,0.10),transparent),radial-gradient(circle 200px at 90% 50%,rgba(175,82,222,0.08),transparent);filter:blur(40px);z-index:-1;pointer-events:none}
+body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle 200px at 20% 30%,rgba(0,113,227,0.12),transparent),radial-gradient(circle 250px at 60% 70%,rgba(0,113,227,0.08),transparent),radial-gradient(circle 200px at 90% 50%,rgba(0,113,227,0.06),transparent);filter:blur(40px);z-index:-1;pointer-events:none}
 
 /* ====== Liquid Glass Effect (shuding/liquid-glass) ====== */
 .core-view,.signal-card,.metric,.callout,.card,.chart-card,.rpt,.decision,.np-card,.formula-box,.pick,.reason{
@@ -669,6 +669,7 @@ footer{text-align:center;font-size:0.7rem;color:var(--muted);margin-top:36px;pad
   .np-grid{grid-template-columns:1fr}
   .rec-2col{grid-template-columns:1fr}
   .signal-grid{grid-template-columns:1fr}
+  #lg-orb{display:none!important}
 }
 """
 
@@ -897,6 +898,237 @@ def gen_top_summary(model_data, econ_data):
 {short_items}    </div>
   </div>
 </div>"""
+
+
+def gen_section_1_conclusion(model_data, econ_data):
+    """一、核心结论 — callout + 4个关键指标卡片"""
+    s = model_data['summary']
+    d = model_data['latest_decision']
+    ret = s['cumulative_return']
+    win_rate = s['win_rate']
+    pl_ratio = s['profit_loss_ratio']
+    sent = d.get('sentiment_score', 0)
+
+    # callout
+    callout = f'''<h2>一、核心结论</h2>
+<div class="callout warning">
+  <p><strong>模型决策：{esc(d.get("decision", "持币观望"))}</strong>。基于Walk-Forward回测，胜率{win_rate:.1f}%，累计收益{fmt_pct(ret)}。</p>
+  <p><strong>情绪信号</strong>：四大报情绪{sent:.2f}（看多{d.get("bull_signals",0)}/看空{d.get("bear_signals",0)}），趋势{esc(d.get("trend","震荡"))}。</p>
+</div>'''
+
+    # 4 metric cards
+    cards = f'''<div class="metrics" style="grid-template-columns:repeat(4,1fr)">
+  <div class="metric"><div class="ml">累计收益</div><div class="mv {cls_val(ret)}">{fmt_pct(ret)}</div></div>
+  <div class="metric"><div class="ml">胜率</div><div class="mv">{win_rate:.1f}%</div><div class="ms">{s["wins"]}胜/{s["losses"]}负</div></div>
+  <div class="metric"><div class="ml">盈亏比</div><div class="mv">{pl_ratio:.2f}</div></div>
+  <div class="metric"><div class="ml">情绪分</div><div class="mv {cls_val(sent)}">{sent:.3f}</div></div>
+</div>'''
+
+    return callout + '\n' + cards
+
+
+def gen_section_2_prediction(model_data, econ_data):
+    """二、模型预测 — 决策 + 看好/看空板块"""
+    d = model_data['latest_decision']
+    s = model_data['summary']
+    logit_preds = econ_data['logit'].get('latest_predictions', [])
+
+    # 决策callout
+    decision_html = f'''<h2>二、{esc(s["report_date"])} 模型预测</h2>
+<div class="callout">
+  <p><strong>决策：{esc(d.get("decision","持币观望"))}</strong></p>
+  <p>趋势：{trend_tag(d.get("trend","震荡"))} | 置信度：{esc(d.get("confidence",""))} | 看多{d.get("bull_signals",0)}/看空{d.get("bear_signals",0)}</p>
+</div>'''
+
+    # 看好/看空板块（复用gen_recommendation逻辑但精简）
+    top3_bullish = sorted(logit_preds, key=lambda x: float(x.get('prob', 0)), reverse=True)[:3]
+    top3_bearish = sorted(logit_preds, key=lambda x: float(x.get('prob', 0)))[:3]
+
+    bullish_items = ""
+    for lp in top3_bullish:
+        name = lp.get('name', '') or lp.get('etf', '')
+        bullish_items += f'<div class="pick"><span class="pick-name">{esc(name)}</span><span class="pick-w">P(涨){float(lp.get("prob",0)):.1f}%</span></div>\n'
+
+    bearish_items = ""
+    for lp in top3_bearish:
+        name = lp.get('name', '') or lp.get('etf', '')
+        bear_prob = round(100 - float(lp.get('prob', 0)), 1)
+        bearish_items += f'<div class="pick"><span class="pick-name">{esc(name)}</span><span class="pick-w" style="background:var(--accent2);color:#fff">P(跌){bear_prob:.1f}%</span></div>\n'
+
+    return f'''{decision_html}
+<div class="rec-2col">
+  <div class="card" style="border-color:var(--green);border-width:1.5px">
+    <div class="card-title" style="color:var(--green)">看好板块</div>
+    <div class="picks" style="flex-direction:column">
+{bullish_items}    </div>
+  </div>
+  <div class="card" style="border-color:var(--accent2);border-width:1.5px">
+    <div class="card-title" style="color:var(--accent2)">看空预警</div>
+    <div class="picks" style="flex-direction:column">
+{bearish_items}    </div>
+  </div>
+</div>'''
+
+
+def gen_section_3_sentiment(model_data, econ_data):
+    """三、双视角情绪诊断 — 情绪卡片 + 四大报标题"""
+    d = model_data['latest_decision']
+    newspapers = model_data.get('latest_newspapers', {})
+    sent = d.get('sentiment_score', 0)
+    bull = d.get('bull_signals', 0)
+    bear = d.get('bear_signals', 0)
+
+    paper_names = ['中国证券报', '上海证券报', '证券时报', '证券日报']
+    np_rows = ""
+    for name in paper_names:
+        titles = newspapers.get(name, [])
+        title_str = ' / '.join(titles[:3]) if titles else '今日暂无数据'
+        np_rows += f'<tr><td>{esc(name)}</td><td style="font-size:0.78rem">{esc(title_str)}</td></tr>\n'
+
+    return f'''<h2>三、双视角情绪诊断</h2>
+<div class="card">
+  <div class="card-title">机构情绪（四大报）</div>
+  <div class="metrics" style="grid-template-columns:repeat(3,1fr)">
+    <div class="metric"><div class="ml">情绪分</div><div class="mv {cls_val(sent)}">{sent:.3f}</div></div>
+    <div class="metric"><div class="ml">看多标题</div><div class="mv" style="color:var(--green)">{bull}</div></div>
+    <div class="metric"><div class="ml">看空标题</div><div class="mv" style="color:var(--accent2)">{bear}</div></div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-title">今日四大报标题摘要</div>
+  <table>
+    <thead><tr><th>报纸</th><th>代表性标题</th></tr></thead>
+    <tbody>
+{np_rows}    </tbody>
+  </table>
+</div>'''
+
+
+def gen_section_4_performance(model_data, econ_data):
+    """四、模型表现回顾 — 指标 + 图表 + 交易记录"""
+    s = model_data['summary']
+    d = model_data['latest_decision']
+    ret = s['cumulative_return']
+    alpha = s['alpha']
+
+    # 6个指标卡片
+    cards = f'''<div class="metric"><div class="ml">累计收益率</div><div class="mv {cls_val(ret)}">{fmt_pct(ret)}</div><div class="ms">¥{fmt_money(s["initial_capital"])} → ¥{fmt_money(s["final_capital"])}</div></div>
+<div class="metric"><div class="ml">Alpha vs 沪深300</div><div class="mv {cls_val(alpha)}">{fmt_pct(alpha)}</div><div class="ms">沪深300: {fmt_pct(s["hs300_return"])}</div></div>
+<div class="metric"><div class="ml">胜率</div><div class="mv">{s["win_rate"]:.1f}%</div><div class="ms">{s["wins"]}胜 / {s["losses"]}负</div></div>
+<div class="metric"><div class="ml">盈亏比</div><div class="mv">{s["profit_loss_ratio"]:.2f}</div><div class="ms">均盈{fmt_pct(s["avg_profit"])} / 均亏{fmt_pct(s["avg_loss"])}</div></div>
+<div class="metric"><div class="ml">交易日数</div><div class="mv">{s["trading_days"]}</div></div>
+<div class="metric"><div class="ml">总交易次数</div><div class="mv">{s["experience_count"]}</div></div>'''
+
+    # 图表
+    charts = '''<div class="chart-card"><div class="card-title">累计收益率走势</div><div id="chart-cum" class="chart"></div></div>
+<div class="chart-card"><div class="card-title">月度收益对比</div><div id="chart-month" class="chart"></div></div>
+<div class="chart-card"><div class="card-title">ETF 胜率分布</div><div id="chart-etf" class="chart"></div></div>'''
+
+    # ETF绩效表
+    perf = d.get('etf_performance', [])
+    perf_rows = ""
+    for e in perf:
+        perf_rows += f'<tr><td>{esc(e["name"])}</td><td>{e["rec_count"]}</td><td class="{cls_val(e["avg_return"])}">{fmt_pct(e["avg_return"])}</td><td>{e["win_rate"]:.1f}%</td><td>{esc(e["assessment"])}</td></tr>\n'
+
+    perf_table = f'''<div class="card">
+  <div class="card-title">各ETF回测表现</div>
+  <table>
+    <thead><tr><th>ETF名称</th><th>推荐次数</th><th>平均收益</th><th>胜率</th><th>评估</th></tr></thead>
+    <tbody>
+{perf_rows}    </tbody>
+  </table>
+</div>'''
+
+    # 最近交易记录
+    summaries = model_data.get('all_daily_summaries', [])
+    recent = summaries[-20:][::-1]
+    rec_rows = ""
+    for sm in recent:
+        rec_rows += f'<tr><td>{esc(sm["date"])}</td><td>{trend_tag(sm["trend"])}</td><td>{esc(sm["etfs"])}</td><td class="{cls_val(sm["return"])}">{fmt_pct(sm["return"])}</td><td class="{cls_val(sm["hs300"])}">{fmt_pct(sm["hs300"])}</td></tr>\n'
+
+    rec_table = f'''<div class="card">
+  <div class="card-title">最近交易记录</div>
+  <table>
+    <thead><tr><th>日期</th><th>研判</th><th>推荐ETF</th><th>收益</th><th>沪深300</th></tr></thead>
+    <tbody>
+{rec_rows}    </tbody>
+  </table>
+</div>'''
+
+    return f'''<h2>四、模型表现回顾（截至{esc(s["end_date"])}）</h2>
+<div class="metrics" style="grid-template-columns:repeat(3,1fr)">
+{cards}
+</div>
+{charts}
+{perf_table}
+{rec_table}'''
+
+
+def gen_section_5_features(model_data, econ_data):
+    """五、特征显著性与模型诊断 — Logit系数 + 因素重要性 + 公式"""
+    logit = econ_data['logit']
+    ols = econ_data['ols']
+
+    # Logit系数表（精简，只显示显著的前10个）
+    logit_rows = ""
+    for c in logit['coefficients'][:10]:
+        var = c['variable']
+        sig = c.get('sig', '')
+        logit_rows += f'<tr><td>{esc(var)}</td><td class="{cls_val(c["coef"])}">{fmt_coef(c["coef"])}</td><td>{fmt_num(c["p"])}</td><td><b>{esc(sig)}</b></td></tr>\n'
+
+    logit_table = f'''<div class="card">
+  <div class="card-title">Logit回归系数（伪R²={logit["pseudo_r2"]}, 准确率={logit["accuracy"]}%）</div>
+  <table>
+    <thead><tr><th>特征</th><th>系数</th><th>p值</th><th>显著性</th></tr></thead>
+    <tbody>
+{logit_rows}    </tbody>
+  </table>
+</div>'''
+
+    # 因素重要性
+    fi = ols['factor_importance']
+    fi_rows = ""
+    for f in fi[:8]:
+        sig = f.get('sig', '')
+        fi_rows += f'<tr><td>{esc(f["factor"])}</td><td class="{cls_val(f["beta"])}">{fmt_coef(f["beta"])}</td><td>{fmt_num(f["p"])}</td><td>{fmt_num(f["importance"])}</td></tr>\n'
+
+    fi_table = f'''<div class="card">
+  <div class="card-title">因素重要性（|β|×σ）</div>
+  <table>
+    <thead><tr><th>因素</th><th>β</th><th>p值</th><th>重要性</th></tr></thead>
+    <tbody>
+{fi_rows}    </tbody>
+  </table>
+</div>'''
+
+    # 图表
+    charts = '''<div class="chart-card"><div class="card-title">因素重要性排名</div><div id="chart-imp" class="chart"></div></div>'''
+
+    return f'''<h2>五、特征显著性与模型诊断</h2>
+{logit_table}
+{fi_table}
+{charts}'''
+
+
+def gen_section_6_advice(model_data, econ_data):
+    """六、操作建议"""
+    d = model_data['latest_decision']
+    s = model_data['summary']
+
+    return f'''<h2>六、操作建议</h2>
+<div class="callout warning">
+  <p><strong>综合建议：{esc(d.get("decision", "持币观望"))}</strong></p>
+  <p>1. <strong>模型</strong>：趋势{esc(d.get("trend","震荡"))}，置信度{esc(d.get("confidence",""))}</p>
+  <p>2. <strong>情绪</strong>：四大报情绪{d.get("sentiment_score",0):.2f}（看多{d.get("bull_signals",0)}/看空{d.get("bear_signals",0)}）</p>
+  <p>3. <strong>历史表现</strong>：胜率{s["win_rate"]:.1f}%，盈亏比{s["profit_loss_ratio"]:.2f}</p>
+</div>
+<div class="rpt">
+  <h3>关注信号</h3>
+  <p>若后续出现以下变化，可考虑转为积极：</p>
+  <p><strong>1. 情绪反转</strong>：四大报情绪由负转正，或看多标题增多</p>
+  <p><strong>2. 趋势确认</strong>：趋势信号转为看涨，且置信度提升</p>
+  <p><strong>3. 量能配合</strong>：市场成交量放大，板块轮动加速</p>
+</div>'''
 
 
 def gen_date_badge(model_data):
@@ -1497,16 +1729,13 @@ def generate_html(model_data, econ_data):
     report_date = model_data['summary']['report_date']
 
     sections = [
-        gen_top_summary(model_data, econ_data),
-        gen_date_badge(model_data),
-        gen_overview(model_data),
-        gen_recommendation(model_data, econ_data),
-        gen_econometric(model_data, econ_data),
-        gen_cross_validation(model_data, econ_data),
-        gen_research(model_data),
-        gen_charts_section(),
-        gen_experience(model_data),
-        gen_formulas(model_data, econ_data),
+        gen_top_summary(model_data, econ_data),           # 0. 今日核心（保留不变）
+        gen_section_1_conclusion(model_data, econ_data),   # 一、核心结论
+        gen_section_2_prediction(model_data, econ_data),   # 二、模型预测
+        gen_section_3_sentiment(model_data, econ_data),    # 三、双视角情绪诊断
+        gen_section_4_performance(model_data, econ_data),  # 四、模型表现回顾
+        gen_section_5_features(model_data, econ_data),     # 五、特征显著性与模型诊断
+        gen_section_6_advice(model_data, econ_data),       # 六、操作建议
     ]
 
     body = '\n\n'.join(sections)
