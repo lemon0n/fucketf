@@ -169,62 +169,62 @@
     "lasso_variable_selection": [
       {
         "feature": "retail_sentiment",
-        "coef": 0.670946,
+        "coef": 0.671097,
         "selected": true
       },
       {
         "feature": "rzjme_yi",
-        "coef": -0.516561,
+        "coef": -0.516724,
         "selected": true
       },
       {
         "feature": "sentiment_score",
-        "coef": -0.438849,
+        "coef": -0.438882,
         "selected": true
       },
       {
         "feature": "hs300_mom_5d",
-        "coef": -0.252262,
+        "coef": -0.252261,
         "selected": true
       },
       {
         "feature": "bearish_count",
-        "coef": -0.246836,
+        "coef": -0.24685,
         "selected": true
       },
       {
         "feature": "bullish_count",
-        "coef": 0.242429,
+        "coef": 0.242455,
         "selected": true
       },
       {
         "feature": "vol_10d",
-        "coef": 0.164192,
+        "coef": 0.164197,
         "selected": true
       },
       {
         "feature": "prev_intraday_return",
-        "coef": -0.124371,
+        "coef": -0.124386,
         "selected": true
       },
       {
         "feature": "sector_mention_count",
-        "coef": -0.093314,
+        "coef": -0.093315,
         "selected": true
       },
       {
         "feature": "sentiment_divergence",
-        "coef": -0.060676,
+        "coef": -0.060682,
         "selected": true
       },
       {
         "feature": "prev_change_pct",
-        "coef": 0.027118,
+        "coef": 0.027132,
         "selected": true
       },
       {
         "feature": "prev_volume_ratio",
-        "coef": -0.020606,
+        "coef": -0.020608,
         "selected": true
       },
       {
@@ -264,11 +264,11 @@
         "etf_code": "512760",
         "etf_name": "半导体ETF",
         "sector": "半导体",
-        "prob_up": 0.5318,
+        "prob_up": 0.5367,
         "predicted_direction": "up",
         "features": {
-          "hs300_mom_5d": 2.4406,
-          "vol_10d": 4.8158,
+          "hs300_mom_5d": 2.2151,
+          "vol_10d": 4.7427,
           "retail_sentiment": -0.3779,
           "rzjme_yi": -222.58
         }
@@ -277,11 +277,11 @@
         "etf_code": "159995",
         "etf_name": "芯片ETF",
         "sector": "芯片",
-        "prob_up": 0.5329,
+        "prob_up": 0.5374,
         "predicted_direction": "up",
         "features": {
-          "hs300_mom_5d": 2.4406,
-          "vol_10d": 4.8471,
+          "hs300_mom_5d": 2.2151,
+          "vol_10d": 4.7632,
           "retail_sentiment": -0.3779,
           "rzjme_yi": -222.58
         }
@@ -290,11 +290,11 @@
         "etf_code": "515980",
         "etf_name": "人工智能ETF",
         "sector": "AI算力",
-        "prob_up": 0.5188,
+        "prob_up": 0.5262,
         "predicted_direction": "up",
         "features": {
-          "hs300_mom_5d": 2.4406,
-          "vol_10d": 4.4177,
+          "hs300_mom_5d": 2.2151,
+          "vol_10d": 4.4208,
           "retail_sentiment": -0.3779,
           "rzjme_yi": -222.58
         }
@@ -303,11 +303,11 @@
         "etf_code": "159592",
         "etf_name": "卫星产业ETF",
         "sector": "商业航天",
-        "prob_up": 0.4287,
+        "prob_up": 0.435,
         "predicted_direction": "down",
         "features": {
-          "hs300_mom_5d": 2.4406,
-          "vol_10d": 1.6634,
+          "hs300_mom_5d": 2.2151,
+          "vol_10d": 1.6353,
           "retail_sentiment": -0.3779,
           "rzjme_yi": -222.58
         }
@@ -316,11 +316,11 @@
         "etf_code": "515120",
         "etf_name": "创新药ETF",
         "sector": "医药",
-        "prob_up": 0.4874,
+        "prob_up": 0.4973,
         "predicted_direction": "down",
         "features": {
-          "hs300_mom_5d": 2.4406,
-          "vol_10d": 3.4629,
+          "hs300_mom_5d": 2.2151,
+          "vol_10d": 3.5419,
           "retail_sentiment": -0.3779,
           "rzjme_yi": -222.58
         }
@@ -329,11 +329,11 @@
         "etf_code": "516160",
         "etf_name": "新能源ETF",
         "sector": "新能源",
-        "prob_up": 0.4671,
+        "prob_up": 0.4698,
         "predicted_direction": "down",
         "features": {
-          "hs300_mom_5d": 2.4406,
-          "vol_10d": 2.8435,
+          "hs300_mom_5d": 2.2151,
+          "vol_10d": 2.7046,
           "retail_sentiment": -0.3779,
           "rzjme_yi": -222.58
         }
@@ -342,11 +342,11 @@
         "etf_code": "510150",
         "etf_name": "消费ETF",
         "sector": "消费",
-        "prob_up": 0.4381,
+        "prob_up": 0.444,
         "predicted_direction": "down",
         "features": {
-          "hs300_mom_5d": 2.4406,
-          "vol_10d": 1.9531,
+          "hs300_mom_5d": 2.2151,
+          "vol_10d": 1.9147,
           "retail_sentiment": -0.3779,
           "rzjme_yi": -222.58
         }
@@ -355,11 +355,11 @@
         "etf_code": "518880",
         "etf_name": "黄金ETF",
         "sector": "黄金",
-        "prob_up": 0.4091,
+        "prob_up": 0.4164,
         "predicted_direction": "down",
         "features": {
-          "hs300_mom_5d": 2.4406,
-          "vol_10d": 1.0504,
+          "hs300_mom_5d": 2.2151,
+          "vol_10d": 1.056,
           "retail_sentiment": -0.3779,
           "rzjme_yi": -222.58
         }
@@ -368,11 +368,11 @@
         "etf_code": "512000",
         "etf_name": "券商ETF",
         "sector": "券商",
-        "prob_up": 0.424,
+        "prob_up": 0.4294,
         "predicted_direction": "down",
         "features": {
-          "hs300_mom_5d": 2.4406,
-          "vol_10d": 1.5148,
+          "hs300_mom_5d": 2.2151,
+          "vol_10d": 1.4635,
           "retail_sentiment": -0.3779,
           "rzjme_yi": -222.58
         }
@@ -381,11 +381,11 @@
         "etf_code": "512660",
         "etf_name": "军工ETF",
         "sector": "军工",
-        "prob_up": 0.4667,
+        "prob_up": 0.4621,
         "predicted_direction": "down",
         "features": {
-          "hs300_mom_5d": 2.4406,
-          "vol_10d": 2.8308,
+          "hs300_mom_5d": 2.2151,
+          "vol_10d": 2.4689,
           "retail_sentiment": -0.3779,
           "rzjme_yi": -222.58
         }
@@ -394,17 +394,17 @@
         "etf_code": "510300",
         "etf_name": "沪深300ETF",
         "sector": "宽基",
-        "prob_up": 0.4358,
+        "prob_up": 0.4419,
         "predicted_direction": "down",
         "features": {
-          "hs300_mom_5d": 2.4406,
-          "vol_10d": 1.8816,
+          "hs300_mom_5d": 2.2151,
+          "vol_10d": 1.8479,
           "retail_sentiment": -0.3779,
           "rzjme_yi": -222.58
         }
       }
     ],
-    "latest_predict_date": "2026-07-27",
+    "latest_predict_date": "2026-07-28",
     "in_sample_pred_direction": [
       0,
       0,
@@ -3626,246 +3626,246 @@
         "etf_code": "512760",
         "etf_name": "半导体ETF",
         "sector": "半导体",
-        "predicted_return_pct": 0.2047,
+        "predicted_return_pct": 0.4582,
         "predicted_direction": "up",
         "features": {
-          "sentiment_score": 0.0,
-          "bullish_count": 2,
-          "bearish_count": 2,
-          "prev_change_pct": 0.9174,
-          "prev_volume_ratio": 0.8138,
-          "prev_intraday_return": 3.1543,
+          "sentiment_score": 0.2222,
+          "bullish_count": 5,
+          "bearish_count": 3,
+          "prev_change_pct": 0.4132,
+          "prev_volume_ratio": 0.7179,
+          "prev_intraday_return": 1.0815,
           "sector_mentioned": 0,
           "sector_mention_count": 0,
-          "hs300_mom_5d": 2.4406,
-          "vol_10d": 4.8158,
+          "hs300_mom_5d": 2.2151,
+          "vol_10d": 4.7427,
           "retail_sentiment": -0.3779,
           "rzjme_yi": -222.58,
-          "sentiment_divergence": 1.0
+          "sentiment_divergence": 1.084
         }
       },
       {
         "etf_code": "159995",
         "etf_name": "芯片ETF",
         "sector": "芯片",
-        "predicted_return_pct": 0.2846,
+        "predicted_return_pct": 0.38,
         "predicted_direction": "up",
         "features": {
-          "sentiment_score": 0.0,
-          "bullish_count": 2,
-          "bearish_count": 2,
-          "prev_change_pct": 0.6339,
-          "prev_volume_ratio": 0.5761,
-          "prev_intraday_return": 2.834,
-          "sector_mentioned": 0,
-          "sector_mention_count": 0,
-          "hs300_mom_5d": 2.4406,
-          "vol_10d": 4.8471,
+          "sentiment_score": 0.2222,
+          "bullish_count": 5,
+          "bearish_count": 3,
+          "prev_change_pct": 0.6299,
+          "prev_volume_ratio": 0.6063,
+          "prev_intraday_return": 1.4286,
+          "sector_mentioned": 1,
+          "sector_mention_count": 1,
+          "hs300_mom_5d": 2.2151,
+          "vol_10d": 4.7632,
           "retail_sentiment": -0.3779,
           "rzjme_yi": -222.58,
-          "sentiment_divergence": 1.0
+          "sentiment_divergence": 1.084
         }
       },
       {
         "etf_code": "515980",
         "etf_name": "人工智能ETF",
         "sector": "AI算力",
-        "predicted_return_pct": 0.4552,
+        "predicted_return_pct": 0.3466,
         "predicted_direction": "up",
         "features": {
-          "sentiment_score": 0.0,
-          "bullish_count": 2,
-          "bearish_count": 2,
-          "prev_change_pct": -2.2442,
-          "prev_volume_ratio": 0.4287,
-          "prev_intraday_return": 0.0,
+          "sentiment_score": 0.2222,
+          "bullish_count": 5,
+          "bearish_count": 3,
+          "prev_change_pct": 1.9284,
+          "prev_volume_ratio": 0.4979,
+          "prev_intraday_return": 2.1159,
           "sector_mentioned": 1,
           "sector_mention_count": 1,
-          "hs300_mom_5d": 2.4406,
-          "vol_10d": 4.4177,
+          "hs300_mom_5d": 2.2151,
+          "vol_10d": 4.4208,
           "retail_sentiment": -0.3779,
           "rzjme_yi": -222.58,
-          "sentiment_divergence": 1.0
+          "sentiment_divergence": 1.084
         }
       },
       {
         "etf_code": "159592",
         "etf_name": "卫星产业ETF",
         "sector": "商业航天",
-        "predicted_return_pct": 0.2526,
+        "predicted_return_pct": 0.1062,
         "predicted_direction": "up",
         "features": {
-          "sentiment_score": 0.0,
-          "bullish_count": 2,
-          "bearish_count": 2,
-          "prev_change_pct": -1.4524,
-          "prev_volume_ratio": 1.2181,
-          "prev_intraday_return": -1.2373,
-          "sector_mentioned": 1,
-          "sector_mention_count": 1,
-          "hs300_mom_5d": 2.4406,
-          "vol_10d": 1.6634,
+          "sentiment_score": 0.2222,
+          "bullish_count": 5,
+          "bearish_count": 3,
+          "prev_change_pct": 1.1791,
+          "prev_volume_ratio": 0.9779,
+          "prev_intraday_return": 0.9559,
+          "sector_mentioned": 0,
+          "sector_mention_count": 0,
+          "hs300_mom_5d": 2.2151,
+          "vol_10d": 1.6353,
           "retail_sentiment": -0.3779,
           "rzjme_yi": -222.58,
-          "sentiment_divergence": 1.0
+          "sentiment_divergence": 1.084
         }
       },
       {
         "etf_code": "515120",
         "etf_name": "创新药ETF",
         "sector": "医药",
-        "predicted_return_pct": 0.7163,
+        "predicted_return_pct": 0.0695,
         "predicted_direction": "up",
         "features": {
-          "sentiment_score": 0.0,
-          "bullish_count": 2,
-          "bearish_count": 2,
-          "prev_change_pct": -4.2748,
-          "prev_volume_ratio": 0.713,
-          "prev_intraday_return": -3.0912,
+          "sentiment_score": 0.2222,
+          "bullish_count": 5,
+          "bearish_count": 3,
+          "prev_change_pct": 2.5518,
+          "prev_volume_ratio": 0.7862,
+          "prev_intraday_return": 3.3762,
           "sector_mentioned": 0,
           "sector_mention_count": 0,
-          "hs300_mom_5d": 2.4406,
-          "vol_10d": 3.4629,
+          "hs300_mom_5d": 2.2151,
+          "vol_10d": 3.5419,
           "retail_sentiment": -0.3779,
           "rzjme_yi": -222.58,
-          "sentiment_divergence": 1.0
+          "sentiment_divergence": 1.084
         }
       },
       {
         "etf_code": "516160",
         "etf_name": "新能源ETF",
         "sector": "新能源",
-        "predicted_return_pct": 0.5704,
+        "predicted_return_pct": 0.2219,
         "predicted_direction": "up",
         "features": {
-          "sentiment_score": 0.0,
-          "bullish_count": 2,
-          "bearish_count": 2,
-          "prev_change_pct": -3.0973,
-          "prev_volume_ratio": 0.8809,
-          "prev_intraday_return": -2.3114,
-          "sector_mentioned": 0,
-          "sector_mention_count": 0,
-          "hs300_mom_5d": 2.4406,
-          "vol_10d": 2.8435,
+          "sentiment_score": 0.2222,
+          "bullish_count": 5,
+          "bearish_count": 3,
+          "prev_change_pct": 2.8227,
+          "prev_volume_ratio": 1.127,
+          "prev_intraday_return": 1.3917,
+          "sector_mentioned": 1,
+          "sector_mention_count": 1,
+          "hs300_mom_5d": 2.2151,
+          "vol_10d": 2.7046,
           "retail_sentiment": -0.3779,
           "rzjme_yi": -222.58,
-          "sentiment_divergence": 1.0
+          "sentiment_divergence": 1.084
         }
       },
       {
         "etf_code": "510150",
         "etf_name": "消费ETF",
         "sector": "消费",
-        "predicted_return_pct": 0.6002,
+        "predicted_return_pct": 0.1384,
         "predicted_direction": "up",
         "features": {
-          "sentiment_score": 0.0,
-          "bullish_count": 2,
-          "bearish_count": 2,
-          "prev_change_pct": -2.2222,
-          "prev_volume_ratio": 0.4287,
-          "prev_intraday_return": -2.2222,
-          "sector_mentioned": 0,
-          "sector_mention_count": 0,
-          "hs300_mom_5d": 2.4406,
-          "vol_10d": 1.9531,
+          "sentiment_score": 0.2222,
+          "bullish_count": 5,
+          "bearish_count": 3,
+          "prev_change_pct": 1.0331,
+          "prev_volume_ratio": 0.5319,
+          "prev_intraday_return": 1.0331,
+          "sector_mentioned": 1,
+          "sector_mention_count": 1,
+          "hs300_mom_5d": 2.2151,
+          "vol_10d": 1.9147,
           "retail_sentiment": -0.3779,
           "rzjme_yi": -222.58,
-          "sentiment_divergence": 1.0
+          "sentiment_divergence": 1.084
         }
       },
       {
         "etf_code": "518880",
         "etf_name": "黄金ETF",
         "sector": "黄金",
-        "predicted_return_pct": -0.0284,
-        "predicted_direction": "down",
+        "predicted_return_pct": 0.2806,
+        "predicted_direction": "up",
         "features": {
-          "sentiment_score": 0.0,
-          "bullish_count": 2,
-          "bearish_count": 2,
-          "prev_change_pct": -2.0444,
-          "prev_volume_ratio": 1.0115,
-          "prev_intraday_return": -0.1786,
-          "sector_mentioned": 1,
-          "sector_mention_count": 1,
-          "hs300_mom_5d": 2.4406,
-          "vol_10d": 1.0504,
+          "sentiment_score": 0.2222,
+          "bullish_count": 5,
+          "bearish_count": 3,
+          "prev_change_pct": 1.3953,
+          "prev_volume_ratio": 0.6713,
+          "prev_intraday_return": -0.0118,
+          "sector_mentioned": 0,
+          "sector_mention_count": 0,
+          "hs300_mom_5d": 2.2151,
+          "vol_10d": 1.056,
           "retail_sentiment": -0.3779,
           "rzjme_yi": -222.58,
-          "sentiment_divergence": 1.0
+          "sentiment_divergence": 1.084
         }
       },
       {
         "etf_code": "512000",
         "etf_name": "券商ETF",
         "sector": "券商",
-        "predicted_return_pct": 0.2789,
+        "predicted_return_pct": 0.1889,
         "predicted_direction": "up",
         "features": {
-          "sentiment_score": 0.0,
-          "bullish_count": 2,
-          "bearish_count": 2,
-          "prev_change_pct": -2.4119,
-          "prev_volume_ratio": 0.9486,
-          "prev_intraday_return": -1.6822,
+          "sentiment_score": 0.2222,
+          "bullish_count": 5,
+          "bearish_count": 3,
+          "prev_change_pct": 0.3802,
+          "prev_volume_ratio": 0.6431,
+          "prev_intraday_return": 0.0,
           "sector_mentioned": 1,
           "sector_mention_count": 1,
-          "hs300_mom_5d": 2.4406,
-          "vol_10d": 1.5148,
+          "hs300_mom_5d": 2.2151,
+          "vol_10d": 1.4635,
           "retail_sentiment": -0.3779,
           "rzjme_yi": -222.58,
-          "sentiment_divergence": 1.0
+          "sentiment_divergence": 1.084
         }
       },
       {
         "etf_code": "512660",
         "etf_name": "军工ETF",
         "sector": "军工",
-        "predicted_return_pct": 0.4676,
-        "predicted_direction": "up",
+        "predicted_return_pct": -0.0489,
+        "predicted_direction": "down",
         "features": {
-          "sentiment_score": 0.0,
-          "bullish_count": 2,
-          "bearish_count": 2,
-          "prev_change_pct": -2.1798,
-          "prev_volume_ratio": 0.8131,
-          "prev_intraday_return": -1.5539,
-          "sector_mentioned": 1,
-          "sector_mention_count": 1,
-          "hs300_mom_5d": 2.4406,
-          "vol_10d": 2.8308,
+          "sentiment_score": 0.2222,
+          "bullish_count": 5,
+          "bearish_count": 3,
+          "prev_change_pct": 2.507,
+          "prev_volume_ratio": 1.1463,
+          "prev_intraday_return": 2.8891,
+          "sector_mentioned": 0,
+          "sector_mention_count": 0,
+          "hs300_mom_5d": 2.2151,
+          "vol_10d": 2.4689,
           "retail_sentiment": -0.3779,
           "rzjme_yi": -222.58,
-          "sentiment_divergence": 1.0
+          "sentiment_divergence": 1.084
         }
       },
       {
         "etf_code": "510300",
         "etf_name": "沪深300ETF",
         "sector": "宽基",
-        "predicted_return_pct": 0.414,
+        "predicted_return_pct": 0.19,
         "predicted_direction": "up",
         "features": {
-          "sentiment_score": 0.0,
-          "bullish_count": 2,
-          "bearish_count": 2,
-          "prev_change_pct": -1.7965,
-          "prev_volume_ratio": 0.4357,
-          "prev_intraday_return": -1.0316,
+          "sentiment_score": 0.2222,
+          "bullish_count": 5,
+          "bearish_count": 3,
+          "prev_change_pct": 1.1061,
+          "prev_volume_ratio": 0.505,
+          "prev_intraday_return": 1.0846,
           "sector_mentioned": 0,
           "sector_mention_count": 0,
-          "hs300_mom_5d": 2.4406,
-          "vol_10d": 1.8816,
+          "hs300_mom_5d": 2.2151,
+          "vol_10d": 1.8479,
           "retail_sentiment": -0.3779,
           "rzjme_yi": -222.58,
-          "sentiment_divergence": 1.0
+          "sentiment_divergence": 1.084
         }
       }
     ],
-    "latest_predict_date": "2026-07-27",
+    "latest_predict_date": "2026-07-28",
     "in_sample_pred_return": [
       0.0091,
       -0.0611,
