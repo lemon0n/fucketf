@@ -35,10 +35,12 @@ OUTPUT_PATH = os.path.join(os.path.dirname(ETF_HISTORY_PATH), 'econometric_resul
 MODEL_RESULTS_PATH = os.path.join(os.path.dirname(ETF_HISTORY_PATH), 'model_results.json')
 
 # 特征列 (全部为 T 开盘前可知)
+# 2026-07-27 新增 hs300_mom_5d / vol_10d (统计显著, p<0.01)
 FEATURES = [
     'sentiment_score', 'bullish_count', 'bearish_count',
     'prev_change_pct', 'prev_volume_ratio', 'prev_intraday_return',
     'sector_mentioned', 'sector_mention_count',
+    'hs300_mom_5d', 'vol_10d',
 ]
 
 
@@ -80,6 +82,32 @@ def add_const(X):
     return np.column_stack([np.ones(X.shape[0]), X])
 
 
+def compute_hs300_mom_5d(etf_data, date):
+    """沪深300前5日累计收益(%) — 市场状态信号, T-1收盘价相对5日前收盘价"""
+    idx = get_index(etf_data, HS300_CODE, date)
+    if idx < 5:
+        return 0.0
+    base = etf_data[HS300_CODE]['data'][idx - 5]['close']
+    cur = etf_data[HS300_CODE]['data'][idx]['close']
+    return round((cur - base) / base * 100, 4) if base else 0.0
+
+
+def compute_vol_10d(etf_data, code, date):
+    """个股前10日日收益波动率(%) — 风险溢价信号"""
+    idx = get_index(etf_data, code, date)
+    if idx < 10:
+        return 0.0
+    rets = []
+    for j in range(idx - 9, idx + 1):
+        a = etf_data[code]['data'][j - 1]['close']
+        b = etf_data[code]['data'][j]['close']
+        if a:
+            rets.append((b - a) / a)
+    if not rets:
+        return 0.0
+    return round(float(np.std(rets)) * 100, 4)
+
+
 # ----------------------------- 1. 构建面板数据 -----------------------------
 def build_dataset(etf_data, news_data):
     """
@@ -100,6 +128,9 @@ def build_dataset(etf_data, news_data):
         # 各板块当日提及情况
         mention = {code: sector_mention_count(news_T, info) for code, info in SECTOR_ETF_MAP.items()}
 
+        # 市场状态信号 (T-1可知, 全局共享)
+        hs300_mom_5d = compute_hs300_mom_5d(etf_data, Tm1)
+
         for code, info in SECTOR_ETF_MAP.items():
             rec_T = find_record(etf_data, code, T)
             rec_Tm1 = find_record(etf_data, code, Tm1)
@@ -118,6 +149,9 @@ def build_dataset(etf_data, news_data):
             prev_volume_ratio = compute_volume_ratio(etf_data, code, Tm1)
             prev_intraday_return = (rec_Tm1['close'] - rec_Tm1['open']) / rec_Tm1['open'] * 100
 
+            # 新增: 市场状态 + 个股波动率
+            vol_10d = compute_vol_10d(etf_data, code, Tm1)
+
             rows.append({
                 'date': T, 'etf_code': code, 'etf_name': info['name'], 'sector': info['sector'],
                 'sentiment_score': float(sent['score']),
@@ -128,6 +162,8 @@ def build_dataset(etf_data, news_data):
                 'prev_intraday_return': round(prev_intraday_return, 4),
                 'sector_mentioned': 1 if mention[code] > 0 else 0,
                 'sector_mention_count': int(mention[code]),
+                'hs300_mom_5d': hs300_mom_5d,
+                'vol_10d': vol_10d,
                 'today_return': round(today_return, 4),
                 'today_direction': int(today_direction),
             })
@@ -156,6 +192,9 @@ def build_latest_features(etf_data, news_data):
     sent = analyze_newspaper_sentiment(news_T)
     mention = {code: sector_mention_count(news_T, info) for code, info in SECTOR_ETF_MAP.items()}
 
+    # 市场状态信号 (T-1可知)
+    hs300_mom_5d = compute_hs300_mom_5d(etf_data, Tm1) if Tm1 else 0.0
+
     rows = []
     for code, info in SECTOR_ETF_MAP.items():
         rec_Tm1 = find_record(etf_data, code, Tm1)
@@ -165,6 +204,7 @@ def build_latest_features(etf_data, news_data):
         prev_change_pct = (rec_Tm1['close'] - rec_Tm2['close']) / rec_Tm2['close'] * 100
         prev_volume_ratio = compute_volume_ratio(etf_data, code, Tm1)
         prev_intraday_return = (rec_Tm1['close'] - rec_Tm1['open']) / rec_Tm1['open'] * 100
+        vol_10d = compute_vol_10d(etf_data, code, Tm1)
         rows.append({
             'predict_date': T, 'prev_date': Tm1, 'etf_code': code,
             'etf_name': info['name'], 'sector': info['sector'],
@@ -176,6 +216,8 @@ def build_latest_features(etf_data, news_data):
             'prev_intraday_return': round(prev_intraday_return, 4),
             'sector_mentioned': 1 if mention[code] > 0 else 0,
             'sector_mention_count': int(mention[code]),
+            'hs300_mom_5d': hs300_mom_5d,
+            'vol_10d': vol_10d,
         })
     return pd.DataFrame(rows), T
 
