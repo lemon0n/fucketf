@@ -221,62 +221,62 @@
     "lasso_variable_selection": [
       {
         "feature": "retail_sentiment",
-        "coef": 0.716492,
+        "coef": 0.716477,
         "selected": true
       },
       {
         "feature": "rzjme_yi",
-        "coef": -0.515783,
+        "coef": -0.515767,
         "selected": true
       },
       {
         "feature": "sentiment_score",
-        "coef": -0.483377,
+        "coef": -0.483374,
         "selected": true
       },
       {
         "feature": "bearish_count",
-        "coef": -0.2914,
+        "coef": -0.291401,
         "selected": true
       },
       {
         "feature": "hs300_mom_5d",
-        "coef": -0.286282,
+        "coef": -0.286292,
         "selected": true
       },
       {
         "feature": "bullish_count",
-        "coef": 0.271634,
+        "coef": 0.271628,
         "selected": true
       },
       {
         "feature": "prev_intraday_return",
-        "coef": -0.161242,
+        "coef": -0.161247,
         "selected": true
       },
       {
         "feature": "vol_10d",
-        "coef": 0.151761,
+        "coef": 0.151762,
         "selected": true
       },
       {
         "feature": "sector_mention_count",
-        "coef": -0.108952,
+        "coef": -0.108948,
         "selected": true
       },
       {
         "feature": "prev_change_pct",
-        "coef": 0.06983,
+        "coef": 0.069831,
         "selected": true
       },
       {
         "feature": "sentiment_divergence",
-        "coef": -0.039298,
+        "coef": -0.039306,
         "selected": true
       },
       {
         "feature": "sector_mentioned",
-        "coef": 0.019674,
+        "coef": 0.019671,
         "selected": true
       },
       {
@@ -5444,14 +5444,14 @@
   },
   "cross_validation": {
     "n_compared": 1452,
-    "rule_buy_count": 379,
-    "rule_notbuy_count": 1073,
-    "agreement_rate": 0.426997,
-    "bought_logit_up_rate": 0.432718,
-    "notbought_logit_up_rate": 0.575023,
-    "directional_consistency": -0.142306,
-    "trend_level_agreement": 0.386364,
-    "trend_compared_days": 132,
-    "interpretation": "规则模型买入的ETF中Logit看涨比例 43.3%，未买入的 57.5%，方向一致性差 -14.2%。逐ETF-日整体一致率 42.7%。"
+    "rule_buy_count": 47,
+    "rule_notbuy_count": 1405,
+    "agreement_rate": 0.461433,
+    "bought_logit_up_rate": 0.489362,
+    "notbought_logit_up_rate": 0.539502,
+    "directional_consistency": -0.05014,
+    "trend_level_agreement": 0.380952,
+    "trend_compared_days": 84,
+    "interpretation": "规则模型买入的ETF中Logit看涨比例 48.9%，未买入的 54.0%，方向一致性差 -5.0%。逐ETF-日整体一致率 46.1%。"
   }
 }
