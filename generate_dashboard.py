@@ -24,8 +24,7 @@ from datetime import datetime
 # ============================================================
 SCRIPT_DIR   = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR     = os.path.join(SCRIPT_DIR, 'data')
-PROJECT_DIR  = os.path.dirname(SCRIPT_DIR)
-DASHBOARD_DIR = os.path.join(PROJECT_DIR, 'etf-dashboard')
+DASHBOARD_DIR = os.path.join(SCRIPT_DIR, 'dashboard')
 
 MODEL_RESULTS_PATH  = os.path.join(DATA_DIR, 'model_results.json')
 ECON_RESULTS_PATH   = os.path.join(DATA_DIR, 'econometric_results.json')
@@ -37,7 +36,7 @@ ECHARTS_JS_REF      = '_shared/js/echarts.min.js'
 #  变量说明字典
 # ============================================================
 FACTOR_DESC = {
-    'sentiment_score':      '情绪分（看涨−看跌次数）',
+    'sentiment_score':      '机构情绪分（看涨−看跌次数）',
     'bullish_count':        '看涨关键词出现次数',
     'bearish_count':        '看跌关键词出现次数',
     'prev_change_pct':      '前日涨跌幅%',
@@ -45,6 +44,11 @@ FACTOR_DESC = {
     'prev_intraday_return': '前日日内收益率%（开盘→收盘）',
     'sector_mentioned':     '板块是否被报纸提及（0/1）',
     'sector_mention_count': '板块被提及次数',
+    'hs300_mom_5d':         '沪深300 5日动量（近5日涨跌幅%）',
+    'vol_10d':              '10日波动率%（近10日收益率标准差）',
+    'retail_sentiment':     '大众情绪综合分（融资融券z-score加权, [-1,1]）',
+    'rzjme_yi':             '融资净买入额（亿元）',
+    'sentiment_divergence': '机构-大众情绪分歧度',
     'const':                '常数项/截距',
 }
 
@@ -59,6 +63,11 @@ VAR_SHORT = {
     'prev_intraday_return': 'I',
     'sector_mentioned':     'M',
     'sector_mention_count': 'C',
+    'hs300_mom_5d':         'M5',
+    'vol_10d':              'V10',
+    'retail_sentiment':     'RS',
+    'rzjme_yi':             'RZ',
+    'sentiment_divergence': 'DIV',
 }
 
 # ============================================================
