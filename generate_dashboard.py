@@ -523,7 +523,38 @@ CSS = r"""
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--IS);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body{background:radial-gradient(ellipse 600px 400px at 15% 5%,rgba(0,113,227,0.18),transparent 60%),radial-gradient(ellipse 500px 350px at 85% 15%,rgba(52,199,89,0.15),transparent 60%),radial-gradient(ellipse 700px 500px at 50% 45%,rgba(255,149,0,0.12),transparent 70%),radial-gradient(ellipse 400px 300px at 90% 80%,rgba(255,59,48,0.13),transparent 60%),radial-gradient(ellipse 500px 400px at 10% 90%,rgba(210,153,34,0.13),transparent 60%),radial-gradient(ellipse 300px 200px at 70% 60%,rgba(175,82,222,0.10),transparent 60%),var(--bg);background-attachment:fixed;color:var(--ink);font-family:var(--IS);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+
+/* Decorative blurred color blobs for glass refraction visibility */
+body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle 200px at 20% 30%,rgba(0,113,227,0.15),transparent),radial-gradient(circle 180px at 80% 20%,rgba(52,199,89,0.12),transparent),radial-gradient(circle 250px at 60% 70%,rgba(255,149,0,0.10),transparent),radial-gradient(circle 150px at 30% 80%,rgba(255,59,48,0.10),transparent),radial-gradient(circle 200px at 90% 50%,rgba(175,82,222,0.08),transparent);filter:blur(40px);z-index:-1;pointer-events:none}
+
+/* ====== Liquid Glass Effect (shuding/liquid-glass) ====== */
+.core-view,.signal-card,.metric,.callout,.card,.chart-card,.rpt,.decision,.np-card,.formula-box,.pick,.reason{
+  backdrop-filter:url(#liquid-glass) blur(24px) saturate(180%) brightness(106%) contrast(108%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%) brightness(106%) contrast(108%);
+  background:rgba(255,255,255,0.32)!important;
+  border-color:rgba(255,255,255,0.6)!important;
+  box-shadow:0 4px 16px rgba(0,0,0,0.06),0 1px 3px rgba(0,0,0,0.03),inset 0 1px 1px rgba(255,255,255,0.8),inset 0 -1px 1px rgba(0,0,0,0.02)!important;
+  position:relative;overflow:hidden
+}
+.core-view::before,.signal-card::before,.card::before,.chart-card::before,.decision::before{
+  content:'';position:absolute;inset:0;border-radius:inherit;
+  background:linear-gradient(135deg,rgba(255,255,255,0.45) 0%,rgba(255,255,255,0) 30%,rgba(255,255,255,0) 70%,rgba(255,255,255,0.2) 100%);
+  pointer-events:none;z-index:0
+}
+.core-view::after,.signal-card::after,.card::after,.chart-card::after,.decision::after{
+  content:'';position:absolute;top:0;left:15%;right:15%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.9),transparent);
+  pointer-events:none;z-index:1
+}
+.core-view>*,.signal-card>*,.card>*,.chart-card>*,.decision>*{position:relative;z-index:2}
+
+/* Floating draggable liquid glass orb */
+#lg-orb{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:200px;height:140px;border-radius:100px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.12),0 -8px 20px inset rgba(0,0,0,0.08),0 4px 8px inset rgba(255,255,255,0.3);backdrop-filter:url(#liquid-glass) blur(0.25px) contrast(1.2) brightness(1.05) saturate(1.1);-webkit-backdrop-filter:blur(0.25px) contrast(1.2) brightness(1.05) saturate(1.1);cursor:grab;z-index:9999;pointer-events:auto;transition:box-shadow 200ms var(--ease-out)}
+#lg-orb:active{cursor:grabbing}
+#lg-orb:hover{box-shadow:0 12px 40px rgba(0,0,0,0.15),0 -8px 20px inset rgba(0,0,0,0.08),0 4px 8px inset rgba(255,255,255,0.4)}
+#lg-orb-hint{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:0.6rem;color:rgba(0,0,0,0.3);white-space:nowrap;pointer-events:none;letter-spacing:0.05em}
+
 .container{max-width:var(--maxw);margin:0 auto;padding:24px 20px 60px}
 
 .date-bar{text-align:center;margin-bottom:28px}
@@ -1492,12 +1523,54 @@ def generate_html(model_data, econ_data):
 </style>
 </head>
 <body>
+
+<!-- ====== Liquid Glass SVG Filter (shuding/liquid-glass) ====== -->
+<svg style="position:fixed;top:0;left:0;width:0;height:0;pointer-events:none" aria-hidden="true">
+  <defs>
+    <filter id="liquid-glass" filterUnits="objectBoundingBox" x="0" y="0" width="1" height="1" colorInterpolationFilters="sRGB">
+      <feImage id="lg-map" preserveAspectRatio="none" width="100" height="100" result="map"/>
+      <feDisplacementMap in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="G" scale="30" result="displaced"/>
+    </filter>
+  </defs>
+</svg>
+
+<!-- ====== Floating Draggable Liquid Glass Orb ====== -->
+<div id="lg-orb"><span id="lg-orb-hint">drag me</span></div>
+
 <div class="container">
 {body}
 <footer>ETF 预测模型看板 &middot; 规则模型 + 计量交叉验证 &middot; 同花顺API + 四大报(10jqka) &middot; {now}</footer>
 </div>
 <script src="{ECHARTS_JS_REF}"></script>
 <script src="assets/charts.js"></script>
+
+<!-- ====== Liquid Glass — Displacement Map Generator (shuding/liquid-glass) ====== -->
+<script>
+(function(){{
+  'use strict';
+  function smoothStep(a,b,t){{t=Math.max(0,Math.min(1,(t-a)/(b-a)));return t*t*(3-2*t)}}
+  function length(x,y){{return Math.sqrt(x*x+y*y)}}
+  function roundedRectSDF(x,y,w,h,r){{var qx=Math.abs(x)-w+r,qy=Math.abs(y)-h+r;return Math.min(Math.max(qx,qy),0)+length(Math.max(qx,0),Math.max(qy,0))-r}}
+  var W=100,H=100,canvas=document.createElement('canvas');canvas.width=W;canvas.height=H;
+  var ctx=canvas.getContext('2d'),data=new Uint8ClampedArray(W*H*4),maxScale=0,rawValues=[];
+  for(var i=0;i<W*H;i++){{var x=i%W,y=Math.floor(i/W),ix=x/W-0.5,iy=y/H-0.5;var de=roundedRectSDF(ix,iy,0.3,0.2,0.6);var dp=smoothStep(0.8,0,de-0.15);var sc=smoothStep(0,1,dp);var dx=(ix*sc+0.5)*W-x,dy=(iy*sc+0.5)*H-y;maxScale=Math.max(maxScale,Math.abs(dx),Math.abs(dy));rawValues.push(dx,dy)}}
+  maxScale*=0.5;var idx=0;
+  for(var j=0;j<data.length;j+=4){{data[j]=rawValues[idx++]/maxScale*255+127.5;data[j+1]=rawValues[idx++]/maxScale*255+127.5;data[j+2]=0;data[j+3]=255}}
+  ctx.putImageData(new ImageData(data,W,H),0,0);
+  var dataURI=canvas.toDataURL();
+  var feImage=document.getElementById('lg-map');
+  if(feImage){{feImage.setAttribute('href',dataURI);feImage.setAttributeNS('http://www.w3.org/1999/xlink','href',dataURI)}}
+  var orb=document.getElementById('lg-orb');
+  if(orb){{
+    var isDragging=false,startX,startY,initialX,initialY,offset=10;
+    function constrain(x,y){{var maxX=window.innerWidth-orb.offsetWidth-offset,maxY=window.innerHeight-orb.offsetHeight-offset;return{{x:Math.max(offset,Math.min(maxX,x)),y:Math.max(offset,Math.min(maxY,y))}}}}
+    orb.addEventListener('mousedown',function(e){{isDragging=true;startX=e.clientX;startY=e.clientY;var rect=orb.getBoundingClientRect();initialX=rect.left;initialY=rect.top;e.preventDefault()}});
+    document.addEventListener('mousemove',function(e){{if(isDragging){{var c=constrain(initialX+e.clientX-startX,initialY+e.clientY-startY);orb.style.left=c.x+'px';orb.style.top=c.y+'px';orb.style.transform='none'}}}});
+    document.addEventListener('mouseup',function(){{isDragging=false}});
+    window.addEventListener('resize',function(){{var rect=orb.getBoundingClientRect();var c=constrain(rect.left,rect.top);if(rect.left!==c.x||rect.top!==c.y){{orb.style.left=c.x+'px';orb.style.top=c.y+'px';orb.style.transform='none'}}}});
+  }}
+}})();
+</script>
 </body>
 </html>"""
 
