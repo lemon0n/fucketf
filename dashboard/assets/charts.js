@@ -7,6 +7,9 @@
   var rule = style.getPropertyValue('--rule').trim();
   var gold = style.getPropertyValue('--gold').trim();
   var ink = style.getPropertyValue('--ink').trim();
+  var warn = style.getPropertyValue('--warn').trim() || gold;
+  var positive = style.getPropertyValue('--positive').trim() || green;
+  var negative = style.getPropertyValue('--negative').trim() || red;
   var charts = [];
 
   function makeChart(id, option){

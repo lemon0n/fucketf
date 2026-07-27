@@ -19,8 +19,14 @@
   --bg:#ffffff;--bg2:#f5f5f7;--bg3:#fbfbfd;
   --ink:#1d1d1f;--muted:#86868b;--rule:#d2d2d7;
   --accent:#0071e3;--green:#34c759;--accent2:#ff3b30;--gold:#d29922;
+  --positive:#34c759;--negative:#ff3b30;--warn:#ff9f0a;
   --radius:16px;--radius-sm:10px;
   --maxw:980px;
+  --ease-out:cubic-bezier(0.23,1,0.32,1);
+  --ease-in-out:cubic-bezier(0.77,0,0.175,1);
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.04),0 1px 2px rgba(0,0,0,0.02);
+  --shadow-md:0 4px 12px rgba(0,0,0,0.06),0 1px 3px rgba(0,0,0,0.04);
+  --shadow-lg:0 12px 40px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.04);
   --IS:'InstrumentSans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   --JM:'JetBrainsMono',ui-monospace,'SF Mono',Menlo,monospace;
 }
@@ -35,11 +41,13 @@ body{background:var(--bg);color:var(--ink);font-family:var(--IS);font-size:15px;
 
 .sec-title{font-size:0.7rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin:28px 0 10px;padding-left:2px}
 
-.card{background:var(--bg3);border:1px solid var(--rule);border-radius:var(--radius);padding:18px 20px;margin-bottom:12px}
+.card{background:var(--bg3);border:1px solid var(--rule);border-radius:var(--radius);padding:18px 20px;margin-bottom:12px;box-shadow:var(--shadow-sm);transition:box-shadow 200ms var(--ease-out),transform 200ms var(--ease-out)}
+.card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
 .card-title{font-size:0.9rem;font-weight:600;margin-bottom:12px;color:var(--ink)}
 
 .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:4px}
-.metric{background:var(--bg3);border:1px solid var(--rule);border-radius:var(--radius-sm);padding:14px 16px}
+.metric{background:var(--bg3);border:1px solid var(--rule);border-radius:var(--radius-sm);padding:14px 16px;box-shadow:var(--shadow-sm);transition:box-shadow 200ms var(--ease-out),transform 200ms var(--ease-out)}
+.metric:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
 .ml{font-size:0.72rem;color:var(--muted);margin-bottom:4px}
 .mv{font-family:var(--JM);font-size:1.3rem;font-weight:600;color:var(--ink)}
 .mv.up{color:var(--green)}
@@ -98,7 +106,8 @@ td.down,span.down{color:var(--accent2)}
 .rpt .hl{color:var(--green);font-weight:600}
 .rpt .wl{color:var(--accent2);font-weight:600}
 
-.chart-card{background:var(--bg3);border:1px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:12px}
+.chart-card{background:var(--bg3);border:1px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:12px;box-shadow:var(--shadow-sm);transition:box-shadow 200ms var(--ease-out),transform 200ms var(--ease-out)}
+.chart-card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
 .chart-card .card-title{margin-bottom:8px}
 .chart{width:100%;height:300px}
 
@@ -108,18 +117,69 @@ td.down,span.down{color:var(--accent2)}
 .exp-d{font-family:var(--JM);color:var(--muted);min-width:90px}
 .exp-t{color:var(--ink)}
 
+/* Top Summary Section */
+.top-summary{margin-bottom:16px}
+.core-view{background:var(--bg3);border:1px solid var(--accent);border-radius:var(--radius);padding:18px 22px;margin-bottom:12px;text-align:center;box-shadow:var(--shadow-md)}
+.core-view .cv-label{font-size:0.68rem;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+.core-view .cv-text{font-size:1rem;color:var(--ink);font-weight:500;line-height:1.7;letter-spacing:-0.005em}
+.signal-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.signal-card{background:var(--bg3);border-radius:var(--radius);padding:14px 18px;border:1px solid var(--rule);box-shadow:var(--shadow-sm);transition:box-shadow 200ms var(--ease-out),transform 200ms var(--ease-out)}
+.signal-card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.signal-card.long{border-left:4px solid var(--green)}
+.signal-card.short{border-left:4px solid var(--accent2)}
+.signal-card .sig-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
+.signal-card .sig-title{font-size:0.92rem;font-weight:700;letter-spacing:-0.005em}
+.signal-card.long .sig-title{color:var(--green)}
+.signal-card.short .sig-title{color:var(--accent2)}
+.signal-card .sig-tag{font-size:0.68rem;padding:2px 10px;border-radius:100px;font-weight:600;letter-spacing:0.02em}
+.signal-card.long .sig-tag{background:rgba(52,199,89,0.12);color:var(--green)}
+.signal-card.short .sig-tag{background:rgba(255,59,48,0.12);color:var(--accent2)}
+.signal-card .sig-item{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--rule);font-size:0.84rem}
+.signal-card .sig-item:last-child{border-bottom:none}
+.signal-card .sig-item .sig-name{font-weight:600;color:var(--ink)}
+.signal-card .sig-item .sig-meta{font-size:0.72rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.signal-card .sig-item .sig-score{font-family:var(--JM);font-weight:700;font-size:0.88rem;font-variant-numeric:tabular-nums}
+
 footer{text-align:center;font-size:0.7rem;color:var(--muted);margin-top:36px;padding-top:16px;border-top:1px solid var(--rule)}
 
 @media(max-width:760px){
   .metrics{grid-template-columns:repeat(2,1fr)}
   .np-grid{grid-template-columns:1fr}
   .rec-2col{grid-template-columns:1fr}
+  .signal-grid{grid-template-columns:1fr}
 }
 
 </style>
 </head>
 <body>
 <div class="container">
+<div class="top-summary">
+  <div class="core-view">
+    <div class="cv-label">核心观点</div>
+    <div class="cv-text">趋势看跌但情绪尚可（2多/2空），建议控制仓位，等待企稳信号。</div>
+  </div>
+  <div class="signal-grid">
+    <div class="signal-card long">
+      <div class="sig-header">
+        <span class="sig-title">三大做多</span>
+        <span class="sig-tag">相对看多</span>
+      </div>
+<div class="sig-item"><span class="sig-name">创新药ETF</span><span class="sig-meta">板块: 医药</span><span class="sig-score" style="color:var(--green)">P(涨)56.6%</span></div>
+<div class="sig-item"><span class="sig-name">新能源ETF</span><span class="sig-meta">板块: 新能源</span><span class="sig-score" style="color:var(--gold)">P(涨)53.7%</span></div>
+<div class="sig-item"><span class="sig-name">芯片ETF</span><span class="sig-meta">板块: 芯片</span><span class="sig-score" style="color:var(--gold)">P(涨)53.4%</span></div>
+    </div>
+    <div class="signal-card short">
+      <div class="sig-header">
+        <span class="sig-title">三大做空</span>
+        <span class="sig-tag">相对看空</span>
+      </div>
+<div class="sig-item"><span class="sig-name">黄金ETF</span><span class="sig-meta">板块: 黄金</span><span class="sig-score" style="color:var(--accent2)">P(跌)59.0%</span></div>
+<div class="sig-item"><span class="sig-name">券商ETF</span><span class="sig-meta">板块: 券商</span><span class="sig-score" style="color:var(--accent2)">P(跌)54.6%</span></div>
+<div class="sig-item"><span class="sig-name">卫星产业ETF</span><span class="sig-meta">板块: 商业航天</span><span class="sig-score" style="color:var(--accent2)">P(跌)54.4%</span></div>
+    </div>
+  </div>
+</div>
+
 <div class="date-bar">
   <span class="badge">2026-07-27</span>
   <div class="sub">规则模型 + 计量交叉验证 · 每日自动迭代</div>
@@ -456,7 +516,7 @@ footer{text-align:center;font-size:0.7rem;color:var(--muted);margin-top:36px;pad
     <div class="formula-legend" style="margin-top:6px">显著: sentiment_score(***)、bullish_count(***)、bearish_count(***)、prev_change_pct(*)、prev_intraday_return(***)、hs300_mom_5d(***)、vol_10d(**)、retail_sentiment(***)、rzjme_yi(***)</div>
   </div>
 </div>
-<footer>ETF 预测模型看板 &middot; 规则模型 + 计量交叉验证 &middot; 同花顺API + 四大报(10jqka) &middot; 2026-07-27 03:12</footer>
+<footer>ETF 预测模型看板 &middot; 规则模型 + 计量交叉验证 &middot; 同花顺API + 四大报(10jqka) &middot; 2026-07-27 07:33</footer>
 </div>
 <script src="_shared/js/echarts.min.js"></script>
 <script src="assets/charts.js"></script>

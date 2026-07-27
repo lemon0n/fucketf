@@ -510,8 +510,14 @@ CSS = r"""
   --bg:#ffffff;--bg2:#f5f5f7;--bg3:#fbfbfd;
   --ink:#1d1d1f;--muted:#86868b;--rule:#d2d2d7;
   --accent:#0071e3;--green:#34c759;--accent2:#ff3b30;--gold:#d29922;
+  --positive:#34c759;--negative:#ff3b30;--warn:#ff9f0a;
   --radius:16px;--radius-sm:10px;
   --maxw:980px;
+  --ease-out:cubic-bezier(0.23,1,0.32,1);
+  --ease-in-out:cubic-bezier(0.77,0,0.175,1);
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.04),0 1px 2px rgba(0,0,0,0.02);
+  --shadow-md:0 4px 12px rgba(0,0,0,0.06),0 1px 3px rgba(0,0,0,0.04);
+  --shadow-lg:0 12px 40px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.04);
   --IS:'InstrumentSans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   --JM:'JetBrainsMono',ui-monospace,'SF Mono',Menlo,monospace;
 }
@@ -526,11 +532,13 @@ body{background:var(--bg);color:var(--ink);font-family:var(--IS);font-size:15px;
 
 .sec-title{font-size:0.7rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin:28px 0 10px;padding-left:2px}
 
-.card{background:var(--bg3);border:1px solid var(--rule);border-radius:var(--radius);padding:18px 20px;margin-bottom:12px}
+.card{background:var(--bg3);border:1px solid var(--rule);border-radius:var(--radius);padding:18px 20px;margin-bottom:12px;box-shadow:var(--shadow-sm);transition:box-shadow 200ms var(--ease-out),transform 200ms var(--ease-out)}
+.card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
 .card-title{font-size:0.9rem;font-weight:600;margin-bottom:12px;color:var(--ink)}
 
 .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:4px}
-.metric{background:var(--bg3);border:1px solid var(--rule);border-radius:var(--radius-sm);padding:14px 16px}
+.metric{background:var(--bg3);border:1px solid var(--rule);border-radius:var(--radius-sm);padding:14px 16px;box-shadow:var(--shadow-sm);transition:box-shadow 200ms var(--ease-out),transform 200ms var(--ease-out)}
+.metric:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
 .ml{font-size:0.72rem;color:var(--muted);margin-bottom:4px}
 .mv{font-family:var(--JM);font-size:1.3rem;font-weight:600;color:var(--ink)}
 .mv.up{color:var(--green)}
@@ -589,7 +597,8 @@ td.down,span.down{color:var(--accent2)}
 .rpt .hl{color:var(--green);font-weight:600}
 .rpt .wl{color:var(--accent2);font-weight:600}
 
-.chart-card{background:var(--bg3);border:1px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:12px}
+.chart-card{background:var(--bg3);border:1px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:12px;box-shadow:var(--shadow-sm);transition:box-shadow 200ms var(--ease-out),transform 200ms var(--ease-out)}
+.chart-card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
 .chart-card .card-title{margin-bottom:8px}
 .chart{width:100%;height:300px}
 
@@ -599,12 +608,36 @@ td.down,span.down{color:var(--accent2)}
 .exp-d{font-family:var(--JM);color:var(--muted);min-width:90px}
 .exp-t{color:var(--ink)}
 
+/* Top Summary Section */
+.top-summary{margin-bottom:16px}
+.core-view{background:var(--bg3);border:1px solid var(--accent);border-radius:var(--radius);padding:18px 22px;margin-bottom:12px;text-align:center;box-shadow:var(--shadow-md)}
+.core-view .cv-label{font-size:0.68rem;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+.core-view .cv-text{font-size:1rem;color:var(--ink);font-weight:500;line-height:1.7;letter-spacing:-0.005em}
+.signal-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.signal-card{background:var(--bg3);border-radius:var(--radius);padding:14px 18px;border:1px solid var(--rule);box-shadow:var(--shadow-sm);transition:box-shadow 200ms var(--ease-out),transform 200ms var(--ease-out)}
+.signal-card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.signal-card.long{border-left:4px solid var(--green)}
+.signal-card.short{border-left:4px solid var(--accent2)}
+.signal-card .sig-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
+.signal-card .sig-title{font-size:0.92rem;font-weight:700;letter-spacing:-0.005em}
+.signal-card.long .sig-title{color:var(--green)}
+.signal-card.short .sig-title{color:var(--accent2)}
+.signal-card .sig-tag{font-size:0.68rem;padding:2px 10px;border-radius:100px;font-weight:600;letter-spacing:0.02em}
+.signal-card.long .sig-tag{background:rgba(52,199,89,0.12);color:var(--green)}
+.signal-card.short .sig-tag{background:rgba(255,59,48,0.12);color:var(--accent2)}
+.signal-card .sig-item{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--rule);font-size:0.84rem}
+.signal-card .sig-item:last-child{border-bottom:none}
+.signal-card .sig-item .sig-name{font-weight:600;color:var(--ink)}
+.signal-card .sig-item .sig-meta{font-size:0.72rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.signal-card .sig-item .sig-score{font-family:var(--JM);font-weight:700;font-size:0.88rem;font-variant-numeric:tabular-nums}
+
 footer{text-align:center;font-size:0.7rem;color:var(--muted);margin-top:36px;padding-top:16px;border-top:1px solid var(--rule)}
 
 @media(max-width:760px){
   .metrics{grid-template-columns:repeat(2,1fr)}
   .np-grid{grid-template-columns:1fr}
   .rec-2col{grid-template-columns:1fr}
+  .signal-grid{grid-template-columns:1fr}
 }
 """
 
@@ -633,6 +666,9 @@ def generate_charts_js(model_data, econ_data):
   var rule = style.getPropertyValue('--rule').trim();
   var gold = style.getPropertyValue('--gold').trim();
   var ink = style.getPropertyValue('--ink').trim();
+  var warn = style.getPropertyValue('--warn').trim() || gold;
+  var positive = style.getPropertyValue('--positive').trim() || green;
+  var negative = style.getPropertyValue('--negative').trim() || red;
   var charts = [];
 
   function makeChart(id, option){
@@ -746,6 +782,91 @@ def generate_charts_js(model_data, econ_data):
 # ============================================================
 #  HTML 各段生成
 # ============================================================
+
+def gen_top_summary(model_data, econ_data):
+    """生成顶部核心观点 + 三大做多/做空摘要"""
+    d = model_data['latest_decision']
+    s = model_data['summary']
+    logit_preds = econ_data['logit'].get('latest_predictions', [])
+
+    # ── 核心观点：根据趋势、情绪、动量自动生成 ──
+    trend = d.get('trend', '震荡')
+    sent_score = d.get('sentiment_score', 0)
+    bull = d.get('bull_signals', 0)
+    bear = d.get('bear_signals', 0)
+    ret = s.get('cumulative_return', 0)
+    win_rate = s.get('win_rate', 0)
+
+    if trend == '看涨':
+        if sent_score > 0:
+            core_text = f'机构情绪偏多（{bull}多/{bear}空），趋势看涨，建议逢低布局强势板块。'
+        else:
+            core_text = f'趋势信号偏多但情绪谨慎（{bull}多/{bear}空），建议轻仓试探，关注量能配合。'
+    elif trend == '看跌':
+        if sent_score < 0:
+            core_text = f'机构情绪偏空（{bull}多/{bear}空），趋势走弱，建议持币观望或减仓避险。'
+        else:
+            core_text = f'趋势看跌但情绪尚可（{bull}多/{bear}空），建议控制仓位，等待企稳信号。'
+    else:
+        core_text = f'多空信号均衡（{bull}多/{bear}空），市场震荡，建议观望为主，精选结构性机会。'
+
+    # ── 三大做多：Logit P(涨) 最高的3个 ──
+    top3_long = sorted(logit_preds, key=lambda x: float(x.get('prob', 0)), reverse=True)[:3]
+    long_items = ""
+    for lp in top3_long:
+        name = lp.get('name', '') or lp.get('etf', '')
+        prob_val = float(lp.get('prob', 0))
+        score_cls = 'sig-score'
+        if prob_val >= 55:
+            score_cls += '" style="color:var(--green)'
+        elif prob_val >= 45:
+            score_cls += '" style="color:var(--gold)'
+        else:
+            score_cls += '" style="color:var(--accent2)'
+        long_items += (
+            f'<div class="sig-item">'
+            f'<span class="sig-name">{esc(name)}</span>'
+            f'<span class="sig-meta">板块: {esc(lp.get("sector", ""))}</span>'
+            f'<span class="{score_cls}">P(涨){prob_val:.1f}%</span>'
+            f'</div>\n'
+        )
+
+    # ── 三大做空：Logit P(涨) 最低（即 P(跌) 最高）的3个 ──
+    top3_short = sorted(logit_preds, key=lambda x: float(x.get('prob', 0)))[:3]
+    short_items = ""
+    for lp in top3_short:
+        name = lp.get('name', '') or lp.get('etf', '')
+        prob_val = float(lp.get('prob', 0))
+        bear_prob = round(100 - prob_val, 1)
+        short_items += (
+            f'<div class="sig-item">'
+            f'<span class="sig-name">{esc(name)}</span>'
+            f'<span class="sig-meta">板块: {esc(lp.get("sector", ""))}</span>'
+            f'<span class="sig-score" style="color:var(--accent2)">P(跌){bear_prob:.1f}%</span>'
+            f'</div>\n'
+        )
+
+    return f"""<div class="top-summary">
+  <div class="core-view">
+    <div class="cv-label">核心观点</div>
+    <div class="cv-text">{esc(core_text)}</div>
+  </div>
+  <div class="signal-grid">
+    <div class="signal-card long">
+      <div class="sig-header">
+        <span class="sig-title">三大做多</span>
+        <span class="sig-tag">相对看多</span>
+      </div>
+{long_items}    </div>
+    <div class="signal-card short">
+      <div class="sig-header">
+        <span class="sig-title">三大做空</span>
+        <span class="sig-tag">相对看空</span>
+      </div>
+{short_items}    </div>
+  </div>
+</div>"""
+
 
 def gen_date_badge(model_data):
     date = model_data['summary']['report_date']
@@ -1345,6 +1466,7 @@ def generate_html(model_data, econ_data):
     report_date = model_data['summary']['report_date']
 
     sections = [
+        gen_top_summary(model_data, econ_data),
         gen_date_badge(model_data),
         gen_overview(model_data),
         gen_recommendation(model_data, econ_data),
