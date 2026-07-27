@@ -221,62 +221,62 @@
     "lasso_variable_selection": [
       {
         "feature": "retail_sentiment",
-        "coef": 0.716458,
+        "coef": 0.716492,
         "selected": true
       },
       {
         "feature": "rzjme_yi",
-        "coef": -0.515735,
+        "coef": -0.515783,
         "selected": true
       },
       {
         "feature": "sentiment_score",
-        "coef": -0.483371,
+        "coef": -0.483377,
         "selected": true
       },
       {
         "feature": "bearish_count",
-        "coef": -0.291399,
+        "coef": -0.2914,
         "selected": true
       },
       {
         "feature": "hs300_mom_5d",
-        "coef": -0.286293,
+        "coef": -0.286282,
         "selected": true
       },
       {
         "feature": "bullish_count",
-        "coef": 0.271628,
+        "coef": 0.271634,
         "selected": true
       },
       {
         "feature": "prev_intraday_return",
-        "coef": -0.161252,
+        "coef": -0.161242,
         "selected": true
       },
       {
         "feature": "vol_10d",
-        "coef": 0.151759,
+        "coef": 0.151761,
         "selected": true
       },
       {
         "feature": "sector_mention_count",
-        "coef": -0.108949,
+        "coef": -0.108952,
         "selected": true
       },
       {
         "feature": "prev_change_pct",
-        "coef": 0.069842,
+        "coef": 0.06983,
         "selected": true
       },
       {
         "feature": "sentiment_divergence",
-        "coef": -0.03929,
+        "coef": -0.039298,
         "selected": true
       },
       {
         "feature": "sector_mentioned",
-        "coef": 0.019673,
+        "coef": 0.019674,
         "selected": true
       },
       {
