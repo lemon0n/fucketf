@@ -2,15 +2,15 @@
   "summary": {
     "report_date": "2026-07-27",
     "cumulative_return": 24.18,
-    "hs300_return": 5.13,
-    "hs300_cumulative_return": 5.13,
-    "alpha": 19.05,
+    "hs300_return": 6.27,
+    "hs300_cumulative_return": 6.27,
+    "alpha": 17.91,
     "win_rate": 70.83,
     "profit_loss_ratio": 1.68,
-    "trading_days": 85,
+    "trading_days": 86,
     "total_trades": 24,
     "experience_count": 24,
-    "etf_avg_performance": 2.09,
+    "etf_avg_performance": 3.48,
     "final_capital": 1241843.31,
     "initial_capital": 1000000.0,
     "commission_rate": 5e-05,
@@ -1430,6 +1430,16 @@
       "hs300": -1.0316,
       "alpha": 1.0316,
       "sentiment_score": 0.75
+    },
+    {
+      "date": "2026-07-27",
+      "trend": "bearish",
+      "decision": "hold",
+      "etf_names": [],
+      "return": 0.0,
+      "hs300": 1.0846,
+      "alpha": -1.0846,
+      "sentiment_score": 0.0
     }
   ],
   "latest_newspapers": {

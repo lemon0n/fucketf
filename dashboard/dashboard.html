@@ -4,540 +4,183 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ETF模型日报 — 2026-07-27</title>
+<title>ETF 预测模型看板 · 2026-07-27</title>
 <style>
-@font-face { font-family: 'WorkSans'; src: url('./_shared/fonts/WorkSans-Regular.ttf') format('truetype'); font-weight: 400; }
-@font-face { font-family: 'WorkSans'; src: url('./_shared/fonts/WorkSans-Bold.ttf') format('truetype'); font-weight: 700; }
 
-:root {
-  --bg: #ffffff;
-  --bg2: #f5f5f7;
-  --bg3: #fbfbfd;
-  --ink: #1d1d1f;
-  --muted: #86868b;
-  --rule: #d2d2d7;
-  --accent: #0071e3;
-  --accent2: #ff9500;
-  --positive: #34c759;
-  --negative: #ff3b30;
-  --warn: #ff9f0a;
-  --gold: #d29922;
-  --radius: 16px;
-  --radius-sm: 10px;
-  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
-  --shadow-lg: 0 12px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
+
+@font-face{font-family:'InstrumentSans';src:url('_shared/fonts/InstrumentSans-Regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'InstrumentSans';src:url('_shared/fonts/InstrumentSans-Bold.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'InstrumentSans';src:url('_shared/fonts/InstrumentSans-Italic.ttf') format('truetype');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:'JetBrainsMono';src:url('_shared/fonts/JetBrainsMono-Regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'JetBrainsMono';src:url('_shared/fonts/JetBrainsMono-Bold.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
+
+:root{
+  --bg:#ffffff;--bg2:#f5f5f7;--bg3:#fbfbfd;
+  --ink:#1d1d1f;--muted:#86868b;--rule:#d2d2d7;
+  --accent:#0071e3;--green:#34c759;--accent2:#ff3b30;--gold:#d29922;
+  --positive:#34c759;--negative:#ff3b30;--warn:#ff9f0a;
+  --radius:16px;--radius-sm:10px;
+  --maxw:980px;
+  --ease-out:cubic-bezier(0.23,1,0.32,1);
+  --ease-in-out:cubic-bezier(0.77,0,0.175,1);
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.04),0 1px 2px rgba(0,0,0,0.02);
+  --shadow-md:0 4px 12px rgba(0,0,0,0.06),0 1px 3px rgba(0,0,0,0.04);
+  --shadow-lg:0 12px 40px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.04);
+  --IS:'InstrumentSans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --JM:'JetBrainsMono',ui-monospace,'SF Mono',Menlo,monospace;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: 'WorkSans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background:
-    radial-gradient(ellipse 600px 400px at 15% 5%, rgba(0,113,227,0.15), transparent 60%),
-    radial-gradient(ellipse 500px 350px at 85% 15%, rgba(0,113,227,0.10), transparent 60%),
-    radial-gradient(ellipse 700px 500px at 50% 45%, rgba(0,113,227,0.08), transparent 70%),
-    var(--bg);
-  background-attachment: fixed;
-  color: var(--ink);
-  line-height: 1.6;
-  font-size: 15px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  min-height: 100vh;
-}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:radial-gradient(ellipse 600px 400px at 15% 5%,rgba(0,113,227,0.15),transparent 60%),radial-gradient(ellipse 500px 350px at 85% 15%,rgba(0,113,227,0.10),transparent 60%),radial-gradient(ellipse 700px 500px at 50% 45%,rgba(0,113,227,0.08),transparent 70%),var(--bg);background-attachment:fixed;color:var(--ink);font-family:var(--IS);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
 
 /* Decorative blurred color blobs for glass refraction visibility */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background:
-    radial-gradient(circle 200px at 20% 30%, rgba(0,113,227,0.12), transparent),
-    radial-gradient(circle 250px at 60% 70%, rgba(0,113,227,0.08), transparent),
-    radial-gradient(circle 200px at 90% 50%, rgba(0,113,227,0.06), transparent);
-  filter: blur(40px);
-  z-index: -1;
-  pointer-events: none;
-}
+body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle 200px at 20% 30%,rgba(0,113,227,0.12),transparent),radial-gradient(circle 250px at 60% 70%,rgba(0,113,227,0.08),transparent),radial-gradient(circle 200px at 90% 50%,rgba(0,113,227,0.06),transparent);filter:blur(40px);z-index:-1;pointer-events:none}
 
-/* ====== Liquid Glass Effect ====== */
-.lg {
-  backdrop-filter: url(#liquid-glass) blur(16px) saturate(180%) brightness(106%) contrast(108%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%) brightness(106%) contrast(108%);
-  background: rgba(255,255,255,0.48) !important;
-  border-color: rgba(255,255,255,0.55) !important;
-  box-shadow:
-    0 4px 16px rgba(0,0,0,0.06),
-    0 1px 3px rgba(0,0,0,0.03),
-    inset 0 1px 1px rgba(255,255,255,0.7),
-    inset 0 -1px 1px rgba(0,0,0,0.02),
-    inset 1px 0 0 rgba(255,255,255,0.35),
-    inset -1px 0 0 rgba(255,255,255,0.35) !important;
+/* ====== Liquid Glass Effect (shuding/liquid-glass) ====== */
+.core-view,.signal-card,.metric,.callout,.card,.chart-card,.rpt,.decision,.np-card,.formula-box,.pick,.reason{
+  backdrop-filter:url(#liquid-glass) blur(24px) saturate(180%) brightness(106%) contrast(108%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%) brightness(106%) contrast(108%);
+  background:rgba(255,255,255,0.32)!important;
+  border-color:rgba(255,255,255,0.6)!important;
+  box-shadow:0 4px 16px rgba(0,0,0,0.06),0 1px 3px rgba(0,0,0,0.03),inset 0 1px 1px rgba(255,255,255,0.8),inset 0 -1px 1px rgba(0,0,0,0.02)!important;
+  position:relative;overflow:hidden
 }
+.core-view::before,.signal-card::before,.card::before,.chart-card::before,.decision::before{
+  content:'';position:absolute;inset:0;border-radius:inherit;
+  background:linear-gradient(135deg,rgba(255,255,255,0.45) 0%,rgba(255,255,255,0) 30%,rgba(255,255,255,0) 70%,rgba(255,255,255,0.2) 100%);
+  pointer-events:none;z-index:0
+}
+.core-view::after,.signal-card::after,.card::after,.chart-card::after,.decision::after{
+  content:'';position:absolute;top:0;left:15%;right:15%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.9),transparent);
+  pointer-events:none;z-index:1
+}
+.core-view>*,.signal-card>*,.card>*,.chart-card>*,.decision>*{position:relative;z-index:2}
 
-/* Glass specular highlight — top edge light reflection */
-.lg-spec { position: relative; overflow: hidden; }
-.lg-spec::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(135deg, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0) 35%, rgba(255,255,255,0) 65%, rgba(255,255,255,0.12) 100%);
-  pointer-events: none;
-  z-index: 0;
-}
-.lg-spec::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 15%; right: 15%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
-  pointer-events: none;
-  z-index: 1;
-}
-.lg-spec > * { position: relative; z-index: 2; }
+/* Floating draggable liquid glass orb */
+#lg-orb{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:200px;height:140px;border-radius:100px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.12),0 -8px 20px inset rgba(0,0,0,0.08),0 4px 8px inset rgba(255,255,255,0.3);backdrop-filter:url(#liquid-glass) blur(0.25px) contrast(1.2) brightness(1.05) saturate(1.1);-webkit-backdrop-filter:blur(0.25px) contrast(1.2) brightness(1.05) saturate(1.1);cursor:grab;z-index:9999;pointer-events:auto;transition:box-shadow 200ms var(--ease-out)}
+#lg-orb:active{cursor:grabbing}
+#lg-orb:hover{box-shadow:0 12px 40px rgba(0,0,0,0.15),0 -8px 20px inset rgba(0,0,0,0.08),0 4px 8px inset rgba(255,255,255,0.4)}
+#lg-orb-hint{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:0.6rem;color:rgba(0,0,0,0.3);white-space:nowrap;pointer-events:none;letter-spacing:0.05em}
 
-/* Apply liquid glass to existing UI elements */
-.core-view,
-.signal-card,
-.metric-card,
-.callout,
-.sentiment-card,
-.formula-box {
-  backdrop-filter: url(#liquid-glass) blur(24px) saturate(180%) brightness(106%) contrast(108%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(106%) contrast(108%);
-  background: rgba(255,255,255,0.32) !important;
-  border-color: rgba(255,255,255,0.6) !important;
-  border-width: 1px !important;
-  box-shadow:
-    0 4px 16px rgba(0,0,0,0.06),
-    0 1px 3px rgba(0,0,0,0.03),
-    inset 0 1px 1px rgba(255,255,255,0.8),
-    inset 0 -1px 1px rgba(0,0,0,0.02) !important;
-  position: relative;
-  overflow: hidden;
-}
-/* Specular highlights on primary cards */
-.core-view::before,
-.signal-card::before,
-.sentiment-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(135deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0) 30%, rgba(255,255,255,0) 70%, rgba(255,255,255,0.2) 100%);
-  pointer-events: none;
-  z-index: 0;
-}
-.core-view::after,
-.signal-card::after,
-.sentiment-card::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 15%; right: 15%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent);
-  pointer-events: none;
-  z-index: 1;
-}
-.core-view > *,
-.signal-card > *,
-.sentiment-card > * { position: relative; z-index: 2; }
+.container{max-width:var(--maxw);margin:0 auto;padding:24px 20px 60px}
 
-/* Floating draggable liquid glass orb (homage to shuding/liquid-glass) */
-#lg-orb {
-  position: fixed;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 200px; height: 140px;
-  border-radius: 100px;
-  overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 -8px 20px inset rgba(0,0,0,0.08), 0 4px 8px inset rgba(255,255,255,0.3);
-  backdrop-filter: url(#liquid-glass) blur(0.25px) contrast(1.2) brightness(1.05) saturate(1.1);
-  -webkit-backdrop-filter: blur(0.25px) contrast(1.2) brightness(1.05) saturate(1.1);
-  cursor: grab;
-  z-index: 9999;
-  pointer-events: auto;
-  transition: box-shadow 200ms var(--ease-out);
-}
-#lg-orb:active { cursor: grabbing; }
-#lg-orb:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.15), 0 -8px 20px inset rgba(0,0,0,0.08), 0 4px 8px inset rgba(255,255,255,0.4); }
-#lg-orb-hint {
-  position: absolute;
-  bottom: 8px; left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.6rem;
-  color: rgba(0,0,0,0.3);
-  white-space: nowrap;
-  pointer-events: none;
-  letter-spacing: 0.05em;
-}
-.container { max-width: 980px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+.date-bar{text-align:center;margin-bottom:28px}
+.badge{display:inline-block;background:var(--bg2);border-radius:100px;padding:6px 16px;font-family:var(--JM);font-size:0.82rem;color:var(--ink);font-weight:500}
+.date-bar .sub{margin-top:6px;font-size:0.72rem;color:var(--muted)}
 
-/* Header — translucent material */
-header {
-  text-align: center;
-  padding: 3rem 0 2rem;
-  border-bottom: 1px solid var(--rule);
-  margin-bottom: 1.5rem;
-}
-header h1 {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: var(--ink);
-  letter-spacing: -0.02em;
-  margin-bottom: 0.4rem;
-}
-header .meta {
-  color: var(--muted);
-  font-size: 0.85rem;
-  letter-spacing: 0.01em;
-}
-header .meta .sep { margin: 0 0.5rem; color: var(--rule); }
-header .badge {
-  display: inline-block;
-  background: var(--positive);
-  color: #fff;
-  font-size: 0.72rem;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 100px;
-  margin-left: 0.5rem;
-  letter-spacing: 0.02em;
-}
+.sec-title{font-size:0.7rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin:28px 0 10px;padding-left:2px}
 
-/* Section headings */
-h2 {
-  font-size: 1.3rem;
-  font-weight: 700;
-  margin: 2.5rem 0 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid var(--accent);
-  color: var(--ink);
-  letter-spacing: -0.015em;
-}
-h3 {
-  font-size: 1.05rem;
-  font-weight: 600;
-  margin: 1.5rem 0 0.7rem;
-  color: var(--accent);
-  letter-spacing: -0.01em;
-}
+.card{background:var(--bg3);border:1px solid var(--rule);border-radius:var(--radius);padding:18px 20px;margin-bottom:12px;box-shadow:var(--shadow-sm);transition:box-shadow 200ms var(--ease-out),transform 200ms var(--ease-out)}
+.card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.card-title{font-size:0.9rem;font-weight:600;margin-bottom:12px;color:var(--ink)}
 
-p { margin-bottom: 0.6rem; }
-strong { color: var(--ink); font-weight: 600; }
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:4px}
+.metric{background:var(--bg3);border:1px solid var(--rule);border-radius:var(--radius-sm);padding:14px 16px;box-shadow:var(--shadow-sm);transition:box-shadow 200ms var(--ease-out),transform 200ms var(--ease-out)}
+.metric:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.ml{font-size:0.72rem;color:var(--muted);margin-bottom:4px}
+.mv{font-family:var(--JM);font-size:1.3rem;font-weight:600;color:var(--ink)}
+.mv.up{color:var(--green)}
+.mv.down{color:var(--accent2)}
+.ms{font-size:0.68rem;color:var(--muted);margin-top:3px}
 
-/* Metric cards */
-.metric-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 0.75rem;
-  margin: 1rem 0;
-}
-.metric-card {
-  background: var(--bg3);
-  border-radius: var(--radius);
-  padding: 1.1rem 1rem;
-  border: 1px solid var(--rule);
-  text-align: center;
-  box-shadow: var(--shadow-sm);
-  transition: box-shadow 200ms var(--ease-out), transform 200ms var(--ease-out);
-}
-.metric-card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-1px);
-}
-.metric-card .value {
-  font-size: 1.65rem;
-  font-weight: 700;
-  color: var(--ink);
-  letter-spacing: -0.02em;
-  font-variant-numeric: tabular-nums;
-}
-.metric-card .value.pos { color: var(--positive); }
-.metric-card .value.neg { color: var(--negative); }
-.metric-card .label {
-  font-size: 0.78rem;
-  color: var(--muted);
-  margin-top: 0.3rem;
-  letter-spacing: 0.01em;
-}
-.metric-card .delta {
-  font-size: 0.74rem;
-  margin-top: 0.25rem;
-  color: var(--muted);
-  font-variant-numeric: tabular-nums;
-}
-.metric-card .delta.pos { color: var(--positive); }
-.metric-card .delta.neg { color: var(--negative); }
+.formula-box{background:var(--bg);border:1px solid var(--rule);border-radius:var(--radius-sm);padding:14px 16px;margin-top:10px}
+.formula{font-family:var(--JM);font-size:0.8rem;color:var(--ink);line-height:1.9;white-space:nowrap;overflow-x:auto}
+.formula .coef{color:var(--accent)}
+.formula .coef.sig{color:var(--accent2);font-weight:600}
+.formula .var{color:var(--muted)}
+.formula .op{color:var(--muted)}
+.f-title{font-size:0.78rem;font-weight:600;color:var(--muted);margin-bottom:6px}
+.formula-legend{font-size:0.72rem;color:var(--muted);line-height:1.9;margin-top:8px}
+.formula-legend b{color:var(--ink)}
 
-/* Tables */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 0.8rem 0;
-  font-size: 0.85rem;
-  font-variant-numeric: tabular-nums;
-}
-th {
-  text-align: left;
-  padding: 0.55rem 0.7rem;
-  border-bottom: 2px solid var(--accent);
-  color: var(--accent);
-  font-weight: 600;
-  white-space: nowrap;
-  font-size: 0.78rem;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-}
-td {
-  padding: 0.5rem 0.7rem;
-  border-bottom: 1px solid var(--rule);
-  color: var(--ink);
-}
-tr { transition: background 150ms var(--ease-out); }
-tr:hover td { background: var(--bg2); }
-.pos { color: var(--positive); }
-.neg { color: var(--negative); }
-.warn { color: var(--warn); }
+.rec-2col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
 
-/* Callouts */
-.callout {
-  background: var(--bg3);
-  border-left: 4px solid var(--accent);
-  padding: 0.9rem 1.1rem;
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  margin: 1rem 0;
-  box-shadow: var(--shadow-sm);
-}
-.callout.warning { border-left-color: var(--warn); }
-.callout.danger { border-left-color: var(--negative); }
-.callout.success { border-left-color: var(--positive); }
-.callout strong { color: var(--ink); }
+table{width:100%;border-collapse:collapse;font-size:0.8rem}
+thead th{text-align:left;font-weight:600;color:var(--muted);padding:6px 8px;border-bottom:2px solid var(--rule);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.5px}
+tbody td{padding:5px 8px;border-bottom:1px solid var(--bg2)}
+tbody tr:last-child td{border-bottom:none}
+td.up,span.up{color:var(--green)}
+td.down,span.down{color:var(--accent2)}
 
-/* Bar charts */
-.bar-container { display: flex; align-items: center; gap: 0.5rem; margin: 0.35rem 0; }
-.bar-label { width: 120px; font-size: 0.82rem; color: var(--muted); text-align: right; flex-shrink: 0; }
-.bar-track {
-  flex: 1;
-  height: 22px;
-  background: var(--bg2);
-  border-radius: 6px;
-  overflow: hidden;
-  position: relative;
-}
-.bar-fill {
-  height: 100%;
-  border-radius: 6px;
-  transition: width 400ms var(--ease-out);
-}
-.bar-fill.pos { background: var(--positive); }
-.bar-fill.neg { background: var(--negative); }
-.bar-fill.neutral { background: var(--accent); }
-.bar-value {
-  position: absolute;
-  right: 8px;
-  top: 2px;
-  font-size: 0.72rem;
-  color: var(--ink);
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-}
+.decision{background:var(--bg3);border:1px solid var(--rule);border-radius:var(--radius);padding:18px 20px}
+.dec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.tag{display:inline-block;padding:2px 10px;border-radius:6px;font-size:0.74rem;font-weight:600}
+.t-bull{background:rgba(52,199,89,0.12);color:var(--green)}
+.t-bear{background:rgba(255,59,48,0.12);color:var(--accent2)}
+.t-neutral{background:var(--bg2);color:var(--muted)}
+.conf-pill{background:var(--bg2);border-radius:100px;padding:2px 10px;font-size:0.72rem;color:var(--muted)}
+.sig-bar{display:flex;gap:16px;font-size:0.78rem;color:var(--muted);margin-bottom:12px}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:3px;vertical-align:middle}
+.dot.bull{background:var(--green)}
+.dot.bear{background:var(--accent2)}
+.picks{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.pick{background:var(--bg);border:1px solid var(--rule);border-radius:var(--radius-sm);padding:8px 12px;display:flex;align-items:center;gap:8px}
+.pick-code{font-family:var(--JM);font-size:0.72rem;color:var(--muted)}
+.pick-name{font-size:0.82rem;font-weight:500}
+.pick-score{font-family:var(--JM);font-size:0.68rem;color:var(--muted);margin-left:4px}
+.pick-logit{font-size:0.7rem;color:var(--muted);margin-left:4px}
+.pick-w{font-family:var(--JM);font-size:0.78rem;color:var(--accent);font-weight:600}
+.reason{font-size:0.8rem;color:var(--ink);line-height:1.7;background:var(--bg);border-radius:var(--radius-sm);padding:10px 12px}
 
-/* Tags */
-.tag {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 6px;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-}
-.tag.up { background: rgba(52,199,89,0.12); color: var(--positive); }
-.tag.down { background: rgba(255,59,48,0.12); color: var(--negative); }
-.tag.hold { background: rgba(255,159,10,0.12); color: var(--warn); }
-.tag.neutral { background: var(--bg2); color: var(--muted); }
+.np-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
+.np-card{background:var(--bg);border:1px solid var(--rule);border-radius:var(--radius-sm);padding:12px 14px}
+.np-src{font-size:0.78rem;font-weight:600;color:var(--accent);margin-bottom:6px}
+.np-card ul{list-style:none;padding:0}
+.np-card li{font-size:0.74rem;color:var(--ink);padding:2px 0;border-bottom:1px solid var(--bg2)}
+.np-card li:last-child{border-bottom:none}
 
-.table-wrap { overflow-x: auto; overflow-y: auto; max-height: 500px; border-radius: var(--radius-sm); }
+.rpt{background:var(--bg3);border:1px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:10px}
+.rpt h3{font-size:0.82rem;font-weight:600;margin-bottom:6px;color:var(--ink)}
+.rpt p{font-size:0.78rem;color:var(--ink);line-height:1.7;margin-bottom:3px}
+.rpt .hl{color:var(--green);font-weight:600}
+.rpt .wl{color:var(--accent2);font-weight:600}
 
-/* Sentiment cards */
-.sentiment-box { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
-.sentiment-card {
-  background: var(--bg3);
-  border-radius: var(--radius);
-  padding: 1.2rem;
-  border: 1px solid var(--rule);
-  box-shadow: var(--shadow-sm);
-  transition: box-shadow 200ms var(--ease-out);
-}
-.sentiment-card:hover { box-shadow: var(--shadow-md); }
-.sentiment-card h4 {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--accent);
-  margin-bottom: 0.5rem;
-  letter-spacing: 0.01em;
-}
-.sentiment-card .score {
-  font-size: 2.2rem;
-  font-weight: 700;
-  margin: 0.3rem 0;
-  letter-spacing: -0.02em;
-  font-variant-numeric: tabular-nums;
-}
-.sentiment-card .desc { font-size: 0.82rem; color: var(--muted); }
-.sentiment-card .indicator {
-  display: inline-block;
-  width: 100%;
-  height: 6px;
-  background: var(--bg2);
-  border-radius: 3px;
-  margin-top: 0.6rem;
-  position: relative;
-}
-.sentiment-card .indicator-fill {
-  height: 100%;
-  border-radius: 3px;
-  position: absolute;
-  left: 50%;
-  transition: width 400ms var(--ease-out);
-}
+.chart-card{background:var(--bg3);border:1px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:12px;box-shadow:var(--shadow-sm);transition:box-shadow 200ms var(--ease-out),transform 200ms var(--ease-out)}
+.chart-card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.chart-card .card-title{margin-bottom:8px}
+.chart{width:100%;height:300px}
 
-/* Formula box */
-.formula-box {
-  background: var(--bg2);
-  border: 1px solid var(--rule);
-  border-radius: var(--radius-sm);
-  padding: 0.9rem 1.1rem;
-  margin: 0.8rem 0;
-  font-family: 'SF Mono', 'JetBrains Mono', 'Courier New', monospace;
-  font-size: 0.85rem;
-  line-height: 1.8;
-  font-variant-numeric: tabular-nums;
-}
-.formula-box .coef { color: var(--accent); font-weight: 700; }
-.formula-box .var { color: var(--muted); }
-.formula-box .note { color: var(--muted); font-size: 0.78rem; margin-top: 0.5rem; line-height: 1.7; }
-
-/* Footer */
-footer {
-  margin-top: 3rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--rule);
-  text-align: center;
-  color: var(--muted);
-  font-size: 0.78rem;
-  letter-spacing: 0.01em;
-}
-
-/* Chart figures */
-.chart-figure { margin: 1rem 0; }
-.chart-figure figcaption {
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: var(--ink);
-  margin-bottom: 0.5rem;
-  letter-spacing: -0.005em;
-}
+.exp-list{display:grid;grid-template-columns:1fr;gap:4px}
+.exp-row{display:flex;gap:10px;padding:6px 0;border-bottom:1px solid var(--bg2);font-size:0.76rem}
+.exp-row:last-child{border-bottom:none}
+.exp-d{font-family:var(--JM);color:var(--muted);min-width:90px}
+.exp-t{color:var(--ink)}
 
 /* Top Summary Section */
-.top-summary { margin-bottom: 1.5rem; }
-.core-view {
-  background: var(--bg3);
-  border: 1px solid var(--accent);
-  border-radius: var(--radius);
-  padding: 1.3rem 1.6rem;
-  margin-bottom: 1rem;
-  text-align: center;
-  box-shadow: var(--shadow-md);
-}
-.core-view .cv-label {
-  font-size: 0.7rem;
-  color: var(--accent);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  margin-bottom: 0.5rem;
-}
-.core-view .cv-text {
-  font-size: 1.08rem;
-  color: var(--ink);
-  font-weight: 500;
-  line-height: 1.6;
-  letter-spacing: -0.005em;
-}
-.signal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.signal-card {
-  background: var(--bg3);
-  border-radius: var(--radius);
-  padding: 1.1rem 1.3rem;
-  border: 1px solid var(--rule);
-  box-shadow: var(--shadow-sm);
-  transition: box-shadow 200ms var(--ease-out), transform 200ms var(--ease-out);
-}
-.signal-card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-1px);
-}
-.signal-card.long { border-left: 4px solid var(--positive); }
-.signal-card.short { border-left: 4px solid var(--negative); }
-.signal-card .sig-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.7rem;
-  padding-bottom: 0.6rem;
-  border-bottom: 1px solid var(--rule);
-}
-.signal-card .sig-title {
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: -0.005em;
-}
-.signal-card.long .sig-title { color: var(--positive); }
-.signal-card.short .sig-title { color: var(--negative); }
-.signal-card .sig-tag {
-  font-size: 0.7rem;
-  padding: 2px 10px;
-  border-radius: 100px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-.signal-card.long .sig-tag { background: rgba(52,199,89,0.12); color: var(--positive); }
-.signal-card.short .sig-tag { background: rgba(255,59,48,0.12); color: var(--negative); }
-.signal-card .sig-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.45rem 0;
-  border-bottom: 1px solid var(--rule);
-  font-size: 0.86rem;
-}
-.signal-card .sig-item:last-child { border-bottom: none; }
-.signal-card .sig-item .sig-name { font-weight: 600; color: var(--ink); }
-.signal-card .sig-item .sig-meta { font-size: 0.75rem; color: var(--muted); font-variant-numeric: tabular-nums; }
-.signal-card .sig-item .sig-score {
-  font-family: 'SF Mono', 'JetBrains Mono', monospace;
-  font-weight: 700;
-  font-size: 0.9rem;
-  font-variant-numeric: tabular-nums;
+.top-summary{margin-bottom:16px}
+.core-view{background:var(--bg3);border:1px solid var(--accent);border-radius:var(--radius);padding:18px 22px;margin-bottom:12px;text-align:center;box-shadow:var(--shadow-md)}
+.core-view .cv-label{font-size:0.68rem;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+.core-view .cv-text{font-size:1rem;color:var(--ink);font-weight:500;line-height:1.7;letter-spacing:-0.005em}
+.signal-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.signal-card{background:var(--bg3);border-radius:var(--radius);padding:14px 18px;border:1px solid var(--rule);box-shadow:var(--shadow-sm);transition:box-shadow 200ms var(--ease-out),transform 200ms var(--ease-out)}
+.signal-card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.signal-card.long{border-left:4px solid var(--green)}
+.signal-card.short{border-left:4px solid var(--accent2)}
+.signal-card .sig-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
+.signal-card .sig-title{font-size:0.92rem;font-weight:700;letter-spacing:-0.005em}
+.signal-card.long .sig-title{color:var(--green)}
+.signal-card.short .sig-title{color:var(--accent2)}
+.signal-card .sig-tag{font-size:0.68rem;padding:2px 10px;border-radius:100px;font-weight:600;letter-spacing:0.02em}
+.signal-card.long .sig-tag{background:rgba(52,199,89,0.12);color:var(--green)}
+.signal-card.short .sig-tag{background:rgba(255,59,48,0.12);color:var(--accent2)}
+.signal-card .sig-item{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--rule);font-size:0.84rem}
+.signal-card .sig-item:last-child{border-bottom:none}
+.signal-card .sig-item .sig-name{font-weight:600;color:var(--ink)}
+.signal-card .sig-item .sig-meta{font-size:0.72rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.signal-card .sig-item .sig-score{font-family:var(--JM);font-weight:700;font-size:0.88rem;font-variant-numeric:tabular-nums}
+
+footer{text-align:center;font-size:0.7rem;color:var(--muted);margin-top:36px;padding-top:16px;border-top:1px solid var(--rule)}
+
+@media(max-width:760px){
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .np-grid{grid-template-columns:1fr}
+  .rec-2col{grid-template-columns:1fr}
+  .signal-grid{grid-template-columns:1fr}
+  #lg-orb{display:none!important}
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .container { padding: 1rem; }
-  .metric-grid { grid-template-columns: 1fr 1fr; }
-  .sentiment-box { grid-template-columns: 1fr; }
-  .signal-grid { grid-template-columns: 1fr; }
-  header h1 { font-size: 1.4rem; }
-  #lg-orb { display: none !important; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; animation: none !important; }
-}
 </style>
 </head>
 <body>
@@ -553,27 +196,13 @@ footer {
 </svg>
 
 <!-- ====== Floating Draggable Liquid Glass Orb ====== -->
-<div id="lg-orb">
-  <span id="lg-orb-hint">drag me</span>
-</div>
+<div id="lg-orb"><span id="lg-orb-hint">drag me</span></div>
 
 <div class="container">
-
-<header>
-  <h1>ETF模型日报</h1>
-  <div class="meta">
-    预测日: 2026-07-27（周一）
-    <span class="sep">|</span>
-    数据截止: 2026-07-24收盘 + 07-27晨报
-    <span class="badge">滞后修正 + 动量增强</span>
-  </div>
-</header>
-
-<!-- ====== 0. 今日核心 ====== -->
 <div class="top-summary">
   <div class="core-view">
     <div class="cv-label">核心观点</div>
-    <div class="cv-text">市场情绪双空共振、动量全面走弱，今日持币观望；卫星产业与消费ETF相对抗跌，科技板块短期承压。</div>
+    <div class="cv-text">趋势看跌但情绪尚可（2多/2空），建议控制仓位，等待企稳信号。</div>
   </div>
   <div class="signal-grid">
     <div class="signal-card long">
@@ -581,557 +210,212 @@ footer {
         <span class="sig-title">三大做多</span>
         <span class="sig-tag">相对看多</span>
       </div>
-      <div class="sig-item">
-        <span class="sig-name">卫星产业ETF</span>
-        <span class="sig-meta">10日动量 +1.50%</span>
-        <span class="sig-score" style="color:var(--warn)">-0.50</span>
-      </div>
-      <div class="sig-item">
-        <span class="sig-name">消费ETF</span>
-        <span class="sig-meta">10日动量 +0.83%</span>
-        <span class="sig-score" style="color:var(--warn)">-0.56</span>
-      </div>
-      <div class="sig-item">
-        <span class="sig-name">创新药ETF</span>
-        <span class="sig-meta">10日动量 -2.18%</span>
-        <span class="sig-score" style="color:var(--warn)">-0.76</span>
-      </div>
+<div class="sig-item"><span class="sig-name">芯片ETF</span><span class="sig-meta">板块: 芯片</span><span class="sig-score" style="color:var(--gold)">P(涨)53.3%</span></div>
+<div class="sig-item"><span class="sig-name">半导体ETF</span><span class="sig-meta">板块: 半导体</span><span class="sig-score" style="color:var(--gold)">P(涨)53.2%</span></div>
+<div class="sig-item"><span class="sig-name">人工智能ETF</span><span class="sig-meta">板块: AI算力</span><span class="sig-score" style="color:var(--gold)">P(涨)51.9%</span></div>
     </div>
     <div class="signal-card short">
       <div class="sig-header">
         <span class="sig-title">三大做空</span>
         <span class="sig-tag">相对看空</span>
       </div>
-      <div class="sig-item">
-        <span class="sig-name">军工ETF</span>
-        <span class="sig-meta">10日动量 -15.93%</span>
-        <span class="sig-score neg">-2.03</span>
-      </div>
-      <div class="sig-item">
-        <span class="sig-name">人工智能ETF</span>
-        <span class="sig-meta">10日动量 -10.88%</span>
-        <span class="sig-score neg">-1.77</span>
-      </div>
-      <div class="sig-item">
-        <span class="sig-name">芯片ETF</span>
-        <span class="sig-meta">10日动量 -17.26%</span>
-        <span class="sig-score neg">-1.76</span>
-      </div>
+<div class="sig-item"><span class="sig-name">黄金ETF</span><span class="sig-meta">板块: 黄金</span><span class="sig-score" style="color:var(--accent2)">P(跌)59.1%</span></div>
+<div class="sig-item"><span class="sig-name">券商ETF</span><span class="sig-meta">板块: 券商</span><span class="sig-score" style="color:var(--accent2)">P(跌)57.6%</span></div>
+<div class="sig-item"><span class="sig-name">卫星产业ETF</span><span class="sig-meta">板块: 商业航天</span><span class="sig-score" style="color:var(--accent2)">P(跌)57.1%</span></div>
     </div>
   </div>
 </div>
 
-<!-- ====== 1. 核心结论 ====== -->
 <h2>一、核心结论</h2>
-
 <div class="callout warning">
-  <p><strong>模型决策：持币观望</strong>。所有ETF总分均低于买入门槛1.0，今日不建议开仓。高门槛设计有效过滤弱势市场噪音。</p>
-  <p><strong>回测效果显著</strong>：Walk-Forward回测胜率从53.0%提升至70.55%，累计收益从-2.27%提升至+128.93%，盈亏比从1.0提升至2.30。</p>
-  <p><strong>双视角情绪：机构中性 + 大众偏空 = 谨慎</strong>。四大报情绪为0（2看多/2看空），融资融券显示散户净卖出222.58亿元，大众情绪-0.378。落在"双空"区域（历史胜率41%），建议观望。</p>
+  <p><strong>模型决策：hold</strong>。基于Walk-Forward回测，胜率70.8%，累计收益+24.18%。</p>
+  <p><strong>情绪信号</strong>：四大报情绪0.00（看多2/看空2），趋势看跌。</p>
+</div>
+<div class="metrics" style="grid-template-columns:repeat(4,1fr)">
+  <div class="metric"><div class="ml">累计收益</div><div class="mv up">+24.18%</div></div>
+  <div class="metric"><div class="ml">胜率</div><div class="mv">70.8%</div><div class="ms">17胜/7负</div></div>
+  <div class="metric"><div class="ml">盈亏比</div><div class="mv">1.68</div></div>
+  <div class="metric"><div class="ml">情绪分</div><div class="mv up">0.000</div></div>
 </div>
 
-<div class="metric-grid">
-  <div class="metric-card">
-    <div class="value pos">+128.93%</div>
-    <div class="label">累计收益</div>
-    <div class="delta pos">原始模型: -2.27%</div>
-  </div>
-  <div class="metric-card">
-    <div class="value pos">70.55%</div>
-    <div class="label">胜率</div>
-    <div class="delta">103胜 / 43负 · 共146笔</div>
-  </div>
-  <div class="metric-card">
-    <div class="value pos">2.30</div>
-    <div class="label">盈亏比</div>
-    <div class="delta">均盈+2.15% / 均亏-2.24%</div>
-  </div>
-  <div class="metric-card">
-    <div class="value neg">-0.378</div>
-    <div class="label">大众情绪(偏空)</div>
-    <div class="delta neg">净卖出222.6亿</div>
-  </div>
-</div>
-
-<!-- ====== 2. 今日预测 ====== -->
 <h2>二、2026-07-27 模型预测</h2>
-
-<h3>2.1 模型决策</h3>
-
 <div class="callout">
-  <p><strong>决策：持币观望（hold）</strong></p>
-  <p>买入门槛：总分 &gt; 1.0（原始模型门槛为0.0，提高门槛过滤弱势信号）</p>
-  <p>选择ETF：无（11只ETF总分均为负，最高卫星产业ETF仅-0.50）</p>
-  <p>持仓周期：3天（买入后第3个交易日卖出）</p>
-  <p>机构情绪：四大报情绪分0.0（2看多/2看空），大众情绪-0.38（融资净卖出222.58亿）</p>
+  <p><strong>决策：hold</strong></p>
+  <p>趋势：<span class="tag t-bear">看跌</span> | 置信度：-0.97 | 看多2/看空2</p>
+</div>
+<div class="rec-2col">
+  <div class="card" style="border-color:var(--green);border-width:1.5px">
+    <div class="card-title" style="color:var(--green)">看好板块</div>
+    <div class="picks" style="flex-direction:column">
+<div class="pick"><span class="pick-name">芯片ETF</span><span class="pick-w">P(涨)53.3%</span></div>
+<div class="pick"><span class="pick-name">半导体ETF</span><span class="pick-w">P(涨)53.2%</span></div>
+<div class="pick"><span class="pick-name">人工智能ETF</span><span class="pick-w">P(涨)51.9%</span></div>
+    </div>
+  </div>
+  <div class="card" style="border-color:var(--accent2);border-width:1.5px">
+    <div class="card-title" style="color:var(--accent2)">看空预警</div>
+    <div class="picks" style="flex-direction:column">
+<div class="pick"><span class="pick-name">黄金ETF</span><span class="pick-w" style="background:var(--accent2);color:#fff">P(跌)59.1%</span></div>
+<div class="pick"><span class="pick-name">券商ETF</span><span class="pick-w" style="background:var(--accent2);color:#fff">P(跌)57.6%</span></div>
+<div class="pick"><span class="pick-name">卫星产业ETF</span><span class="pick-w" style="background:var(--accent2);color:#fff">P(跌)57.1%</span></div>
+    </div>
+  </div>
 </div>
 
-<h3>2.2 ETF模型评分</h3>
-
-<p>模型对11只ETF进行综合评分。评分公式：<strong>Score = 1.0×Sent_rev + 1.5×Mom_10 + 0.5×Vol + 2.0×Retail</strong>。其中Sent_rev为情绪信号×滞后修正系数(-1.0)，Mom_10为10日动量信号，Vol为波动率信号，Retail为大众情绪信号。今日所有ETF总分均为负，无一达标。</p>
-
-<figure class="chart-figure">
-  <figcaption>图1：11只ETF模型总分（买入门槛 &gt; 1.0）</figcaption>
-  <div id="chart-etf-scores" style="width:100%;min-height:380px"></div>
-</figure>
-
-<div class="table-wrap">
-<table>
-  <thead>
-    <tr><th>排名</th><th>ETF</th><th>板块</th><th>总分</th><th>情绪信号</th><th>动量信号</th><th>波动信号</th><th>大众情绪</th><th>10日动量%</th><th>10日波动率%</th><th>前日涨跌%</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>1</td><td>卫星产业ETF</td><td>商业航天</td><td class="neg"><strong>-0.50</strong></td><td>0.00</td><td class="pos">+0.15</td><td class="pos">+0.05</td><td class="neg">-0.38</td><td class="pos">+1.50</td><td>1.66</td><td class="neg">-1.45</td></tr>
-    <tr><td>2</td><td>消费ETF</td><td>消费</td><td class="neg"><strong>-0.56</strong></td><td>0.00</td><td class="pos">+0.08</td><td class="pos">+0.15</td><td class="neg">-0.38</td><td class="pos">+0.83</td><td>1.95</td><td class="neg">-2.22</td></tr>
-    <tr><td>3</td><td>创新药ETF</td><td>医药</td><td class="neg"><strong>-0.76</strong></td><td>0.00</td><td class="neg">-0.22</td><td class="pos">+0.65</td><td class="neg">-0.38</td><td class="neg">-2.18</td><td>3.46</td><td class="neg">-4.27</td></tr>
-    <tr><td>4</td><td>券商ETF</td><td>券商</td><td class="neg"><strong>-0.92</strong></td><td>0.00</td><td class="neg">-0.11</td><td class="pos">+0.00</td><td class="neg">-0.38</td><td class="neg">-1.13</td><td>1.51</td><td class="neg">-2.41</td></tr>
-    <tr><td>5</td><td>沪深300ETF</td><td>宽基</td><td class="neg"><strong>-1.09</strong></td><td>0.00</td><td class="neg">-0.27</td><td class="pos">+0.13</td><td class="neg">-0.38</td><td class="neg">-2.65</td><td>1.88</td><td class="neg">-1.80</td></tr>
-    <tr><td>6</td><td>黄金ETF</td><td>黄金</td><td class="neg"><strong>-1.11</strong></td><td>0.00</td><td class="neg">-0.18</td><td class="neg">-0.15</td><td class="neg">-0.38</td><td class="neg">-1.83</td><td>1.05</td><td class="neg">-2.04</td></tr>
-    <tr><td>7</td><td>新能源ETF</td><td>新能源</td><td class="neg"><strong>-1.48</strong></td><td>0.00</td><td class="neg">-0.63</td><td class="pos">+0.45</td><td class="neg">-0.38</td><td class="neg">-6.34</td><td>2.84</td><td class="neg">-3.10</td></tr>
-    <tr><td>8</td><td>半导体ETF</td><td>半导体</td><td class="neg"><strong>-1.76</strong></td><td>0.00</td><td class="neg">-1.00</td><td class="pos">+1.00</td><td class="neg">-0.38</td><td class="neg">-16.44</td><td>4.82</td><td class="pos">+0.92</td></tr>
-    <tr><td>9</td><td>芯片ETF</td><td>芯片</td><td class="neg"><strong>-1.76</strong></td><td>0.00</td><td class="neg">-1.00</td><td class="pos">+1.00</td><td class="neg">-0.38</td><td class="neg">-17.26</td><td>4.85</td><td class="pos">+0.63</td></tr>
-    <tr><td>10</td><td>人工智能ETF</td><td>AI算力</td><td class="neg"><strong>-1.77</strong></td><td>0.00</td><td class="neg">-1.00</td><td class="pos">+0.97</td><td class="neg">-0.38</td><td class="neg">-10.88</td><td>4.42</td><td class="neg">-2.24</td></tr>
-    <tr><td>11</td><td>军工ETF</td><td>军工</td><td class="neg"><strong>-2.03</strong></td><td>0.00</td><td class="neg">-1.00</td><td class="pos">+0.44</td><td class="neg">-0.38</td><td class="neg">-15.93</td><td>2.83</td><td class="neg">-2.18</td></tr>
-  </tbody>
-</table>
-</div>
-
-<p><strong>关键观察</strong>：卫星产业ETF（-0.50）和消费ETF（-0.56）相对最优，主要因其10日动量仍为正值（+1.5%和+0.8%）。半导体/芯片/AI跌幅超10%，动量信号触及-1.0下限。大众情绪-0.38对全部分构成压制。高门槛（1.0）有效过滤了所有弱势信号，今日持币观望是正确决策。</p>
-
-<!-- ====== 3. 双视角情绪诊断 ====== -->
 <h2>三、双视角情绪诊断</h2>
-
-<div class="sentiment-box">
-  <div class="sentiment-card">
-    <h4>机构视角（四大报）</h4>
-    <div class="score" style="color:var(--warn)">0.000</div>
-    <div class="desc">中性 — 看多2条 / 看空2条</div>
-    <div class="indicator">
-      <div class="indicator-fill" style="width:0%;background:var(--warn)"></div>
-    </div>
-    <div style="font-size:0.78rem;color:var(--muted);margin-top:0.6rem;line-height:1.6">
-      热点：AI算力、商业航天、黄金<br>
-      四大报今日标题多空均衡，无明显方向<br>
-      <span style="color:var(--accent2)">注：机构情绪为反向指标（系数-1.40）</span>
-    </div>
-  </div>
-  <div class="sentiment-card">
-    <h4>大众视角（融资融券）</h4>
-    <div class="score neg">-0.378</div>
-    <div class="desc">偏空 — 净卖出222.58亿元</div>
-    <div class="indicator">
-      <div class="indicator-fill" style="width:37.8%;background:var(--negative);transform:translateX(-100%)"></div>
-    </div>
-    <div style="font-size:0.78rem;color:var(--muted);margin-top:0.6rem;line-height:1.6">
-      融资余额5日变化：下降趋势<br>
-      买卖比：低于均值<br>
-      散户正在降杠杆，情绪明显悲观
-    </div>
+<div class="card">
+  <div class="card-title">机构情绪（四大报）</div>
+  <div class="metrics" style="grid-template-columns:repeat(3,1fr)">
+    <div class="metric"><div class="ml">情绪分</div><div class="mv up">0.000</div></div>
+    <div class="metric"><div class="ml">看多标题</div><div class="mv" style="color:var(--green)">2</div></div>
+    <div class="metric"><div class="ml">看空标题</div><div class="mv" style="color:var(--accent2)">2</div></div>
   </div>
 </div>
-
-<h3>四象限定位</h3>
-
-<div class="callout danger">
-  <p><strong>当前定位：双空区域（机构中性偏空 + 大众偏空）</strong></p>
-  <p>历史胜率：41.0% | 历史均值收益：-0.204% | 样本：39天</p>
-  <p>这是四个象限中第二差的组合。当机构和大众同步看空时，市场短期延续下跌概率较高。<strong>不建议今日开仓做多</strong>。</p>
+<div class="card">
+  <div class="card-title">今日四大报标题摘要</div>
+  <table>
+    <thead><tr><th>报纸</th><th>代表性标题</th></tr></thead>
+    <tbody>
+<tr><td>中国证券报</td><td style="font-size:0.78rem">百亿级证券私募数量创历史新高 市场震荡中策略展望渐趋积极 / 行业主题ETF规模占比上升 基金经理建议后市均衡配置 / 对冲基金唱多难掩短期寒意 公募二季度大幅减持黄金股</td></tr>
+<tr><td>上海证券报</td><td style="font-size:0.78rem">住户存款少增3.19万亿元背后：从表内定存到资管市场 一场静水流深的居民财富再配置 / “六张网”铺开、资金就位 下半年投资企稳向好可期 / 北交所多家公司披露增持回购计划 专项贷款工具拓宽资金来源</td></tr>
+<tr><td>证券时报</td><td style="font-size:0.78rem">从K型分化转向板块轮动 公募基金迭代投资框架 / 科技赛道降温引净值承压 绩优基金提前减仓锁定收益 / 时报观察 封堵内幕交易套利空间 夯实市场公平根基</td></tr>
+<tr><td>证券日报</td><td style="font-size:0.78rem">受益全球能源绿色转型加速等 深市电力设备企业上半年业绩亮眼 / 多地推出住房公积金贷款贴息政策 / 港股年内回购规模已超1000亿港元</td></tr>
+    </tbody>
+  </table>
 </div>
 
-<figure class="chart-figure">
-  <figcaption>图2：双情绪四象限 — 今日定位</figcaption>
-  <div id="chart-quadrant" style="width:100%;min-height:420px"></div>
-</figure>
-
-<h3>今日四大报标题摘要</h3>
-<div class="table-wrap">
-<table>
-  <thead><tr><th>报纸</th><th>代表性标题</th></tr></thead>
-  <tbody>
-    <tr><td>中国证券报</td><td>百亿级证券私募数量创历史新高 市场震荡中策略展望渐趋积极 / 行业主题ETF规模占比上升 基金经理建议后市均衡配置 / 对冲基金唱多难掩短期寒意 公募二季度大幅减持黄金股</td></tr>
-    <tr><td>上海证券报</td><td>住户存款少增3.19万亿元背后：居民财富再配置 / "六张网"铺开、资金就位 下半年投资企稳向好可期 / 公募"固收+"规模逆袭 下半年更加注重稳健性</td></tr>
-    <tr><td>证券时报</td><td>从K型分化转向板块轮动 公募基金迭代投资框架 / 科技赛道降温引净值承压 绩优基金提前减仓锁定收益 / 开业务、破准入、降成本、畅流动 中小公募在探索中"觅新机"</td></tr>
-    <tr><td>证券日报</td><td>受益全球能源绿色转型加速等 深市电力设备企业上半年业绩亮眼 / 港股年内回购规模已超1000亿港元 / 险企持续加码前沿科技保障 商业航天、AI等领域保险共保体密集落地</td></tr>
-  </tbody>
-</table>
+<h2>四、模型表现回顾（截至2026-07-27）</h2>
+<div class="metrics" style="grid-template-columns:repeat(3,1fr)">
+<div class="metric"><div class="ml">累计收益率</div><div class="mv up">+24.18%</div><div class="ms">¥1,000,000.0 → ¥1,241,843.31</div></div>
+<div class="metric"><div class="ml">Alpha vs 沪深300</div><div class="mv up">+17.91%</div><div class="ms">沪深300: +6.27%</div></div>
+<div class="metric"><div class="ml">胜率</div><div class="mv">70.8%</div><div class="ms">17胜 / 7负</div></div>
+<div class="metric"><div class="ml">盈亏比</div><div class="mv">1.68</div><div class="ms">均盈+3.53% / 均亏-5.08%</div></div>
+<div class="metric"><div class="ml">交易日数</div><div class="mv">86</div></div>
+<div class="metric"><div class="ml">总交易次数</div><div class="mv">24</div></div>
+</div>
+<div class="chart-card"><div class="card-title">累计收益率走势</div><div id="chart-cum" class="chart"></div></div>
+<div class="chart-card"><div class="card-title">月度收益对比</div><div id="chart-month" class="chart"></div></div>
+<div class="chart-card"><div class="card-title">ETF 胜率分布</div><div id="chart-etf" class="chart"></div></div>
+<div class="card">
+  <div class="card-title">各ETF回测表现</div>
+  <table>
+    <thead><tr><th>ETF名称</th><th>推荐次数</th><th>平均收益</th><th>胜率</th><th>评估</th></tr></thead>
+    <tbody>
+<tr><td>创新药ETF</td><td>6</td><td class="up">+3.06%</td><td>83.3%</td><td>优秀</td></tr>
+<tr><td>半导体ETF</td><td>6</td><td class="up">+1.63%</td><td>83.3%</td><td>优秀</td></tr>
+<tr><td>黄金ETF</td><td>3</td><td class="up">+2.12%</td><td>66.7%</td><td>优秀</td></tr>
+<tr><td>军工ETF</td><td>3</td><td class="up">+0.91%</td><td>66.7%</td><td>优秀</td></tr>
+<tr><td>新能源ETF</td><td>2</td><td class="down">-3.05%</td><td>0.0%</td><td>较差</td></tr>
+<tr><td>卫星产业ETF</td><td>2</td><td class="down">-0.15%</td><td>50.0%</td><td>一般</td></tr>
+<tr><td>人工智能ETF</td><td>1</td><td class="down">-5.58%</td><td>0.0%</td><td>较差</td></tr>
+<tr><td>券商ETF</td><td>1</td><td class="down">-1.19%</td><td>0.0%</td><td>较差</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="card">
+  <div class="card-title">最近交易记录</div>
+  <table>
+    <thead><tr><th>日期</th><th>研判</th><th>推荐ETF</th><th>收益</th><th>沪深300</th></tr></thead>
+    <tbody>
+<tr><td>2026-07-27</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="up">+1.08%</td></tr>
+<tr><td>2026-07-24</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="down">-1.03%</td></tr>
+<tr><td>2026-07-23</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="up">+0.27%</td></tr>
+<tr><td>2026-07-22</td><td><span class="tag t-neutral">震荡</span></td><td></td><td class="up">+0.00%</td><td class="up">+0.32%</td></tr>
+<tr><td>2026-07-21</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="up">+2.35%</td></tr>
+<tr><td>2026-07-16</td><td><span class="tag t-bear">看跌</span></td><td>创新药ETF</td><td class="down">-2.84%</td><td class="down">-2.62%</td></tr>
+<tr><td>2026-07-15</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="up">+0.19%</td></tr>
+<tr><td>2026-07-14</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="up">+1.96%</td></tr>
+<tr><td>2026-07-13</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="down">-1.21%</td></tr>
+<tr><td>2026-07-10</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="down">-1.81%</td></tr>
+<tr><td>2026-07-09</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="up">+2.14%</td></tr>
+<tr><td>2026-07-08</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="down">-0.79%</td></tr>
+<tr><td>2026-07-07</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="down">-0.66%</td></tr>
+<tr><td>2026-07-06</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="down">-0.47%</td></tr>
+<tr><td>2026-07-03</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="up">+0.95%</td></tr>
+<tr><td>2026-06-30</td><td><span class="tag t-bear">看跌</span></td><td>创新药ETF</td><td class="up">+2.60%</td><td class="down">-1.96%</td></tr>
+<tr><td>2026-06-25</td><td><span class="tag t-bull">看涨</span></td><td>创新药ETF, 沪深300ETF</td><td class="up">+4.49%</td><td class="down">-0.28%</td></tr>
+<tr><td>2026-06-22</td><td><span class="tag t-bull">看涨</span></td><td>创新药ETF, 半导体ETF, 芯片ETF</td><td class="up">+5.49%</td><td class="down">-0.32%</td></tr>
+<tr><td>2026-06-16</td><td><span class="tag t-bull">看涨</span></td><td>券商ETF, 沪深300ETF, 半导体ETF</td><td class="up">+3.47%</td><td class="up">+1.30%</td></tr>
+<tr><td>2026-06-15</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="up">+1.26%</td></tr>
+    </tbody>
+  </table>
 </div>
 
-<p><strong>标题解读</strong>：四大报今日基调谨慎偏中性。"科技赛道降温"、"减仓锁定收益"等措辞偏空，"策略展望渐趋积极"、"企稳向好"等偏多。多空交织，情绪分恰为0。计量检验显示机构情绪为反向指标（系数-1.40, p=0.0008），模型已通过滞后修正系数(-1.0)纠正此方向错误。</p>
-
-<!-- ====== 4. 模型表现回顾 ====== -->
-<h2>四、模型表现回顾（截至2026-07-24）</h2>
-
-<div class="metric-grid">
-  <div class="metric-card">
-    <div class="value pos">+128.93%</div>
-    <div class="label">累计收益</div>
-    <div class="delta pos">原始模型: -2.27%</div>
-  </div>
-  <div class="metric-card">
-    <div class="value pos">70.55%</div>
-    <div class="label">胜率</div>
-    <div class="delta pos">原始: 53.0% (+17.6%)</div>
-  </div>
-  <div class="metric-card">
-    <div class="value pos">+0.86%</div>
-    <div class="label">每笔期望值</div>
-    <div class="delta pos">原始: +0.06%</div>
-  </div>
-  <div class="metric-card">
-    <div class="value">146</div>
-    <div class="label">总交易次数</div>
-    <div class="delta">原始: 333笔 (-56%)</div>
-  </div>
-  <div class="metric-card">
-    <div class="value pos">2.30</div>
-    <div class="label">盈亏比</div>
-    <div class="delta pos">原始: 1.17</div>
-  </div>
-  <div class="metric-card">
-    <div class="value">3天</div>
-    <div class="label">持仓周期</div>
-    <div class="delta">原始: 1天</div>
-  </div>
-</div>
-
-<p>模型自2026-01-06运行以来，累计收益+128.93%，大幅超越原始模型的-2.27%。胜率从53.0%提升至70.55%（103胜43负），盈亏比从1.17提升至2.30。通过提高买入门槛（0.0→1.0）和延长持仓周期（1→3天），交易频次减少56%但质量显著提升，每笔期望值从+0.06%提升至+0.86%。</p>
-
-<h3>累计收益走势</h3>
-
-<figure class="chart-figure">
-  <figcaption>图3：累计收益率走势 — 模型 vs 原始模型 vs 沪深300</figcaption>
-  <div id="chart-cumulative" style="width:100%;min-height:380px"></div>
-</figure>
-
-<h3>月度绩效</h3>
-
-<div class="table-wrap">
-<table>
-  <thead><tr><th>月份</th><th>交易数</th><th>胜</th><th>负</th><th>胜率</th><th>月度收益</th><th>评估</th></tr></thead>
-  <tbody>
-    <tr><td>2026-01</td><td>11</td><td>3</td><td>8</td><td class="neg">27.3%</td><td class="neg">-30.22%</td><td><span class="tag down">差</span></td></tr>
-    <tr><td>2026-02</td><td>9</td><td>4</td><td>5</td><td class="neg">44.4%</td><td class="neg">-8.96%</td><td><span class="tag neutral">一般</span></td></tr>
-    <tr><td>2026-03</td><td>4</td><td>0</td><td>4</td><td class="neg">0.0%</td><td class="neg">-15.99%</td><td><span class="tag down">差</span></td></tr>
-    <tr><td>2026-04</td><td>42</td><td>38</td><td>4</td><td class="pos">90.5%</td><td class="pos">+160.20%</td><td><span class="tag up">优</span></td></tr>
-    <tr><td>2026-05</td><td>46</td><td>34</td><td>12</td><td class="pos">73.9%</td><td class="pos">+89.93%</td><td><span class="tag up">优</span></td></tr>
-    <tr><td>2026-06</td><td>24</td><td>21</td><td>3</td><td class="pos">87.5%</td><td class="pos">+202.08%</td><td><span class="tag up">优</span></td></tr>
-    <tr><td>2026-07</td><td>10</td><td>3</td><td>7</td><td class="neg">30.0%</td><td class="neg">-32.78%</td><td><span class="tag down">差</span></td></tr>
-  </tbody>
-</table>
-</div>
-
-<p><strong>观察</strong>：4-6月为模型强势期（胜率73%-90%），贡献了绝大部分收益。1-3月和7月为弱势期，但高门槛设计在弱势期自动减少交易（1-3月仅24笔），有效控制了损失。7月科技板块大幅回调导致胜率下降至30%，模型已自动转为持币观望。</p>
-
-<h3>各ETF回测表现</h3>
-
-<div class="table-wrap">
-<table>
-  <thead><tr><th>ETF名称</th><th>推荐次数</th><th>平均收益</th><th>胜率</th><th>评估</th></tr></thead>
-  <tbody>
-    <tr><td>半导体ETF</td><td>45</td><td class="pos">+3.73%</td><td class="pos">77.8%</td><td><span class="tag up">优</span></td></tr>
-    <tr><td>芯片ETF</td><td>44</td><td class="pos">+3.83%</td><td class="pos">79.5%</td><td><span class="tag up">优</span></td></tr>
-    <tr><td>人工智能ETF</td><td>26</td><td class="pos">+1.12%</td><td class="pos">65.4%</td><td><span class="tag up">良</span></td></tr>
-    <tr><td>黄金ETF</td><td>8</td><td class="neg">-1.05%</td><td>50.0%</td><td><span class="tag neutral">一般</span></td></tr>
-    <tr><td>创新药ETF</td><td>7</td><td class="pos">+0.80%</td><td>57.1%</td><td><span class="tag up">良</span></td></tr>
-    <tr><td>军工ETF</td><td>6</td><td class="neg">-1.46%</td><td class="neg">16.7%</td><td><span class="tag down">差</span></td></tr>
-    <tr><td>新能源ETF</td><td>6</td><td class="neg">-0.10%</td><td class="pos">66.7%</td><td><span class="tag up">良</span></td></tr>
-    <tr><td>券商ETF</td><td>4</td><td class="pos">+2.75%</td><td class="pos">75.0%</td><td><span class="tag up">优</span></td></tr>
-  </tbody>
-</table>
-</div>
-
-<p><strong>观察</strong>：半导体/芯片ETF为核心盈利来源（89笔交易，胜率78%+），AI ETF贡献稳定正收益。军工ETF表现最差（胜率仅16.7%），已通过高门槛自动过滤。</p>
-
-<h3>最近20笔交易记录</h3>
-
-<div class="table-wrap">
-<table>
-  <thead><tr><th>买入日期</th><th>卖出日期</th><th>ETF</th><th>收益%</th><th>结果</th></tr></thead>
-  <tbody>
-    <tr><td>07-23</td><td>07-24</td><td>创新药ETF</td><td class="neg">-3.84</td><td><span class="tag down">亏损</span></td></tr>
-    <tr><td>07-03</td><td>07-08</td><td>创新药ETF</td><td class="neg">-3.50</td><td><span class="tag down">亏损</span></td></tr>
-    <tr><td>07-03</td><td>07-08</td><td>芯片ETF</td><td class="pos">+1.76</td><td><span class="tag up">盈利</span></td></tr>
-    <tr><td>07-03</td><td>07-08</td><td>半导体ETF</td><td class="pos">+2.31</td><td><span class="tag up">盈利</span></td></tr>
-    <tr><td>07-02</td><td>07-07</td><td>人工智能ETF</td><td class="neg">-6.42</td><td><span class="tag down">亏损</span></td></tr>
-    <tr><td>07-02</td><td>07-07</td><td>半导体ETF</td><td class="neg">-5.58</td><td><span class="tag down">亏损</span></td></tr>
-    <tr><td>07-02</td><td>07-07</td><td>芯片ETF</td><td class="neg">-3.98</td><td><span class="tag down">亏损</span></td></tr>
-    <tr><td>07-01</td><td>07-06</td><td>半导体ETF</td><td class="neg">-11.09</td><td><span class="tag down">亏损</span></td></tr>
-    <tr><td>07-01</td><td>07-06</td><td>芯片ETF</td><td class="neg">-11.27</td><td><span class="tag down">亏损</span></td></tr>
-    <tr><td>07-01</td><td>07-06</td><td>创新药ETF</td><td class="pos">+8.84</td><td><span class="tag up">盈利</span></td></tr>
-    <tr><td>06-26</td><td>07-01</td><td>券商ETF</td><td class="pos">+3.48</td><td><span class="tag up">盈利</span></td></tr>
-    <tr><td>06-26</td><td>07-01</td><td>半导体ETF</td><td class="pos">+5.94</td><td><span class="tag up">盈利</span></td></tr>
-    <tr><td>06-26</td><td>07-01</td><td>芯片ETF</td><td class="pos">+6.46</td><td><span class="tag up">盈利</span></td></tr>
-    <tr><td>06-25</td><td>06-30</td><td>人工智能ETF</td><td class="pos">+4.97</td><td><span class="tag up">盈利</span></td></tr>
-    <tr><td>06-25</td><td>06-30</td><td>半导体ETF</td><td class="pos">+9.91</td><td><span class="tag up">盈利</span></td></tr>
-    <tr><td>06-25</td><td>06-30</td><td>芯片ETF</td><td class="pos">+11.06</td><td><span class="tag up">盈利</span></td></tr>
-    <tr><td>06-24</td><td>06-29</td><td>券商ETF</td><td class="neg">-0.01</td><td><span class="tag down">亏损</span></td></tr>
-    <tr><td>06-24</td><td>06-29</td><td>半导体ETF</td><td class="pos">+17.57</td><td><span class="tag up">盈利</span></td></tr>
-    <tr><td>06-24</td><td>06-29</td><td>芯片ETF</td><td class="pos">+17.36</td><td><span class="tag up">盈利</span></td></tr>
-    <tr><td>06-23</td><td>06-26</td><td>芯片ETF</td><td class="pos">+7.93</td><td><span class="tag up">盈利</span></td></tr>
-  </tbody>
-</table>
-</div>
-
-<p><strong>观察</strong>：7月科技板块回调导致连续亏损（07-01~07-07半导体/芯片跌幅超10%），但6月下旬半导体/芯片ETF连续大赚（+17%）。模型通过3天持仓周期捕捉了中期趋势，在强势期获得了超额收益。</p>
-
-<!-- ====== 5. 特征显著性与模型诊断 ====== -->
 <h2>五、特征显著性与模型诊断</h2>
-
-<h3>Logit回归系数（模型诊断）</h3>
-
-<div class="table-wrap">
-<table>
-  <thead><tr><th>特征</th><th>系数</th><th>p值</th><th>显著性</th><th>方向</th></tr></thead>
-  <tbody>
-    <tr><td><strong>retail_sentiment</strong></td><td class="pos">+2.078</td><td>0.0002</td><td>***</td><td>大众看多 → 上涨概率增加</td></tr>
-    <tr><td><strong>rzjme_yi</strong></td><td class="neg">-0.003</td><td>0.005</td><td>***</td><td>极端净买入 → 均值回归</td></tr>
-    <tr><td><strong>sentiment_score</strong></td><td class="neg">-1.402</td><td>0.001</td><td>***</td><td>机构看多 → 反向（滞后）</td></tr>
-    <tr><td><strong>bullish_count</strong></td><td class="pos">+0.164</td><td>0.005</td><td>***</td><td>看多标题多 → 略偏多</td></tr>
-    <tr><td><strong>hs300_mom_5d</strong></td><td class="neg">-0.137</td><td>0.00004</td><td>***</td><td>5日涨多 → 回调</td></tr>
-    <tr><td><strong>vol_10d</strong></td><td class="pos">+0.142</td><td>0.006</td><td>***</td><td>波动大 → 日内反弹</td></tr>
-    <tr><td>bearish_count</td><td class="neg">-0.298</td><td>0.012</td><td>**</td><td>看空标题多 → 下跌</td></tr>
-    <tr><td>prev_intraday_return</td><td class="neg">-0.083</td><td>0.158</td><td></td><td>前日日内涨 → 回调</td></tr>
-    <tr><td>prev_change_pct</td><td class="pos">+0.033</td><td>0.540</td><td></td><td>不显著</td></tr>
-    <tr><td>sentiment_divergence</td><td class="neg">-0.188</td><td>0.690</td><td></td><td>不显著</td></tr>
-  </tbody>
-</table>
+<div class="card">
+  <div class="card-title">正则化 Logit 系数（样本外准确率=54.494200000000006%）</div>
+  <table>
+    <thead><tr><th>特征</th><th>系数</th><th>p值</th><th>显著性</th></tr></thead>
+    <tbody>
+<tr><td>const</td><td class="up">+0.0354</td><td>N/A</td><td><b></b></td></tr>
+<tr><td>hs300_mom_5d</td><td class="down">-0.2726</td><td>N/A</td><td><b></b></td></tr>
+<tr><td>vol_10d</td><td class="up">+0.1422</td><td>N/A</td><td><b></b></td></tr>
+<tr><td>retail_sentiment</td><td class="up">+0.5520</td><td>N/A</td><td><b></b></td></tr>
+<tr><td>rzjme_yi</td><td class="down">-0.3763</td><td>N/A</td><td><b></b></td></tr>
+    </tbody>
+  </table>
 </div>
-
-<p><strong>关键发现</strong>：sentiment_score（机构情绪）系数为-1.402（p=0.001），表明机构看多实际上是反向指标——机构看多时后续下跌概率更高。原始模型将此信号正向使用，导致信号方向错误，这是53%胜率的核心原因之一。模型通过滞后修正系数(-1.0)反转此信号方向。</p>
-
-<h3>Lasso特征重要性排名</h3>
-
-<div class="bar-container">
-  <div class="bar-label">retail_sentiment</div>
-  <div class="bar-track"><div class="bar-fill pos" style="width:100%"></div><div class="bar-value">0.716</div></div>
+<div class="card">
+  <div class="card-title">因素重要性（|β|×σ）</div>
+  <table>
+    <thead><tr><th>因素</th><th>β</th><th>p值</th><th>重要性</th></tr></thead>
+    <tbody>
+<tr><td>sentiment_score</td><td class="up">+-0.0000</td><td>0.0000</td><td>0.0000</td></tr>
+<tr><td>bullish_count</td><td class="up">+0.0000</td><td>0.0000</td><td>0.0000</td></tr>
+<tr><td>bearish_count</td><td class="up">+0.0000</td><td>0.0012</td><td>0.0000</td></tr>
+<tr><td>prev_change_pct</td><td class="up">+-0.0000</td><td>0.0833</td><td>0.0000</td></tr>
+<tr><td>prev_volume_ratio</td><td class="up">+-0.0000</td><td>0.1255</td><td>0.0000</td></tr>
+<tr><td>prev_intraday_return</td><td class="up">+-0.0000</td><td>0.0014</td><td>0.0000</td></tr>
+<tr><td>sector_mentioned</td><td class="up">+-0.0000</td><td>0.7148</td><td>0.0000</td></tr>
+<tr><td>sector_mention_count</td><td class="up">+-0.0000</td><td>0.3424</td><td>0.0000</td></tr>
+    </tbody>
+  </table>
 </div>
-<div class="bar-container">
-  <div class="bar-label">rzjme_yi</div>
-  <div class="bar-track"><div class="bar-fill neg" style="width:72%"></div><div class="bar-value">-0.516</div></div>
-</div>
-<div class="bar-container">
-  <div class="bar-label">sentiment_score</div>
-  <div class="bar-track"><div class="bar-fill neg" style="width:68%"></div><div class="bar-value">-0.483</div></div>
-</div>
-<div class="bar-container">
-  <div class="bar-label">bearish_count</div>
-  <div class="bar-track"><div class="bar-fill neg" style="width:41%"></div><div class="bar-value">-0.291</div></div>
-</div>
-<div class="bar-container">
-  <div class="bar-label">hs300_mom_5d</div>
-  <div class="bar-track"><div class="bar-fill neg" style="width:40%"></div><div class="bar-value">-0.286</div></div>
-</div>
-<div class="bar-container">
-  <div class="bar-label">bullish_count</div>
-  <div class="bar-track"><div class="bar-fill pos" style="width:38%"></div><div class="bar-value">0.272</div></div>
-</div>
-<div class="bar-container">
-  <div class="bar-label">vol_10d</div>
-  <div class="bar-track"><div class="bar-fill pos" style="width:21%"></div><div class="bar-value">0.152</div></div>
-</div>
+<div class="chart-card"><div class="card-title">因素重要性排名</div><div id="chart-imp" class="chart"></div></div>
 
-<p style="margin-top:0.8rem;font-size:0.8rem;color:var(--muted)">Lasso系数绝对值越大，特征越重要。前3名中2个是大众情绪特征，1个是机构情绪特征（方向为负）。</p>
-
-<h3>模型评分公式</h3>
-
-<div class="formula-box">
-  <div>Score<sub>ETF</sub> = <span class="coef">1.0</span> × Sent<sub>rev</sub> + <span class="coef">1.5</span> × Mom<sub>10</sub> + <span class="coef">0.5</span> × Vol + <span class="coef">2.0</span> × Retail</div>
-  <div class="note">
-    <strong>Sent_rev</strong> = SentimentScore × SectorBoost × (<span class="coef">-1.0</span>) （滞后修正系数，反转方向）<br>
-    <strong>Mom_10</strong> = clip(Momentum<sub>10d</sub> × 10, -1, 1) （10日动量信号）<br>
-    <strong>Vol</strong> = clip((Volatility<sub>10d</sub> - 1.5) / 3.0, -1, 1) （波动率信号）<br>
-    <strong>Retail</strong> = Z-Score(融资净买入额, 融资余额变化, 融券余额变化) （大众情绪信号）<br>
-    <strong>买入条件</strong>: Score &gt; 1.0 · <strong>选前3只</strong> · <strong>持仓3天</strong>
-  </div>
-</div>
-
-<h3>原始模型 vs 当前模型 参数对比</h3>
-
-<div class="table-wrap">
-<table>
-  <thead><tr><th>参数</th><th>原始值</th><th>当前值</th><th>说明</th></tr></thead>
-  <tbody>
-    <tr><td>sent_lag_coef</td><td>1.0</td><td class="pos">-1.0</td><td>情绪信号滞后修正系数（反转方向）</td></tr>
-    <tr><td>sent_weight</td><td>3.0</td><td class="pos">1.0</td><td>情绪信号权重（降低）</td></tr>
-    <tr><td>mom_weight</td><td>1.0</td><td class="pos">1.5</td><td>动量信号权重（提升）</td></tr>
-    <tr><td>mom_window</td><td>5</td><td class="pos">10</td><td>动量计算窗口（延长）</td></tr>
-    <tr><td>meanrev_weight</td><td>1.0</td><td class="pos">0.0</td><td>均值回归权重（关闭）</td></tr>
-    <tr><td>vol_weight</td><td>0.0</td><td class="pos">0.5</td><td>波动率权重（新增）</td></tr>
-    <tr><td>retail_weight</td><td>0.0</td><td class="pos">2.0</td><td>大众情绪权重（新增）</td></tr>
-    <tr><td>buy_threshold</td><td>0.0</td><td class="pos">1.0</td><td>买入门槛（提高）</td></tr>
-    <tr><td>hold_period</td><td>1</td><td class="pos">3</td><td>持仓天数（延长）</td></tr>
-    <tr><td>top_n</td><td>3</td><td>3</td><td>选股数量（不变）</td></tr>
-  </tbody>
-</table>
-</div>
-
-<h3>模型拟合度</h3>
-
-<div class="metric-grid">
-  <div class="metric-card">
-    <div class="value pos">70.55%</div>
-    <div class="label">模型胜率</div>
-    <div class="delta pos">原始: 53.0% (+17.6%)</div>
-  </div>
-  <div class="metric-card">
-    <div class="value">0.0251</div>
-    <div class="label">Logit 伪R²</div>
-    <div class="delta">诊断用，模型基于规则</div>
-  </div>
-  <div class="metric-card">
-    <div class="value">506</div>
-    <div class="label">网格搜索配置数</div>
-    <div class="delta">Walk-Forward无未来泄露</div>
-  </div>
-  <div class="metric-card">
-    <div class="value">1452</div>
-    <div class="label">面板观测数</div>
-    <div class="delta">11 ETF × 132天</div>
-  </div>
-</div>
-
-<h3>Walk-Forward 回测方法</h3>
-
-<div class="callout">
-  <p><strong>无未来数据泄露</strong>：每个交易日仅使用当日及之前的数据生成信号，不使用任何未来信息。</p>
-  <p><strong>逐日滚动</strong>：从2026-01-06开始逐日运行模型，模拟真实交易环境。</p>
-  <p><strong>网格搜索</strong>：共测试506组参数配置，以胜率为主要目标，兼顾盈亏比和期望值。</p>
-  <p><strong>鲁棒性验证</strong>：将回测区间分为前后两段独立验证，模型在前半段(68.5%)和后半段(72.5%)均保持高胜率，无过拟合迹象。</p>
-  <p><strong>交易成本</strong>：已计入双向佣金0.05%。</p>
-</div>
-
-<!-- ====== 6. 操作建议 ====== -->
 <h2>六、操作建议</h2>
-
 <div class="callout warning">
-  <p><strong>综合建议：今日观望，不开仓</strong></p>
-  <p>三个维度均指向谨慎：</p>
-  <p>1. <strong>模型</strong>：11只ETF总分均为负，最高卫星产业ETF仅-0.50，远低于买入门槛1.0，自动持币观望</p>
-  <p>2. <strong>双视角情绪</strong>：落在"双空"象限（历史胜率41%），机构中性+大众偏空</p>
-  <p>3. <strong>动量全面走弱</strong>：11只ETF中9只10日动量为负，半导体/芯片/AI跌幅超10%，仅卫星(+1.5%)和消费(+0.8%)微弱正动量</p>
+  <p><strong>综合建议：hold</strong></p>
+  <p>1. <strong>模型</strong>：趋势看跌，置信度-0.97</p>
+  <p>2. <strong>情绪</strong>：四大报情绪0.00（看多2/看空2）</p>
+  <p>3. <strong>历史表现</strong>：胜率70.8%，盈亏比1.68</p>
 </div>
-
-<h3>关注信号</h3>
-<p>若后续出现以下变化，可考虑转为积极：</p>
-<p><strong>1. 大众情绪反转</strong>：融资净买入额由负转正，retail_sentiment回升至0以上 → 可能进入"机构空+大众多"象限（历史胜率80%），模型大众情绪权重2.0将产生强买入信号</p>
-<p><strong>2. 机构情绪转空</strong>：四大报看空标题增多，情绪分转负 → 由于滞后修正系数(-1.0)，机构看空反而产生正向信号，与大众偏空形成"双空"极端后可能触发均值回归</p>
-<p><strong>3. 卫星产业ETF</strong>：今日总分最高(-0.50)，10日动量+1.5%为全市场最强，若大众情绪企稳使Retail信号回升，总分有望突破1.0门槛</p>
-
+<div class="rpt">
+  <h3>关注信号</h3>
+  <p>若后续出现以下变化，可考虑转为积极：</p>
+  <p><strong>1. 情绪反转</strong>：四大报情绪由负转正，或看多标题增多</p>
+  <p><strong>2. 趋势确认</strong>：趋势信号转为看涨，且置信度提升</p>
+  <p><strong>3. 量能配合</strong>：市场成交量放大，板块轮动加速</p>
 </div>
-
-<footer>
-  <p>ETF模型日报 — 2026-07-27 | 滞后修正 + 动量增强 + Walk-Forward回测</p>
-  <p>数据源：同花顺四大报(机构情绪) + 东方财富融资融券(大众情绪) + ETF历史行情 | 交易成本: 双向0.05%</p>
-</footer>
-
-<script src="./_shared/js/echarts.min.js"></script>
+<footer>ETF 预测模型看板 &middot; 规则模型 + 计量交叉验证 &middot; 同花顺API + 四大报(10jqka) &middot; 2026-07-28 00:06</footer>
+</div>
+<script src="_shared/js/echarts.min.js"></script>
 <script src="assets/charts.js"></script>
 
 <!-- ====== Liquid Glass — Displacement Map Generator (shuding/liquid-glass) ====== -->
 <script>
 (function(){
   'use strict';
-
-  // --- Shader utilities (from shuding/liquid-glass) ---
-  function smoothStep(a, b, t) {
-    t = Math.max(0, Math.min(1, (t - a) / (b - a)));
-    return t * t * (3 - 2 * t);
-  }
-  function length(x, y) { return Math.sqrt(x * x + y * y); }
-  function roundedRectSDF(x, y, width, height, radius) {
-    var qx = Math.abs(x) - width + radius;
-    var qy = Math.abs(y) - height + radius;
-    return Math.min(Math.max(qx, qy), 0) + length(Math.max(qx, 0), Math.max(qy, 0)) - radius;
-  }
-
-  // --- Generate displacement map ---
-  var W = 100, H = 100;
-  var canvas = document.createElement('canvas');
-  canvas.width = W;
-  canvas.height = H;
-  var ctx = canvas.getContext('2d');
-  var data = new Uint8ClampedArray(W * H * 4);
-  var maxScale = 0;
-  var rawValues = [];
-
-  for (var i = 0; i < W * H; i++) {
-    var x = i % W;
-    var y = Math.floor(i / W);
-    var uv = { x: x / W, y: y / H };
-    var ix = uv.x - 0.5;
-    var iy = uv.y - 0.5;
-    var distanceToEdge = roundedRectSDF(ix, iy, 0.3, 0.2, 0.6);
-    var displacement = smoothStep(0.8, 0, distanceToEdge - 0.15);
-    var scaled = smoothStep(0, 1, displacement);
-    var dx = (ix * scaled + 0.5) * W - x;
-    var dy = (iy * scaled + 0.5) * H - y;
-    maxScale = Math.max(maxScale, Math.abs(dx), Math.abs(dy));
-    rawValues.push(dx, dy);
-  }
-  maxScale *= 0.5;
-  var idx = 0;
-  for (var j = 0; j < data.length; j += 4) {
-    data[j]     = rawValues[idx++] / maxScale * 255 + 127.5;
-    data[j + 1] = rawValues[idx++] / maxScale * 255 + 127.5;
-    data[j + 2] = 0;
-    data[j + 3] = 255;
-  }
-  ctx.putImageData(new ImageData(data, W, H), 0, 0);
-  var dataURI = canvas.toDataURL();
-
-  // Apply to SVG filter
-  var feImage = document.getElementById('lg-map');
-  if (feImage) {
-    feImage.setAttribute('href', dataURI);
-    feImage.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dataURI);
-  }
-
-  // --- Floating orb drag interaction ---
-  var orb = document.getElementById('lg-orb');
-  if (orb) {
-    var isDragging = false;
-    var startX, startY, initialX, initialY;
-    var offset = 10;
-
-    function constrain(x, y) {
-      var maxX = window.innerWidth - orb.offsetWidth - offset;
-      var maxY = window.innerHeight - orb.offsetHeight - offset;
-      return {
-        x: Math.max(offset, Math.min(maxX, x)),
-        y: Math.max(offset, Math.min(maxY, y))
-      };
-    }
-
-    orb.addEventListener('mousedown', function(e) {
-      isDragging = true;
-      startX = e.clientX;
-      startY = e.clientY;
-      var rect = orb.getBoundingClientRect();
-      initialX = rect.left;
-      initialY = rect.top;
-      e.preventDefault();
-    });
-
-    document.addEventListener('mousemove', function(e) {
-      if (isDragging) {
-        var c = constrain(initialX + e.clientX - startX, initialY + e.clientY - startY);
-        orb.style.left = c.x + 'px';
-        orb.style.top = c.y + 'px';
-        orb.style.transform = 'none';
-      }
-    });
-
-    document.addEventListener('mouseup', function() { isDragging = false; });
-
-    window.addEventListener('resize', function() {
-      var rect = orb.getBoundingClientRect();
-      var c = constrain(rect.left, rect.top);
-      if (rect.left !== c.x || rect.top !== c.y) {
-        orb.style.left = c.x + 'px';
-        orb.style.top = c.y + 'px';
-        orb.style.transform = 'none';
-      }
-    });
+  function smoothStep(a,b,t){t=Math.max(0,Math.min(1,(t-a)/(b-a)));return t*t*(3-2*t)}
+  function length(x,y){return Math.sqrt(x*x+y*y)}
+  function roundedRectSDF(x,y,w,h,r){var qx=Math.abs(x)-w+r,qy=Math.abs(y)-h+r;return Math.min(Math.max(qx,qy),0)+length(Math.max(qx,0),Math.max(qy,0))-r}
+  var W=100,H=100,canvas=document.createElement('canvas');canvas.width=W;canvas.height=H;
+  var ctx=canvas.getContext('2d'),data=new Uint8ClampedArray(W*H*4),maxScale=0,rawValues=[];
+  for(var i=0;i<W*H;i++){var x=i%W,y=Math.floor(i/W),ix=x/W-0.5,iy=y/H-0.5;var de=roundedRectSDF(ix,iy,0.3,0.2,0.6);var dp=smoothStep(0.8,0,de-0.15);var sc=smoothStep(0,1,dp);var dx=(ix*sc+0.5)*W-x,dy=(iy*sc+0.5)*H-y;maxScale=Math.max(maxScale,Math.abs(dx),Math.abs(dy));rawValues.push(dx,dy)}
+  maxScale*=0.5;var idx=0;
+  for(var j=0;j<data.length;j+=4){data[j]=rawValues[idx++]/maxScale*255+127.5;data[j+1]=rawValues[idx++]/maxScale*255+127.5;data[j+2]=0;data[j+3]=255}
+  ctx.putImageData(new ImageData(data,W,H),0,0);
+  var dataURI=canvas.toDataURL();
+  var feImage=document.getElementById('lg-map');
+  if(feImage){feImage.setAttribute('href',dataURI);feImage.setAttributeNS('http://www.w3.org/1999/xlink','href',dataURI)}
+  var orb=document.getElementById('lg-orb');
+  if(orb){
+    var isDragging=false,startX,startY,initialX,initialY,offset=10;
+    function constrain(x,y){var maxX=window.innerWidth-orb.offsetWidth-offset,maxY=window.innerHeight-orb.offsetHeight-offset;return{x:Math.max(offset,Math.min(maxX,x)),y:Math.max(offset,Math.min(maxY,y))}}
+    orb.addEventListener('mousedown',function(e){isDragging=true;startX=e.clientX;startY=e.clientY;var rect=orb.getBoundingClientRect();initialX=rect.left;initialY=rect.top;e.preventDefault()});
+    document.addEventListener('mousemove',function(e){if(isDragging){var c=constrain(initialX+e.clientX-startX,initialY+e.clientY-startY);orb.style.left=c.x+'px';orb.style.top=c.y+'px';orb.style.transform='none'}});
+    document.addEventListener('mouseup',function(){isDragging=false});
+    window.addEventListener('resize',function(){var rect=orb.getBoundingClientRect();var c=constrain(rect.left,rect.top);if(rect.left!==c.x||rect.top!==c.y){orb.style.left=c.x+'px';orb.style.top=c.y+'px';orb.style.transform='none'}});
   }
 })();
 </script>

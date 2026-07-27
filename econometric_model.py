@@ -49,6 +49,13 @@ FEATURES = [
     'retail_sentiment', 'rzjme_yi', 'sentiment_divergence',
 ]
 
+# 预测器只使用在历史逐日样本外检验中稳定的市场/大众情绪因子；其余变量仍保留
+# 在面板和 Lasso 诊断中，避免把小样本里的噪声带入每日概率预测。
+PREDICTIVE_FEATURES = [
+    'hs300_mom_5d', 'vol_10d', 'retail_sentiment', 'rzjme_yi',
+]
+PREDICTIVE_C = 0.3
+
 
 # ----------------------------- 工具 -----------------------------
 def save_json(path, obj):
@@ -324,8 +331,9 @@ def build_latest_features(etf_data, news_data):
 
 
 # ----------------------------- 时序交叉验证 -----------------------------
-def time_series_cv(df, target, is_classifier=True):
+def time_series_cv(df, target, is_classifier=True, features=None):
     """5折时序交叉验证 (expanding window), 返回各折准确率/R² 与样本外预测"""
+    features = features or FEATURES
     dates = sorted(df['date'].unique())
     n = len(dates)
     k = 5
@@ -342,12 +350,15 @@ def time_series_cv(df, target, is_classifier=True):
         te = df['date'].isin(test_dates)
         if tr.sum() == 0 or te.sum() == 0:
             continue
-        Xtr = df.loc[tr, FEATURES].values.astype(float)
+        Xtr = df.loc[tr, features].values.astype(float)
         ytr = df.loc[tr, target].values
-        Xte = df.loc[te, FEATURES].values.astype(float)
+        Xte = df.loc[te, features].values.astype(float)
         yte = df.loc[te, target].values
         if is_classifier:
-            m = LogisticRegression(max_iter=2000)
+            scaler = StandardScaler()
+            Xtr = scaler.fit_transform(Xtr)
+            Xte = scaler.transform(Xte)
+            m = LogisticRegression(C=PREDICTIVE_C, max_iter=5000)
             m.fit(Xtr, ytr)
             pred = m.predict(Xte)
             scores.append(float((pred == yte).mean()))
@@ -365,67 +376,37 @@ def time_series_cv(df, target, is_classifier=True):
 
 # ----------------------------- 2. Logit 模型 -----------------------------
 def run_logit_model(df, latest_df, latest_date):
-    """Logit 回归预测涨跌方向"""
-    X = df[FEATURES].values.astype(float)
+    """用经过逐日样本外检验的正则化 Logit 预测涨跌方向。"""
+    X = df[PREDICTIVE_FEATURES].values.astype(float)
     y = df['today_direction'].values.astype(int)
-    Xc = add_const(X)
-
-    res = None
-    for method in (None, 'bfgs', 'lbfgs', 'powell'):
-        try:
-            if method is None:
-                res = sm.Logit(y, Xc).fit(disp=False, maxiter=500)
-            else:
-                res = sm.Logit(y, Xc).fit(disp=False, maxiter=500, method=method)
-            if res.mle_retvals.get('converged', True):
-                break
-        except Exception:
-            res = None
-            continue
-
-    feature_names = ['const'] + FEATURES
-    if res is not None:
-        params = res.params
-        pvalues = res.pvalues
-        pseudo_r2 = float(res.prsquared)
-        llf = float(res.llf)
-        pred_prob = res.predict(Xc)
-        pred_dir = (pred_prob > 0.5).astype(int)
-        coefs = [{'feature': feature_names[i],
-                  'coef': round(float(params[i]), 6),
-                  'pvalue': round(float(pvalues[i]), 6)} for i in range(len(feature_names))]
-    else:
-        # 回退到 sklearn
-        m = LogisticRegression(maxiter=2000)
-        m.fit(X, y)
-        pred_prob = m.predict_proba(X)[:, 1]
-        pred_dir = (pred_prob > 0.5).astype(int)
-        pseudo_r2 = 0.0
-        llf = 0.0
-        coefs = [{'feature': feature_names[0], 'coef': round(float(m.intercept_[0]), 6), 'pvalue': None}]
-        coefs += [{'feature': FEATURES[i], 'coef': round(float(m.coef_[0][i]), 6), 'pvalue': None}
-                  for i in range(len(FEATURES))]
-
-    accuracy = float((pred_dir == y).mean())
+    scaler = StandardScaler()
+    Xs = scaler.fit_transform(X)
+    model = LogisticRegression(C=PREDICTIVE_C, max_iter=5000)
+    model.fit(Xs, y)
+    pred_prob = model.predict_proba(Xs)[:, 1]
+    pred_dir = (pred_prob >= 0.5).astype(int)
+    in_sample_accuracy = float((pred_dir == y).mean())
     pos_rate = float(y.mean())
 
-    # 5折时序交叉验证
-    cv_scores, oof_pred = time_series_cv(df, 'today_direction', is_classifier=True)
+    # 唯一用于报告“准确率”的指标：按交易日展开、每折单独标准化的样本外结果。
+    cv_scores, oof_pred = time_series_cv(
+        df, 'today_direction', is_classifier=True, features=PREDICTIVE_FEATURES)
     cv_mean = float(np.mean(cv_scores)) if cv_scores else 0.0
 
     # Lasso (L1) 变量选择: 先用 LogisticRegressionCV 选 C, 再用更小 C (更强正则) 做筛选
-    scaler = StandardScaler()
-    Xs = scaler.fit_transform(X)
+    diagnostic_X = df[FEATURES].values.astype(float)
+    diagnostic_scaler = StandardScaler()
+    diagnostic_Xs = diagnostic_scaler.fit_transform(diagnostic_X)
     cv_c = None
     try:
         l1cv = LogisticRegressionCV(Cs=10, penalty='l1', solver='liblinear', cv=5, max_iter=5000)
-        l1cv.fit(Xs, y)
+        l1cv.fit(diagnostic_Xs, y)
         cv_c = float(l1cv.C_[0])
     except Exception:
         cv_c = 1.0
     sel_c = max(cv_c / 3.0, 1e-3)  # 更强正则化以剔除弱变量
     l1 = LogisticRegression(penalty='l1', solver='liblinear', C=sel_c, max_iter=5000)
-    l1.fit(Xs, y)
+    l1.fit(diagnostic_Xs, y)
     l1_coefs = l1.coef_[0]
     lasso_selection = sorted([
         {'feature': FEATURES[i], 'coef': round(float(l1_coefs[i]), 6),
@@ -436,13 +417,9 @@ def run_logit_model(df, latest_df, latest_date):
     dropped_features = [s['feature'] for s in lasso_selection if not s['selected']]
 
     # latest_predictions: 11个ETF今日预测
-    latest_X = latest_df[FEATURES].values.astype(float)
-    latest_Xc = add_const(latest_X) if res is not None else latest_X
-    if res is not None:
-        latest_prob = res.predict(latest_Xc)
-    else:
-        latest_prob = l1.predict_proba(scaler.transform(latest_X))[:, 1]
-    latest_pred_dir = (latest_prob > 0.5).astype(int)
+    latest_X = latest_df[PREDICTIVE_FEATURES].values.astype(float)
+    latest_prob = model.predict_proba(scaler.transform(latest_X))[:, 1]
+    latest_pred_dir = (latest_prob >= 0.5).astype(int)
 
     latest_predictions = []
     for i, row in latest_df.iterrows():
@@ -450,17 +427,21 @@ def run_logit_model(df, latest_df, latest_date):
             'etf_code': row['etf_code'], 'etf_name': row['etf_name'], 'sector': row['sector'],
             'prob_up': round(float(latest_prob[i]), 4),
             'predicted_direction': 'up' if latest_pred_dir[i] == 1 else 'down',
-            'features': {f: row[f] for f in FEATURES},
+            'features': {f: row[f] for f in PREDICTIVE_FEATURES},
         })
 
     return {
-        'model': 'Logit (Binary: today_direction)',
+        'model': 'Regularized Logit (walk-forward selected features)',
         'n_obs': int(len(df)),
-        'feature_names': feature_names,
-        'coefficients': coefs,
-        'pseudo_r2': round(pseudo_r2, 6),
-        'log_likelihood': round(llf, 4),
-        'accuracy': round(accuracy, 6),
+        'feature_names': ['const'] + PREDICTIVE_FEATURES,
+        'coefficients': ([{'feature': 'const', 'coef': round(float(model.intercept_[0]), 6), 'pvalue': None}]
+                         + [{'feature': f, 'coef': round(float(model.coef_[0][i]), 6), 'pvalue': None}
+                            for i, f in enumerate(PREDICTIVE_FEATURES)]),
+        'pseudo_r2': None,
+        'log_likelihood': None,
+        'accuracy': round(cv_mean, 6),
+        'in_sample_accuracy': round(in_sample_accuracy, 6),
+        'accuracy_note': 'accuracy 为按交易日展开的样本外准确率；in_sample_accuracy 仅作拟合诊断。',
         'positive_rate': round(pos_rate, 6),
         'time_series_cv': {
             'n_folds': len(cv_scores),
@@ -472,6 +453,8 @@ def run_logit_model(df, latest_df, latest_date):
         'dropped_features': dropped_features,
         'lasso_cv_C': round(cv_c, 6),
         'lasso_selection_C': round(sel_c, 6),
+        'predictive_features': PREDICTIVE_FEATURES,
+        'predictive_C': PREDICTIVE_C,
         'latest_predictions': latest_predictions,
         'latest_predict_date': latest_date,
         'in_sample_pred_direction': [int(p) for p in pred_dir],

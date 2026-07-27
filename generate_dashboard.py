@@ -384,9 +384,11 @@ def normalize_econ_data(raw, model_data):
 
     e['logit'] = {
         'n': lm['n_obs'],
-        'pseudo_r2': lm.get('pseudo_r2', 0),
+        'pseudo_r2': lm.get('pseudo_r2') if lm.get('pseudo_r2') is not None else 'N/A（正则化模型）',
         'accuracy': lm.get('accuracy', 0) * 100,
         'cv_accuracy': tscv.get('mean_cv_accuracy', 0) * 100,
+        'in_sample_accuracy': lm.get('in_sample_accuracy', 0) * 100,
+        'accuracy_note': lm.get('accuracy_note', ''),
         'cv_auc': 'N/A',
         'lasso_features': lm.get('selected_features', []),
         'lasso_note': f"C={lm.get('lasso_selection_C', 'N/A')}",
@@ -1077,7 +1079,7 @@ def gen_section_5_features(model_data, econ_data):
         logit_rows += f'<tr><td>{esc(var)}</td><td class="{cls_val(c["coef"])}">{fmt_coef(c["coef"])}</td><td>{fmt_num(c["p"])}</td><td><b>{esc(sig)}</b></td></tr>\n'
 
     logit_table = f'''<div class="card">
-  <div class="card-title">Logit回归系数（伪R²={logit["pseudo_r2"]}, 准确率={logit["accuracy"]}%）</div>
+  <div class="card-title">正则化 Logit 系数（样本外准确率={logit["accuracy"]}%）</div>
   <table>
     <thead><tr><th>特征</th><th>系数</th><th>p值</th><th>显著性</th></tr></thead>
     <tbody>
@@ -1289,11 +1291,11 @@ def gen_formulas(model_data, econ_data):
     logit_card = f"""<div class="card">
   <div class="card-title">Logit 回归 &middot; 涨跌方向预测</div>
   <div class="formula-box">
-    <div class="f-title">拟合方程（N={logit["n"]}, 伪R&sup2;={logit["pseudo_r2"]}, 准确率={logit["accuracy"]}%）</div>
+    <div class="f-title">预测方程（N={logit["n"]}, 样本外准确率={logit["accuracy"]}%）</div>
     <div class="formula">P(y=1) = 1 / (1 + e<sup>&minus;z</sup>)</div>
 {logit_eq}
     <div class="formula-legend">
-      <b>y=1</b>=次日上涨 &nbsp; CV准确率={logit["cv_accuracy"]}% &nbsp; Lasso={logit.get("lasso_note", "N/A")}
+      <b>y=1</b>=当日上涨 &nbsp; {esc(logit.get("accuracy_note", ""))} &nbsp; Lasso={logit.get("lasso_note", "N/A")}
     </div>
   </div>
 </div>"""
@@ -1503,10 +1505,10 @@ def gen_econometric(model_data, econ_data):
     logit_card = f"""<div class="card">
   <div class="card-title">Logit 回归系数表</div>
   <div class="metrics" style="grid-template-columns:repeat(2,1fr);margin-bottom:10px">
-    <div class="metric"><div class="ml">伪 R&sup2;</div><div class="mv" style="font-size:1rem">{logit["pseudo_r2"]}</div></div>
-    <div class="metric"><div class="ml">准确率</div><div class="mv" style="font-size:1rem">{logit["accuracy"]}%</div></div>
-    <div class="metric"><div class="ml">CV 准确率</div><div class="mv" style="font-size:1rem">{logit["cv_accuracy"]}%</div></div>
-    <div class="metric"><div class="ml">CV AUC</div><div class="mv" style="font-size:1rem">{logit["cv_auc"]}</div></div>
+    <div class="metric"><div class="ml">正则化强度</div><div class="mv" style="font-size:1rem">L2</div></div>
+    <div class="metric"><div class="ml">样本外准确率</div><div class="mv" style="font-size:1rem">{logit["accuracy"]}%</div></div>
+    <div class="metric"><div class="ml">样本内诊断</div><div class="mv" style="font-size:1rem">{logit.get("in_sample_accuracy", 0)}%</div></div>
+    <div class="metric"><div class="ml">验证方式</div><div class="mv" style="font-size:1rem">逐日展开</div></div>
   </div>
   <div style="font-size:0.75rem;color:var(--muted);margin-bottom:6px">Lasso保留: {esc(lasso_features_str)}</div>
   <table>
