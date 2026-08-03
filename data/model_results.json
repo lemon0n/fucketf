@@ -2,9 +2,10 @@
   "summary": {
     "report_date": "2026-08-03",
     "cumulative_return": 6.85,
-    "hs300_return": 31.0,
-    "hs300_cumulative_return": 31.0,
-    "alpha": -24.15,
+    "hs300_return": 20.74,
+    "hs300_cumulative_return": 20.74,
+    "decision_calendar_hs300_return": 31.0,
+    "alpha": -13.89,
     "win_rate": 56.19,
     "profit_loss_ratio": 1.45,
     "trading_days": 173,

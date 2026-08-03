@@ -792,6 +792,12 @@ def run_model():
             etf_cum.append(round((data[-1]['close'] - data[0]['close']) / data[0]['close'] * 100, 2))
     etf_avg = round(sum(etf_cum) / len(etf_cum), 2) if etf_cum else 0.0
 
+    # 主基准使用完整样本区间买入持有，避免因策略空仓/跳过持仓日而扭曲 Alpha。
+    hs300_records = etf_data.get(HS300_CODE, {}).get('data', [])
+    hs300_buy_hold = 0.0
+    if len(hs300_records) >= 2 and hs300_records[0].get('open') and hs300_records[-1].get('close'):
+        hs300_buy_hold = round((hs300_records[-1]['close'] / hs300_records[0]['open'] - 1) * 100, 2)
+
     cum_return = round((capital / INITIAL_CAPITAL - 1) * 100, 2)
     hs300_cum = round((hs300_capital / INITIAL_CAPITAL - 1) * 100, 2)
     alpha_cum = round(cum_return - hs300_cum, 2)
@@ -817,9 +823,10 @@ def run_model():
     summary = {
         'report_date': latest_dec['date'],
         'cumulative_return': cum_return,
-        'hs300_return': hs300_cum,
-        'hs300_cumulative_return': hs300_cum,
-        'alpha': alpha_cum,
+        'hs300_return': hs300_buy_hold,
+        'hs300_cumulative_return': hs300_buy_hold,
+        'decision_calendar_hs300_return': hs300_cum,
+        'alpha': round(cum_return - hs300_buy_hold, 2),
         'win_rate': win_rate,
         'profit_loss_ratio': profit_loss_ratio,
         'trading_days': len(all_daily),
