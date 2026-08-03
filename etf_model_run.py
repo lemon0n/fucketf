@@ -12,6 +12,7 @@ ETF规则模型 — 基于四大报情绪 + 板块动量/量比/均值回归/经
 """
 import json
 import os
+from datetime import datetime, timedelta
 from math import sqrt
 from etf_universe import SECTOR_ETF_MAP
 
@@ -40,6 +41,9 @@ INITIAL_CAPITAL = 1_000_000.0
 COMMISSION_RATE = 0.00005      # 万0.5 (买卖各一次)
 MAX_EXPERIENCES = 200
 SCORE_FULL = 1.2               # 满仓评分阈值，必须高于买入阈值
+
+def _date_shift(date_str, days):
+    return (datetime.strptime(date_str, '%Y-%m-%d').date() + timedelta(days=days)).isoformat()
 
 # ====== Walk-Forward 优化参数 (胜率 53% → 70.5%) ======
 SENTIMENT_LAG_COEF = -1.0      # 情绪信号方向反转 (机构看多为反向指标)
@@ -152,7 +156,14 @@ def load_external_news():
 
 def analyze_external_sentiment(items, date_str):
     """官方/行业/宏观标题的轻量事件情绪；只使用发布时间不晚于决策日的数据。"""
-    usable = [x for x in items if x.get('published_at', '')[:10] <= date_str]
+    usable = []
+    for x in items:
+        published = x.get('published_at', '')[:10]
+        # unknown/列表抓取日不参与时间敏感模型；只使用近14日且不晚于决策日的事件。
+        if x.get('date_quality') in (None, 'unknown', 'listing'):
+            continue
+        if published and date_str >= published >= _date_shift(date_str, -14):
+            usable.append(x)
     bullish = bearish = 0
     categories = {}
     sector_scores = {info['sector']: 0.0 for info in SECTOR_ETF_MAP.values()}

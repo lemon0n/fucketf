@@ -1,0 +1,13 @@
+{
+  "updated_at": "2026-08-04",
+  "status": "待核对，不进入模型经验库",
+  "source": "用户实操概况",
+  "items": [
+    {"label": "券商ETF", "observed_return_pct": -5.0},
+    {"label": "创新药ETF", "observed_return_pct": -8.0},
+    {"label": "半导体ETF", "observed_return_pct": -35.0},
+    {"label": "黄金ETF", "observed_return_pct": 1.0},
+    {"label": "电池ETF", "observed_return_pct": -30.0}
+  ],
+  "policy": "只有补充证券代码、观察区间、成交价格/收盘价格并与行情数据对齐后，才可转为已结算样本。"
+}

@@ -9,7 +9,7 @@ ETF预测模型 — 每日自动化流水线
   3. 融资融券数据抓取 (大众情绪)
   4. 规则模型
   5. 计量模型 (含双视角情绪特征)
-  6. 生成看板 + 确保 .nojekyll
+  6. 生成次交易日交接单与看板 + 确保 .nojekyll
   7. Git提交并推送至GitHub
 """
 import sys
@@ -131,6 +131,12 @@ def main():
     ok = run_script('econometric_model.py', timeout=600)
     if not ok:
         raise SystemExit('计量诊断失败，停止生成看板')
+
+    # Step 5.5: 生成次交易日交接单（未结算预测不进入经验库）
+    log('=== Step 5.5: 次交易日交接单 ===')
+    ok = run_script('generate_daily_handoff.py')
+    if not ok:
+        raise SystemExit('次交易日交接单生成失败，停止生成看板')
 
     # Step 6: 生成看板
     log('=== Step 6: 生成看板 ===')

@@ -29,6 +29,8 @@ DASHBOARD_DIR = os.path.join(SCRIPT_DIR, 'dashboard')
 MODEL_RESULTS_PATH  = os.path.join(DATA_DIR, 'model_results.json')
 ECON_RESULTS_PATH   = os.path.join(DATA_DIR, 'econometric_results.json')
 EXTERNAL_NEWS_PATH  = os.path.join(DATA_DIR, 'external_news.json')
+HANDOFF_PATH        = os.path.join(DATA_DIR, 'next_day_handoff.json')
+OBSERVATION_PATH    = os.path.join(DATA_DIR, 'manual_observations.json')
 HTML_OUT            = os.path.join(DASHBOARD_DIR, 'dashboard.html')
 CHARTS_JS_OUT       = os.path.join(DASHBOARD_DIR, 'assets', 'charts.js')
 ECHARTS_JS_REF      = '_shared/js/echarts.min.js'
@@ -291,13 +293,16 @@ def _build_external_review():
         source_counts[source] = source_counts.get(source, 0) + 1
         source_categories[source] = item.get('category', 'other')
         category_counts[category] = category_counts.get(category, 0) + 1
+    valid = [x for x in items if x.get('date_quality') not in (None, 'unknown', 'listing') and x.get('published_at')]
+    valid.sort(key=lambda x: x.get('published_at', ''), reverse=True)
     return {
         'updated_at': raw.get('updated_at', '') if isinstance(raw, dict) else '',
         'count': len(items),
         'source_counts': source_counts,
         'source_categories': source_categories,
         'category_counts': category_counts,
-        'headlines': sorted(items, key=lambda x: x.get('published_at', ''), reverse=True)[:8],
+        'headlines': valid[:8],
+        'events': valid[:3],
     }
 
 
@@ -416,6 +421,8 @@ def normalize_model_data(raw):
     m['last_week_performance'] = _build_last_week_performance(daily)
     m['external_review'] = _build_external_review()
     m['adaptation_review'] = _build_adaptation_review(daily, summary)
+    m['handoff'] = load_json(HANDOFF_PATH) if os.path.exists(HANDOFF_PATH) else {}
+    m['manual_observations'] = load_json(OBSERVATION_PATH) if os.path.exists(OBSERVATION_PATH) else {}
 
     return m
 
@@ -784,7 +791,7 @@ footer{font-size:.68rem;border-top:1px solid var(--ink);text-align:left;padding-
 .state-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden}
 .state-cell{background:var(--bg3);padding:15px 14px;min-height:105px}.state-label{font-size:.7rem;color:var(--muted);letter-spacing:.04em}.state-value{font-family:var(--JM);font-size:1.15rem;font-weight:700;margin:7px 0 3px}.state-note{font-size:.66rem;color:var(--muted);line-height:1.45}
 .section-note{font-size:.76rem;color:var(--muted);padding:10px 2px 0}.external-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}.gap-list{display:grid;gap:9px}.gap-list div{border-left:2px solid var(--accent);padding:7px 10px;background:var(--bg2)}.gap-list b{display:block;font-size:.76rem}.gap-list span{font-size:.72rem;color:var(--muted)}.headline-card ul{list-style:none}.headline-card li{padding:7px 0;border-bottom:1px solid var(--bg2);font-size:.75rem}.headline-card li:last-child{border-bottom:0}.headline-card li span{font-family:var(--JM);color:var(--muted);margin-right:8px}.headline-card a{color:var(--accent);margin-left:6px;text-decoration:none}
-.adapt-grid,.model-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.adapt-box,.model-box{background:var(--bg3);border:1px solid var(--rule);padding:16px 18px}.adapt-box b{font-size:.78rem;color:var(--accent)}.adapt-box p,.model-box p{font-size:.78rem;margin-top:6px}.model-number{font-family:var(--JM);font-size:1.6rem;font-weight:700;margin:8px 0}.model-fold,.inner-fold{background:var(--bg3);border:1px solid var(--rule);padding:15px 18px}.model-fold summary,.inner-fold summary{cursor:pointer;color:var(--accent);font-weight:700;font-size:.8rem}.model-fold[open]{box-shadow:var(--shadow-md)}.inner-fold{margin-top:14px;background:var(--bg)}
+.adapt-grid,.model-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.adapt-box,.model-box{background:var(--bg3);border:1px solid var(--rule);padding:16px 18px}.adapt-box b{font-size:.78rem;color:var(--accent)}.adapt-box p,.model-box p{font-size:.78rem;margin-top:6px}.model-number{font-family:var(--JM);font-size:1.6rem;font-weight:700;margin:8px 0}.formula{font-family:var(--JM);line-height:1.8;color:var(--ink)}.event-card{padding:12px 0;border-bottom:1px solid var(--rule)}.event-card:last-child{border-bottom:0}.event-meta{font-size:.7rem;color:var(--muted);letter-spacing:.02em}.event-title{font-weight:700;margin:6px 0}.event-title a{font-size:.7rem;color:var(--accent);font-weight:400}.event-card p{font-size:.78rem;line-height:1.65;margin:4px 0}.empty-note{color:var(--muted);padding:18px 0;font-size:.8rem}.model-fold,.inner-fold{background:var(--bg3);border:1px solid var(--rule);padding:15px 18px}.model-fold summary,.inner-fold summary{cursor:pointer;color:var(--accent);font-weight:700;font-size:.8rem}.model-fold[open]{box-shadow:var(--shadow-md)}.inner-fold{margin-top:14px;background:var(--bg)}
 @media(max-width:760px){.container{padding:20px 16px 48px}.report-title{font-size:1.75rem}.report-subtitle{display:block}.report-meta{margin-top:5px}.metrics{grid-template-columns:repeat(2,1fr)!important}.metric{min-height:78px;padding:12px}.mv{font-size:1.08rem}.state-grid{grid-template-columns:repeat(2,1fr)}.external-layout,.adapt-grid,.model-grid{grid-template-columns:1fr}}
 """
 
@@ -1041,21 +1048,20 @@ def gen_external_review(model_data, econ_data):
     ext = d.get('external_sentiment', {})
     review = model_data.get('external_review', {})
     labels = {'policy': '官方政策/监管', 'industry': '行业信息', 'macro': '宏观数据', 'exchange': '交易所公告'}
-    source_rows = ''.join(f'<tr><td>{esc(k)}</td><td>{v} 条</td><td>{esc(labels.get(review.get("source_categories", {}).get(k), "公开页面抓取"))}</td></tr>' for k, v in review.get('source_counts', {}).items())
-    if not source_rows:
-        source_rows = '<tr><td colspan="3">暂无新抓取数据，模型使用历史缓存</td></tr>'
-    def headline_date(item):
-        value = item.get('published_at', '')
-        return value if len(value) == 10 and value[4] == '-' and value[7] == '-' else '日期待校正'
-    headlines = ''.join(f'<li><span>{esc(headline_date(x))}</span> {esc(x.get("title", ""))} <a href="{esc(x.get("url", "#"))}" target="_blank" rel="noopener">原文</a></li>' for x in review.get('headlines', [])[:5])
+    events = review.get('events', [])[:3]
+    event_cards = ''.join(f'''<article class="event-card"><div class="event-meta">{esc(x.get('published_at',''))} · {esc(x.get('source',''))} · {esc(x.get('event_type',''))} · 影响{esc(x.get('impact','未知'))} · T-{int(x.get('age_days', 0))}</div>
+<div class="event-title">{esc(x.get('title',''))} <a href="{esc(x.get('url','#'))}" target="_blank" rel="noopener">原文 ↗</a></div>
+<p><b>判断：</b>{esc(x.get('implication',''))}</p><p><b>涉及：</b>{esc('、'.join(x.get('sectors', [])))} · <b>方向：</b>{esc(x.get('direction','中性'))}</p></article>''' for x in events)
+    if not event_cards: event_cards = '<div class="empty-note">暂无通过日期校验的近期事件；本日不使用无法确认日期的标题。</div>'
+    observation = model_data.get('manual_observations', {})
+    obs_items = observation.get('items', []) if isinstance(observation, dict) else []
+    obs_text = '；'.join(f"{x.get('label')} {float(x.get('observed_return_pct', 0)):.0f}%" for x in obs_items)
     return f'''<section class="report-section"><div class="sec-title">二、外部信息与资金行为</div>
-<div class="external-layout"><div class="card"><div class="card-title">外部信息接入</div>
-<table><thead><tr><th>来源</th><th>记录数</th><th>用途</th></tr></thead><tbody>{source_rows}</tbody></table>
-<div class="section-note">更新：{esc(review.get('updated_at', ''))} · 缓存 {int(review.get('count', 0))} 条 · 外部情绪分 <strong class="{cls_val(ext.get('score', 0))}">{float(ext.get('score', 0)):.3f}</strong></div></div>
-<div class="card"><div class="card-title">新闻与价格/资金预期差</div>
-<div class="gap-list"><div><b>新闻 → 价格</b><span>识别新闻转强但价格尚未确认</span></div><div><b>新闻 → 资金</b><span>比较新闻方向与成交/换手代理</span></div><div><b>交易所份额</b><span>上交所周度历史份额，深交所最新快照</span></div><div><b>机构 → 大众</b><span>四大报与融资融券情绪分歧</span></div></div>
-<div class="section-note">资金流字段目前是成交量与价格加速度代理，不等同于 ETF 真实份额净申赎。</div></div></div>
-<div class="card headline-card"><div class="card-title">最近外部标题（可追溯原文）</div><ul>{headlines or '<li>暂无标题缓存</li>'}</ul></div>
+<div class="external-layout"><div class="card"><div class="card-title">近期事件分析 · 只显示真实日期事件</div>{event_cards}
+<div class="section-note">外部情绪分 <strong class="{cls_val(ext.get('score', 0))}">{float(ext.get('score', 0)):.3f}</strong> · 日期证据优先原文页，其次 URL；无法确认日期的内容不进入模型。</div></div>
+<div class="card"><div class="card-title">信息如何进入判断</div>
+<div class="gap-list"><div><b>事件 → 预期</b><span>政策、宏观与行业事件先转成方向和影响等级</span></div><div><b>预期 → 价格</b><span>要求 ETF 相对宽基强弱确认，不因标题单独追涨</span></div><div><b>预期 → 资金</b><span>结合成交、换手与 ETF 份额；代理信号不冒充净申赎</span></div><div><b>分歧 → 风险</b><span>新闻、机构、大众和份额不同步时降低信号置信度</span></div></div></div></div>
+<div class="card"><div class="card-title">实操观察（待核对，不作为经验样本）</div><div class="section-note">{esc(obs_text or '暂无')}</div></div>
 </section>'''
 
 
@@ -1073,7 +1079,9 @@ def gen_model_fold(model_data, econ_data):
     logit, ols = econ_data['logit'], econ_data['ols']
     skill = '有' if logit.get('has_predictive_skill') else '暂无'
     return f'''<section class="report-section"><div class="sec-title">七、模型结果（可展开）</div>
-<details class="model-fold"><summary>计量模型仅作诊断：Logit 时序准确率 {logit.get('cv_accuracy', 0):.1f}%，样本外预测力{skill}</summary>
+<details class="model-fold" open><summary>模型卡片：规则模型负责组合，Logit/OLS负责诊断（点击收起）</summary>
+<div class="model-grid"><div class="model-box"><div class="card-title">规则模型 · 实际决策公式</div><p class="formula">Score = 1.5×动量 + 2×大众情绪 + 1×机构情绪 + 量比 + 均值回归 + 启动信号 − 拥挤 − 撤退风险 + 市场状态修正</p><p>价格和资金使用 T-1；外部事件必须满足真实日期≤决策日。风险预算由宽度、20日动量、波动和回撤动态决定。</p></div><div class="model-box"><div class="card-title">计量模型 · 交叉诊断</div><div class="model-number">Logit {logit.get('cv_accuracy', 0):.1f}% · OLS R² {float(ols.get('r2', 0)):.3f}</div><p>当前样本外预测力{skill}；未超过简单基准时不参与主推荐，只用于发现因子失效和方向漂移。</p></div></div>
+<div class="model-grid"><div class="model-box"><div class="card-title">当前参数护栏</div><p>买入门槛 0.35 · 持有期 3 日 · 情绪滞后系数 -1.0 · 份额流向暂只作诊断。</p></div><div class="model-box"><div class="card-title">日间交接</div><p>当日预测先进入 pending；持有期结束、收益和成本结算后，才允许写入经验库并参与滚动 OOS 复核。</p></div></div>
 <div class="model-grid"><div class="model-box"><div class="card-title">Logit · 方向诊断</div><div class="model-number">{logit.get('cv_accuracy', 0):.1f}%</div><p>时序交叉验证准确率。接近 50% 时，不作为顶部推荐依据。</p></div><div class="model-box"><div class="card-title">OLS · 收益诊断</div><div class="model-number">R² {float(ols.get('r2', 0)):.3f}</div><p>解释力有限，主要用于观察因子方向和稳定性。</p></div></div>
 <details class="inner-fold"><summary>展开系数、因素重要性与图表</summary>{gen_section_5_features(model_data, econ_data)}</details>
 </details></section>'''
