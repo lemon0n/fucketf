@@ -1,59 +1,29 @@
 {
-  "as_of_date": "2026-08-03",
-  "decision_date": "2026-08-03",
+  "as_of_date": "2026-08-04",
+  "decision_date": "2026-08-04",
   "next_trading_date": null,
   "cutoff_policy": "价格/成交截至前一交易日；外部事件必须有原文或URL日期且published_at<=decision_date；未结算预测不得进入经验库。",
   "market_state": {
-    "name": "neutral",
-    "risk_budget": 0.5,
-    "breadth": 0.7826,
-    "volatility_20d": 26.725
+    "name": "stress",
+    "risk_budget": 0.35,
+    "breadth": 0.3913,
+    "volatility_20d": 26.9031
   },
   "selected_etfs": [
     {
-      "code": "512200",
-      "name": "房地产ETF",
-      "sector": "房地产",
-      "weight": 0.0784,
-      "total_score": 0.6867,
-      "early_entry": 0.7514,
-      "crowding": 0.0827,
-      "withdrawal_risk": 0.0,
-      "flow_proxy": 0.4563,
-      "external_signal": 0.1375,
-      "news_price_gap": -0.6666,
-      "news_flow_gap": -0.3188,
-      "share_flow_signal": 0.0682
-    },
-    {
-      "code": "510150",
-      "name": "消费ETF",
-      "sector": "消费",
-      "weight": 0.0668,
-      "total_score": 0.5849,
-      "early_entry": 0.6225,
-      "crowding": 0.284,
-      "withdrawal_risk": 0.0,
-      "flow_proxy": 0.434,
-      "external_signal": 0.1375,
-      "news_price_gap": -0.7412,
-      "news_flow_gap": -0.2965,
-      "share_flow_signal": 0.2913
-    },
-    {
-      "code": "512170",
-      "name": "医疗ETF",
-      "sector": "医疗",
-      "weight": 0.0529,
-      "total_score": 0.4632,
-      "early_entry": 0.6614,
-      "crowding": 0.3572,
-      "withdrawal_risk": 0.0,
-      "flow_proxy": 0.4564,
-      "external_signal": 0.1375,
-      "news_price_gap": -0.7069,
-      "news_flow_gap": -0.3189,
-      "share_flow_signal": -0.1049
+      "code": "511010",
+      "name": "国债ETF",
+      "sector": "国债",
+      "weight": 0.0875,
+      "total_score": 0.3562,
+      "early_entry": 0.0167,
+      "crowding": 0.0384,
+      "withdrawal_risk": 0.0003,
+      "flow_proxy": 0.0556,
+      "external_signal": -0.1375,
+      "news_price_gap": -0.1555,
+      "news_flow_gap": -0.1931,
+      "share_flow_signal": 0.2489
     }
   ],
   "monitor": [
@@ -65,7 +35,7 @@
     "market_breadth",
     "volatility_20d"
   ],
-  "external_event_count": 39,
+  "external_event_count": 40,
   "external_latest_dates": [
     "2026-08-03",
     "2026-08-01",
@@ -75,14 +45,14 @@
   ],
   "pending_labels": [
     {
-      "decision_date": "2026-08-03",
+      "decision_date": "2026-08-04",
       "settle_after": null,
       "status": "pending",
       "rule": "持有期结束后才计算净收益并写入经验库"
     }
   ],
   "source_health": {
-    "external_news": 39,
+    "external_news": 40,
     "margin_records": 139,
     "share_snapshots": 0
   },

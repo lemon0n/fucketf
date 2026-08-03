@@ -92,7 +92,7 @@
     yAxis:{type:'value',axisLabel:{color:muted},splitLine:{lineStyle:{color:rule}}},
     series:[{
       type:'bar',
-      data:[0.014005, 0.005248, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+      data:[0.012375, 0.003619, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
       itemStyle:{color:gold},
       barWidth:'45%',
       label:{show:true,position:'top',formatter:'{c}',color:muted,fontSize:9}
