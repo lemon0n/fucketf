@@ -720,7 +720,7 @@ td.down,span.down{color:var(--accent2)}
 .top-summary{margin-bottom:16px}
 .core-view{background:var(--bg3);border:1px solid var(--accent);border-radius:var(--radius);padding:18px 22px;margin-bottom:12px;text-align:center;box-shadow:var(--shadow-md)}
 .core-view .cv-label{font-size:0.68rem;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
-.core-view .cv-text{font-size:1rem;color:var(--ink);font-weight:500;line-height:1.7;letter-spacing:-0.005em}
+.core-view .cv-text{font-size:1rem;color:var(--ink);font-weight:500;line-height:1.7;letter-spacing:-0.005em}.core-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px;text-align:left}.core-note{padding:11px 12px;background:var(--bg);border:1px solid var(--rule);border-radius:var(--radius-sm)}.core-note b{display:block;color:var(--accent);font-size:.72rem;margin-bottom:5px}.core-note span{display:block;color:var(--muted);font-size:.72rem;line-height:1.55}.core-note.risk{border-left:3px solid var(--accent2)}
 .signal-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .signal-card{background:var(--bg3);border-radius:var(--radius);padding:14px 18px;border:1px solid var(--rule);box-shadow:var(--shadow-sm);transition:box-shadow 200ms var(--ease-out),transform 200ms var(--ease-out)}
 .signal-card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
@@ -790,7 +790,7 @@ footer{font-size:.68rem;border-top:1px solid var(--ink);text-align:left;padding-
 .state-cell{background:var(--bg3);padding:15px 14px;min-height:105px}.state-label{font-size:.7rem;color:var(--muted);letter-spacing:.04em}.state-value{font-family:var(--JM);font-size:1.15rem;font-weight:700;margin:7px 0 3px}.state-note{font-size:.66rem;color:var(--muted);line-height:1.45}
 .section-note{font-size:.76rem;color:var(--muted);padding:10px 2px 0}.external-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}.gap-list{display:grid;gap:9px}.gap-list div{border-left:2px solid var(--accent);padding:7px 10px;background:var(--bg2)}.gap-list b{display:block;font-size:.76rem}.gap-list span{font-size:.72rem;color:var(--muted)}.headline-card ul{list-style:none}.headline-card li{padding:7px 0;border-bottom:1px solid var(--bg2);font-size:.75rem}.headline-card li:last-child{border-bottom:0}.headline-card li span{font-family:var(--JM);color:var(--muted);margin-right:8px}.headline-card a{color:var(--accent);margin-left:6px;text-decoration:none}
 .adapt-grid,.model-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.adapt-box,.model-box{background:var(--bg3);border:1px solid var(--rule);padding:16px 18px}.adapt-box b{font-size:.78rem;color:var(--accent)}.adapt-box p,.model-box p{font-size:.78rem;margin-top:6px}.model-number{font-family:var(--JM);font-size:1.6rem;font-weight:700;margin:8px 0}.formula{font-family:var(--JM);line-height:1.8;color:var(--ink)}.event-card{padding:12px 0;border-bottom:1px solid var(--rule)}.event-card:last-child{border-bottom:0}.event-meta{font-size:.7rem;color:var(--muted);letter-spacing:.02em}.event-title{font-weight:700;margin:6px 0}.event-title a{font-size:.7rem;color:var(--accent);font-weight:400}.event-card p{font-size:.78rem;line-height:1.65;margin:4px 0}.empty-note{color:var(--muted);padding:18px 0;font-size:.8rem}.model-fold,.inner-fold{background:var(--bg3);border:1px solid var(--rule);padding:15px 18px}.model-fold summary,.inner-fold summary{cursor:pointer;color:var(--accent);font-weight:700;font-size:.8rem}.model-fold[open]{box-shadow:var(--shadow-md)}.inner-fold{margin-top:14px;background:var(--bg)}
-@media(max-width:760px){.container{padding:20px 16px 48px}.report-title{font-size:1.75rem}.report-subtitle{display:block}.report-meta{margin-top:5px}.metrics{grid-template-columns:repeat(2,1fr)!important}.metric{min-height:78px;padding:12px}.mv{font-size:1.08rem}.state-grid{grid-template-columns:repeat(2,1fr)}.external-layout,.adapt-grid,.model-grid{grid-template-columns:1fr}}
+@media(max-width:760px){.container{padding:20px 16px 48px}.report-title{font-size:1.75rem}.report-subtitle{display:block}.report-meta{margin-top:5px}.metrics{grid-template-columns:repeat(2,1fr)!important}.metric{min-height:78px;padding:12px}.mv{font-size:1.08rem}.state-grid{grid-template-columns:repeat(2,1fr)}.external-layout,.adapt-grid,.model-grid,.core-grid{grid-template-columns:1fr}}
 """
 
 # ============================================================
@@ -949,12 +949,10 @@ def gen_top_summary(model_data, econ_data):
     ret = s.get('cumulative_return', 0)
     win_rate = s.get('win_rate', 0)
     state = d.get('market_state', {})
-    picks = d.get('picks', [])
-    behavior_text = ''
-    if picks:
-        p = picks[0]
-        behavior_text = (f' 首选方向启动度{p.get("early_entry", 0):.2f}、'
-                         f'拥挤度{p.get("crowding", 0):.2f}、撤退风险{p.get("withdrawal_risk", 0):.2f}。')
+    rankings = d.get('rankings', [])
+    sector_perf = d.get('sector_performance', {})
+    top_sector = sector_perf.get('top5', [])[:3]
+    bottom_sector = sector_perf.get('bottom5', [])[:3]
 
     if trend == '看涨':
         if sent_score > 0:
@@ -968,10 +966,23 @@ def gen_top_summary(model_data, econ_data):
             core_text = f'趋势看跌但情绪尚可（{bull}多/{bear}空），建议控制仓位，等待企稳信号。'
     else:
         core_text = f'市场处于中性轮动（宽度{state.get("breadth", 0.5):.0%}），只选择低拥挤的资金启动方向。'
-    core_text += behavior_text
+    core_text += (f' 风险预算{state.get("risk_budget", 0):.0%}，首选方向为'
+                  f'{rankings[0].get("sector", "低拥挤方向") if rankings else "低拥挤方向"}。')
+
+    macro_text = (f'宏观环境处于{state.get("name", "neutral")}状态：市场宽度{state.get("breadth", 0):.0%}，'
+                  f'但20日动量{state.get("momentum_20d", 0):.2f}%、20日波动{state.get("volatility_20d", 0):.1f}%，'
+                  f'回撤{state.get("drawdown_20d", 0):.2f}%。因此不是全面进攻环境，当前风险预算为{state.get("risk_budget", 0):.0%}。')
+    sector_names = '、'.join(x.get('sector', x.get('name', '')) for x in top_sector) or '暂无明显强势板块'
+    candidate_names = '、'.join(x.get('sector', '') for x in rankings[:3]) or '暂无'
+    sector_text = (f'短线相对强势：{sector_names}；模型候选集中在{candidate_names}。'
+                   '原因是启动度、动量和拥挤度仍在可接受区间，但强势板块不等于立即追涨。')
+    path_text = ('若市场宽度维持、20日动量止跌，并且成交与 ETF 份额继续确认，可逐步增加低拥挤方向；'
+                 '若动量继续走弱或撤退风险升高，则降低高波动主题，保留黄金、债券或现金类防守仓位。')
+    weak_names = '、'.join(x.get('sector', '') for x in bottom_sector) or '金融/红利方向'
+    risk_text = (f'主要风险：{weak_names}偏弱，以及外部情绪与价格资金尚未完全同步。'
+                 '建议先小仓位验证，连续确认后再提高风险预算。')
 
     # 行为评分是主决策；Logit样本外无超额预测力时不得占据顶部建议。
-    rankings = d.get('rankings', [])
     top3_long = rankings[:3]
     long_items = ""
     for lp in top3_long:
@@ -1001,6 +1012,12 @@ def gen_top_summary(model_data, econ_data):
   <div class="core-view">
     <div class="cv-label">核心观点</div>
     <div class="cv-text">{esc(core_text)}</div>
+    <div class="core-grid">
+      <div class="core-note"><b>宏观环境</b><span>{esc(macro_text)}</span></div>
+      <div class="core-note"><b>板块判断</b><span>{esc(sector_text)}</span></div>
+      <div class="core-note"><b>后续路径</b><span>{esc(path_text)}</span></div>
+      <div class="core-note risk"><b>风险提示</b><span>{esc(risk_text)}</span></div>
+    </div>
   </div>
   <div class="signal-grid">
     <div class="signal-card long">

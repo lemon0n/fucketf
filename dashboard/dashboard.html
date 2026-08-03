@@ -152,7 +152,7 @@ td.down,span.down{color:var(--accent2)}
 .top-summary{margin-bottom:16px}
 .core-view{background:var(--bg3);border:1px solid var(--accent);border-radius:var(--radius);padding:18px 22px;margin-bottom:12px;text-align:center;box-shadow:var(--shadow-md)}
 .core-view .cv-label{font-size:0.68rem;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
-.core-view .cv-text{font-size:1rem;color:var(--ink);font-weight:500;line-height:1.7;letter-spacing:-0.005em}
+.core-view .cv-text{font-size:1rem;color:var(--ink);font-weight:500;line-height:1.7;letter-spacing:-0.005em}.core-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px;text-align:left}.core-note{padding:11px 12px;background:var(--bg);border:1px solid var(--rule);border-radius:var(--radius-sm)}.core-note b{display:block;color:var(--accent);font-size:.72rem;margin-bottom:5px}.core-note span{display:block;color:var(--muted);font-size:.72rem;line-height:1.55}.core-note.risk{border-left:3px solid var(--accent2)}
 .signal-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .signal-card{background:var(--bg3);border-radius:var(--radius);padding:14px 18px;border:1px solid var(--rule);box-shadow:var(--shadow-sm);transition:box-shadow 200ms var(--ease-out),transform 200ms var(--ease-out)}
 .signal-card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
@@ -222,7 +222,7 @@ footer{font-size:.68rem;border-top:1px solid var(--ink);text-align:left;padding-
 .state-cell{background:var(--bg3);padding:15px 14px;min-height:105px}.state-label{font-size:.7rem;color:var(--muted);letter-spacing:.04em}.state-value{font-family:var(--JM);font-size:1.15rem;font-weight:700;margin:7px 0 3px}.state-note{font-size:.66rem;color:var(--muted);line-height:1.45}
 .section-note{font-size:.76rem;color:var(--muted);padding:10px 2px 0}.external-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}.gap-list{display:grid;gap:9px}.gap-list div{border-left:2px solid var(--accent);padding:7px 10px;background:var(--bg2)}.gap-list b{display:block;font-size:.76rem}.gap-list span{font-size:.72rem;color:var(--muted)}.headline-card ul{list-style:none}.headline-card li{padding:7px 0;border-bottom:1px solid var(--bg2);font-size:.75rem}.headline-card li:last-child{border-bottom:0}.headline-card li span{font-family:var(--JM);color:var(--muted);margin-right:8px}.headline-card a{color:var(--accent);margin-left:6px;text-decoration:none}
 .adapt-grid,.model-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.adapt-box,.model-box{background:var(--bg3);border:1px solid var(--rule);padding:16px 18px}.adapt-box b{font-size:.78rem;color:var(--accent)}.adapt-box p,.model-box p{font-size:.78rem;margin-top:6px}.model-number{font-family:var(--JM);font-size:1.6rem;font-weight:700;margin:8px 0}.formula{font-family:var(--JM);line-height:1.8;color:var(--ink)}.event-card{padding:12px 0;border-bottom:1px solid var(--rule)}.event-card:last-child{border-bottom:0}.event-meta{font-size:.7rem;color:var(--muted);letter-spacing:.02em}.event-title{font-weight:700;margin:6px 0}.event-title a{font-size:.7rem;color:var(--accent);font-weight:400}.event-card p{font-size:.78rem;line-height:1.65;margin:4px 0}.empty-note{color:var(--muted);padding:18px 0;font-size:.8rem}.model-fold,.inner-fold{background:var(--bg3);border:1px solid var(--rule);padding:15px 18px}.model-fold summary,.inner-fold summary{cursor:pointer;color:var(--accent);font-weight:700;font-size:.8rem}.model-fold[open]{box-shadow:var(--shadow-md)}.inner-fold{margin-top:14px;background:var(--bg)}
-@media(max-width:760px){.container{padding:20px 16px 48px}.report-title{font-size:1.75rem}.report-subtitle{display:block}.report-meta{margin-top:5px}.metrics{grid-template-columns:repeat(2,1fr)!important}.metric{min-height:78px;padding:12px}.mv{font-size:1.08rem}.state-grid{grid-template-columns:repeat(2,1fr)}.external-layout,.adapt-grid,.model-grid{grid-template-columns:1fr}}
+@media(max-width:760px){.container{padding:20px 16px 48px}.report-title{font-size:1.75rem}.report-subtitle{display:block}.report-meta{margin-top:5px}.metrics{grid-template-columns:repeat(2,1fr)!important}.metric{min-height:78px;padding:12px}.mv{font-size:1.08rem}.state-grid{grid-template-columns:repeat(2,1fr)}.external-layout,.adapt-grid,.model-grid,.core-grid{grid-template-columns:1fr}}
 
 </style>
 </head>
@@ -245,12 +245,18 @@ footer{font-size:.68rem;border-top:1px solid var(--ink);text-align:left;padding-
 <header class="report-masthead">
   <div class="report-kicker">FUCKETF · DAILY RESEARCH NOTE</div>
   <h1 class="report-title">中国 ETF 量化观察</h1>
-  <div class="report-subtitle"><span>资金行为 · 情绪 · 市场状态 · 风险预算</span><span class="report-meta">报告日 2026-08-03 · 生成于 2026-08-04 00:33</span></div>
+  <div class="report-subtitle"><span>资金行为 · 情绪 · 市场状态 · 风险预算</span><span class="report-meta">报告日 2026-08-03 · 生成于 2026-08-04 00:37</span></div>
 </header>
 <div class="top-summary">
   <div class="core-view">
     <div class="cv-label">核心观点</div>
-    <div class="cv-text">市场处于中性轮动（宽度78%），只选择低拥挤的资金启动方向。 首选方向启动度0.75、拥挤度0.08、撤退风险0.00。</div>
+    <div class="cv-text">市场处于中性轮动（宽度78%），只选择低拥挤的资金启动方向。 风险预算50%，首选方向为房地产。</div>
+    <div class="core-grid">
+      <div class="core-note"><b>宏观环境</b><span>宏观环境处于neutral状态：市场宽度78%，但20日动量-4.57%、20日波动26.7%，回撤-5.35%。因此不是全面进攻环境，当前风险预算为50%。</span></div>
+      <div class="core-note"><b>板块判断</b><span>短线相对强势：暂无明显强势板块；模型候选集中在房地产、消费、医疗。原因是启动度、动量和拥挤度仍在可接受区间，但强势板块不等于立即追涨。</span></div>
+      <div class="core-note"><b>后续路径</b><span>若市场宽度维持、20日动量止跌，并且成交与 ETF 份额继续确认，可逐步增加低拥挤方向；若动量继续走弱或撤退风险升高，则降低高波动主题，保留黄金、债券或现金类防守仓位。</span></div>
+      <div class="core-note risk"><b>风险提示</b><span>主要风险：金融/红利方向偏弱，以及外部情绪与价格资金尚未完全同步。建议先小仓位验证，连续确认后再提高风险预算。</span></div>
+    </div>
   </div>
   <div class="signal-grid">
     <div class="signal-card long">
