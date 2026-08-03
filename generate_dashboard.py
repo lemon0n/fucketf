@@ -1052,19 +1052,17 @@ def gen_external_review(model_data, econ_data):
     if not event_cards: event_cards = '<div class="empty-note">暂无通过日期校验的近期事件；本日不使用无法确认日期的标题。</div>'
     newspapers = model_data.get('latest_newspapers', {})
     paper_names = ['中国证券报', '上海证券报', '证券时报', '证券日报']
-    paper_titles = []
+    newspaper_date = d.get('date', model_data.get('summary', {}).get('report_date', ''))
+    paper_cards = ''
     for paper in paper_names:
-        for title in newspapers.get(paper, []):
-            paper_titles.append((paper, title))
-    newspaper_rows = ''.join(f'<tr><td>{esc(paper)}</td><td>{esc(title)}</td></tr>' for paper, title in paper_titles[:7])
-    if not newspaper_rows:
-        newspaper_rows = '<tr><td colspan="2">今日暂无四大报标题</td></tr>'
-    newspaper_date = model_data.get('summary', {}).get('report_date', '')
+        titles = newspapers.get(paper, [])
+        items = ''.join(f'<li>{esc(title)}</li>' for title in titles) or '<li style="color:var(--muted)">今日暂无数据</li>'
+        paper_cards += f'<div class="np-card"><div class="np-src">{esc(paper)}</div><ul>{items}</ul></div>'
     return f'''<section class="report-section"><div class="sec-title">二、外部信息与资金行为</div>
 <div class="external-layout"><div class="card"><div class="card-title">近期事件分析 · 只显示真实日期事件</div>{event_cards}
 <div class="section-note">外部情绪分 <strong class="{cls_val(ext.get('score', 0))}">{float(ext.get('score', 0)):.3f}</strong> · 日期证据优先原文页，其次 URL；无法确认日期的内容不进入模型。</div></div>
-<div class="card"><div class="card-title">四大报 · 最近 7 条标题（{esc(newspaper_date)}）</div>
-<table><thead><tr><th>来源</th><th>标题</th></tr></thead><tbody>{newspaper_rows}</tbody></table>
+<div class="card"><div class="card-title">四大报 · 当日全部标题（{esc(newspaper_date)}）</div>
+<div class="np-grid compact-paper-grid">{paper_cards}</div>
 <div class="section-note">四大报只作为机构情绪和叙事参考，不单独触发买入；需要与价格、成交和资金行为交叉确认。</div></div></div>
 </section>'''
 
