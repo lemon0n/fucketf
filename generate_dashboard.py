@@ -382,6 +382,7 @@ def normalize_model_data(raw):
         'hot_sectors': [{'name': s['sector'], 'count': s['count']} for s in sent.get('hot_sectors', [])],
         'etf_performance': _calc_etf_performance(raw.get('experiences', [])),
         'market_state': ld.get('market_state', {}),
+        'sector_performance': ld.get('sector_performance', {}),
         'rankings': ld.get('rankings', []),
         'external_sentiment': ld.get('external_sentiment', {}),
         'universe_count': len(ld.get('rankings', [])),
@@ -969,7 +970,8 @@ def gen_top_summary(model_data, econ_data):
     core_text += (f' 风险预算{state.get("risk_budget", 0):.0%}，首选方向为'
                   f'{rankings[0].get("sector", "低拥挤方向") if rankings else "低拥挤方向"}。')
 
-    macro_text = (f'宏观环境处于{state.get("name", "neutral")}状态：市场宽度{state.get("breadth", 0):.0%}，'
+    state_name = {'risk_on': '风险偏好', 'neutral': '中性轮动', 'stress': '压力防守'}.get(state.get('name'), state.get('name', '未知'))
+    macro_text = (f'宏观环境处于{state_name}状态：市场宽度{state.get("breadth", 0):.0%}，'
                   f'但20日动量{state.get("momentum_20d", 0):.2f}%、20日波动{state.get("volatility_20d", 0):.1f}%，'
                   f'回撤{state.get("drawdown_20d", 0):.2f}%。因此不是全面进攻环境，当前风险预算为{state.get("risk_budget", 0):.0%}。')
     sector_names = '、'.join(x.get('sector', x.get('name', '')) for x in top_sector) or '暂无明显强势板块'
