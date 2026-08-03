@@ -28,6 +28,7 @@ DASHBOARD_DIR = os.path.join(SCRIPT_DIR, 'dashboard')
 
 MODEL_RESULTS_PATH  = os.path.join(DATA_DIR, 'model_results.json')
 ECON_RESULTS_PATH   = os.path.join(DATA_DIR, 'econometric_results.json')
+EXTERNAL_NEWS_PATH  = os.path.join(DATA_DIR, 'external_news.json')
 HTML_OUT            = os.path.join(DASHBOARD_DIR, 'dashboard.html')
 CHARTS_JS_OUT       = os.path.join(DASHBOARD_DIR, 'assets', 'charts.js')
 ECHARTS_JS_REF      = '_shared/js/echarts.min.js'
@@ -274,6 +275,63 @@ def _build_last_week_performance(daily):
     return {'model_return': mr, 'hs300_return': hr, 'alpha': mr - hr}
 
 
+def _build_external_review():
+    """把外部新闻缓存标准化为报告可读的来源、类别和标题摘要。"""
+    try:
+        raw = load_json(EXTERNAL_NEWS_PATH)
+        items = raw.get('items', []) if isinstance(raw, dict) else []
+    except (OSError, ValueError):
+        items = []
+    source_counts = {}
+    source_categories = {}
+    category_counts = {}
+    for item in items:
+        source = item.get('source', '未知来源')
+        category = item.get('category', 'other')
+        source_counts[source] = source_counts.get(source, 0) + 1
+        source_categories[source] = item.get('category', 'other')
+        category_counts[category] = category_counts.get(category, 0) + 1
+    return {
+        'updated_at': raw.get('updated_at', '') if isinstance(raw, dict) else '',
+        'count': len(items),
+        'source_counts': source_counts,
+        'source_categories': source_categories,
+        'category_counts': category_counts,
+        'headlines': sorted(items, key=lambda x: x.get('published_at', ''), reverse=True)[:8],
+    }
+
+
+def _build_adaptation_review(daily, summary):
+    """用历史结果做轻量回顾；只提出可验证调优，不凭小样本自动改权重。"""
+    def window(rows):
+        model = sum(float(x.get('return', 0)) for x in rows)
+        bench = sum(float(x.get('hs300', 0)) for x in rows)
+        wins = sum(float(x.get('return', 0)) > 0 for x in rows)
+        return {'days': len(rows), 'model': model, 'bench': bench, 'alpha': model - bench,
+                'win_rate': wins / len(rows) * 100 if rows else 0}
+
+    windows = {'近20个交易日': window(daily[-20:]), '近40个交易日': window(daily[-40:]), '全样本': window(daily)}
+    equity = 0.0
+    peak = 0.0
+    max_drawdown = 0.0
+    for row in daily:
+        equity += float(row.get('return', 0))
+        peak = max(peak, equity)
+        max_drawdown = min(max_drawdown, equity - peak)
+
+    if summary.get('alpha', 0) < 0:
+        action = '暂停放大仓位：当前全样本跑输基准，优先做滚动样本外验证。'
+    else:
+        action = '维持当前风险预算：全样本仍有超额，再用滚动窗口确认稳定性。'
+    recent = windows['近20个交易日']
+    if recent['alpha'] < 0:
+        action += ' 近20日超额仍为负，下一轮应提高交易成本与拥挤撤退惩罚。'
+    elif recent['alpha'] > 0:
+        action += ' 近20日超额转正，可观察是否连续两个窗口成立。'
+    return {'windows': windows, 'max_drawdown': max_drawdown, 'action': action,
+            'guardrail': '只有在滚动样本外超额、回撤和换手同时改善时，才自动采用新参数。'}
+
+
 def normalize_model_data(raw):
     """将实际 model_results.json 结构标准化为生成器所需格式"""
     m = dict(raw)
@@ -306,7 +364,10 @@ def normalize_model_data(raw):
             {'code': p['code'], 'name': p['name'], 'sector': p.get('sector', ''),
              'weight': p['weight'], 'score': p.get('total_score', 0),
              'early_entry': p.get('early_entry', 0), 'crowding': p.get('crowding', 0),
-             'withdrawal_risk': p.get('withdrawal_risk', 0)}
+             'withdrawal_risk': p.get('withdrawal_risk', 0),
+             'external_signal': p.get('external_signal', 0),
+             'news_price_gap': p.get('news_price_gap', 0),
+             'news_flow_gap': p.get('news_flow_gap', 0)}
             for p in ld.get('etf_selection', [])
         ],
         'reason': ld.get('reason', ''),
@@ -319,6 +380,7 @@ def normalize_model_data(raw):
         'market_state': ld.get('market_state', {}),
         'rankings': ld.get('rankings', []),
         'external_sentiment': ld.get('external_sentiment', {}),
+        'universe_count': len(ld.get('rankings', [])),
     }
 
     # 标准化 experiences（最近20条，最新在前，构造可读文本）
@@ -352,6 +414,8 @@ def normalize_model_data(raw):
     m['market_review'] = _build_market_review(raw)
     m['weekly_performance'] = _build_weekly_performance(daily)
     m['last_week_performance'] = _build_last_week_performance(daily)
+    m['external_review'] = _build_external_review()
+    m['adaptation_review'] = _build_adaptation_review(daily, summary)
 
     return m
 
@@ -717,7 +781,11 @@ table{font-size:.78rem}thead th{border-bottom:1px solid var(--ink);padding:8px}t
 .chart{height:280px}.formula-box{background:#f8f6f1!important}.formula{font-size:.76rem}
 footer{font-size:.68rem;border-top:1px solid var(--ink);text-align:left;padding-top:12px}
 #lg-orb{display:none!important}
-@media(max-width:760px){.container{padding:20px 16px 48px}.report-title{font-size:1.75rem}.report-subtitle{display:block}.report-meta{margin-top:5px}.metrics{grid-template-columns:repeat(2,1fr)!important}.metric{min-height:78px;padding:12px}.mv{font-size:1.08rem}}
+.state-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden}
+.state-cell{background:var(--bg3);padding:15px 14px;min-height:105px}.state-label{font-size:.7rem;color:var(--muted);letter-spacing:.04em}.state-value{font-family:var(--JM);font-size:1.15rem;font-weight:700;margin:7px 0 3px}.state-note{font-size:.66rem;color:var(--muted);line-height:1.45}
+.section-note{font-size:.76rem;color:var(--muted);padding:10px 2px 0}.external-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}.gap-list{display:grid;gap:9px}.gap-list div{border-left:2px solid var(--accent);padding:7px 10px;background:var(--bg2)}.gap-list b{display:block;font-size:.76rem}.gap-list span{font-size:.72rem;color:var(--muted)}.headline-card ul{list-style:none}.headline-card li{padding:7px 0;border-bottom:1px solid var(--bg2);font-size:.75rem}.headline-card li:last-child{border-bottom:0}.headline-card li span{font-family:var(--JM);color:var(--muted);margin-right:8px}.headline-card a{color:var(--accent);margin-left:6px;text-decoration:none}
+.adapt-grid,.model-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.adapt-box,.model-box{background:var(--bg3);border:1px solid var(--rule);padding:16px 18px}.adapt-box b{font-size:.78rem;color:var(--accent)}.adapt-box p,.model-box p{font-size:.78rem;margin-top:6px}.model-number{font-family:var(--JM);font-size:1.6rem;font-weight:700;margin:8px 0}.model-fold,.inner-fold{background:var(--bg3);border:1px solid var(--rule);padding:15px 18px}.model-fold summary,.inner-fold summary{cursor:pointer;color:var(--accent);font-weight:700;font-size:.8rem}.model-fold[open]{box-shadow:var(--shadow-md)}.inner-fold{margin-top:14px;background:var(--bg)}
+@media(max-width:760px){.container{padding:20px 16px 48px}.report-title{font-size:1.75rem}.report-subtitle{display:block}.report-meta{margin-top:5px}.metrics{grid-template-columns:repeat(2,1fr)!important}.metric{min-height:78px;padding:12px}.mv{font-size:1.08rem}.state-grid{grid-template-columns:repeat(2,1fr)}.external-layout,.adapt-grid,.model-grid{grid-template-columns:1fr}}
 """
 
 # ============================================================
@@ -946,6 +1014,71 @@ def gen_top_summary(model_data, econ_data):
 </div>"""
 
 
+def gen_market_state(model_data, econ_data):
+    """市场状态与动态风险预算：把原本埋在模型输出里的状态显式呈现。"""
+    d = model_data['latest_decision']
+    state = d.get('market_state', {})
+    name = {'risk_on': '风险偏好', 'neutral': '中性轮动', 'stress': '压力防守'}.get(state.get('name'), state.get('name', '未知'))
+    budget = float(state.get('risk_budget', 0))
+    cards = [
+        ('市场状态', name, '由宽度、动量、波动和回撤共同判定'),
+        ('风险预算', f'{budget:.0%}', '状态为压力时自动收缩总仓位'),
+        ('市场宽度', f'{float(state.get("breadth", 0)):.0%}', '可用风险资产上涨占比'),
+        ('5日动量', fmt_pct(float(state.get('momentum_5d', 0))), '沪深300近5日动量'),
+        ('20日波动', f'{float(state.get("volatility_20d", 0)):.1f}%', '波动上升时降低追涨权重'),
+        ('20日回撤', f'{float(state.get("drawdown_20d", 0)):.1f}%', '回撤触发防守观察'),
+    ]
+    html_cards = ''.join(f'<div class="state-cell"><div class="state-label">{esc(k)}</div><div class="state-value">{esc(v)}</div><div class="state-note">{esc(n)}</div></div>' for k, v, n in cards)
+    return f'''<section class="report-section"><div class="sec-title">一、市场状态与风险预算</div>
+<div class="state-grid">{html_cards}</div>
+<div class="section-note">风险预算不是收益预测，而是对市场环境的仓位上限；当前模型覆盖 <strong>{int(d.get('universe_count', 0))} 只 ETF</strong>，按同类组限制重复持仓。</div>
+</section>'''
+
+
+def gen_external_review(model_data, econ_data):
+    """外部政策、行业、宏观与交易所数据源摘要。"""
+    d = model_data['latest_decision']
+    ext = d.get('external_sentiment', {})
+    review = model_data.get('external_review', {})
+    labels = {'policy': '官方政策/监管', 'industry': '行业信息', 'macro': '宏观数据', 'exchange': '交易所公告'}
+    source_rows = ''.join(f'<tr><td>{esc(k)}</td><td>{v} 条</td><td>{esc(labels.get(review.get("source_categories", {}).get(k), "公开页面抓取"))}</td></tr>' for k, v in review.get('source_counts', {}).items())
+    if not source_rows:
+        source_rows = '<tr><td colspan="3">暂无新抓取数据，模型使用历史缓存</td></tr>'
+    def headline_date(item):
+        value = item.get('published_at', '')
+        return value if len(value) == 10 and value[4] == '-' and value[7] == '-' else '日期待校正'
+    headlines = ''.join(f'<li><span>{esc(headline_date(x))}</span> {esc(x.get("title", ""))} <a href="{esc(x.get("url", "#"))}" target="_blank" rel="noopener">原文</a></li>' for x in review.get('headlines', [])[:5])
+    return f'''<section class="report-section"><div class="sec-title">二、外部信息与资金行为</div>
+<div class="external-layout"><div class="card"><div class="card-title">外部信息接入</div>
+<table><thead><tr><th>来源</th><th>记录数</th><th>用途</th></tr></thead><tbody>{source_rows}</tbody></table>
+<div class="section-note">更新：{esc(review.get('updated_at', ''))} · 缓存 {int(review.get('count', 0))} 条 · 外部情绪分 <strong class="{cls_val(ext.get('score', 0))}">{float(ext.get('score', 0)):.3f}</strong></div></div>
+<div class="card"><div class="card-title">新闻与价格/资金预期差</div>
+<div class="gap-list"><div><b>新闻 → 价格</b><span>识别新闻转强但价格尚未确认</span></div><div><b>新闻 → 资金</b><span>比较新闻方向与成交/换手代理</span></div><div><b>机构 → 大众</b><span>四大报与融资融券情绪分歧</span></div></div>
+<div class="section-note">资金流字段目前是成交量与价格加速度代理，不等同于 ETF 真实份额净申赎。</div></div></div>
+<div class="card headline-card"><div class="card-title">最近外部标题（可追溯原文）</div><ul>{headlines or '<li>暂无标题缓存</li>'}</ul></div>
+</section>'''
+
+
+def gen_adaptation_review(model_data, econ_data):
+    review = model_data.get('adaptation_review', {})
+    rows = ''.join(f'<tr><td>{esc(k)}</td><td class="{cls_val(v["model"])}">{fmt_pct(v["model"])}</td><td>{fmt_pct(v["bench"])}</td><td class="{cls_val(v["alpha"])}">{fmt_pct(v["alpha"])}</td><td>{v["win_rate"]:.1f}%</td></tr>' for k, v in review.get('windows', {}).items())
+    return f'''<section class="report-section"><div class="sec-title">六、历史回顾与下一轮调优</div>
+<div class="card"><div class="card-title">滚动样本外回顾</div><table><thead><tr><th>窗口</th><th>模型</th><th>沪深300</th><th>Alpha</th><th>胜率</th></tr></thead><tbody>{rows}</tbody></table>
+<div class="section-note">历史最大累计回撤约 <strong>{float(review.get('max_drawdown', 0)):.2f}%</strong>。{esc(review.get('action', ''))}</div></div>
+<div class="adapt-grid"><div class="adapt-box"><b>当前结论</b><p>{esc(review.get('action', '暂不调参'))}</p></div><div class="adapt-box"><b>调优护栏</b><p>{esc(review.get('guardrail', ''))}</p></div></div>
+</section>'''
+
+
+def gen_model_fold(model_data, econ_data):
+    logit, ols = econ_data['logit'], econ_data['ols']
+    skill = '有' if logit.get('has_predictive_skill') else '暂无'
+    return f'''<section class="report-section"><div class="sec-title">七、模型结果（可展开）</div>
+<details class="model-fold"><summary>计量模型仅作诊断：Logit 时序准确率 {logit.get('cv_accuracy', 0):.1f}%，样本外预测力{skill}</summary>
+<div class="model-grid"><div class="model-box"><div class="card-title">Logit · 方向诊断</div><div class="model-number">{logit.get('cv_accuracy', 0):.1f}%</div><p>时序交叉验证准确率。接近 50% 时，不作为顶部推荐依据。</p></div><div class="model-box"><div class="card-title">OLS · 收益诊断</div><div class="model-number">R² {float(ols.get('r2', 0)):.3f}</div><p>解释力有限，主要用于观察因子方向和稳定性。</p></div></div>
+<details class="inner-fold"><summary>展开系数、因素重要性与图表</summary>{gen_section_5_features(model_data, econ_data)}</details>
+</details></section>'''
+
+
 def gen_section_1_conclusion(model_data, econ_data):
     """一、核心结论 — callout + 4个关键指标卡片"""
     s = model_data['summary']
@@ -980,7 +1113,7 @@ def gen_section_2_prediction(model_data, econ_data):
     logit_preds = econ_data['logit'].get('latest_predictions', [])
 
     # 决策callout
-    decision_html = f'''<h2>二、{esc(s["report_date"])} 模型预测</h2>
+    decision_html = f'''<h2>三、{esc(s["report_date"])} 组合建议</h2>
 <div class="callout">
   <p><strong>决策：{esc(d.get("decision","持币观望"))}</strong></p>
   <p>趋势：{trend_tag(d.get("trend","震荡"))} | 置信度：{esc(d.get("confidence",""))} | 看多{d.get("bull_signals",0)}/看空{d.get("bear_signals",0)}</p>
@@ -1109,7 +1242,7 @@ def gen_section_4_performance(model_data, econ_data):
   </table>
 </div>'''
 
-    return f'''<h2>四、模型表现回顾（截至{esc(s["end_date"])}）</h2>
+    return f'''<h2>五、历史表现与回测（截至{esc(s["end_date"])}）</h2>
 <div class="metrics" style="grid-template-columns:repeat(3,1fr)">
 {cards}
 </div>
@@ -1158,7 +1291,7 @@ def gen_section_5_features(model_data, econ_data):
     # 图表
     charts = '''<div class="chart-card"><div class="card-title">因素重要性排名</div><div id="chart-imp" class="chart"></div></div>'''
 
-    return f'''<h2>五、特征显著性与模型诊断</h2>
+    return f'''<h2>附录：特征显著性与模型诊断</h2>
 {logit_table}
 {fi_table}
 {charts}'''
@@ -1169,7 +1302,7 @@ def gen_section_6_advice(model_data, econ_data):
     d = model_data['latest_decision']
     s = model_data['summary']
 
-    return f'''<h2>六、操作建议</h2>
+    return f'''<h2>四、执行与风控</h2>
 <div class="callout warning">
   <p><strong>综合建议：{esc(d.get("decision", "持币观望"))}</strong></p>
   <p>1. <strong>模型</strong>：趋势{esc(d.get("trend","震荡"))}，置信度{esc(d.get("confidence",""))}</p>
@@ -1783,13 +1916,14 @@ def generate_html(model_data, econ_data):
     report_date = model_data['summary']['report_date']
 
     sections = [
-        gen_top_summary(model_data, econ_data),           # 0. 今日核心（保留不变）
-        gen_section_1_conclusion(model_data, econ_data),   # 一、核心结论
-        gen_section_2_prediction(model_data, econ_data),   # 二、模型预测
-        gen_section_3_sentiment(model_data, econ_data),    # 三、双视角情绪诊断
-        gen_section_4_performance(model_data, econ_data),  # 四、模型表现回顾
-        gen_section_5_features(model_data, econ_data),     # 五、特征显著性与模型诊断
-        gen_section_6_advice(model_data, econ_data),       # 六、操作建议
+        gen_top_summary(model_data, econ_data),
+        gen_market_state(model_data, econ_data),
+        gen_external_review(model_data, econ_data),
+        gen_section_2_prediction(model_data, econ_data),
+        gen_section_6_advice(model_data, econ_data),
+        gen_section_4_performance(model_data, econ_data),
+        gen_adaptation_review(model_data, econ_data),
+        gen_model_fold(model_data, econ_data),
     ]
 
     body = '\n\n'.join(sections)

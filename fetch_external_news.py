@@ -53,12 +53,27 @@ def clean(text):
 
 
 def infer_date(text, fallback):
-    found = re.search(r'(20\d{2})[-/.年](\d{1,2})[-/.月](\d{1,2})', text)
+    patterns = [
+        r'(20\d{2})[-/.](\d{1,2})[-/.](\d{1,2})',
+        r'(20\d{2})年(\d{1,2})月(\d{1,2})日',
+    ]
+    for pattern in patterns:
+        found = re.search(pattern, text)
+        if found:
+            candidate = f'{int(found.group(1)):04d}-{int(found.group(2)):02d}-{int(found.group(3)):02d}'
+            try:
+                date.fromisoformat(candidate)
+                return candidate
+            except ValueError:
+                pass
+    found = re.search(r'(?<!\d)(\d{1,2})[-/.](\d{1,2})(?!\d)', text)
     if found:
-        return f'{int(found.group(1)):04d}-{int(found.group(2)):02d}-{int(found.group(3)):02d}'
-    found = re.search(r'(?<!\d)(\d{1,2})[-/.月](\d{1,2})日?', text)
-    if found:
-        return f'{fallback.year:04d}-{int(found.group(1)):02d}-{int(found.group(2)):02d}'
+        candidate = f'{fallback.year:04d}-{int(found.group(1)):02d}-{int(found.group(2)):02d}'
+        try:
+            date.fromisoformat(candidate)
+            return candidate
+        except ValueError:
+            pass
     return fallback.isoformat()
 
 
@@ -117,7 +132,14 @@ def main():
     by_url = {r['url']: r for r in old.get('items', [])}
     by_url.update({r['url']: r for r in rows})
     cutoff = today - timedelta(days=30)
-    items = [r for r in by_url.values() if r.get('published_at', '') >= cutoff.isoformat()]
+    items = []
+    for row in by_url.values():
+        try:
+            published = date.fromisoformat(row.get('published_at', ''))
+        except (TypeError, ValueError):
+            continue
+        if cutoff <= published <= today + timedelta(days=1):
+            items.append(row)
     items.sort(key=lambda r: (r.get('published_at', ''), r.get('fetched_at', '')), reverse=True)
     os.makedirs(os.path.dirname(OUT_FILE), exist_ok=True)
     with open(OUT_FILE, 'w', encoding='utf-8') as f:

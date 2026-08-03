@@ -218,7 +218,11 @@ table{font-size:.78rem}thead th{border-bottom:1px solid var(--ink);padding:8px}t
 .chart{height:280px}.formula-box{background:#f8f6f1!important}.formula{font-size:.76rem}
 footer{font-size:.68rem;border-top:1px solid var(--ink);text-align:left;padding-top:12px}
 #lg-orb{display:none!important}
-@media(max-width:760px){.container{padding:20px 16px 48px}.report-title{font-size:1.75rem}.report-subtitle{display:block}.report-meta{margin-top:5px}.metrics{grid-template-columns:repeat(2,1fr)!important}.metric{min-height:78px;padding:12px}.mv{font-size:1.08rem}}
+.state-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden}
+.state-cell{background:var(--bg3);padding:15px 14px;min-height:105px}.state-label{font-size:.7rem;color:var(--muted);letter-spacing:.04em}.state-value{font-family:var(--JM);font-size:1.15rem;font-weight:700;margin:7px 0 3px}.state-note{font-size:.66rem;color:var(--muted);line-height:1.45}
+.section-note{font-size:.76rem;color:var(--muted);padding:10px 2px 0}.external-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}.gap-list{display:grid;gap:9px}.gap-list div{border-left:2px solid var(--accent);padding:7px 10px;background:var(--bg2)}.gap-list b{display:block;font-size:.76rem}.gap-list span{font-size:.72rem;color:var(--muted)}.headline-card ul{list-style:none}.headline-card li{padding:7px 0;border-bottom:1px solid var(--bg2);font-size:.75rem}.headline-card li:last-child{border-bottom:0}.headline-card li span{font-family:var(--JM);color:var(--muted);margin-right:8px}.headline-card a{color:var(--accent);margin-left:6px;text-decoration:none}
+.adapt-grid,.model-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.adapt-box,.model-box{background:var(--bg3);border:1px solid var(--rule);padding:16px 18px}.adapt-box b{font-size:.78rem;color:var(--accent)}.adapt-box p,.model-box p{font-size:.78rem;margin-top:6px}.model-number{font-family:var(--JM);font-size:1.6rem;font-weight:700;margin:8px 0}.model-fold,.inner-fold{background:var(--bg3);border:1px solid var(--rule);padding:15px 18px}.model-fold summary,.inner-fold summary{cursor:pointer;color:var(--accent);font-weight:700;font-size:.8rem}.model-fold[open]{box-shadow:var(--shadow-md)}.inner-fold{margin-top:14px;background:var(--bg)}
+@media(max-width:760px){.container{padding:20px 16px 48px}.report-title{font-size:1.75rem}.report-subtitle{display:block}.report-meta{margin-top:5px}.metrics{grid-template-columns:repeat(2,1fr)!important}.metric{min-height:78px;padding:12px}.mv{font-size:1.08rem}.state-grid{grid-template-columns:repeat(2,1fr)}.external-layout,.adapt-grid,.model-grid{grid-template-columns:1fr}}
 
 </style>
 </head>
@@ -241,7 +245,7 @@ footer{font-size:.68rem;border-top:1px solid var(--ink);text-align:left;padding-
 <header class="report-masthead">
   <div class="report-kicker">FUCKETF · DAILY RESEARCH NOTE</div>
   <h1 class="report-title">中国 ETF 量化观察</h1>
-  <div class="report-subtitle"><span>资金行为 · 情绪 · 市场状态 · 风险预算</span><span class="report-meta">报告日 2026-08-03 · 生成于 2026-08-03 23:01</span></div>
+  <div class="report-subtitle"><span>资金行为 · 情绪 · 市场状态 · 风险预算</span><span class="report-meta">报告日 2026-08-03 · 生成于 2026-08-03 23:14</span></div>
 </header>
 <div class="top-summary">
   <div class="core-view">
@@ -270,19 +274,22 @@ footer{font-size:.68rem;border-top:1px solid var(--ink);text-align:left;padding-
   </div>
 </div>
 
-<h2>一、核心结论</h2>
-<div class="callout warning">
-  <p><strong>模型决策：建议配置</strong>。基于Walk-Forward回测，胜率46.9%，累计收益+1.10%。</p>
-  <p><strong>情绪信号</strong>：四大报情绪0.50（看多4/看空1），趋势震荡。</p>
-</div>
-<div class="metrics" style="grid-template-columns:repeat(4,1fr)">
-  <div class="metric"><div class="ml">累计收益</div><div class="mv up">+1.10%</div></div>
-  <div class="metric"><div class="ml">胜率</div><div class="mv">46.9%</div><div class="ms">15胜/17负</div></div>
-  <div class="metric"><div class="ml">盈亏比</div><div class="mv">1.17</div></div>
-  <div class="metric"><div class="ml">情绪分</div><div class="mv up">0.500</div></div>
-</div>
+<section class="report-section"><div class="sec-title">一、市场状态与风险预算</div>
+<div class="state-grid"><div class="state-cell"><div class="state-label">市场状态</div><div class="state-value">中性轮动</div><div class="state-note">由宽度、动量、波动和回撤共同判定</div></div><div class="state-cell"><div class="state-label">风险预算</div><div class="state-value">65%</div><div class="state-note">状态为压力时自动收缩总仓位</div></div><div class="state-cell"><div class="state-label">市场宽度</div><div class="state-value">78%</div><div class="state-note">可用风险资产上涨占比</div></div><div class="state-cell"><div class="state-label">5日动量</div><div class="state-value">-1.02%</div><div class="state-note">沪深300近5日动量</div></div><div class="state-cell"><div class="state-label">20日波动</div><div class="state-value">26.7%</div><div class="state-note">波动上升时降低追涨权重</div></div><div class="state-cell"><div class="state-label">20日回撤</div><div class="state-value">-5.3%</div><div class="state-note">回撤触发防守观察</div></div></div>
+<div class="section-note">风险预算不是收益预测，而是对市场环境的仓位上限；当前模型覆盖 <strong>27 只 ETF</strong>，按同类组限制重复持仓。</div>
+</section>
 
-<h2>二、2026-08-03 模型预测</h2>
+<section class="report-section"><div class="sec-title">二、外部信息与资金行为</div>
+<div class="external-layout"><div class="card"><div class="card-title">外部信息接入</div>
+<table><thead><tr><th>来源</th><th>记录数</th><th>用途</th></tr></thead><tbody><tr><td>国家统计局</td><td>9 条</td><td>宏观数据</td></tr><tr><td>深交所</td><td>11 条</td><td>交易所公告</td></tr><tr><td>工信部</td><td>19 条</td><td>行业信息</td></tr><tr><td>证监会</td><td>40 条</td><td>官方政策/监管</td></tr></tbody></table>
+<div class="section-note">更新：2026-08-03T22:58:17 · 缓存 79 条 · 外部情绪分 <strong class="down">-0.857</strong></div></div>
+<div class="card"><div class="card-title">新闻与价格/资金预期差</div>
+<div class="gap-list"><div><b>新闻 → 价格</b><span>识别新闻转强但价格尚未确认</span></div><div><b>新闻 → 资金</b><span>比较新闻方向与成交/换手代理</span></div><div><b>机构 → 大众</b><span>四大报与融资融券情绪分歧</span></div></div>
+<div class="section-note">资金流字段目前是成交量与价格加速度代理，不等同于 ETF 真实份额净申赎。</div></div></div>
+<div class="card headline-card"><div class="card-title">最近外部标题（可追溯原文）</div><ul><li><span>2026-73-00</span> 2026年二季度全国规模以上工业产能利用率为73.0% <a href="https://www.stats.gov.cn/sj/zxfb/202607/t20260715_1964130.html" target="_blank" rel="noopener">原文</a></li><li><span>2026-18-39</span> 2025年我国“三新”经济增加值占国内生产总值比重为18.39% <a href="https://www.stats.gov.cn/sj/zxfb/202607/t20260730_1964247.html" target="_blank" rel="noopener">原文</a></li><li><span>2026-18-07</span> 2026年1—6月份全国规模以上工业企业利润增长18.7% <a href="https://www.stats.gov.cn/sj/zxfb/202607/t20260727_1964194.html" target="_blank" rel="noopener">原文</a></li><li><span>2026-08-03</span> 2026年7月中旬流通领域重要生产资料市场价格变动情况 <a href="https://www.stats.gov.cn/sj/zxfb/202607/t20260723_1964185.html" target="_blank" rel="noopener">原文</a></li><li><span>2026-08-03</span> 上半年经济运行在合理区间 新动能快速成长 <a href="https://www.stats.gov.cn/sj/zxfb/202607/t20260715_1964121.html" target="_blank" rel="noopener">原文</a></li></ul></div>
+</section>
+
+<h2>三、2026-08-03 组合建议</h2>
 <div class="callout">
   <p><strong>决策：建议配置</strong></p>
   <p>趋势：<span class="tag t-neutral">震荡</span> | 置信度：65% | 看多4/看空1</p>
@@ -306,37 +313,22 @@ footer{font-size:.68rem;border-top:1px solid var(--ink);text-align:left;padding-
   </div>
 </div>
 
-<h2>三、双视角情绪诊断</h2>
-<div class="card">
-  <div class="card-title">外部政策/行业/宏观情绪</div>
-  <div class="metrics" style="grid-template-columns:repeat(3,1fr)">
-    <div class="metric"><div class="ml">外部情绪分</div><div class="mv down">-0.857</div></div>
-    <div class="metric"><div class="ml">有效标题</div><div class="mv">76</div></div>
-    <div class="metric"><div class="ml">来源类别</div><div class="mv">4</div></div>
-  </div>
+<h2>四、执行与风控</h2>
+<div class="callout warning">
+  <p><strong>综合建议：建议配置</strong></p>
+  <p>1. <strong>模型</strong>：趋势震荡，置信度65%</p>
+  <p>2. <strong>情绪</strong>：四大报情绪0.50（看多4/看空1）</p>
+  <p>3. <strong>历史表现</strong>：胜率46.9%，盈亏比1.17</p>
 </div>
-<div class="card">
-  <div class="card-title">机构情绪（四大报）</div>
-  <div class="metrics" style="grid-template-columns:repeat(3,1fr)">
-    <div class="metric"><div class="ml">情绪分</div><div class="mv up">0.500</div></div>
-    <div class="metric"><div class="ml">看多标题</div><div class="mv" style="color:var(--green)">4</div></div>
-    <div class="metric"><div class="ml">看空标题</div><div class="mv" style="color:var(--accent2)">1</div></div>
-  </div>
-</div>
-<div class="card">
-  <div class="card-title">今日四大报标题摘要</div>
-  <table>
-    <thead><tr><th>报纸</th><th>代表性标题</th></tr></thead>
-    <tbody>
-<tr><td>中国证券报</td><td style="font-size:0.78rem">央行：综合运用并适时调整货币政策工具 / “AI快车”减速 主观私募“准星”瞄向何处 / 从杠杆踩踏到估值重构 ——韩国股市启示录</td></tr>
-<tr><td>上海证券报</td><td style="font-size:0.78rem">券商另类子公司增资扩围 三投联动精准赋能硬科技 / 极致行情拷问定力 基金经理反思“受迫交易” / 7月股票型ETF“吸金”近4800亿元 创月度历史纪录</td></tr>
-<tr><td>证券时报</td><td style="font-size:0.78rem">消费基金“换将”追科技 高买低卖致净值持续承压 / 股票ETF7月吸金超4700亿元 宽基产品成为绝对主力 / AI应用赛道迎底部修复 多只主题基金单日涨幅超10%</td></tr>
-<tr><td>证券日报</td><td style="font-size:0.78rem">个贷新规落地 多家机构以“一表明示”守护消费者权益 / 多家银行重启发行5年期大额存单 / 国产存储器厂商加速“进击”市场</td></tr>
-    </tbody>
-  </table>
+<div class="rpt">
+  <h3>关注信号</h3>
+  <p>若后续出现以下变化，可考虑转为积极：</p>
+  <p><strong>1. 情绪反转</strong>：四大报情绪由负转正，或看多标题增多</p>
+  <p><strong>2. 趋势确认</strong>：趋势信号转为看涨，且置信度提升</p>
+  <p><strong>3. 量能配合</strong>：市场成交量放大，板块轮动加速</p>
 </div>
 
-<h2>四、模型表现回顾（截至2026-08-03）</h2>
+<h2>五、历史表现与回测（截至2026-08-03）</h2>
 <div class="metrics" style="grid-template-columns:repeat(3,1fr)">
 <div class="metric"><div class="ml">累计收益率</div><div class="mv up">+1.10%</div><div class="ms">¥1,000,000.0 → ¥1,011,019.24</div></div>
 <div class="metric"><div class="ml">Alpha vs 沪深300</div><div class="mv down">-0.06%</div><div class="ms">沪深300: +1.16%</div></div>
@@ -402,7 +394,16 @@ footer{font-size:.68rem;border-top:1px solid var(--ink);text-align:left;padding-
   </table>
 </div>
 
-<h2>五、特征显著性与模型诊断</h2>
+<section class="report-section"><div class="sec-title">六、历史回顾与下一轮调优</div>
+<div class="card"><div class="card-title">滚动样本外回顾</div><table><thead><tr><th>窗口</th><th>模型</th><th>沪深300</th><th>Alpha</th><th>胜率</th></tr></thead><tbody><tr><td>近20个交易日</td><td class="up">+1.03%</td><td>-6.00%</td><td class="up">+7.03%</td><td>35.0%</td></tr><tr><td>近40个交易日</td><td class="up">+1.99%</td><td>+3.82%</td><td class="down">-1.83%</td><td>30.0%</td></tr><tr><td>全样本</td><td class="up">+1.16%</td><td>+1.74%</td><td class="down">-0.57%</td><td>19.5%</td></tr></tbody></table>
+<div class="section-note">历史最大累计回撤约 <strong>-3.20%</strong>。暂停放大仓位：当前全样本跑输基准，优先做滚动样本外验证。 近20日超额转正，可观察是否连续两个窗口成立。</div></div>
+<div class="adapt-grid"><div class="adapt-box"><b>当前结论</b><p>暂停放大仓位：当前全样本跑输基准，优先做滚动样本外验证。 近20日超额转正，可观察是否连续两个窗口成立。</p></div><div class="adapt-box"><b>调优护栏</b><p>只有在滚动样本外超额、回撤和换手同时改善时，才自动采用新参数。</p></div></div>
+</section>
+
+<section class="report-section"><div class="sec-title">七、模型结果（可展开）</div>
+<details class="model-fold"><summary>计量模型仅作诊断：Logit 时序准确率 49.1%，样本外预测力暂无</summary>
+<div class="model-grid"><div class="model-box"><div class="card-title">Logit · 方向诊断</div><div class="model-number">49.1%</div><p>时序交叉验证准确率。接近 50% 时，不作为顶部推荐依据。</p></div><div class="model-box"><div class="card-title">OLS · 收益诊断</div><div class="model-number">R² 0.030</div><p>解释力有限，主要用于观察因子方向和稳定性。</p></div></div>
+<details class="inner-fold"><summary>展开系数、因素重要性与图表</summary><h2>五、特征显著性与模型诊断</h2>
 <div class="card">
   <div class="card-title">正则化 Logit 系数（样本外准确率=49.0809%）</div>
   <table>
@@ -437,22 +438,8 @@ footer{font-size:.68rem;border-top:1px solid var(--ink);text-align:left;padding-
     </tbody>
   </table>
 </div>
-<div class="chart-card"><div class="card-title">因素重要性排名</div><div id="chart-imp" class="chart"></div></div>
-
-<h2>六、操作建议</h2>
-<div class="callout warning">
-  <p><strong>综合建议：建议配置</strong></p>
-  <p>1. <strong>模型</strong>：趋势震荡，置信度65%</p>
-  <p>2. <strong>情绪</strong>：四大报情绪0.50（看多4/看空1）</p>
-  <p>3. <strong>历史表现</strong>：胜率46.9%，盈亏比1.17</p>
-</div>
-<div class="rpt">
-  <h3>关注信号</h3>
-  <p>若后续出现以下变化，可考虑转为积极：</p>
-  <p><strong>1. 情绪反转</strong>：四大报情绪由负转正，或看多标题增多</p>
-  <p><strong>2. 趋势确认</strong>：趋势信号转为看涨，且置信度提升</p>
-  <p><strong>3. 量能配合</strong>：市场成交量放大，板块轮动加速</p>
-</div>
+<div class="chart-card"><div class="card-title">因素重要性排名</div><div id="chart-imp" class="chart"></div></div></details>
+</details></section>
 <footer>研究用途，不构成投资建议。规则模型为主，计量模型用于诊断；历史回测不代表未来收益。数据源：公开行情、四大报、融资融券及官方新闻页面。</footer>
 </div>
 <script src="_shared/js/echarts.min.js"></script>
