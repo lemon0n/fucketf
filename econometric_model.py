@@ -27,6 +27,9 @@ from etf_model_run import (
     SECTOR_ETF_MAP, HS300_CODE, ETF_HISTORY_PATH, NEWSPAPERS_PATH,
     load_json, get_trading_days, find_record, get_index, get_prev_date,
     compute_volume_ratio, analyze_newspaper_sentiment,
+    compute_behavior_signals, compute_market_state, compute_news_surprise,
+    compute_news_expectation_gaps,
+    load_external_news, analyze_external_sentiment,
 )
 
 warnings.filterwarnings('ignore')
@@ -47,12 +50,17 @@ FEATURES = [
     'sector_mentioned', 'sector_mention_count',
     'hs300_mom_5d', 'vol_10d',
     'retail_sentiment', 'rzjme_yi', 'sentiment_divergence',
+    'behavior_momentum', 'flow_proxy', 'acceleration', 'crowding',
+    'withdrawal_risk', 'early_entry', 'news_surprise', 'market_breadth',
+    'external_signal', 'external_news_count', 'news_price_gap', 'news_flow_gap',
 ]
 
 # 预测器只使用在历史逐日样本外检验中稳定的市场/大众情绪因子；其余变量仍保留
 # 在面板和 Lasso 诊断中，避免把小样本里的噪声带入每日概率预测。
 PREDICTIVE_FEATURES = [
-    'hs300_mom_5d', 'vol_10d', 'retail_sentiment', 'rzjme_yi',
+    'behavior_momentum', 'flow_proxy', 'acceleration', 'crowding',
+    'withdrawal_risk', 'early_entry', 'news_surprise', 'market_breadth',
+    'external_signal', 'news_price_gap', 'news_flow_gap',
 ]
 PREDICTIVE_C = 0.3
 
@@ -224,6 +232,8 @@ def build_dataset(etf_data, news_data):
 
         # 市场状态信号 (T-1可知, 全局共享)
         hs300_mom_5d = compute_hs300_mom_5d(etf_data, Tm1)
+        market_state = compute_market_state(etf_data, Tm1)
+        external_sent = analyze_external_sentiment(load_external_news(), T)
 
         # 大众情绪 (T-1融资融券数据, T开盘前可得) — 大众视角
         retail_sent, rzjme_yi = compute_retail_sentiment(Tm1)
@@ -249,6 +259,12 @@ def build_dataset(etf_data, news_data):
 
             # 新增: 市场状态 + 个股波动率
             vol_10d = compute_vol_10d(etf_data, code, Tm1)
+            behavior = compute_behavior_signals(etf_data, code, Tm1)
+            news_surprise = compute_news_surprise(news_data, T, info)
+            external_signal = float(np.clip(
+                0.55 * external_sent['score'] * info.get('risk_on', 1)
+                + 0.45 * np.clip(external_sent['sector_scores'].get(info['sector'], 0.0) / 3, -1, 1), -1, 1))
+            expectation_gap = compute_news_expectation_gaps(external_signal, behavior)
 
             rows.append({
                 'date': T, 'etf_code': code, 'etf_name': info['name'], 'sector': info['sector'],
@@ -265,6 +281,18 @@ def build_dataset(etf_data, news_data):
                 'retail_sentiment': retail_sent,
                 'rzjme_yi': rzjme_yi,
                 'sentiment_divergence': sentiment_div,
+                'behavior_momentum': behavior['momentum'],
+                'flow_proxy': behavior['flow_proxy'],
+                'acceleration': behavior['acceleration'],
+                'crowding': behavior['crowding'],
+                'withdrawal_risk': behavior['withdrawal_risk'],
+                'early_entry': behavior['early_entry'],
+                'news_surprise': news_surprise,
+                'market_breadth': market_state['breadth'],
+                'external_signal': round(external_signal, 4),
+                'external_news_count': external_sent['count'],
+                'news_price_gap': expectation_gap['news_price_gap'],
+                'news_flow_gap': expectation_gap['news_flow_gap'],
                 'today_return': round(today_return, 4),
                 'today_direction': int(today_direction),
             })
@@ -295,6 +323,8 @@ def build_latest_features(etf_data, news_data):
 
     # 市场状态信号 (T-1可知)
     hs300_mom_5d = compute_hs300_mom_5d(etf_data, Tm1) if Tm1 else 0.0
+    market_state = compute_market_state(etf_data, Tm1) if Tm1 else {'breadth': 0.5}
+    external_sent = analyze_external_sentiment(load_external_news(), T)
 
     # 大众情绪 (T-1融资融券数据, T开盘前可得)
     retail_sent, rzjme_yi = compute_retail_sentiment(Tm1) if Tm1 else (0.0, 0.0)
@@ -310,6 +340,12 @@ def build_latest_features(etf_data, news_data):
         prev_volume_ratio = compute_volume_ratio(etf_data, code, Tm1)
         prev_intraday_return = (rec_Tm1['close'] - rec_Tm1['open']) / rec_Tm1['open'] * 100
         vol_10d = compute_vol_10d(etf_data, code, Tm1)
+        behavior = compute_behavior_signals(etf_data, code, Tm1)
+        news_surprise = compute_news_surprise(news_data, T, info)
+        external_signal = float(np.clip(
+            0.55 * external_sent['score'] * info.get('risk_on', 1)
+            + 0.45 * np.clip(external_sent['sector_scores'].get(info['sector'], 0.0) / 3, -1, 1), -1, 1))
+        expectation_gap = compute_news_expectation_gaps(external_signal, behavior)
         rows.append({
             'predict_date': T, 'prev_date': Tm1, 'etf_code': code,
             'etf_name': info['name'], 'sector': info['sector'],
@@ -326,6 +362,18 @@ def build_latest_features(etf_data, news_data):
             'retail_sentiment': retail_sent,
             'rzjme_yi': rzjme_yi,
             'sentiment_divergence': sentiment_div,
+            'behavior_momentum': behavior['momentum'],
+            'flow_proxy': behavior['flow_proxy'],
+            'acceleration': behavior['acceleration'],
+            'crowding': behavior['crowding'],
+            'withdrawal_risk': behavior['withdrawal_risk'],
+            'early_entry': behavior['early_entry'],
+            'news_surprise': news_surprise,
+            'market_breadth': market_state['breadth'],
+            'external_signal': round(external_signal, 4),
+            'external_news_count': external_sent['count'],
+            'news_price_gap': expectation_gap['news_price_gap'],
+            'news_flow_gap': expectation_gap['news_flow_gap'],
         })
     return pd.DataFrame(rows), T
 
@@ -442,6 +490,7 @@ def run_logit_model(df, latest_df, latest_date):
         'accuracy': round(cv_mean, 6),
         'in_sample_accuracy': round(in_sample_accuracy, 6),
         'accuracy_note': 'accuracy 为按交易日展开的样本外准确率；in_sample_accuracy 仅作拟合诊断。',
+        'has_predictive_skill': bool(cv_mean > max(pos_rate, 1 - pos_rate) + 0.02),
         'positive_rate': round(pos_rate, 6),
         'time_series_cv': {
             'n_folds': len(cv_scores),

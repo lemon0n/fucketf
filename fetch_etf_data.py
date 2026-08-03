@@ -8,24 +8,13 @@ import json
 import os
 import time
 import requests
+from etf_universe import ETF_UNIVERSE
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
 ETF_HISTORY_PATH = os.path.join(DATA_DIR, 'etf_history.json')
 
 # 腾讯API: sh=上海, sz=深圳
-ETF_SYMBOLS = {
-    'sh512760': {'name': '半导体ETF', 'code': '512760'},
-    'sz159995': {'name': '芯片ETF', 'code': '159995'},
-    'sh515980': {'name': '人工智能ETF', 'code': '515980'},
-    'sz159592': {'name': '卫星产业ETF', 'code': '159592'},
-    'sh515120': {'name': '创新药ETF', 'code': '515120'},
-    'sh516160': {'name': '新能源ETF', 'code': '516160'},
-    'sh510150': {'name': '消费ETF', 'code': '510150'},
-    'sh518880': {'name': '黄金ETF', 'code': '518880'},
-    'sh512000': {'name': '券商ETF', 'code': '512000'},
-    'sh512660': {'name': '军工ETF', 'code': '512660'},
-    'sh510300': {'name': '沪深300ETF', 'code': '510300'},
-}
+ETF_SYMBOLS = ETF_UNIVERSE
 
 START_DATE = '2026-01-05'
 TENCENT_API = 'http://web.ifzq.gtimg.cn/appstock/app/fqkline/get'

@@ -16,6 +16,7 @@ import sys
 import os
 import shutil
 import subprocess
+import argparse
 from datetime import datetime
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -88,15 +89,20 @@ def git_push():
     return True
 
 def main():
+    parser = argparse.ArgumentParser(description='ETF预测模型每日流水线')
+    parser.add_argument('--dry-run', action='store_true', help='完整执行数据、模型和看板，但不提交或推送')
+    args = parser.parse_args()
     start = datetime.now()
-    log(f'ETF预测模型每日流水线启动 — {start.strftime("%Y-%m-%d %H:%M")}')
+    log(f'ETF预测模型每日流水线启动 — {start.strftime("%Y-%m-%d %H:%M")}（{"模拟运行" if args.dry_run else "生产运行"}）')
 
     # Step 0: 检查依赖
     ensure_dependencies()
 
     # Step 1: 增量更新ETF数据
     log('=== Step 1: ETF数据增量更新 ===')
-    run_script('fetch_etf_data.py')
+    ok = run_script('fetch_etf_data.py')
+    if not ok:
+        raise SystemExit('ETF行情更新失败，停止后续模型计算')
 
     # Step 2: 抓取四大报 (机构情绪)
     log('=== Step 2: 四大报抓取 (机构情绪) ===')
@@ -106,13 +112,21 @@ def main():
     log('=== Step 3: 融资融券数据抓取 (大众情绪) ===')
     run_script('fetch_margin_data.py')
 
+    # Step 3.5: 抓取公开政策、行业和宏观新闻（无 API Key）
+    log('=== Step 3.5: 外部政策/行业/宏观新闻 ===')
+    run_script('fetch_external_news.py')
+
     # Step 4: 规则模型
     log('=== Step 4: 规则模型 ===')
-    run_script('etf_model_run.py')
+    ok = run_script('etf_model_run.py', timeout=300)
+    if not ok:
+        raise SystemExit('规则模型失败，停止后续输出')
 
     # Step 5: 计量模型 (含双视角情绪特征)
     log('=== Step 5: 计量模型 (含双视角情绪特征) ===')
-    run_script('econometric_model.py')
+    ok = run_script('econometric_model.py', timeout=600)
+    if not ok:
+        raise SystemExit('计量诊断失败，停止生成看板')
 
     # Step 6: 生成看板
     log('=== Step 6: 生成看板 ===')
@@ -129,11 +143,16 @@ def main():
     ensure_nojekyll()
 
     # 生成看板
-    run_script('generate_dashboard.py', timeout=120)
+    ok = run_script('generate_dashboard.py', timeout=120)
+    if not ok:
+        raise SystemExit('看板生成失败')
 
     # Step 7: 提交并推送到GitHub
-    log('=== Step 7: Git提交推送 ===')
-    git_push()
+    if args.dry_run:
+        log('=== Step 7: 模拟运行，跳过 Git 提交与推送 ===')
+    else:
+        log('=== Step 7: Git提交推送 ===')
+        git_push()
 
     elapsed = (datetime.now() - start).total_seconds()
     log(f'流水线完成, 耗时 {elapsed:.0f} 秒')

@@ -181,6 +181,45 @@ footer{text-align:center;font-size:0.7rem;color:var(--muted);margin-top:36px;pad
   #lg-orb{display:none!important}
 }
 
+/* Research-note skin: quiet, editorial, information-first. */
+:root{
+  --bg:#f5f3ee;--bg2:#ebe8e1;--bg3:#fcfbf8;--ink:#25231f;--muted:#77736b;--rule:#d9d4ca;
+  --accent:#9a4d2d;--green:#2f6f52;--accent2:#a84b43;--gold:#a87524;
+  --positive:#2f6f52;--negative:#a84b43;--warn:#a87524;--radius:4px;--radius-sm:3px;--maxw:1120px;
+  --shadow-sm:0 1px 2px rgba(53,45,35,.05);--shadow-md:0 8px 24px rgba(53,45,35,.08);
+  --IS:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB',sans-serif;
+  --JM:'SFMono-Regular',Consolas,'Liberation Mono',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-size:14px;line-height:1.72}
+body::before{display:none}
+.container{max-width:var(--maxw);padding:28px 32px 64px}
+.report-masthead{border-bottom:1px solid var(--ink);padding:10px 0 20px;margin-bottom:28px}
+.report-kicker{color:var(--accent);font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+.report-title{font-family:Georgia,'Songti SC','STSong',serif;font-size:2.25rem;line-height:1.15;letter-spacing:-.03em;margin:8px 0 6px}
+.report-subtitle{color:var(--muted);font-size:.86rem;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.report-meta{font-family:var(--JM);font-size:.72rem;color:var(--muted)}
+.date-bar{display:none}
+.sec-title{font-family:Georgia,'Songti SC','STSong',serif;text-transform:none;letter-spacing:-.01em;color:var(--ink);font-size:1.22rem;font-weight:700;margin:34px 0 12px;padding:0;border-bottom:1px solid var(--rule);padding-bottom:7px}
+.sec-title:first-letter{color:var(--accent)}
+.card,.chart-card,.rpt,.decision,.core-view,.signal-card,.metric,.callout,.formula-box,.pick,.reason{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:var(--bg3)!important;border:1px solid var(--rule)!important;box-shadow:var(--shadow-sm)!important;border-radius:var(--radius)!important}
+.card:hover,.chart-card:hover,.metric:hover{transform:none;box-shadow:var(--shadow-md)!important}
+.card,.chart-card,.rpt{padding:18px 20px;margin-bottom:14px}
+.card-title{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700;margin-bottom:13px}
+.metrics{gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden}
+.metric{border:0!important;border-radius:0!important;padding:16px 18px;min-height:88px}
+.ml{font-size:.7rem;color:var(--muted);letter-spacing:.04em}.mv{font-size:1.32rem}.ms{font-size:.68rem}
+.core-view{text-align:left;padding:22px 24px;border-top:3px solid var(--accent)!important;margin-bottom:14px}
+.core-view .cv-label{color:var(--accent);font-size:.68rem;letter-spacing:.14em}.core-view .cv-text{font-family:Georgia,'Songti SC','STSong',serif;font-size:1.16rem;line-height:1.7}
+.signal-grid,.rec-2col{gap:14px}.signal-card{padding:17px 20px}.signal-card.long{border-left:3px solid var(--green)!important}.signal-card.short{border-left:3px solid var(--accent2)!important}
+.signal-card .sig-header{border-bottom:1px solid var(--rule)}.signal-card .sig-title{font-size:.9rem}.signal-card .sig-item{border-bottom:1px solid var(--bg2);padding:8px 0}
+.pick{box-shadow:none!important}.reason{box-shadow:none!important}
+table{font-size:.78rem}thead th{border-bottom:1px solid var(--ink);padding:8px}tbody td{padding:7px 8px;border-bottom:1px solid var(--bg2)}
+.tag{border-radius:3px}.t-bull{background:#e5efe8;color:var(--green)}.t-bear{background:#f4e5e2;color:var(--accent2)}.t-neutral{background:var(--bg2);color:var(--muted)}
+.chart{height:280px}.formula-box{background:#f8f6f1!important}.formula{font-size:.76rem}
+footer{font-size:.68rem;border-top:1px solid var(--ink);text-align:left;padding-top:12px}
+#lg-orb{display:none!important}
+@media(max-width:760px){.container{padding:20px 16px 48px}.report-title{font-size:1.75rem}.report-subtitle{display:block}.report-meta{margin-top:5px}.metrics{grid-template-columns:repeat(2,1fr)!important}.metric{min-height:78px;padding:12px}.mv{font-size:1.08rem}}
+
 </style>
 </head>
 <body>
@@ -199,70 +238,83 @@ footer{text-align:center;font-size:0.7rem;color:var(--muted);margin-top:36px;pad
 <div id="lg-orb"><span id="lg-orb-hint">drag me</span></div>
 
 <div class="container">
+<header class="report-masthead">
+  <div class="report-kicker">FUCKETF · DAILY RESEARCH NOTE</div>
+  <h1 class="report-title">中国 ETF 量化观察</h1>
+  <div class="report-subtitle"><span>资金行为 · 情绪 · 市场状态 · 风险预算</span><span class="report-meta">报告日 2026-08-03 · 生成于 2026-08-03 23:01</span></div>
+</header>
 <div class="top-summary">
   <div class="core-view">
     <div class="cv-label">核心观点</div>
-    <div class="cv-text">趋势看跌但情绪尚可（4多/1空），建议控制仓位，等待企稳信号。</div>
+    <div class="cv-text">市场处于中性轮动（宽度78%），只选择低拥挤的资金启动方向。 首选方向启动度0.75、拥挤度0.08、撤退风险0.00。</div>
   </div>
   <div class="signal-grid">
     <div class="signal-card long">
       <div class="sig-header">
-        <span class="sig-title">三大做多</span>
-        <span class="sig-tag">相对看多</span>
+        <span class="sig-title">三大候选</span>
+        <span class="sig-tag">行为评分</span>
       </div>
-<div class="sig-item"><span class="sig-name">人工智能ETF</span><span class="sig-meta">板块: AI算力</span><span class="sig-score" style="color:var(--green)">P(涨)58.2%</span></div>
-<div class="sig-item"><span class="sig-name">芯片ETF</span><span class="sig-meta">板块: 芯片</span><span class="sig-score" style="color:var(--green)">P(涨)57.9%</span></div>
-<div class="sig-item"><span class="sig-name">半导体ETF</span><span class="sig-meta">板块: 半导体</span><span class="sig-score" style="color:var(--green)">P(涨)57.8%</span></div>
+<div class="sig-item"><span class="sig-name">房地产ETF</span><span class="sig-meta">板块: 房地产</span><span class="sig-score" style="color:var(--green)">行为分 0.51</span></div>
+<div class="sig-item"><span class="sig-name">消费ETF</span><span class="sig-meta">板块: 消费</span><span class="sig-score" style="color:var(--green)">行为分 0.38</span></div>
+<div class="sig-item"><span class="sig-name">医疗ETF</span><span class="sig-meta">板块: 医疗</span><span class="sig-score" style="color:var(--green)">行为分 0.25</span></div>
     </div>
     <div class="signal-card short">
       <div class="sig-header">
-        <span class="sig-title">三大做空</span>
-        <span class="sig-tag">相对看空</span>
+        <span class="sig-title">三大回避</span>
+        <span class="sig-tag">低分/撤退</span>
       </div>
-<div class="sig-item"><span class="sig-name">黄金ETF</span><span class="sig-meta">板块: 黄金</span><span class="sig-score" style="color:var(--accent2)">P(跌)48.5%</span></div>
-<div class="sig-item"><span class="sig-name">卫星产业ETF</span><span class="sig-meta">板块: 商业航天</span><span class="sig-score" style="color:var(--accent2)">P(跌)48.2%</span></div>
-<div class="sig-item"><span class="sig-name">消费ETF</span><span class="sig-meta">板块: 消费</span><span class="sig-score" style="color:var(--accent2)">P(跌)48.2%</span></div>
+<div class="sig-item"><span class="sig-name">半导体ETF</span><span class="sig-meta">板块: 半导体</span><span class="sig-score" style="color:var(--accent2)">撤退 0.63</span></div>
+<div class="sig-item"><span class="sig-name">芯片ETF</span><span class="sig-meta">板块: 芯片</span><span class="sig-score" style="color:var(--accent2)">撤退 0.64</span></div>
+<div class="sig-item"><span class="sig-name">人工智能ETF</span><span class="sig-meta">板块: AI算力</span><span class="sig-score" style="color:var(--accent2)">撤退 0.25</span></div>
     </div>
   </div>
 </div>
 
 <h2>一、核心结论</h2>
 <div class="callout warning">
-  <p><strong>模型决策：hold</strong>。基于Walk-Forward回测，胜率68.0%，累计收益+24.08%。</p>
-  <p><strong>情绪信号</strong>：四大报情绪0.50（看多4/看空1），趋势看跌。</p>
+  <p><strong>模型决策：建议配置</strong>。基于Walk-Forward回测，胜率46.9%，累计收益+1.10%。</p>
+  <p><strong>情绪信号</strong>：四大报情绪0.50（看多4/看空1），趋势震荡。</p>
 </div>
 <div class="metrics" style="grid-template-columns:repeat(4,1fr)">
-  <div class="metric"><div class="ml">累计收益</div><div class="mv up">+24.08%</div></div>
-  <div class="metric"><div class="ml">胜率</div><div class="mv">68.0%</div><div class="ms">17胜/8负</div></div>
-  <div class="metric"><div class="ml">盈亏比</div><div class="mv">1.68</div></div>
+  <div class="metric"><div class="ml">累计收益</div><div class="mv up">+1.10%</div></div>
+  <div class="metric"><div class="ml">胜率</div><div class="mv">46.9%</div><div class="ms">15胜/17负</div></div>
+  <div class="metric"><div class="ml">盈亏比</div><div class="mv">1.17</div></div>
   <div class="metric"><div class="ml">情绪分</div><div class="mv up">0.500</div></div>
 </div>
 
 <h2>二、2026-08-03 模型预测</h2>
 <div class="callout">
-  <p><strong>决策：hold</strong></p>
-  <p>趋势：<span class="tag t-bear">看跌</span> | 置信度：-1.31 | 看多4/看空1</p>
+  <p><strong>决策：建议配置</strong></p>
+  <p>趋势：<span class="tag t-neutral">震荡</span> | 置信度：65% | 看多4/看空1</p>
 </div>
 <div class="rec-2col">
   <div class="card" style="border-color:var(--green);border-width:1.5px">
     <div class="card-title" style="color:var(--green)">看好板块</div>
     <div class="picks" style="flex-direction:column">
-<div class="pick"><span class="pick-name">人工智能ETF</span><span class="pick-w">P(涨)58.2%</span></div>
-<div class="pick"><span class="pick-name">芯片ETF</span><span class="pick-w">P(涨)57.9%</span></div>
-<div class="pick"><span class="pick-name">半导体ETF</span><span class="pick-w">P(涨)57.8%</span></div>
+<div class="pick"><span class="pick-name">房地产ETF</span><span class="pick-w">评分 0.51</span></div>
+<div class="pick"><span class="pick-name">消费ETF</span><span class="pick-w">评分 0.38</span></div>
+<div class="pick"><span class="pick-name">医疗ETF</span><span class="pick-w">评分 0.25</span></div>
     </div>
   </div>
   <div class="card" style="border-color:var(--accent2);border-width:1.5px">
     <div class="card-title" style="color:var(--accent2)">看空预警</div>
     <div class="picks" style="flex-direction:column">
-<div class="pick"><span class="pick-name">黄金ETF</span><span class="pick-w" style="background:var(--accent2);color:#fff">P(跌)48.5%</span></div>
-<div class="pick"><span class="pick-name">卫星产业ETF</span><span class="pick-w" style="background:var(--accent2);color:#fff">P(跌)48.2%</span></div>
-<div class="pick"><span class="pick-name">消费ETF</span><span class="pick-w" style="background:var(--accent2);color:#fff">P(跌)48.2%</span></div>
+<div class="pick"><span class="pick-name">半导体ETF</span><span class="pick-w" style="background:var(--accent2);color:#fff">撤退 0.63</span></div>
+<div class="pick"><span class="pick-name">芯片ETF</span><span class="pick-w" style="background:var(--accent2);color:#fff">撤退 0.64</span></div>
+<div class="pick"><span class="pick-name">人工智能ETF</span><span class="pick-w" style="background:var(--accent2);color:#fff">撤退 0.25</span></div>
     </div>
   </div>
 </div>
 
 <h2>三、双视角情绪诊断</h2>
+<div class="card">
+  <div class="card-title">外部政策/行业/宏观情绪</div>
+  <div class="metrics" style="grid-template-columns:repeat(3,1fr)">
+    <div class="metric"><div class="ml">外部情绪分</div><div class="mv down">-0.857</div></div>
+    <div class="metric"><div class="ml">有效标题</div><div class="mv">76</div></div>
+    <div class="metric"><div class="ml">来源类别</div><div class="mv">4</div></div>
+  </div>
+</div>
 <div class="card">
   <div class="card-title">机构情绪（四大报）</div>
   <div class="metrics" style="grid-template-columns:repeat(3,1fr)">
@@ -284,14 +336,14 @@ footer{text-align:center;font-size:0.7rem;color:var(--muted);margin-top:36px;pad
   </table>
 </div>
 
-<h2>四、模型表现回顾（截至2026-07-31）</h2>
+<h2>四、模型表现回顾（截至2026-08-03）</h2>
 <div class="metrics" style="grid-template-columns:repeat(3,1fr)">
-<div class="metric"><div class="ml">累计收益率</div><div class="mv up">+24.08%</div><div class="ms">¥1,000,000.0 → ¥1,240,807.35</div></div>
-<div class="metric"><div class="ml">Alpha vs 沪深300</div><div class="mv up">+20.34%</div><div class="ms">沪深300: +3.74%</div></div>
-<div class="metric"><div class="ml">胜率</div><div class="mv">68.0%</div><div class="ms">17胜 / 8负</div></div>
-<div class="metric"><div class="ml">盈亏比</div><div class="mv">1.68</div><div class="ms">均盈+3.53% / 均亏-4.46%</div></div>
-<div class="metric"><div class="ml">交易日数</div><div class="mv">88</div></div>
-<div class="metric"><div class="ml">总交易次数</div><div class="mv">25</div></div>
+<div class="metric"><div class="ml">累计收益率</div><div class="mv up">+1.10%</div><div class="ms">¥1,000,000.0 → ¥1,011,019.24</div></div>
+<div class="metric"><div class="ml">Alpha vs 沪深300</div><div class="mv down">-0.06%</div><div class="ms">沪深300: +1.16%</div></div>
+<div class="metric"><div class="ml">胜率</div><div class="mv">46.9%</div><div class="ms">15胜 / 17负</div></div>
+<div class="metric"><div class="ml">盈亏比</div><div class="mv">1.17</div><div class="ms">均盈+0.53% / 均亏-0.40%</div></div>
+<div class="metric"><div class="ml">交易日数</div><div class="mv">77</div></div>
+<div class="metric"><div class="ml">总交易次数</div><div class="mv">32</div></div>
 </div>
 <div class="chart-card"><div class="card-title">累计收益率走势</div><div id="chart-cum" class="chart"></div></div>
 <div class="chart-card"><div class="card-title">月度收益对比</div><div id="chart-month" class="chart"></div></div>
@@ -301,14 +353,23 @@ footer{text-align:center;font-size:0.7rem;color:var(--muted);margin-top:36px;pad
   <table>
     <thead><tr><th>ETF名称</th><th>推荐次数</th><th>平均收益</th><th>胜率</th><th>评估</th></tr></thead>
     <tbody>
-<tr><td>创新药ETF</td><td>6</td><td class="up">+3.06%</td><td>83.3%</td><td>优秀</td></tr>
-<tr><td>半导体ETF</td><td>6</td><td class="up">+1.63%</td><td>83.3%</td><td>优秀</td></tr>
-<tr><td>黄金ETF</td><td>3</td><td class="up">+2.12%</td><td>66.7%</td><td>优秀</td></tr>
-<tr><td>军工ETF</td><td>3</td><td class="up">+0.91%</td><td>66.7%</td><td>优秀</td></tr>
-<tr><td>卫星产业ETF</td><td>3</td><td class="down">-0.13%</td><td>33.3%</td><td>较差</td></tr>
-<tr><td>新能源ETF</td><td>2</td><td class="down">-3.05%</td><td>0.0%</td><td>较差</td></tr>
-<tr><td>人工智能ETF</td><td>1</td><td class="down">-5.58%</td><td>0.0%</td><td>较差</td></tr>
-<tr><td>券商ETF</td><td>1</td><td class="down">-1.19%</td><td>0.0%</td><td>较差</td></tr>
+<tr><td>房地产ETF</td><td>3</td><td class="up">+0.71%</td><td>66.7%</td><td>优秀</td></tr>
+<tr><td>新能源ETF</td><td>3</td><td class="down">-0.54%</td><td>66.7%</td><td>一般</td></tr>
+<tr><td>创新药ETF</td><td>3</td><td class="up">+4.05%</td><td>66.7%</td><td>优秀</td></tr>
+<tr><td>医疗ETF</td><td>3</td><td class="down">-1.07%</td><td>33.3%</td><td>较差</td></tr>
+<tr><td>红利ETF</td><td>3</td><td class="up">+0.25%</td><td>66.7%</td><td>良好</td></tr>
+<tr><td>军工ETF</td><td>2</td><td class="down">-0.43%</td><td>50.0%</td><td>一般</td></tr>
+<tr><td>标普500ETF</td><td>2</td><td class="down">-0.07%</td><td>50.0%</td><td>一般</td></tr>
+<tr><td>卫星产业ETF</td><td>2</td><td class="down">-0.60%</td><td>50.0%</td><td>一般</td></tr>
+<tr><td>券商ETF</td><td>2</td><td class="up">+4.01%</td><td>100.0%</td><td>优秀</td></tr>
+<tr><td>黄金ETF</td><td>2</td><td class="down">-0.65%</td><td>0.0%</td><td>较差</td></tr>
+<tr><td>消费ETF</td><td>1</td><td class="down">-0.01%</td><td>0.0%</td><td>较差</td></tr>
+<tr><td>银行ETF</td><td>1</td><td class="down">-0.27%</td><td>0.0%</td><td>较差</td></tr>
+<tr><td>芯片ETF</td><td>1</td><td class="up">+1.09%</td><td>100.0%</td><td>优秀</td></tr>
+<tr><td>中证500ETF</td><td>1</td><td class="down">-1.12%</td><td>0.0%</td><td>较差</td></tr>
+<tr><td>光伏ETF</td><td>1</td><td class="up">+0.17%</td><td>100.0%</td><td>良好</td></tr>
+<tr><td>恒生科技ETF</td><td>1</td><td class="down">-2.02%</td><td>0.0%</td><td>较差</td></tr>
+<tr><td>十年国债ETF</td><td>1</td><td class="up">+0.17%</td><td>100.0%</td><td>良好</td></tr>
     </tbody>
   </table>
 </div>
@@ -317,41 +378,46 @@ footer{text-align:center;font-size:0.7rem;color:var(--muted);margin-top:36px;pad
   <table>
     <thead><tr><th>日期</th><th>研判</th><th>推荐ETF</th><th>收益</th><th>沪深300</th></tr></thead>
     <tbody>
-<tr><td>2026-07-31</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="down">-0.58%</td></tr>
-<tr><td>2026-07-28</td><td><span class="tag t-neutral">震荡</span></td><td>卫星产业ETF</td><td class="down">-0.08%</td><td class="down">-1.81%</td></tr>
-<tr><td>2026-07-27</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="up">+1.08%</td></tr>
-<tr><td>2026-07-24</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="down">-1.03%</td></tr>
-<tr><td>2026-07-23</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="up">+0.27%</td></tr>
-<tr><td>2026-07-22</td><td><span class="tag t-neutral">震荡</span></td><td></td><td class="up">+0.00%</td><td class="up">+0.32%</td></tr>
-<tr><td>2026-07-21</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="up">+2.35%</td></tr>
-<tr><td>2026-07-16</td><td><span class="tag t-bear">看跌</span></td><td>创新药ETF</td><td class="down">-2.84%</td><td class="down">-2.62%</td></tr>
-<tr><td>2026-07-15</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="up">+0.19%</td></tr>
+<tr><td>2026-08-03</td><td><span class="tag t-neutral">震荡</span></td><td>房地产ETF, 消费ETF</td><td class="up">+0.02%</td><td class="down">-0.54%</td></tr>
+<tr><td>2026-07-29</td><td><span class="tag t-bear">看跌</span></td><td>十年国债ETF</td><td class="up">+0.02%</td><td class="up">+0.63%</td></tr>
+<tr><td>2026-07-24</td><td><span class="tag t-neutral">震荡</span></td><td>卫星产业ETF, 上证50ETF, 黄金ETF</td><td class="down">-0.19%</td><td class="down">-2.59%</td></tr>
+<tr><td>2026-07-21</td><td><span class="tag t-neutral">震荡</span></td><td>红利ETF, 消费ETF</td><td class="up">+0.13%</td><td class="up">+2.35%</td></tr>
+<tr><td>2026-07-20</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="up">+0.43%</td></tr>
+<tr><td>2026-07-15</td><td><span class="tag t-neutral">震荡</span></td><td>恒生科技ETF, 医疗ETF, 上证50ETF</td><td class="down">-0.38%</td><td class="down">-4.97%</td></tr>
 <tr><td>2026-07-14</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="up">+1.96%</td></tr>
-<tr><td>2026-07-13</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="down">-1.21%</td></tr>
-<tr><td>2026-07-10</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="down">-1.81%</td></tr>
-<tr><td>2026-07-09</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="up">+2.14%</td></tr>
-<tr><td>2026-07-08</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="down">-0.79%</td></tr>
-<tr><td>2026-07-07</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="down">-0.66%</td></tr>
-<tr><td>2026-07-06</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="down">-0.47%</td></tr>
-<tr><td>2026-07-03</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="up">+0.95%</td></tr>
-<tr><td>2026-06-30</td><td><span class="tag t-bear">看跌</span></td><td>创新药ETF</td><td class="up">+2.60%</td><td class="down">-1.96%</td></tr>
-<tr><td>2026-06-25</td><td><span class="tag t-bull">看涨</span></td><td>创新药ETF, 沪深300ETF</td><td class="up">+4.49%</td><td class="down">-0.28%</td></tr>
-<tr><td>2026-06-22</td><td><span class="tag t-bull">看涨</span></td><td>创新药ETF, 半导体ETF, 芯片ETF</td><td class="up">+5.49%</td><td class="down">-0.32%</td></tr>
+<tr><td>2026-07-13</td><td><span class="tag t-neutral">震荡</span></td><td></td><td class="up">+0.00%</td><td class="down">-1.21%</td></tr>
+<tr><td>2026-07-08</td><td><span class="tag t-bear">看跌</span></td><td>黄金ETF</td><td class="down">-0.01%</td><td class="down">-0.14%</td></tr>
+<tr><td>2026-07-03</td><td><span class="tag t-neutral">震荡</span></td><td>黄金ETF</td><td class="down">-0.21%</td><td class="down">-0.08%</td></tr>
+<tr><td>2026-06-30</td><td><span class="tag t-neutral">震荡</span></td><td>医疗ETF, 消费ETF</td><td class="up">+0.12%</td><td class="down">-1.96%</td></tr>
+<tr><td>2026-06-25</td><td><span class="tag t-neutral">震荡</span></td><td>创新药ETF, 人工智能ETF</td><td class="up">+1.30%</td><td class="down">-0.28%</td></tr>
+<tr><td>2026-06-24</td><td><span class="tag t-neutral">震荡</span></td><td></td><td class="up">+0.00%</td><td class="up">+0.77%</td></tr>
+<tr><td>2026-06-18</td><td><span class="tag t-neutral">震荡</span></td><td>券商ETF, 中证500ETF, 中证1000ETF</td><td class="up">+1.06%</td><td class="down">-0.02%</td></tr>
+<tr><td>2026-06-15</td><td><span class="tag t-neutral">震荡</span></td><td>券商ETF, 上证50ETF, 创新药ETF</td><td class="up">+0.16%</td><td class="up">+2.06%</td></tr>
+<tr><td>2026-06-12</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="up">+0.17%</td></tr>
+<tr><td>2026-06-11</td><td><span class="tag t-bear">看跌</span></td><td></td><td class="up">+0.00%</td><td class="down">-0.31%</td></tr>
+<tr><td>2026-06-08</td><td><span class="tag t-neutral">震荡</span></td><td>红利ETF</td><td class="down">-0.24%</td><td class="down">-0.13%</td></tr>
+<tr><td>2026-06-03</td><td><span class="tag t-neutral">震荡</span></td><td>红利ETF, 中概互联网ETF, 银行ETF</td><td class="down">-0.29%</td><td class="down">-1.92%</td></tr>
+<tr><td>2026-05-29</td><td><span class="tag t-neutral">震荡</span></td><td>卫星产业ETF, 光伏ETF, 沪深300ETF</td><td class="down">-0.46%</td><td class="down">-0.20%</td></tr>
     </tbody>
   </table>
 </div>
 
 <h2>五、特征显著性与模型诊断</h2>
 <div class="card">
-  <div class="card-title">正则化 Logit 系数（样本外准确率=52.667500000000004%）</div>
+  <div class="card-title">正则化 Logit 系数（样本外准确率=49.0809%）</div>
   <table>
     <thead><tr><th>特征</th><th>系数</th><th>p值</th><th>显著性</th></tr></thead>
     <tbody>
-<tr><td>const</td><td class="up">+0.0178</td><td>N/A</td><td><b></b></td></tr>
-<tr><td>hs300_mom_5d</td><td class="down">-0.2680</td><td>N/A</td><td><b></b></td></tr>
-<tr><td>vol_10d</td><td class="up">+0.0782</td><td>N/A</td><td><b></b></td></tr>
-<tr><td>retail_sentiment</td><td class="up">+0.4472</td><td>N/A</td><td><b></b></td></tr>
-<tr><td>rzjme_yi</td><td class="down">-0.2787</td><td>N/A</td><td><b></b></td></tr>
+<tr><td>const</td><td class="up">+0.0802</td><td>N/A</td><td><b></b></td></tr>
+<tr><td>behavior_momentum</td><td class="up">+0.1418</td><td>N/A</td><td><b></b></td></tr>
+<tr><td>flow_proxy</td><td class="up">+0.1224</td><td>N/A</td><td><b></b></td></tr>
+<tr><td>acceleration</td><td class="down">-0.1607</td><td>N/A</td><td><b></b></td></tr>
+<tr><td>crowding</td><td class="down">-0.0336</td><td>N/A</td><td><b></b></td></tr>
+<tr><td>withdrawal_risk</td><td class="up">+0.0793</td><td>N/A</td><td><b></b></td></tr>
+<tr><td>early_entry</td><td class="down">-0.0701</td><td>N/A</td><td><b></b></td></tr>
+<tr><td>news_surprise</td><td class="down">-0.0612</td><td>N/A</td><td><b></b></td></tr>
+<tr><td>market_breadth</td><td class="down">-0.0684</td><td>N/A</td><td><b></b></td></tr>
+<tr><td>external_signal</td><td class="down">-0.0190</td><td>N/A</td><td><b></b></td></tr>
     </tbody>
   </table>
 </div>
@@ -362,12 +428,12 @@ footer{text-align:center;font-size:0.7rem;color:var(--muted);margin-top:36px;pad
     <tbody>
 <tr><td>sentiment_score</td><td class="up">+-0.0000</td><td>0.0000</td><td>0.0000</td></tr>
 <tr><td>bullish_count</td><td class="up">+0.0000</td><td>0.0000</td><td>0.0000</td></tr>
-<tr><td>bearish_count</td><td class="up">+0.0000</td><td>0.0001</td><td>0.0000</td></tr>
-<tr><td>prev_change_pct</td><td class="up">+-0.0000</td><td>0.0351</td><td>0.0000</td></tr>
-<tr><td>prev_volume_ratio</td><td class="up">+-0.0000</td><td>0.1384</td><td>0.0000</td></tr>
-<tr><td>prev_intraday_return</td><td class="up">+-0.0000</td><td>0.0010</td><td>0.0000</td></tr>
-<tr><td>sector_mentioned</td><td class="up">+-0.0000</td><td>0.8940</td><td>0.0000</td></tr>
-<tr><td>sector_mention_count</td><td class="up">+-0.0000</td><td>0.6734</td><td>0.0000</td></tr>
+<tr><td>bearish_count</td><td class="up">+0.0000</td><td>0.0000</td><td>0.0000</td></tr>
+<tr><td>prev_change_pct</td><td class="up">+-0.0000</td><td>0.1192</td><td>0.0000</td></tr>
+<tr><td>prev_volume_ratio</td><td class="up">+-0.0000</td><td>0.0040</td><td>0.0000</td></tr>
+<tr><td>prev_intraday_return</td><td class="up">+-0.0000</td><td>0.0026</td><td>0.0000</td></tr>
+<tr><td>sector_mentioned</td><td class="up">+-0.0000</td><td>0.9318</td><td>0.0000</td></tr>
+<tr><td>sector_mention_count</td><td class="up">+-0.0000</td><td>0.8575</td><td>0.0000</td></tr>
     </tbody>
   </table>
 </div>
@@ -375,10 +441,10 @@ footer{text-align:center;font-size:0.7rem;color:var(--muted);margin-top:36px;pad
 
 <h2>六、操作建议</h2>
 <div class="callout warning">
-  <p><strong>综合建议：hold</strong></p>
-  <p>1. <strong>模型</strong>：趋势看跌，置信度-1.31</p>
+  <p><strong>综合建议：建议配置</strong></p>
+  <p>1. <strong>模型</strong>：趋势震荡，置信度65%</p>
   <p>2. <strong>情绪</strong>：四大报情绪0.50（看多4/看空1）</p>
-  <p>3. <strong>历史表现</strong>：胜率68.0%，盈亏比1.68</p>
+  <p>3. <strong>历史表现</strong>：胜率46.9%，盈亏比1.17</p>
 </div>
 <div class="rpt">
   <h3>关注信号</h3>
@@ -387,7 +453,7 @@ footer{text-align:center;font-size:0.7rem;color:var(--muted);margin-top:36px;pad
   <p><strong>2. 趋势确认</strong>：趋势信号转为看涨，且置信度提升</p>
   <p><strong>3. 量能配合</strong>：市场成交量放大，板块轮动加速</p>
 </div>
-<footer>ETF 预测模型看板 &middot; 规则模型 + 计量交叉验证 &middot; 同花顺API + 四大报(10jqka) &middot; 2026-08-02 23:30</footer>
+<footer>研究用途，不构成投资建议。规则模型为主，计量模型用于诊断；历史回测不代表未来收益。数据源：公开行情、四大报、融资融券及官方新闻页面。</footer>
 </div>
 <script src="_shared/js/echarts.min.js"></script>
 <script src="assets/charts.js"></script>

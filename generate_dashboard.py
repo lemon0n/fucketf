@@ -301,19 +301,24 @@ def normalize_model_data(raw):
     m['latest_decision'] = {
         'date': ld['date'],
         'trend': TREND_MAP.get(ld['trend'], ld['trend']),
-        'decision': ld.get('decision', ''),
+        'decision': {'buy': '建议配置', 'hold': '观望'}.get(ld.get('decision'), ld.get('decision', '')),
         'picks': [
             {'code': p['code'], 'name': p['name'], 'sector': p.get('sector', ''),
-             'weight': p['weight'], 'score': p.get('total_score', 0)}
+             'weight': p['weight'], 'score': p.get('total_score', 0),
+             'early_entry': p.get('early_entry', 0), 'crowding': p.get('crowding', 0),
+             'withdrawal_risk': p.get('withdrawal_risk', 0)}
             for p in ld.get('etf_selection', [])
         ],
         'reason': ld.get('reason', ''),
-        'confidence': f'{ld.get("avg_score", 0):.2f}',
+        'confidence': f'{ld.get("market_state", {}).get("risk_budget", 0):.0%}',
         'bull_signals': sent.get('bullish_count', 0),
         'bear_signals': sent.get('bearish_count', 0),
         'sentiment_score': sent.get('score', 0),
         'hot_sectors': [{'name': s['sector'], 'count': s['count']} for s in sent.get('hot_sectors', [])],
         'etf_performance': _calc_etf_performance(raw.get('experiences', [])),
+        'market_state': ld.get('market_state', {}),
+        'rankings': ld.get('rankings', []),
+        'external_sentiment': ld.get('external_sentiment', {}),
     }
 
     # 标准化 experiences（最近20条，最新在前，构造可读文本）
@@ -389,6 +394,7 @@ def normalize_econ_data(raw, model_data):
         'cv_accuracy': tscv.get('mean_cv_accuracy', 0) * 100,
         'in_sample_accuracy': lm.get('in_sample_accuracy', 0) * 100,
         'accuracy_note': lm.get('accuracy_note', ''),
+        'has_predictive_skill': lm.get('has_predictive_skill', False),
         'cv_auc': 'N/A',
         'lasso_features': lm.get('selected_features', []),
         'lasso_note': f"C={lm.get('lasso_selection_C', 'N/A')}",
@@ -673,6 +679,45 @@ footer{text-align:center;font-size:0.7rem;color:var(--muted);margin-top:36px;pad
   .signal-grid{grid-template-columns:1fr}
   #lg-orb{display:none!important}
 }
+
+/* Research-note skin: quiet, editorial, information-first. */
+:root{
+  --bg:#f5f3ee;--bg2:#ebe8e1;--bg3:#fcfbf8;--ink:#25231f;--muted:#77736b;--rule:#d9d4ca;
+  --accent:#9a4d2d;--green:#2f6f52;--accent2:#a84b43;--gold:#a87524;
+  --positive:#2f6f52;--negative:#a84b43;--warn:#a87524;--radius:4px;--radius-sm:3px;--maxw:1120px;
+  --shadow-sm:0 1px 2px rgba(53,45,35,.05);--shadow-md:0 8px 24px rgba(53,45,35,.08);
+  --IS:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB',sans-serif;
+  --JM:'SFMono-Regular',Consolas,'Liberation Mono',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-size:14px;line-height:1.72}
+body::before{display:none}
+.container{max-width:var(--maxw);padding:28px 32px 64px}
+.report-masthead{border-bottom:1px solid var(--ink);padding:10px 0 20px;margin-bottom:28px}
+.report-kicker{color:var(--accent);font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+.report-title{font-family:Georgia,'Songti SC','STSong',serif;font-size:2.25rem;line-height:1.15;letter-spacing:-.03em;margin:8px 0 6px}
+.report-subtitle{color:var(--muted);font-size:.86rem;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.report-meta{font-family:var(--JM);font-size:.72rem;color:var(--muted)}
+.date-bar{display:none}
+.sec-title{font-family:Georgia,'Songti SC','STSong',serif;text-transform:none;letter-spacing:-.01em;color:var(--ink);font-size:1.22rem;font-weight:700;margin:34px 0 12px;padding:0;border-bottom:1px solid var(--rule);padding-bottom:7px}
+.sec-title:first-letter{color:var(--accent)}
+.card,.chart-card,.rpt,.decision,.core-view,.signal-card,.metric,.callout,.formula-box,.pick,.reason{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:var(--bg3)!important;border:1px solid var(--rule)!important;box-shadow:var(--shadow-sm)!important;border-radius:var(--radius)!important}
+.card:hover,.chart-card:hover,.metric:hover{transform:none;box-shadow:var(--shadow-md)!important}
+.card,.chart-card,.rpt{padding:18px 20px;margin-bottom:14px}
+.card-title{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700;margin-bottom:13px}
+.metrics{gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden}
+.metric{border:0!important;border-radius:0!important;padding:16px 18px;min-height:88px}
+.ml{font-size:.7rem;color:var(--muted);letter-spacing:.04em}.mv{font-size:1.32rem}.ms{font-size:.68rem}
+.core-view{text-align:left;padding:22px 24px;border-top:3px solid var(--accent)!important;margin-bottom:14px}
+.core-view .cv-label{color:var(--accent);font-size:.68rem;letter-spacing:.14em}.core-view .cv-text{font-family:Georgia,'Songti SC','STSong',serif;font-size:1.16rem;line-height:1.7}
+.signal-grid,.rec-2col{gap:14px}.signal-card{padding:17px 20px}.signal-card.long{border-left:3px solid var(--green)!important}.signal-card.short{border-left:3px solid var(--accent2)!important}
+.signal-card .sig-header{border-bottom:1px solid var(--rule)}.signal-card .sig-title{font-size:.9rem}.signal-card .sig-item{border-bottom:1px solid var(--bg2);padding:8px 0}
+.pick{box-shadow:none!important}.reason{box-shadow:none!important}
+table{font-size:.78rem}thead th{border-bottom:1px solid var(--ink);padding:8px}tbody td{padding:7px 8px;border-bottom:1px solid var(--bg2)}
+.tag{border-radius:3px}.t-bull{background:#e5efe8;color:var(--green)}.t-bear{background:#f4e5e2;color:var(--accent2)}.t-neutral{background:var(--bg2);color:var(--muted)}
+.chart{height:280px}.formula-box{background:#f8f6f1!important}.formula{font-size:.76rem}
+footer{font-size:.68rem;border-top:1px solid var(--ink);text-align:left;padding-top:12px}
+#lg-orb{display:none!important}
+@media(max-width:760px){.container{padding:20px 16px 48px}.report-title{font-size:1.75rem}.report-subtitle{display:block}.report-meta{margin-top:5px}.metrics{grid-template-columns:repeat(2,1fr)!important}.metric{min-height:78px;padding:12px}.mv{font-size:1.08rem}}
 """
 
 # ============================================================
@@ -830,53 +875,52 @@ def gen_top_summary(model_data, econ_data):
     bear = d.get('bear_signals', 0)
     ret = s.get('cumulative_return', 0)
     win_rate = s.get('win_rate', 0)
+    state = d.get('market_state', {})
+    picks = d.get('picks', [])
+    behavior_text = ''
+    if picks:
+        p = picks[0]
+        behavior_text = (f' 首选方向启动度{p.get("early_entry", 0):.2f}、'
+                         f'拥挤度{p.get("crowding", 0):.2f}、撤退风险{p.get("withdrawal_risk", 0):.2f}。')
 
     if trend == '看涨':
         if sent_score > 0:
-            core_text = f'机构情绪偏多（{bull}多/{bear}空），趋势看涨，建议逢低布局强势板块。'
+            core_text = f'市场状态偏进攻（宽度{state.get("breadth", 0.5):.0%}），趋势看涨，关注资金加速方向。'
         else:
-            core_text = f'趋势信号偏多但情绪谨慎（{bull}多/{bear}空），建议轻仓试探，关注量能配合。'
+            core_text = f'趋势偏多但新闻情绪谨慎（{bull}多/{bear}空），建议轻仓验证资金持续性。'
     elif trend == '看跌':
         if sent_score < 0:
-            core_text = f'机构情绪偏空（{bull}多/{bear}空），趋势走弱，建议持币观望或减仓避险。'
+            core_text = f'市场进入压力状态（宽度{state.get("breadth", 0.5):.0%}），优先防守并回避撤退风险。'
         else:
             core_text = f'趋势看跌但情绪尚可（{bull}多/{bear}空），建议控制仓位，等待企稳信号。'
     else:
-        core_text = f'多空信号均衡（{bull}多/{bear}空），市场震荡，建议观望为主，精选结构性机会。'
+        core_text = f'市场处于中性轮动（宽度{state.get("breadth", 0.5):.0%}），只选择低拥挤的资金启动方向。'
+    core_text += behavior_text
 
-    # ── 三大做多：Logit P(涨) 最高的3个 ──
-    top3_long = sorted(logit_preds, key=lambda x: float(x.get('prob', 0)), reverse=True)[:3]
+    # 行为评分是主决策；Logit样本外无超额预测力时不得占据顶部建议。
+    rankings = d.get('rankings', [])
+    top3_long = rankings[:3]
     long_items = ""
     for lp in top3_long:
-        name = lp.get('name', '') or lp.get('etf', '')
-        prob_val = float(lp.get('prob', 0))
-        score_cls = 'sig-score'
-        if prob_val >= 55:
-            score_cls += '" style="color:var(--green)'
-        elif prob_val >= 45:
-            score_cls += '" style="color:var(--gold)'
-        else:
-            score_cls += '" style="color:var(--accent2)'
+        name = lp.get('name', '')
+        score = float(lp.get('score', 0))
         long_items += (
             f'<div class="sig-item">'
             f'<span class="sig-name">{esc(name)}</span>'
             f'<span class="sig-meta">板块: {esc(lp.get("sector", ""))}</span>'
-            f'<span class="{score_cls}">P(涨){prob_val:.1f}%</span>'
+            f'<span class="sig-score" style="color:var(--green)">行为分 {score:.2f}</span>'
             f'</div>\n'
         )
 
-    # ── 三大做空：Logit P(涨) 最低（即 P(跌) 最高）的3个 ──
-    top3_short = sorted(logit_preds, key=lambda x: float(x.get('prob', 0)))[:3]
+    top3_short = list(reversed(rankings[-3:]))
     short_items = ""
     for lp in top3_short:
-        name = lp.get('name', '') or lp.get('etf', '')
-        prob_val = float(lp.get('prob', 0))
-        bear_prob = round(100 - prob_val, 1)
+        name = lp.get('name', '')
         short_items += (
             f'<div class="sig-item">'
             f'<span class="sig-name">{esc(name)}</span>'
             f'<span class="sig-meta">板块: {esc(lp.get("sector", ""))}</span>'
-            f'<span class="sig-score" style="color:var(--accent2)">P(跌){bear_prob:.1f}%</span>'
+            f'<span class="sig-score" style="color:var(--accent2)">撤退 {float(lp.get("withdrawal_risk", 0)):.2f}</span>'
             f'</div>\n'
         )
 
@@ -888,14 +932,14 @@ def gen_top_summary(model_data, econ_data):
   <div class="signal-grid">
     <div class="signal-card long">
       <div class="sig-header">
-        <span class="sig-title">三大做多</span>
-        <span class="sig-tag">相对看多</span>
+        <span class="sig-title">三大候选</span>
+        <span class="sig-tag">行为评分</span>
       </div>
 {long_items}    </div>
     <div class="signal-card short">
       <div class="sig-header">
-        <span class="sig-title">三大做空</span>
-        <span class="sig-tag">相对看空</span>
+        <span class="sig-title">三大回避</span>
+        <span class="sig-tag">低分/撤退</span>
       </div>
 {short_items}    </div>
   </div>
@@ -942,20 +986,19 @@ def gen_section_2_prediction(model_data, econ_data):
   <p>趋势：{trend_tag(d.get("trend","震荡"))} | 置信度：{esc(d.get("confidence",""))} | 看多{d.get("bull_signals",0)}/看空{d.get("bear_signals",0)}</p>
 </div>'''
 
-    # 看好/看空板块（复用gen_recommendation逻辑但精简）
-    top3_bullish = sorted(logit_preds, key=lambda x: float(x.get('prob', 0)), reverse=True)[:3]
-    top3_bearish = sorted(logit_preds, key=lambda x: float(x.get('prob', 0)))[:3]
+    rankings = d.get('rankings', [])
+    top3_bullish = rankings[:3]
+    top3_bearish = list(reversed(rankings[-3:]))
 
     bullish_items = ""
     for lp in top3_bullish:
-        name = lp.get('name', '') or lp.get('etf', '')
-        bullish_items += f'<div class="pick"><span class="pick-name">{esc(name)}</span><span class="pick-w">P(涨){float(lp.get("prob",0)):.1f}%</span></div>\n'
+        name = lp.get('name', '')
+        bullish_items += f'<div class="pick"><span class="pick-name">{esc(name)}</span><span class="pick-w">评分 {float(lp.get("score",0)):.2f}</span></div>\n'
 
     bearish_items = ""
     for lp in top3_bearish:
-        name = lp.get('name', '') or lp.get('etf', '')
-        bear_prob = round(100 - float(lp.get('prob', 0)), 1)
-        bearish_items += f'<div class="pick"><span class="pick-name">{esc(name)}</span><span class="pick-w" style="background:var(--accent2);color:#fff">P(跌){bear_prob:.1f}%</span></div>\n'
+        name = lp.get('name', '')
+        bearish_items += f'<div class="pick"><span class="pick-name">{esc(name)}</span><span class="pick-w" style="background:var(--accent2);color:#fff">撤退 {float(lp.get("withdrawal_risk",0)):.2f}</span></div>\n'
 
     return f'''{decision_html}
 <div class="rec-2col">
@@ -979,6 +1022,7 @@ def gen_section_3_sentiment(model_data, econ_data):
     sent = d.get('sentiment_score', 0)
     bull = d.get('bull_signals', 0)
     bear = d.get('bear_signals', 0)
+    ext = d.get('external_sentiment', {})
 
     paper_names = ['中国证券报', '上海证券报', '证券时报', '证券日报']
     np_rows = ""
@@ -988,6 +1032,14 @@ def gen_section_3_sentiment(model_data, econ_data):
         np_rows += f'<tr><td>{esc(name)}</td><td style="font-size:0.78rem">{esc(title_str)}</td></tr>\n'
 
     return f'''<h2>三、双视角情绪诊断</h2>
+<div class="card">
+  <div class="card-title">外部政策/行业/宏观情绪</div>
+  <div class="metrics" style="grid-template-columns:repeat(3,1fr)">
+    <div class="metric"><div class="ml">外部情绪分</div><div class="mv {cls_val(ext.get('score', 0))}">{float(ext.get('score', 0)):.3f}</div></div>
+    <div class="metric"><div class="ml">有效标题</div><div class="mv">{int(ext.get('count', 0))}</div></div>
+    <div class="metric"><div class="ml">来源类别</div><div class="mv">{len(ext.get('categories', {}))}</div></div>
+  </div>
+</div>
 <div class="card">
   <div class="card-title">机构情绪（四大报）</div>
   <div class="metrics" style="grid-template-columns:repeat(3,1fr)">
@@ -1741,6 +1793,11 @@ def generate_html(model_data, econ_data):
     ]
 
     body = '\n\n'.join(sections)
+    masthead = f'''<header class="report-masthead">
+  <div class="report-kicker">FUCKETF · DAILY RESEARCH NOTE</div>
+  <h1 class="report-title">中国 ETF 量化观察</h1>
+  <div class="report-subtitle"><span>资金行为 · 情绪 · 市场状态 · 风险预算</span><span class="report-meta">报告日 {esc(report_date)} · 生成于 {esc(now)}</span></div>
+</header>'''
 
     return f"""<!-- Generated by Trae Work -->
 <!DOCTYPE html>
@@ -1769,8 +1826,9 @@ def generate_html(model_data, econ_data):
 <div id="lg-orb"><span id="lg-orb-hint">drag me</span></div>
 
 <div class="container">
+{masthead}
 {body}
-<footer>ETF 预测模型看板 &middot; 规则模型 + 计量交叉验证 &middot; 同花顺API + 四大报(10jqka) &middot; {now}</footer>
+<footer>研究用途，不构成投资建议。规则模型为主，计量模型用于诊断；历史回测不代表未来收益。数据源：公开行情、四大报、融资融券及官方新闻页面。</footer>
 </div>
 <script src="{ECHARTS_JS_REF}"></script>
 <script src="assets/charts.js"></script>
