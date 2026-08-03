@@ -22,6 +22,7 @@ NEWSPAPERS_PATH = os.path.join(DATA_DIR, 'newspapers.json')
 MARGIN_PATH = os.path.join(DATA_DIR, 'margin_trading.json')
 OUTPUT_PATH = os.path.join(DATA_DIR, 'model_results.json')
 EXTERNAL_NEWS_PATH = os.path.join(DATA_DIR, 'external_news.json')
+SHARES_PATH = os.path.join(DATA_DIR, 'etf_shares.json')
 
 EXTERNAL_BULLISH = ['支持', '利好', '增长', '回升', '扩张', '放宽', '加快', '突破', '改善', '创新高', '超预期']
 # “监管/风险/警示”在官方标题中常是中性语境，不能直接视为利空。
@@ -293,12 +294,14 @@ def compute_market_state(etf_data, date):
             breadth_values.append(recs[j]['close'] > recs[j - 1]['close'])
     breadth = sum(breadth_values) / len(breadth_values) if breadth_values else 0.5
 
-    if (mom20 < -3 or drawdown < -5) and breadth < 0.45:
+    # 状态判定使用前一日数据；允许短期回撤发生在中期上升趋势中，避免把正常波动误判成 neutral。
+    if (mom20 < -4 or drawdown < -7) and breadth < 0.40:
         name, risk_budget = 'stress', 0.35
-    elif mom20 > 1 and mom5 > 0 and breadth >= 0.5:
+    elif (mom20 > 2 and breadth >= 0.55) or (mom20 > 4 and breadth >= 0.45):
         name, risk_budget = 'risk_on', 1.0
     else:
-        name, risk_budget = 'neutral', 0.65
+        name = 'neutral'
+        risk_budget = 0.85 if mom20 > 2 and breadth >= 0.50 else (0.50 if mom20 < -2 or drawdown < -3 else 0.65)
     return {
         'name': name, 'risk_budget': risk_budget, 'breadth': round(breadth, 4),
         'momentum_5d': round(mom5, 4), 'momentum_20d': round(mom20, 4),
@@ -439,6 +442,38 @@ def compute_retail_sentiment(date_str):
     return round(score, 4)
 
 
+_shares_cache = None
+def load_share_history():
+    global _shares_cache
+    if _shares_cache is not None:
+        return _shares_cache
+    if not os.path.exists(SHARES_PATH):
+        _shares_cache = {}
+        return _shares_cache
+    try:
+        raw = load_json(SHARES_PATH)
+        history = dict(raw.get('history', {}))
+        for date_str, values in raw.get('szse_snapshot', {}).items():
+            history.setdefault(date_str, {}).update(values)
+        _shares_cache = history
+    except Exception:
+        _shares_cache = {}
+    return _shares_cache
+
+
+def compute_share_flow_signal(code, date_str):
+    """用不晚于决策日的份额快照估计周度申赎方向；无历史覆盖时返回0。"""
+    history = load_share_history()
+    dates = sorted(d for d in history if d <= date_str and code in history[d])
+    if len(dates) < 2:
+        return 0.0
+    current = float(history[dates[-1]][code] or 0)
+    previous = float(history[dates[-2]][code] or 0)
+    if previous <= 0:
+        return 0.0
+    return round(_clip(((current - previous) / previous * 100) / 5), 4)
+
+
 def get_experience_signal(experiences, code):
     """经验自适应: 该ETF历史买入的平均净收益->[-1,1]"""
     related = [e for e in experiences if e['etf_code'] == code and e['decision'] == 'buy']
@@ -492,6 +527,7 @@ def make_decision(date, prev_date, etf_data, newspapers, experiences):
 
         # 2) 资金行为层：识别启动、拥挤与撤退
         behavior = compute_behavior_signals(etf_data, code, prev_date)
+        share_flow_signal = compute_share_flow_signal(code, prev_date)
         expectation_gap = compute_news_expectation_gaps(external_signal, behavior)
         mom_10d = behavior.get('mom_10d', 0.0)
         momentum_signal = behavior['momentum']
@@ -520,6 +556,8 @@ def make_decision(date, prev_date, etf_data, newspapers, experiences):
             trend_weight, reversion_weight = 0.30, 0.20
 
         market_alignment = _clip((market_state['momentum_5d'] / 3) * risk_on)
+        # 宽基锚定：风险偏好回升时给大盘宽基一个小幅、可解释的状态加分。
+        anchor_bonus = 0.16 * max(0.0, market_alignment) if info.get('group') == 'large_cap' else 0.0
         regime_penalty = 0.35 if market_state['name'] == 'stress' and risk_on == 1 else 0.0
         regime_bonus = 0.20 if market_state['name'] == 'stress' and risk_on == -1 else 0.0
         stale_crowding = behavior['crowding'] * max(0.0, 1.0 - behavior['early_entry'])
@@ -535,6 +573,7 @@ def make_decision(date, prev_date, etf_data, newspapers, experiences):
             + 0.07 * expectation_gap['news_flow_gap']
             + 0.15 * retail_signal
             + 0.15 * market_alignment
+            + anchor_bonus
             + exp_signal + regime_bonus
             - 0.35 * stale_crowding
             - 0.90 * behavior['withdrawal_risk']
@@ -551,6 +590,7 @@ def make_decision(date, prev_date, etf_data, newspapers, experiences):
             'retail_sentiment': retail_sent, 'volume_signal': volume_signal,
             'meanrev_signal': meanrev_signal, 'experience_signal': exp_signal,
             'flow_proxy': behavior['flow_proxy'], 'early_entry': behavior['early_entry'],
+            'share_flow_signal': share_flow_signal,
             'crowding': behavior['crowding'], 'withdrawal_risk': behavior['withdrawal_risk'],
             'acceleration': behavior['acceleration'], 'volatility': behavior['volatility'],
             'total_score': total_score,
@@ -579,18 +619,36 @@ def make_decision(date, prev_date, etf_data, newspapers, experiences):
         best = positive[0]
         conviction = _clip((best['total_score'] - BUY_THRESHOLD) / (SCORE_FULL - BUY_THRESHOLD), 0.25, 1.0)
         position_scale = round(market_state['risk_budget'] * conviction, 4)
+        # Core-satellite：只在前一日中期趋势和宽度支持时加入沪深300锚定仓，
+        # 避免主题轮动模型在大盘上涨期长期跑输基准；锚定仓仍受风险预算约束。
+        anchor = None
+        if market_state['name'] in ('risk_on', 'neutral') and market_state['momentum_20d'] > 0 and market_state['breadth'] >= 0.50:
+            anchor = next((e for e in etf_scores if e['code'] == HS300_CODE), None)
+        candidates = [e for e in positive if not anchor or e['code'] != anchor['code']]
         chosen, used_groups = [], set()
-        for candidate in positive:
+        if anchor:
+            chosen.append(anchor)
+            used_groups.add(anchor['group'])
+        for candidate in candidates:
             if candidate['group'] not in used_groups:
                 chosen.append(candidate)
                 used_groups.add(candidate['group'])
             if len(chosen) == 3:
                 break
-        total_pos = sum(e['total_score'] for e in chosen)
-        for e in chosen:
-            w = round(e['total_score'] / total_pos * position_scale, 4) if total_pos > 0 else 0.0
-            e['weight'] = w
-            selection.append(e)
+        if anchor:
+            anchor_weight = round(position_scale * 0.35, 4)
+            other = [e for e in chosen if e is not anchor]
+            total_pos = sum(max(0.01, e['total_score']) for e in other)
+            anchor['weight'] = anchor_weight
+            selection.append(anchor)
+            for e in other:
+                e['weight'] = round((position_scale - anchor_weight) * max(0.01, e['total_score']) / total_pos, 4)
+                selection.append(e)
+        else:
+            total_pos = sum(e['total_score'] for e in chosen)
+            for e in chosen:
+                e['weight'] = round(e['total_score'] / total_pos * position_scale, 4) if total_pos > 0 else 0.0
+                selection.append(e)
     decision = 'buy' if selection else 'hold'
 
     # 决策理由
@@ -714,6 +772,11 @@ def run_model():
 
         all_daily.append({
             'date': date, 'trend': decision['trend'], 'decision': decision['decision'],
+            'market_state': decision['market_state']['name'],
+            'risk_budget': decision['market_state']['risk_budget'],
+            'market_breadth': decision['market_state']['breadth'],
+            'market_momentum_20d': decision['market_state']['momentum_20d'],
+            'market_volatility_20d': decision['market_state']['volatility_20d'],
             'etf_names': chosen_names,
             'return': round(day_return * 100, 4),
             'hs300': round(hs_return * 100, 4),
@@ -785,7 +848,8 @@ def run_model():
              'withdrawal_risk': s['withdrawal_risk'], 'flow_proxy': s['flow_proxy'],
              'external_signal': s.get('external_signal', 0.0),
              'news_price_gap': s.get('news_price_gap', 0.0),
-             'news_flow_gap': s.get('news_flow_gap', 0.0)}
+             'news_flow_gap': s.get('news_flow_gap', 0.0),
+             'share_flow_signal': s.get('share_flow_signal', 0.0)}
             for s in latest_dec['selection']
         ],
         'weight': round(sum(s.get('weight', 0.0) for s in latest_dec['selection']), 4),

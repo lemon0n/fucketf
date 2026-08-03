@@ -10,20 +10,45 @@ import time
 import requests
 from etf_universe import ETF_UNIVERSE
 
+try:
+    import akshare as ak
+except ImportError:
+    ak = None
+
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
 ETF_HISTORY_PATH = os.path.join(DATA_DIR, 'etf_history.json')
 
 # 腾讯API: sh=上海, sz=深圳
 ETF_SYMBOLS = ETF_UNIVERSE
 
-START_DATE = '2026-01-05'
+START_DATE = '2025-01-01'
 TENCENT_API = 'http://web.ifzq.gtimg.cn/appstock/app/fqkline/get'
 
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0',
 }
 
-def fetch_kline(symbol, start_date='2026-01-05', end_date='2026-12-31', max_retries=5):
+def fetch_kline_akshare(code, start_date=START_DATE, end_date='2099-12-31'):
+    """优先使用本地可验证的 AkShare/东方财富 ETF 日线通道。"""
+    if ak is None:
+        return []
+    df = ak.fund_etf_hist_em(symbol=code, period='daily',
+                             start_date=start_date.replace('-', ''),
+                             end_date=end_date.replace('-', ''), adjust='qfq')
+    records = []
+    for _, row in df.iterrows():
+        def num(key, default=0.0):
+            value = row.get(key, default)
+            return default if value is None else float(value)
+        records.append({
+            'date': str(row['日期'])[:10], 'open': round(num('开盘'), 4),
+            'close': round(num('收盘'), 4), 'high': round(num('最高'), 4),
+            'low': round(num('最低'), 4), 'volume': int(num('成交量')),
+        })
+    return [r for r in records if r['date'] >= start_date]
+
+
+def fetch_kline(symbol, start_date=START_DATE, end_date='2026-12-31', max_retries=5):
     """从腾讯API获取前复权日K数据
     
     Args:
@@ -33,6 +58,15 @@ def fetch_kline(symbol, start_date='2026-01-05', end_date='2026-12-31', max_retr
     Returns:
         list of {date, open, close, high, low, volume}
     """
+    code = symbol[-6:]
+    if ak is not None:
+        try:
+            records = fetch_kline_akshare(code, start_date, end_date)
+            if records:
+                return records
+        except Exception as exc:
+            print(f'  [WARN] AkShare {code} 失败，回退腾讯: {exc}')
+
     # 参数格式: param=symbol,day,start,end,datalen,qfq
     param = f'{symbol},day,{start_date},{end_date},640,qfq'
     url = f'{TENCENT_API}?param={param}'
@@ -70,7 +104,7 @@ def fetch_kline(symbol, start_date='2026-01-05', end_date='2026-12-31', max_retr
 def incremental_update():
     """增量更新：只拉最近15天，覆盖重叠+追加新日期"""
     from datetime import date
-    print('=== ETF数据增量更新（腾讯财经API · 前复权）===')
+    print('=== ETF数据增量更新（AkShare优先 / 腾讯回退 · 前复权）===')
 
     if os.path.exists(ETF_HISTORY_PATH):
         with open(ETF_HISTORY_PATH) as f:
@@ -132,7 +166,7 @@ def incremental_update():
 
 def full_fetch():
     """全量拉取所有ETF历史数据（前复权）"""
-    print('=== ETF数据全量拉取（腾讯财经API · 前复权）===')
+    print('=== ETF数据全量拉取（AkShare优先 / 腾讯回退 · 前复权）===')
     result = {}
     for symbol, info in ETF_SYMBOLS.items():
         code = info['code']

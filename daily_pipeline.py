@@ -116,6 +116,10 @@ def main():
     log('=== Step 3.5: 外部政策/行业/宏观新闻 ===')
     run_script('fetch_external_news.py')
 
+    # Step 3.6: 交易所 ETF 份额（真实申赎方向，缺失时仅作诊断）
+    log('=== Step 3.6: 交易所 ETF 份额 ===')
+    run_script('fetch_etf_shares.py', timeout=300)
+
     # Step 4: 规则模型
     log('=== Step 4: 规则模型 ===')
     ok = run_script('etf_model_run.py', timeout=300)

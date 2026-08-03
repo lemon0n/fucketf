@@ -29,6 +29,7 @@ from etf_model_run import (
     compute_volume_ratio, analyze_newspaper_sentiment,
     compute_behavior_signals, compute_market_state, compute_news_surprise,
     compute_news_expectation_gaps,
+    compute_share_flow_signal,
     load_external_news, analyze_external_sentiment,
 )
 
@@ -52,7 +53,7 @@ FEATURES = [
     'retail_sentiment', 'rzjme_yi', 'sentiment_divergence',
     'behavior_momentum', 'flow_proxy', 'acceleration', 'crowding',
     'withdrawal_risk', 'early_entry', 'news_surprise', 'market_breadth',
-    'external_signal', 'external_news_count', 'news_price_gap', 'news_flow_gap',
+    'external_signal', 'external_news_count', 'news_price_gap', 'news_flow_gap', 'share_flow_signal',
 ]
 
 # 预测器只使用在历史逐日样本外检验中稳定的市场/大众情绪因子；其余变量仍保留
@@ -60,7 +61,7 @@ FEATURES = [
 PREDICTIVE_FEATURES = [
     'behavior_momentum', 'flow_proxy', 'acceleration', 'crowding',
     'withdrawal_risk', 'early_entry', 'news_surprise', 'market_breadth',
-    'external_signal', 'news_price_gap', 'news_flow_gap',
+    'external_signal', 'news_price_gap', 'news_flow_gap', 'share_flow_signal',
 ]
 PREDICTIVE_C = 0.3
 
@@ -265,6 +266,7 @@ def build_dataset(etf_data, news_data):
                 0.55 * external_sent['score'] * info.get('risk_on', 1)
                 + 0.45 * np.clip(external_sent['sector_scores'].get(info['sector'], 0.0) / 3, -1, 1), -1, 1))
             expectation_gap = compute_news_expectation_gaps(external_signal, behavior)
+            share_flow_signal = compute_share_flow_signal(code, Tm1)
 
             rows.append({
                 'date': T, 'etf_code': code, 'etf_name': info['name'], 'sector': info['sector'],
@@ -293,6 +295,7 @@ def build_dataset(etf_data, news_data):
                 'external_news_count': external_sent['count'],
                 'news_price_gap': expectation_gap['news_price_gap'],
                 'news_flow_gap': expectation_gap['news_flow_gap'],
+                'share_flow_signal': share_flow_signal,
                 'today_return': round(today_return, 4),
                 'today_direction': int(today_direction),
             })
@@ -346,6 +349,7 @@ def build_latest_features(etf_data, news_data):
             0.55 * external_sent['score'] * info.get('risk_on', 1)
             + 0.45 * np.clip(external_sent['sector_scores'].get(info['sector'], 0.0) / 3, -1, 1), -1, 1))
         expectation_gap = compute_news_expectation_gaps(external_signal, behavior)
+        share_flow_signal = compute_share_flow_signal(code, Tm1)
         rows.append({
             'predict_date': T, 'prev_date': Tm1, 'etf_code': code,
             'etf_name': info['name'], 'sector': info['sector'],
@@ -374,6 +378,7 @@ def build_latest_features(etf_data, news_data):
             'external_news_count': external_sent['count'],
             'news_price_gap': expectation_gap['news_price_gap'],
             'news_flow_gap': expectation_gap['news_flow_gap'],
+            'share_flow_signal': share_flow_signal,
         })
     return pd.DataFrame(rows), T
 

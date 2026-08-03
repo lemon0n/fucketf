@@ -1053,7 +1053,7 @@ def gen_external_review(model_data, econ_data):
 <table><thead><tr><th>来源</th><th>记录数</th><th>用途</th></tr></thead><tbody>{source_rows}</tbody></table>
 <div class="section-note">更新：{esc(review.get('updated_at', ''))} · 缓存 {int(review.get('count', 0))} 条 · 外部情绪分 <strong class="{cls_val(ext.get('score', 0))}">{float(ext.get('score', 0)):.3f}</strong></div></div>
 <div class="card"><div class="card-title">新闻与价格/资金预期差</div>
-<div class="gap-list"><div><b>新闻 → 价格</b><span>识别新闻转强但价格尚未确认</span></div><div><b>新闻 → 资金</b><span>比较新闻方向与成交/换手代理</span></div><div><b>机构 → 大众</b><span>四大报与融资融券情绪分歧</span></div></div>
+<div class="gap-list"><div><b>新闻 → 价格</b><span>识别新闻转强但价格尚未确认</span></div><div><b>新闻 → 资金</b><span>比较新闻方向与成交/换手代理</span></div><div><b>交易所份额</b><span>上交所周度历史份额，深交所最新快照</span></div><div><b>机构 → 大众</b><span>四大报与融资融券情绪分歧</span></div></div>
 <div class="section-note">资金流字段目前是成交量与价格加速度代理，不等同于 ETF 真实份额净申赎。</div></div></div>
 <div class="card headline-card"><div class="card-title">最近外部标题（可追溯原文）</div><ul>{headlines or '<li>暂无标题缓存</li>'}</ul></div>
 </section>'''
