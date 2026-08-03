@@ -30,7 +30,6 @@ MODEL_RESULTS_PATH  = os.path.join(DATA_DIR, 'model_results.json')
 ECON_RESULTS_PATH   = os.path.join(DATA_DIR, 'econometric_results.json')
 EXTERNAL_NEWS_PATH  = os.path.join(DATA_DIR, 'external_news.json')
 HANDOFF_PATH        = os.path.join(DATA_DIR, 'next_day_handoff.json')
-OBSERVATION_PATH    = os.path.join(DATA_DIR, 'manual_observations.json')
 HTML_OUT            = os.path.join(DASHBOARD_DIR, 'dashboard.html')
 CHARTS_JS_OUT       = os.path.join(DASHBOARD_DIR, 'assets', 'charts.js')
 ECHARTS_JS_REF      = '_shared/js/echarts.min.js'
@@ -422,7 +421,6 @@ def normalize_model_data(raw):
     m['external_review'] = _build_external_review()
     m['adaptation_review'] = _build_adaptation_review(daily, summary)
     m['handoff'] = load_json(HANDOFF_PATH) if os.path.exists(HANDOFF_PATH) else {}
-    m['manual_observations'] = load_json(OBSERVATION_PATH) if os.path.exists(OBSERVATION_PATH) else {}
 
     return m
 
@@ -1047,21 +1045,27 @@ def gen_external_review(model_data, econ_data):
     d = model_data['latest_decision']
     ext = d.get('external_sentiment', {})
     review = model_data.get('external_review', {})
-    labels = {'policy': '官方政策/监管', 'industry': '行业信息', 'macro': '宏观数据', 'exchange': '交易所公告'}
     events = review.get('events', [])[:3]
     event_cards = ''.join(f'''<article class="event-card"><div class="event-meta">{esc(x.get('published_at',''))} · {esc(x.get('source',''))} · {esc(x.get('event_type',''))} · 影响{esc(x.get('impact','未知'))} · T-{int(x.get('age_days', 0))}</div>
 <div class="event-title">{esc(x.get('title',''))} <a href="{esc(x.get('url','#'))}" target="_blank" rel="noopener">原文 ↗</a></div>
 <p><b>判断：</b>{esc(x.get('implication',''))}</p><p><b>涉及：</b>{esc('、'.join(x.get('sectors', [])))} · <b>方向：</b>{esc(x.get('direction','中性'))}</p></article>''' for x in events)
     if not event_cards: event_cards = '<div class="empty-note">暂无通过日期校验的近期事件；本日不使用无法确认日期的标题。</div>'
-    observation = model_data.get('manual_observations', {})
-    obs_items = observation.get('items', []) if isinstance(observation, dict) else []
-    obs_text = '；'.join(f"{x.get('label')} {float(x.get('observed_return_pct', 0)):.0f}%" for x in obs_items)
+    newspapers = model_data.get('latest_newspapers', {})
+    paper_names = ['中国证券报', '上海证券报', '证券时报', '证券日报']
+    paper_titles = []
+    for paper in paper_names:
+        for title in newspapers.get(paper, []):
+            paper_titles.append((paper, title))
+    newspaper_rows = ''.join(f'<tr><td>{esc(paper)}</td><td>{esc(title)}</td></tr>' for paper, title in paper_titles[:7])
+    if not newspaper_rows:
+        newspaper_rows = '<tr><td colspan="2">今日暂无四大报标题</td></tr>'
+    newspaper_date = model_data.get('summary', {}).get('report_date', '')
     return f'''<section class="report-section"><div class="sec-title">二、外部信息与资金行为</div>
 <div class="external-layout"><div class="card"><div class="card-title">近期事件分析 · 只显示真实日期事件</div>{event_cards}
 <div class="section-note">外部情绪分 <strong class="{cls_val(ext.get('score', 0))}">{float(ext.get('score', 0)):.3f}</strong> · 日期证据优先原文页，其次 URL；无法确认日期的内容不进入模型。</div></div>
-<div class="card"><div class="card-title">信息如何进入判断</div>
-<div class="gap-list"><div><b>事件 → 预期</b><span>政策、宏观与行业事件先转成方向和影响等级</span></div><div><b>预期 → 价格</b><span>要求 ETF 相对宽基强弱确认，不因标题单独追涨</span></div><div><b>预期 → 资金</b><span>结合成交、换手与 ETF 份额；代理信号不冒充净申赎</span></div><div><b>分歧 → 风险</b><span>新闻、机构、大众和份额不同步时降低信号置信度</span></div></div></div></div>
-<div class="card"><div class="card-title">实操观察（待核对，不作为经验样本）</div><div class="section-note">{esc(obs_text or '暂无')}</div></div>
+<div class="card"><div class="card-title">四大报 · 最近 7 条标题（{esc(newspaper_date)}）</div>
+<table><thead><tr><th>来源</th><th>标题</th></tr></thead><tbody>{newspaper_rows}</tbody></table>
+<div class="section-note">四大报只作为机构情绪和叙事参考，不单独触发买入；需要与价格、成交和资金行为交叉确认。</div></div></div>
 </section>'''
 
 
