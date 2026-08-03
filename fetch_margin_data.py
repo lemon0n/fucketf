@@ -107,6 +107,17 @@ def fetch_all_margin_data(start_date='2026-01-01'):
         if page > 20:  # 安全限制
             break
     
+    # 网络失败/站点限流时不要用空结果覆盖已有融资融券历史。
+    if not all_records and os.path.exists(OUT_FILE):
+        try:
+            with open(OUT_FILE, encoding='utf-8') as f:
+                cached = json.load(f)
+            if cached:
+                print(f'  [WARN] 本次未获取到新数据，保留缓存 {len(cached)} 条')
+                return cached
+        except (OSError, ValueError):
+            pass
+
     # 按日期升序排列
     all_records.sort(key=lambda x: x['date'])
     
