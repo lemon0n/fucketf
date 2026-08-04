@@ -18,6 +18,7 @@ import json
 import os
 import html
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 # ============================================================
 #  路径配置
@@ -1941,7 +1942,7 @@ def gen_experience(model_data):
 #  生成完整 HTML
 # ============================================================
 def generate_html(model_data, econ_data):
-    now = datetime.now().strftime('%Y-%m-%d %H:%M')
+    now = datetime.now(ZoneInfo('Asia/Shanghai')).strftime('%Y-%m-%d %H:%M')
     report_date = model_data['summary']['report_date']
 
     sections = [
