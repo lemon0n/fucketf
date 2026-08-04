@@ -1,29 +1,59 @@
 {
-  "as_of_date": "2026-08-04",
-  "decision_date": "2026-08-04",
+  "as_of_date": "2026-08-05",
+  "decision_date": "2026-08-05",
   "next_trading_date": null,
   "cutoff_policy": "价格/成交截至前一交易日；外部事件必须有原文或URL日期且published_at<=decision_date；未结算预测不得进入经验库。",
   "market_state": {
-    "name": "stress",
-    "risk_budget": 0.35,
-    "breadth": 0.3913,
-    "volatility_20d": 26.9031
+    "name": "neutral",
+    "risk_budget": 0.5,
+    "breadth": 0.6957,
+    "volatility_20d": 27.1736
   },
   "selected_etfs": [
     {
-      "code": "511010",
-      "name": "国债ETF",
-      "sector": "国债",
-      "weight": 0.0875,
-      "total_score": 0.3562,
-      "early_entry": 0.0167,
-      "crowding": 0.0384,
-      "withdrawal_risk": 0.0003,
-      "flow_proxy": 0.0556,
-      "external_signal": -0.1375,
-      "news_price_gap": -0.1555,
-      "news_flow_gap": -0.1931,
-      "share_flow_signal": 0.2489
+      "code": "513500",
+      "name": "标普500ETF",
+      "sector": "标普500",
+      "weight": 0.1059,
+      "total_score": 0.7854,
+      "early_entry": 0.7766,
+      "crowding": 0.2731,
+      "withdrawal_risk": 0.0,
+      "flow_proxy": 0.7995,
+      "external_signal": 0.1375,
+      "news_price_gap": -0.4784,
+      "news_flow_gap": -0.662,
+      "share_flow_signal": 0.0297
+    },
+    {
+      "code": "515790",
+      "name": "光伏ETF",
+      "sector": "光伏",
+      "weight": 0.0755,
+      "total_score": 0.56,
+      "early_entry": 0.6372,
+      "crowding": 0.1583,
+      "withdrawal_risk": 0.0,
+      "flow_proxy": 0.4411,
+      "external_signal": 0.1375,
+      "news_price_gap": -0.2737,
+      "news_flow_gap": -0.3036,
+      "share_flow_signal": -0.1037
+    },
+    {
+      "code": "510150",
+      "name": "消费ETF",
+      "sector": "消费",
+      "weight": 0.0746,
+      "total_score": 0.5532,
+      "early_entry": 0.6826,
+      "crowding": 0.5013,
+      "withdrawal_risk": 0.0221,
+      "flow_proxy": 0.7793,
+      "external_signal": 0.1375,
+      "news_price_gap": -0.4313,
+      "news_flow_gap": -0.6418,
+      "share_flow_signal": 0.0522
     }
   ],
   "monitor": [
@@ -35,25 +65,25 @@
     "market_breadth",
     "volatility_20d"
   ],
-  "external_event_count": 40,
+  "external_event_count": 44,
   "external_latest_dates": [
+    "2026-08-04",
     "2026-08-03",
     "2026-08-01",
     "2026-07-31",
-    "2026-07-30",
-    "2026-07-29"
+    "2026-07-30"
   ],
   "pending_labels": [
     {
-      "decision_date": "2026-08-04",
+      "decision_date": "2026-08-05",
       "settle_after": null,
       "status": "pending",
       "rule": "持有期结束后才计算净收益并写入经验库"
     }
   ],
   "source_health": {
-    "external_news": 40,
-    "margin_records": 139,
+    "external_news": 44,
+    "margin_records": 140,
     "share_snapshots": 0
   },
   "experience_policy": "只用真实成交/结算后的结果更新经验；不使用手工输入跌幅、不按单日噪声自动改权重；参数仅在滚动样本外验证通过后升级。"
