@@ -1959,7 +1959,7 @@ def generate_html(model_data, econ_data):
     body = '\n\n'.join(sections)
     masthead = f'''<header class="report-masthead">
   <div class="report-kicker">FUCKETF · DAILY RESEARCH NOTE</div>
-  <h1 class="report-title">中国 ETF 量化观察</h1>
+  <h1 class="report-title">老林的ETF量化模型</h1>
   <div class="report-subtitle"><span>资金行为 · 情绪 · 市场状态 · 风险预算</span><span class="report-meta">报告日 {esc(report_date)} · 生成于 {esc(now)}</span></div>
 </header>'''
 
@@ -1969,7 +1969,7 @@ def generate_html(model_data, econ_data):
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ETF 预测模型看板 · {report_date}</title>
+<title>老林的ETF量化模型 · {report_date}</title>
 <style>
 {CSS}
 </style>
