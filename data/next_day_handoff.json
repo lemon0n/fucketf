@@ -1,59 +1,59 @@
 {
-  "as_of_date": "2026-08-05",
-  "decision_date": "2026-08-05",
+  "as_of_date": "2026-08-06",
+  "decision_date": "2026-08-06",
   "next_trading_date": null,
   "cutoff_policy": "价格/成交截至前一交易日；外部事件必须有原文或URL日期且published_at<=decision_date；未结算预测不得进入经验库。",
   "market_state": {
     "name": "neutral",
     "risk_budget": 0.5,
-    "breadth": 0.6957,
-    "volatility_20d": 27.1736
+    "breadth": 0.8696,
+    "volatility_20d": 27.6262
   },
   "selected_etfs": [
-    {
-      "code": "513500",
-      "name": "标普500ETF",
-      "sector": "标普500",
-      "weight": 0.1059,
-      "total_score": 0.7854,
-      "early_entry": 0.7766,
-      "crowding": 0.2731,
-      "withdrawal_risk": 0.0,
-      "flow_proxy": 0.7995,
-      "external_signal": 0.1375,
-      "news_price_gap": -0.4784,
-      "news_flow_gap": -0.662,
-      "share_flow_signal": 0.0297
-    },
     {
       "code": "515790",
       "name": "光伏ETF",
       "sector": "光伏",
-      "weight": 0.0755,
-      "total_score": 0.56,
-      "early_entry": 0.6372,
-      "crowding": 0.1583,
+      "weight": 0.0898,
+      "total_score": 0.8004,
+      "early_entry": 0.7285,
+      "crowding": 0.1533,
       "withdrawal_risk": 0.0,
-      "flow_proxy": 0.4411,
+      "flow_proxy": 0.5111,
       "external_signal": 0.1375,
-      "news_price_gap": -0.2737,
-      "news_flow_gap": -0.3036,
-      "share_flow_signal": -0.1037
+      "news_price_gap": -0.5513,
+      "news_flow_gap": -0.3736,
+      "share_flow_signal": 0.0778
     },
     {
-      "code": "510150",
-      "name": "消费ETF",
-      "sector": "消费",
-      "weight": 0.0746,
-      "total_score": 0.5532,
-      "early_entry": 0.6826,
-      "crowding": 0.5013,
-      "withdrawal_risk": 0.0221,
-      "flow_proxy": 0.7793,
+      "code": "513500",
+      "name": "标普500ETF",
+      "sector": "标普500",
+      "weight": 0.088,
+      "total_score": 0.7848,
+      "early_entry": 0.7725,
+      "crowding": 0.6499,
+      "withdrawal_risk": 0.0,
+      "flow_proxy": 1.0,
       "external_signal": 0.1375,
-      "news_price_gap": -0.4313,
-      "news_flow_gap": -0.6418,
-      "share_flow_signal": 0.0522
+      "news_price_gap": -0.8625,
+      "news_flow_gap": -0.8625,
+      "share_flow_signal": 0.0396
+    },
+    {
+      "code": "512100",
+      "name": "中证1000ETF",
+      "sector": "小盘",
+      "weight": 0.0871,
+      "total_score": 0.7767,
+      "early_entry": 0.7033,
+      "crowding": 0.212,
+      "withdrawal_risk": 0.0,
+      "flow_proxy": 0.4718,
+      "external_signal": 0.1375,
+      "news_price_gap": -0.6117,
+      "news_flow_gap": -0.3343,
+      "share_flow_signal": 0.9566
     }
   ],
   "monitor": [
@@ -65,25 +65,25 @@
     "market_breadth",
     "volatility_20d"
   ],
-  "external_event_count": 44,
+  "external_event_count": 47,
   "external_latest_dates": [
+    "2026-08-05",
     "2026-08-04",
     "2026-08-03",
     "2026-08-01",
-    "2026-07-31",
-    "2026-07-30"
+    "2026-07-31"
   ],
   "pending_labels": [
     {
-      "decision_date": "2026-08-05",
+      "decision_date": "2026-08-06",
       "settle_after": null,
       "status": "pending",
       "rule": "持有期结束后才计算净收益并写入经验库"
     }
   ],
   "source_health": {
-    "external_news": 44,
-    "margin_records": 140,
+    "external_news": 47,
+    "margin_records": 141,
     "share_snapshots": 0
   },
   "experience_policy": "只用真实成交/结算后的结果更新经验；不使用手工输入跌幅、不按单日噪声自动改权重；参数仅在滚动样本外验证通过后升级。"
