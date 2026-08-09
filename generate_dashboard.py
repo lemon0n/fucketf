@@ -309,20 +309,31 @@ def _build_external_review():
 def _build_adaptation_review(daily, summary):
     """用历史结果做轻量回顾；只提出可验证调优，不凭小样本自动改权重。"""
     def window(rows):
-        model = sum(float(x.get('return', 0)) for x in rows)
-        bench = sum(float(x.get('hs300', 0)) for x in rows)
-        wins = sum(float(x.get('return', 0)) > 0 for x in rows)
-        return {'days': len(rows), 'model': model, 'bench': bench, 'alpha': model - bench,
-                'win_rate': wins / len(rows) * 100 if rows else 0}
+        model_equity = bench_equity = 1.0
+        for row in rows:
+            model_equity *= 1 + float(row.get('return', 0)) / 100
+            bench_equity *= 1 + float(row.get('hs300', 0)) / 100
+        model = (model_equity - 1) * 100
+        bench = (bench_equity - 1) * 100
+        trades = [x for x in rows if x.get('decision') == 'buy']
+        wins = sum(float(x.get('return', 0)) > 0 for x in trades)
+        return {'days': len(rows), 'trades': len(trades), 'model': model,
+                'bench': bench, 'alpha': model - bench,
+                'win_rate': wins / len(trades) * 100 if trades else 0}
 
     windows = {'近20个交易日': window(daily[-20:]), '近40个交易日': window(daily[-40:]), '全样本': window(daily)}
-    equity = 0.0
-    peak = 0.0
+    # 全样本基准必须与摘要中的同期买入持有口径一致；滚动窗口仍使用
+    # 与模型决策日匹配的基准收益，避免两种基准在同一行混用。
+    full = windows['全样本']
+    full['bench'] = float(summary.get('hs300_return', full['bench']))
+    full['alpha'] = full['model'] - full['bench']
+    full['win_rate'] = float(summary.get('win_rate', full['win_rate']))
+    equity = peak = 1.0
     max_drawdown = 0.0
     for row in daily:
-        equity += float(row.get('return', 0))
+        equity *= 1 + float(row.get('return', 0)) / 100
         peak = max(peak, equity)
-        max_drawdown = min(max_drawdown, equity - peak)
+        max_drawdown = min(max_drawdown, (equity / peak - 1) * 100)
 
     if summary.get('alpha', 0) < 0:
         action = '暂停放大仓位：当前全样本跑输基准，优先做滚动样本外验证。'
@@ -333,6 +344,7 @@ def _build_adaptation_review(daily, summary):
         action += ' 近20日超额仍为负，下一轮应提高交易成本与拥挤撤退惩罚。'
     elif recent['alpha'] > 0:
         action += ' 近20日超额转正，可观察是否连续两个窗口成立。'
+    max_drawdown = float(summary.get('max_drawdown', max_drawdown))
     return {'windows': windows, 'max_drawdown': max_drawdown, 'action': action,
             'guardrail': '只有在滚动样本外超额、回撤和换手同时改善时，才自动采用新参数。'}
 
@@ -1092,7 +1104,7 @@ def gen_adaptation_review(model_data, econ_data):
     rows = ''.join(f'<tr><td>{esc(k)}</td><td class="{cls_val(v["model"])}">{fmt_pct(v["model"])}</td><td>{fmt_pct(v["bench"])}</td><td class="{cls_val(v["alpha"])}">{fmt_pct(v["alpha"])}</td><td>{v["win_rate"]:.1f}%</td></tr>' for k, v in review.get('windows', {}).items())
     return f'''<section class="report-section"><div class="sec-title">六、历史回顾与下一轮调优</div>
 <div class="card"><div class="card-title">滚动样本外回顾</div><table><thead><tr><th>窗口</th><th>模型</th><th>沪深300</th><th>Alpha</th><th>胜率</th></tr></thead><tbody>{rows}</tbody></table>
-<div class="section-note">历史最大累计回撤约 <strong>{float(review.get('max_drawdown', 0)):.2f}%</strong>。{esc(review.get('action', ''))}</div></div>
+<div class="section-note">全样本基准采用同期买入持有；滚动窗口采用决策日匹配收益。最大复合净值回撤约 <strong>{float(review.get('max_drawdown', 0)):.2f}%</strong>。{esc(review.get('action', ''))}</div></div>
 <div class="adapt-grid"><div class="adapt-box"><b>当前结论</b><p>{esc(review.get('action', '暂不调参'))}</p></div><div class="adapt-box"><b>调优护栏</b><p>{esc(review.get('guardrail', ''))}</p></div></div>
 </section>'''
 
@@ -1102,7 +1114,7 @@ def gen_model_fold(model_data, econ_data):
     skill = '有' if logit.get('has_predictive_skill') else '暂无'
     return f'''<section class="report-section"><div class="sec-title">七、模型结果（可展开）</div>
 <details class="model-fold" open><summary>模型卡片：规则模型负责组合，Logit/OLS负责诊断（点击收起）</summary>
-<div class="model-grid"><div class="model-box"><div class="card-title">规则模型 · 实际决策公式</div><p class="formula">Score = 1.5×动量 + 2×大众情绪 + 1×机构情绪 + 量比 + 均值回归 + 启动信号 − 拥挤 − 撤退风险 + 市场状态修正</p><p>价格和资金使用 T-1；外部事件必须满足真实日期≤决策日。风险预算由宽度、20日动量、波动和回撤动态决定。</p></div><div class="model-box"><div class="card-title">计量模型 · 交叉诊断</div><div class="model-number">Logit {logit.get('cv_accuracy', 0):.1f}% · OLS R² {float(ols.get('r2', 0)):.3f}</div><p>当前样本外预测力{skill}；未超过简单基准时不参与主推荐，只用于发现因子失效和方向漂移。</p></div></div>
+<div class="model-grid"><div class="model-box"><div class="card-title">规则模型 · 实际决策公式</div><p class="formula">Score = 状态化趋势/回归 + 启动/资金代理 + 新闻预期差 + 市场一致性 − 陈旧拥挤 − 撤退风险</p><p>价格和资金使用 T-1；外部事件必须满足真实日期≤决策日。风险预算由宽度、20日动量、波动和回撤决定，持仓再按逆波动率分配。</p></div><div class="model-box"><div class="card-title">计量模型 · 交叉诊断</div><div class="model-number">Logit {logit.get('cv_accuracy', 0):.1f}% · OLS R² {float(ols.get('r2', 0)):.3f}</div><p>当前样本外预测力{skill}；未超过简单基准时不参与主推荐，只用于发现因子失效和方向漂移。</p></div></div>
 <div class="model-grid"><div class="model-box"><div class="card-title">当前参数护栏</div><p>买入门槛 0.35 · 持有期 3 日 · 情绪滞后系数 -1.0 · 份额流向暂只作诊断。</p></div><div class="model-box"><div class="card-title">日间交接</div><p>当日预测先进入 pending；持有期结束、收益和成本结算后，才允许写入经验库并参与滚动 OOS 复核。</p></div></div>
 <div class="model-grid"><div class="model-box"><div class="card-title">Logit · 方向诊断</div><div class="model-number">{logit.get('cv_accuracy', 0):.1f}%</div><p>时序交叉验证准确率。接近 50% 时，不作为顶部推荐依据。</p></div><div class="model-box"><div class="card-title">OLS · 收益诊断</div><div class="model-number">R² {float(ols.get('r2', 0)):.3f}</div><p>解释力有限，主要用于观察因子方向和稳定性。</p></div></div>
 <details class="inner-fold"><summary>展开系数、因素重要性与图表</summary>{gen_section_5_features(model_data, econ_data)}</details>
@@ -1234,7 +1246,10 @@ def gen_section_4_performance(model_data, econ_data):
 <div class="metric"><div class="ml">胜率</div><div class="mv">{s["win_rate"]:.1f}%</div><div class="ms">{s["wins"]}胜 / {s["losses"]}负</div></div>
 <div class="metric"><div class="ml">盈亏比</div><div class="mv">{s["profit_loss_ratio"]:.2f}</div><div class="ms">均盈{fmt_pct(s["avg_profit"])} / 均亏{fmt_pct(s["avg_loss"])}</div></div>
 <div class="metric"><div class="ml">交易日数</div><div class="mv">{s["trading_days"]}</div></div>
-<div class="metric"><div class="ml">总交易次数</div><div class="mv">{s["experience_count"]}</div></div>'''
+<div class="metric"><div class="ml">总交易次数</div><div class="mv">{s["experience_count"]}</div></div>
+<div class="metric"><div class="ml">年化收益</div><div class="mv {cls_val(s.get("annualized_return", 0))}">{fmt_pct(s.get("annualized_return", 0))}</div></div>
+<div class="metric"><div class="ml">最大回撤</div><div class="mv {cls_val(s.get("max_drawdown", 0))}">{fmt_pct(s.get("max_drawdown", 0))}</div><div class="ms">复合净值口径</div></div>
+<div class="metric"><div class="ml">往返成本</div><div class="mv">{s.get("round_trip_cost_rate", 0) * 100:.2f}%</div><div class="ms">佣金+价差/滑点</div></div>'''
 
     # 图表
     charts = '''<div class="chart-card"><div class="card-title">累计收益率走势</div><div id="chart-cum" class="chart"></div></div>
@@ -1367,6 +1382,8 @@ def gen_overview(model_data):
         f'<div class="metric"><div class="ml">盈亏比</div><div class="mv">{s["profit_loss_ratio"]:.2f}</div><div class="ms">均盈{fmt_pct(s["avg_profit"])} / 均亏{fmt_pct(s["avg_loss"])}</div></div>',
         f'<div class="metric"><div class="ml">交易日数</div><div class="mv">{s["trading_days"]}</div><div class="ms">{s["start_date"]} ~ {s["end_date"]}</div></div>',
         f'<div class="metric"><div class="ml">经验库</div><div class="mv">{s["experience_count"]}</div><div class="ms">上限{s["experience_limit"]}条</div></div>',
+        f'<div class="metric"><div class="ml">年化收益</div><div class="mv {cls_val(s.get("annualized_return", 0))}">{fmt_pct(s.get("annualized_return", 0))}</div></div>',
+        f'<div class="metric"><div class="ml">最大回撤</div><div class="mv {cls_val(s.get("max_drawdown", 0))}">{fmt_pct(s.get("max_drawdown", 0))}</div><div class="ms">复合净值口径</div></div>',
     ]
     return f"""<div class="sec-title">概况</div>
 <div class="metrics">

@@ -19,7 +19,7 @@ import warnings
 import numpy as np
 import pandas as pd
 import statsmodels.api as sm
-from sklearn.linear_model import LassoCV, LogisticRegression, LogisticRegressionCV
+from sklearn.linear_model import Lasso, LogisticRegression
 from sklearn.preprocessing import StandardScaler
 
 # 复用规则模型中的常量与基础工具 (避免重复定义)
@@ -29,7 +29,7 @@ from etf_model_run import (
     compute_volume_ratio, analyze_newspaper_sentiment,
     compute_behavior_signals, compute_market_state, compute_news_surprise,
     compute_news_expectation_gaps,
-    compute_share_flow_signal,
+    compute_share_flow_signal, load_share_history,
     load_external_news, analyze_external_sentiment,
 )
 
@@ -446,18 +446,12 @@ def run_logit_model(df, latest_df, latest_date):
         df, 'today_direction', is_classifier=True, features=PREDICTIVE_FEATURES)
     cv_mean = float(np.mean(cv_scores)) if cv_scores else 0.0
 
-    # Lasso (L1) 变量选择: 先用 LogisticRegressionCV 选 C, 再用更小 C (更强正则) 做筛选
+    # L1仅作稀疏诊断；固定强正则，避免在同一历史样本上再次随机CV调参。
     diagnostic_X = df[FEATURES].values.astype(float)
     diagnostic_scaler = StandardScaler()
     diagnostic_Xs = diagnostic_scaler.fit_transform(diagnostic_X)
     cv_c = None
-    try:
-        l1cv = LogisticRegressionCV(Cs=10, penalty='l1', solver='liblinear', cv=5, max_iter=5000)
-        l1cv.fit(diagnostic_Xs, y)
-        cv_c = float(l1cv.C_[0])
-    except Exception:
-        cv_c = 1.0
-    sel_c = max(cv_c / 3.0, 1e-3)  # 更强正则化以剔除弱变量
+    sel_c = 0.1
     l1 = LogisticRegression(penalty='l1', solver='liblinear', C=sel_c, max_iter=5000)
     l1.fit(diagnostic_Xs, y)
     l1_coefs = l1.coef_[0]
@@ -505,7 +499,7 @@ def run_logit_model(df, latest_df, latest_date):
         'lasso_variable_selection': lasso_selection,
         'selected_features': selected_features,
         'dropped_features': dropped_features,
-        'lasso_cv_C': round(cv_c, 6),
+        'lasso_cv_C': cv_c,
         'lasso_selection_C': round(sel_c, 6),
         'predictive_features': PREDICTIVE_FEATURES,
         'predictive_C': PREDICTIVE_C,
@@ -536,15 +530,11 @@ def run_ols_model(df, latest_df, latest_date):
     ss_res = float(((y - pred) ** 2).sum())
     ss_tot = float(((y - y.mean()) ** 2).sum())
 
-    # Lasso 变量选择 + 因子重要性 (标准化 X 与 y; 用更保守的正则化做筛选)
+    # Lasso仅作稀疏诊断；固定alpha避免用随机折叠在同一时序样本上反复调参。
     scaler = StandardScaler()
     Xs = scaler.fit_transform(X)
     ys = (y - y.mean()) / (y.std() if y.std() > 0 else 1.0)
-    lasso_cv = LassoCV(cv=5, max_iter=50000, n_alphas=200)
-    lasso_cv.fit(Xs, ys)
-    # 变量筛选采用 CV 最优 alpha 的 3 倍 (更保守), 剔除弱信号变量
-    from sklearn.linear_model import Lasso
-    alpha_sel = max(lasso_cv.alpha_ * 3, 1e-4)
+    alpha_sel = 0.02
     lasso = Lasso(alpha=alpha_sel, max_iter=50000)
     lasso.fit(Xs, ys)
     lasso_coefs = lasso.coef_
@@ -600,7 +590,7 @@ def run_ols_model(df, latest_df, latest_date):
         'lasso_variable_selection': lasso_selection,
         'selected_features': selected_features,
         'dropped_features': dropped_features,
-        'lasso_cv_alpha': round(float(lasso_cv.alpha_), 6),
+        'lasso_cv_alpha': None,
         'lasso_selection_alpha': round(float(alpha_sel), 6),
         'factor_importance': factor_importance,
         'latest_predictions': latest_predictions,
@@ -628,13 +618,16 @@ def cross_validate_models(df, logit_result, rule_result):
     for d in rule.get('all_daily_summaries', []):
         rule_bought_map[d['date']] = set(d.get('etf_names', []))
 
-    logit_pred = logit_result.get('in_sample_pred_direction', [])
+    # 一致性只能使用逐日样本外预测；首个训练窗口没有OOF结果，直接跳过。
+    logit_pred = logit_result.get('oof_pred_direction', [])
     if len(logit_pred) != len(df):
         return {'status': 'Logit预测与面板行数不匹配', 'agreement_rate': None}
 
     # 逐行比较
     per_day = {}  # date -> {rule_trend, logit_up_frac, n}
     for idx, (_, row) in enumerate(df.iterrows()):
+        if logit_pred[idx] is None:
+            continue
         date = row['date']
         etf_name = row['etf_name']
         logit_up = (logit_pred[idx] == 1)
@@ -719,6 +712,16 @@ def main():
     ols_result = run_ols_model(df, latest_df, latest_date)
     cv_result = cross_validate_models(df, logit_result, rule_result)
 
+    def coverage(dates):
+        dates = sorted(d for d in dates if d)
+        return {'start': dates[0] if dates else None, 'end': dates[-1] if dates else None,
+                'n_dates': len(dates)}
+
+    margin_dates = load_margin_data().keys()
+    external_dates = [x.get('published_at', '')[:10] for x in load_external_news()]
+    share_dates = load_share_history().keys()
+    news_dates = [d for d, papers in news_data.items() if papers and any(papers.values())]
+
     # 数据集描述
     desc = {
         'n_obs': int(len(df)),
@@ -728,6 +731,14 @@ def main():
         'features': FEATURES,
         'targets': ['today_return', 'today_direction'],
         'lookahead_note': '价格特征用前一日T-1数据; 情绪特征用当日T四大报(开盘前可得); 目标为当日T日内收益',
+        'source_coverage': {
+            'prices': coverage(df['date'].unique()),
+            'newspapers': coverage(news_dates),
+            'margin': coverage(margin_dates),
+            'external_news': coverage(external_dates),
+            'etf_shares': coverage(share_dates),
+            'missing_policy': '缺失源当前按中性值0处理；评估时必须结合覆盖区间，不把缺失误解为真实中性。',
+        },
         'today_direction_balance': {
             'up': int((df['today_direction'] == 1).sum()),
             'down': int((df['today_direction'] == 0).sum()),

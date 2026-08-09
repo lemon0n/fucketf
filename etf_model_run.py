@@ -39,20 +39,29 @@ BEARISH_KEYWORDS = ['下跌', '风险', '下降', '利空', '下滑', '收紧', 
 HS300_CODE = '510300'
 INITIAL_CAPITAL = 1_000_000.0
 COMMISSION_RATE = 0.00005      # 万0.5 (买卖各一次)
+SLIPPAGE_RATE = 0.00020        # 单边2bp价差/滑点压力值
 MAX_EXPERIENCES = 200
 SCORE_FULL = 1.2               # 满仓评分阈值，必须高于买入阈值
 
 def _date_shift(date_str, days):
     return (datetime.strptime(date_str, '%Y-%m-%d').date() + timedelta(days=days)).isoformat()
 
-# ====== Walk-Forward 优化参数 (胜率 53% → 70.5%) ======
+# ====== 冻结的规则参数；表现以当前完整样本和样本外结果为准 ======
 SENTIMENT_LAG_COEF = -1.0      # 情绪信号方向反转 (机构看多为反向指标)
-WEIGHT_SENTIMENT = 1           # 情绪权重 3→1
-WEIGHT_MOMENTUM = 1.5          # 动量权重 1→1.5
-WEIGHT_RETAIL = 2.0            # 大众情绪权重 (新增)
 BUY_THRESHOLD = 0.35           # 新评分已归一化到约[-2,2]
 HOLDING_PERIOD = 3             # 持仓天数 1→3
 MOMENTUM_WINDOW = 10           # 动量窗口 5→10
+
+
+def holding_end_index(start_index, trading_day_count, holding_period=HOLDING_PERIOD):
+    """只有完整持有期已经结束时才返回结算索引。"""
+    end_index = start_index + holding_period - 1
+    return end_index if end_index < trading_day_count else None
+
+
+def risk_adjusted_score(item):
+    """用8%波动率下限做简单逆波动调整，避免高波动ETF仅凭分数占据过多风险。"""
+    return max(0.01, item['total_score']) / max(8.0, item.get('volatility', 8.0))
 
 
 # ----------------------------- 基础工具 -----------------------------
@@ -502,11 +511,8 @@ def make_decision(date, prev_date, etf_data, newspapers, experiences):
     关键: 使用【前一日 prev_date】板块表现(动量/量比/均值回归) + 【当日 date】四大报(情绪)
           + 【T-1日】融资融券(大众情绪) => 不偷看当日收盘，规避 look-ahead bias
     
-    优化参数 (胜率 53% → 70.5%):
-      - 情绪信号方向反转 (机构看多为反向指标, 系数=-1.0)
-      - 权重: 情绪1x + 动量1.5x + 大众情绪2.0x + 量比1x + 均值回归1x + 经验1x
-      - 买入门槛: 1.0 (过滤噪音交易)
-      - 动量窗口: 10日
+    当前规则使用市场状态动态切换趋势/均值回归权重，并叠加启动、拥挤、撤退、
+    新闻预期差和大众情绪；买入门槛0.35，默认完整持有3个交易日。
     """
     sentiment = analyze_newspaper_sentiment(newspapers.get(date))
     external_sentiment = analyze_external_sentiment(load_external_news(), date)
@@ -649,16 +655,16 @@ def make_decision(date, prev_date, etf_data, newspapers, experiences):
         if anchor:
             anchor_weight = round(position_scale * 0.35, 4)
             other = [e for e in chosen if e is not anchor]
-            total_pos = sum(max(0.01, e['total_score']) for e in other)
+            total_pos = sum(risk_adjusted_score(e) for e in other)
             anchor['weight'] = anchor_weight
             selection.append(anchor)
             for e in other:
-                e['weight'] = round((position_scale - anchor_weight) * max(0.01, e['total_score']) / total_pos, 4)
+                e['weight'] = round((position_scale - anchor_weight) * risk_adjusted_score(e) / total_pos, 4)
                 selection.append(e)
         else:
-            total_pos = sum(e['total_score'] for e in chosen)
+            total_pos = sum(risk_adjusted_score(e) for e in chosen)
             for e in chosen:
-                e['weight'] = round(e['total_score'] / total_pos * position_scale, 4) if total_pos > 0 else 0.0
+                e['weight'] = round(risk_adjusted_score(e) / total_pos * position_scale, 4) if total_pos > 0 else 0.0
                 selection.append(e)
     decision = 'buy' if selection else 'hold'
 
@@ -716,8 +722,10 @@ def run_model():
         day_return = 0.0
         chosen_names = []
         if decision['selection']:
-            # 计算持仓期末日期 (T + HOLDING_PERIOD - 1)
-            hold_end_idx = min(i + HOLDING_PERIOD - 1, len(trading_days) - 1)
+            # 样本末尾不足完整持有期时不提前结算，也不写入胜率或经验库。
+            hold_end_idx = holding_end_index(i, len(trading_days))
+            if hold_end_idx is None:
+                break
             hold_end_date = trading_days[hold_end_idx]
 
             for sel in decision['selection']:
@@ -725,7 +733,7 @@ def run_model():
                 rec_close = find_record(etf_data, sel['code'], hold_end_date)
                 if rec_open and rec_open['open'] and rec_close and rec_close['close']:
                     holding_return = (rec_close['close'] - rec_open['open']) / rec_open['open']
-                    net = holding_return - 2 * COMMISSION_RATE   # 买卖各一次佣金
+                    net = holding_return - 2 * (COMMISSION_RATE + SLIPPAGE_RATE)
                     day_return += sel['weight'] * net
                     sel['intraday_return_pct'] = round(holding_return * 100, 4)
                 chosen_names.append(sel['name'])
@@ -766,7 +774,7 @@ def run_model():
                 holding_return = (rec_close['close'] - rec_open['open']) / rec_open['open']
             else:
                 holding_return = 0.0
-            net = holding_return - 2 * COMMISSION_RATE
+            net = holding_return - 2 * (COMMISSION_RATE + SLIPPAGE_RATE)
             experiences.append({
                 'date': date, 'etf_code': top['code'], 'etf_name': top['name'],
                 'sector': top['sector'], 'trend': decision['trend'],
@@ -813,6 +821,19 @@ def run_model():
     hs300_cum = round((hs300_capital / INITIAL_CAPITAL - 1) * 100, 2)
     alpha_cum = round(cum_return - hs300_cum, 2)
     win_rate = round(wins / total_trades * 100, 2) if total_trades else 0.0
+    equity = peak = INITIAL_CAPITAL
+    max_drawdown = 0.0
+    for row in all_daily:
+        equity *= 1 + row['return'] / 100
+        peak = max(peak, equity)
+        max_drawdown = min(max_drawdown, equity / peak - 1)
+    if all_daily:
+        start = datetime.strptime(all_daily[0]['date'], '%Y-%m-%d')
+        end = datetime.strptime(all_daily[-1]['date'], '%Y-%m-%d')
+        years = max((end - start).days / 365.25, 1 / 365.25)
+        annualized_return = (capital / INITIAL_CAPITAL) ** (1 / years) - 1
+    else:
+        annualized_return = 0.0
     avg_win = round(total_profit / wins, 4) if wins > 0 else 0.0
     avg_loss = round(total_loss / losses, 4) if losses > 0 else 0.0
     if total_loss > 0:
@@ -839,6 +860,8 @@ def run_model():
         'decision_calendar_hs300_return': hs300_cum,
         'alpha': round(cum_return - hs300_buy_hold, 2),
         'win_rate': win_rate,
+        'annualized_return': round(annualized_return * 100, 2),
+        'max_drawdown': round(max_drawdown * 100, 2),
         'profit_loss_ratio': profit_loss_ratio,
         'trading_days': len(all_daily),
         'total_trades': total_trades,
@@ -847,6 +870,8 @@ def run_model():
         'final_capital': round(capital, 2),
         'initial_capital': INITIAL_CAPITAL,
         'commission_rate': COMMISSION_RATE,
+        'slippage_rate': SLIPPAGE_RATE,
+        'round_trip_cost_rate': round(2 * (COMMISSION_RATE + SLIPPAGE_RATE), 6),
         'wins': wins,
         'losses': losses,
         'avg_profit': avg_win,

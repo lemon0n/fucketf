@@ -78,11 +78,12 @@ def git_push():
     for cmd in cmds:
         ret = subprocess.run(cmd, cwd=SCRIPT_DIR, capture_output=True, text=True, timeout=60)
         if ret.returncode != 0:
-            # git commit 可能因无变更而失败，这是正常的
+            # 无新变更时仍继续 push，补推之前可能滞留的本地提交。
             if cmd[1] == 'commit' and 'nothing to commit' in ret.stdout:
                 log('  无变更需要提交')
-                return True
+                continue
             log(f'  [WARN] {" ".join(cmd)}: {ret.stderr.strip()[:200]}')
+            return False
         else:
             log(f'  ✓ {" ".join(cmd[:2])}')
     log('  推送完成')
@@ -162,7 +163,8 @@ def main():
         log('=== Step 7: 模拟运行，跳过 Git 提交与推送 ===')
     else:
         log('=== Step 7: Git提交推送 ===')
-        git_push()
+        if not git_push():
+            raise SystemExit('Git提交或推送失败；看板已生成，下次运行会继续补推')
 
     elapsed = (datetime.now() - start).total_seconds()
     log(f'流水线完成, 耗时 {elapsed:.0f} 秒')
