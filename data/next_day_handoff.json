@@ -3,7 +3,7 @@
   "decision_date": "2026-08-07",
   "next_trading_date": "2026-08-10",
   "settlement_date": "2026-08-11",
-  "calendar_quality": "weekday_fallback",
+  "calendar_quality": "exchange_calendar",
   "cutoff_policy": "价格/成交截至前一交易日；外部事件必须有原文或URL日期且published_at<=decision_date；未结算预测不得进入经验库。",
   "market_state": {
     "name": "stress",

@@ -458,16 +458,21 @@ def normalize_econ_data(raw, model_data):
 
     logit_preds = []
     for p in lm.get('latest_predictions', []):
-        prob_pct = p.get('prob_up', 0) * 100
+        prob_pct = p.get('prob_alpha_positive', p.get('prob_up', 0)) * 100
+        action_map = {
+            'buy_candidate': 'Shadow候选', 'avoid': 'Shadow回避',
+            'abstain': 'Shadow观望', 'diagnostic_only': '仅诊断',
+        }
         logit_preds.append({
-            # etf_code -> code, etf_name -> etf/name, prob_up(小数) -> prob(百分比数值)
+            # prob语义为完整持有期成本后净Alpha为正的概率。
             'code': p.get('etf_code', ''),
             'name': p.get('etf_name', ''),
             'etf': p.get('etf_name', ''),
             'sector': p.get('sector', ''),
             'prob': round(prob_pct, 1),
-            'direction': '涨' if p.get('predicted_direction') == 'up' else '跌',
+            'direction': '正Alpha' if p.get('predicted_direction') == 'up' else '非正Alpha',
             'confidence': f'{abs(prob_pct - 50) * 2:.0f}%',
+            'action': action_map.get(p.get('production_action'), '仅诊断'),
         })
 
     e['logit'] = {
@@ -475,9 +480,17 @@ def normalize_econ_data(raw, model_data):
         'pseudo_r2': lm.get('pseudo_r2') if lm.get('pseudo_r2') is not None else 'N/A（正则化模型）',
         'accuracy': lm.get('accuracy', 0) * 100,
         'cv_accuracy': tscv.get('mean_cv_accuracy', 0) * 100,
+        'baseline_accuracy': lm.get('baseline_accuracy', 0) * 100,
         'in_sample_accuracy': lm.get('in_sample_accuracy', 0) * 100,
         'accuracy_note': lm.get('accuracy_note', ''),
+        'accuracy_ci_95': lm.get('accuracy_ci_95', [None, None]),
+        'brier_score': lm.get('brier_score'),
+        'baseline_brier_score': lm.get('baseline_brier_score'),
         'has_predictive_skill': lm.get('has_predictive_skill', False),
+        'production_eligible': lm.get('production_eligible', False),
+        'eligibility_checks': lm.get('eligibility_checks', {}),
+        'selective': lm.get('selective_evaluation', {}),
+        'target': lm.get('target', ''),
         'cv_auc': 'N/A',
         'lasso_features': lm.get('selected_features', []),
         'lasso_note': f"C={lm.get('lasso_selection_C', 'N/A')}",
@@ -515,7 +528,7 @@ def normalize_econ_data(raw, model_data):
     for p in om.get('latest_predictions', []):
         ols_preds.append({
             'etf': p.get('etf_name', ''), 'sector': p.get('sector', ''),
-            'predicted_return': p.get('predicted_return_pct', 0),
+            'predicted_return': p.get('predicted_net_alpha_pct', p.get('predicted_return_pct', 0)),
         })
 
     e['ols'] = {
@@ -524,6 +537,9 @@ def normalize_econ_data(raw, model_data):
         'adj_r2': om.get('adj_r_squared', 0),
         'f_stat': om.get('f_statistic', 0),
         'f_p': om.get('f_pvalue', 0),
+        'cv_r2': om.get('time_series_cv_r2', {}).get('mean_cv_r2', 0),
+        'target': om.get('target', ''),
+        'covariance': om.get('covariance', ''),
         'lasso_alpha': om.get('lasso_selection_alpha', 'N/A'),
         'lasso_features': om.get('selected_features', []),
         'lasso_removed': om.get('dropped_features', []),
@@ -557,10 +573,10 @@ def normalize_econ_data(raw, model_data):
     for p in lm.get('latest_predictions', []):
         etf_name = p.get('etf_name', '')
         etf_code = p.get('etf_code', '')
-        prob = p.get('prob_up', 0) * 100
-        direction = '涨' if p.get('predicted_direction') == 'up' else '跌'
+        prob = p.get('prob_alpha_positive', p.get('prob_up', 0)) * 100
+        direction = '正Alpha' if p.get('predicted_direction') == 'up' else '非正Alpha'
         rule_rec = etf_code in rule_codes or etf_name in rule_names
-        consistent = (direction == '涨' and rule_rec) or (direction == '跌' and not rule_rec)
+        consistent = (direction == '正Alpha' and rule_rec) or (direction == '非正Alpha' and not rule_rec)
         consistency.append({
             'etf': etf_name,
             'logit_prob': f'{prob:.1f}',
@@ -1111,12 +1127,30 @@ def gen_adaptation_review(model_data, econ_data):
 
 def gen_model_fold(model_data, econ_data):
     logit, ols = econ_data['logit'], econ_data['ols']
-    skill = '有' if logit.get('has_predictive_skill') else '暂无'
+    selective = logit.get('selective', {})
+    eligible = bool(logit.get('production_eligible'))
+    status = '通过生产护栏' if eligible else 'Shadow观察'
+    skill = '通过' if logit.get('has_predictive_skill') else '未通过'
+    brier = logit.get('brier_score')
+    base_brier = logit.get('baseline_brier_score')
+    brier_text = (f'{float(brier):.4f} vs 基准 {float(base_brier):.4f}'
+                  if brier is not None and base_brier is not None else '暂无')
+    trades = int(selective.get('trade_count', selective.get('selected_dates', 0)) or 0)
+    oof_dates = int(selective.get('oof_trade_dates', selective.get('oof_dates', 0)) or 0)
+    coverage = float(selective.get('trade_date_coverage', selective.get('date_coverage', 0)) or 0)
+    win_rate = selective.get('portfolio_win_rate', selective.get('win_rate'))
+    win_text = f'{float(win_rate) * 100:.1f}%' if win_rate is not None else '暂无'
+    ci = selective.get('portfolio_win_rate_ci_95', selective.get('win_rate_ci_95', [None, None]))
+    ci_text = (f'{float(ci[0]) * 100:.1f}%–{float(ci[1]) * 100:.1f}%'
+               if len(ci) == 2 and ci[0] is not None and ci[1] is not None else '暂无')
+    mean_alpha = selective.get('mean_portfolio_net_alpha', selective.get('mean_net_alpha'))
+    alpha_text = f'{float(mean_alpha):+.2f}%' if mean_alpha is not None else '暂无'
     return f'''<section class="report-section"><div class="sec-title">七、模型结果（可展开）</div>
 <details class="model-fold" open><summary>模型卡片：规则模型负责组合，Logit/OLS负责诊断（点击收起）</summary>
-<div class="model-grid"><div class="model-box"><div class="card-title">规则模型 · 实际决策公式</div><p class="formula">Score = 状态化趋势/回归 + 启动/资金代理 + 新闻预期差 + 市场一致性 − 陈旧拥挤 − 撤退风险</p><p>价格和资金使用 T-1；外部事件必须满足真实日期≤决策日。风险预算由宽度、20日动量、波动和回撤决定，持仓再按逆波动率分配。</p></div><div class="model-box"><div class="card-title">计量模型 · 交叉诊断</div><div class="model-number">Logit {logit.get('cv_accuracy', 0):.1f}% · OLS R² {float(ols.get('r2', 0)):.3f}</div><p>当前样本外预测力{skill}；未超过简单基准时不参与主推荐，只用于发现因子失效和方向漂移。</p></div></div>
+<div class="model-grid"><div class="model-box"><div class="card-title">规则模型 · 实际决策公式</div><p class="formula">Score = 状态化趋势/回归 + 启动/资金代理 + 新闻预期差 + 市场一致性 − 陈旧拥挤 − 撤退风险</p><p>价格和资金使用 T-1；外部事件必须满足真实日期≤决策日。风险预算由宽度、20日动量、波动和回撤决定，持仓再按逆波动率分配。</p></div><div class="model-box"><div class="card-title">路径 A · 三日净Alpha模型</div><div class="model-number">{status}</div><p>目标为ETF从 T 开盘持有至 T+2 收盘，相对沪深300并扣除0.05%往返成本。样本外能力检验{skill}；未过护栏时不参与主推荐。</p></div></div>
 <div class="model-grid"><div class="model-box"><div class="card-title">当前参数护栏</div><p>买入门槛 0.35 · 持有期 3 日 · 情绪滞后系数 -1.0 · 份额流向暂只作诊断。</p></div><div class="model-box"><div class="card-title">日间交接</div><p>当日预测先进入 pending；持有期结束、收益和成本结算后，才允许写入经验库并参与滚动 OOS 复核。</p></div></div>
-<div class="model-grid"><div class="model-box"><div class="card-title">Logit · 方向诊断</div><div class="model-number">{logit.get('cv_accuracy', 0):.1f}%</div><p>时序交叉验证准确率。接近 50% 时，不作为顶部推荐依据。</p></div><div class="model-box"><div class="card-title">OLS · 收益诊断</div><div class="model-number">R² {float(ols.get('r2', 0)):.3f}</div><p>解释力有限，主要用于观察因子方向和稳定性。</p></div></div>
+<div class="model-grid"><div class="model-box"><div class="card-title">Logit · Purged Walk-Forward</div><div class="model-number">OOF {logit.get('cv_accuracy', 0):.1f}% · 基准 {logit.get('baseline_accuracy', 0):.1f}%</div><p>Brier（越低越好）：{brier_text}。训练与验证之间隔离2个交易日，并只用过去的OOF结果校准概率。</p></div><div class="model-box"><div class="card-title">高置信组合 · P(净Alpha&gt;0) ≥ 60%</div><div class="model-number">{win_text} · {trades}笔</div><p>只统计最多3只、持有期不重叠的组合交易；95%区间 {ci_text}，平均净Alpha {alpha_text}，覆盖 {trades}/{oof_dates} 个OOF日期（{coverage:.1%}）。</p></div></div>
+<div class="model-grid"><div class="model-box"><div class="card-title">概率模型状态</div><div class="model-number">{status}</div><p>准确率需领先基准至少2个百分点、Brier优于基准、至少40个不重叠结算日，且4折中至少3折平均净Alpha为正。</p></div><div class="model-box"><div class="card-title">OLS · 净Alpha诊断</div><div class="model-number">OOS R² {float(ols.get('cv_r2', 0)):.3f}</div><p>标准误按决策日聚类；线性模型只用于观察因子方向和稳定性，不负责顶部推荐。</p></div></div>
 <details class="inner-fold"><summary>展开系数、因素重要性与图表</summary>{gen_section_5_features(model_data, econ_data)}</details>
 </details></section>'''
 
@@ -1309,7 +1343,7 @@ def gen_section_5_features(model_data, econ_data):
         logit_rows += f'<tr><td>{esc(var)}</td><td class="{cls_val(c["coef"])}">{fmt_coef(c["coef"])}</td><td>{fmt_num(c["p"])}</td><td><b>{esc(sig)}</b></td></tr>\n'
 
     logit_table = f'''<div class="card">
-  <div class="card-title">正则化 Logit 系数（样本外准确率={logit["accuracy"]}%）</div>
+  <div class="card-title">净Alpha正则化 Logit 系数（样本外准确率={logit["accuracy"]}%）</div>
   <table>
     <thead><tr><th>特征</th><th>系数</th><th>p值</th><th>显著性</th></tr></thead>
     <tbody>

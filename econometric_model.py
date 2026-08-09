@@ -3,11 +3,12 @@
 """
 ETF计量模型 — 在规则模型基础上构建面板数据，运行 Logit / OLS / Lasso 回归
 
-面板结构: 每行 = 一个 (ETF, 交易日) 观测
+面板结构: 每行 = 一个 (ETF, 决策日) 观测
 规避 look-ahead bias:
   * 价格类特征统一使用【前一日 T-1】数据 (prev_change_pct / prev_volume_ratio / prev_intraday_return)
   * 情绪类特征使用【当日 T】四大报 (晨报在开盘前可得，不构成偷看)
-  * 目标 today_return / today_direction 为【当日 T】日内收益(开盘->收盘)
+  * 外部事件在缺少精确时刻时仅使用【T-1及更早】信息
+  * 目标 target_return / target_direction 为【T开盘->T+2收盘】相对沪深300、扣成本净Alpha
   => 所有特征在 T 开盘前均已知
 
 输出: data/econometric_results.json
@@ -25,6 +26,7 @@ from sklearn.preprocessing import StandardScaler
 # 复用规则模型中的常量与基础工具 (避免重复定义)
 from etf_model_run import (
     SECTOR_ETF_MAP, HS300_CODE, ETF_HISTORY_PATH, NEWSPAPERS_PATH,
+    HOLDING_PERIOD, COMMISSION_RATE, SLIPPAGE_RATE,
     load_json, get_trading_days, find_record, get_index, get_prev_date,
     compute_volume_ratio, analyze_newspaper_sentiment,
     compute_behavior_signals, compute_market_state, compute_news_surprise,
@@ -41,10 +43,8 @@ MARGIN_PATH = os.path.join(os.path.dirname(ETF_HISTORY_PATH), 'margin_trading.js
 
 # 特征列 (全部为 T 开盘前可知)
 # 2026-07-27 新增 hs300_mom_5d / vol_10d (统计显著, p<0.01)
-# 2026-07-27 新增 retail_sentiment / rzjme_yi / sentiment_divergence (大众视角情绪)
-#   - retail_sentiment: 融资融券综合大众情绪分 [-1,1], 与当日收益相关性 r=+0.48
-#   - rzjme_yi: 融资净买入额(亿元), 散户杠杆资金净流向
-#   - sentiment_divergence: 机构-大众情绪分歧度, 分歧时预测力最强(80%胜率)
+# retail_sentiment / rzjme_yi / sentiment_divergence 提供大众情绪诊断；
+# 不沿用小样本相关率或胜率结论，是否有效只看严格时间样本外结果。
 FEATURES = [
     'sentiment_score', 'bullish_count', 'bearish_count',
     'prev_change_pct', 'prev_volume_ratio', 'prev_intraday_return',
@@ -64,6 +64,10 @@ PREDICTIVE_FEATURES = [
     'external_signal', 'news_price_gap', 'news_flow_gap', 'share_flow_signal',
 ]
 PREDICTIVE_C = 0.3
+PURGE_DAYS = HOLDING_PERIOD - 1
+HIGH_CONFIDENCE_THRESHOLD = 0.60
+LOW_CONFIDENCE_THRESHOLD = 0.40
+MIN_SELECTIVE_OBS = 40
 
 
 # ----------------------------- 工具 -----------------------------
@@ -102,6 +106,17 @@ def add_const(X):
     if X.ndim == 1:
         X = X.reshape(-1, 1)
     return np.column_stack([np.ones(X.shape[0]), X])
+
+
+def compute_net_alpha_target(etf_entry_open, etf_exit_close,
+                             benchmark_entry_open, benchmark_exit_close,
+                             round_trip_cost_rate=None):
+    """ETF相对沪深300的完整持有期净Alpha（百分点）。"""
+    if round_trip_cost_rate is None:
+        round_trip_cost_rate = 2 * (COMMISSION_RATE + SLIPPAGE_RATE)
+    etf_return = etf_exit_close / etf_entry_open - 1
+    benchmark_return = benchmark_exit_close / benchmark_entry_open - 1
+    return (etf_return - benchmark_return - round_trip_cost_rate) * 100
 
 
 def compute_hs300_mom_5d(etf_data, date):
@@ -215,14 +230,17 @@ def compute_sentiment_divergence(inst_score, retail_score):
 def build_dataset(etf_data, news_data):
     """
     构建面板数据: 每行一个 ETF-日期观测。
-    特征用前一日数据(价格类) + 当日四大报(情绪类) + 前一日融资融券(大众情绪), 目标为当日日内收益。
+    特征用前一日数据(价格类) + 当日四大报(情绪类) + 前一日融资融券(大众情绪)。
+    目标与正式交易一致：T开盘至T+2收盘的ETF收益，减同期沪深300收益和往返成本。
     """
     trading_days = get_trading_days(etf_data)
+    round_trip_cost_pct = 2 * (COMMISSION_RATE + SLIPPAGE_RATE) * 100
     rows = []
-    for i in range(2, len(trading_days)):  # 需要 T-1 与 T-2
+    for i in range(2, len(trading_days) - HOLDING_PERIOD + 1):
         T = trading_days[i]
         Tm1 = trading_days[i - 1]
         Tm2 = trading_days[i - 2]
+        target_end = trading_days[i + HOLDING_PERIOD - 1]
 
         # 当日四大报情绪 (开盘前可得) — 机构视角
         news_T = news_data.get(T, {})
@@ -234,24 +252,36 @@ def build_dataset(etf_data, news_data):
         # 市场状态信号 (T-1可知, 全局共享)
         hs300_mom_5d = compute_hs300_mom_5d(etf_data, Tm1)
         market_state = compute_market_state(etf_data, Tm1)
-        external_sent = analyze_external_sentiment(load_external_news(), T)
+        # 外部事件多数没有开盘前可见时刻；保守地仅使用T-1及更早信息。
+        external_sent = analyze_external_sentiment(load_external_news(), Tm1)
 
         # 大众情绪 (T-1融资融券数据, T开盘前可得) — 大众视角
         retail_sent, rzjme_yi = compute_retail_sentiment(Tm1)
         sentiment_div = compute_sentiment_divergence(sent['score'], retail_sent)
 
         for code, info in SECTOR_ETF_MAP.items():
+            if code == HS300_CODE:
+                continue  # 基准自身的相对Alpha恒等于负交易成本，没有可学习标签。
             rec_T = find_record(etf_data, code, T)
+            rec_end = find_record(etf_data, code, target_end)
             rec_Tm1 = find_record(etf_data, code, Tm1)
             rec_Tm2 = find_record(etf_data, code, Tm2)
-            if not (rec_T and rec_Tm1 and rec_Tm2):
+            bench_T = find_record(etf_data, HS300_CODE, T)
+            bench_end = find_record(etf_data, HS300_CODE, target_end)
+            if not (rec_T and rec_end and rec_Tm1 and rec_Tm2 and bench_T and bench_end):
                 continue
-            if not (rec_T['open'] and rec_Tm1['open'] and rec_Tm2['close']):
+            if not (rec_T['open'] and rec_end['close'] and rec_Tm1['open'] and rec_Tm2['close']
+                    and bench_T['open'] and bench_end['close']):
                 continue
 
-            # 目标: 当日日内收益(开盘->收盘)
+            # 旧当日日内目标仅保留作数据诊断；正式模型使用三日成本后净Alpha。
             today_return = (rec_T['close'] - rec_T['open']) / rec_T['open'] * 100
             today_direction = 1 if today_return > 0 else 0
+            holding_return = (rec_end['close'] - rec_T['open']) / rec_T['open'] * 100
+            benchmark_return = (bench_end['close'] - bench_T['open']) / bench_T['open'] * 100
+            target_return = compute_net_alpha_target(
+                rec_T['open'], rec_end['close'], bench_T['open'], bench_end['close'])
+            target_direction = 1 if target_return > 0 else 0
 
             # 前一日价格特征
             prev_change_pct = (rec_Tm1['close'] - rec_Tm2['close']) / rec_Tm2['close'] * 100
@@ -296,6 +326,12 @@ def build_dataset(etf_data, news_data):
                 'news_price_gap': expectation_gap['news_price_gap'],
                 'news_flow_gap': expectation_gap['news_flow_gap'],
                 'share_flow_signal': share_flow_signal,
+                'target_end_date': target_end,
+                'holding_return': round(holding_return, 4),
+                'benchmark_return': round(benchmark_return, 4),
+                'round_trip_cost': round(round_trip_cost_pct, 4),
+                'target_return': round(target_return, 4),
+                'target_direction': int(target_direction),
                 'today_return': round(today_return, 4),
                 'today_direction': int(today_direction),
             })
@@ -305,7 +341,7 @@ def build_dataset(etf_data, news_data):
 
 
 def build_latest_features(etf_data, news_data):
-    """构建最新一日(最新四大报日)11个ETF的特征行, 用于 latest_predictions"""
+    """构建最新决策日的非基准ETF特征行，用于未来3日净Alpha诊断。"""
     trading_days = get_trading_days(etf_data)
     latest_news_date = max(news_data.keys()) if news_data else trading_days[-1]
     latest_etf_date = trading_days[-1]
@@ -327,7 +363,8 @@ def build_latest_features(etf_data, news_data):
     # 市场状态信号 (T-1可知)
     hs300_mom_5d = compute_hs300_mom_5d(etf_data, Tm1) if Tm1 else 0.0
     market_state = compute_market_state(etf_data, Tm1) if Tm1 else {'breadth': 0.5}
-    external_sent = analyze_external_sentiment(load_external_news(), T)
+    external_sent = analyze_external_sentiment(load_external_news(), Tm1) if Tm1 else {
+        'score': 0.0, 'sector_scores': {}, 'count': 0}
 
     # 大众情绪 (T-1融资融券数据, T开盘前可得)
     retail_sent, rzjme_yi = compute_retail_sentiment(Tm1) if Tm1 else (0.0, 0.0)
@@ -335,6 +372,8 @@ def build_latest_features(etf_data, news_data):
 
     rows = []
     for code, info in SECTOR_ETF_MAP.items():
+        if code == HS300_CODE:
+            continue
         rec_Tm1 = find_record(etf_data, code, Tm1)
         rec_Tm2 = find_record(etf_data, code, Tm2) if Tm2 else None
         if not (rec_Tm1 and rec_Tm2):
@@ -384,21 +423,156 @@ def build_latest_features(etf_data, news_data):
 
 
 # ----------------------------- 时序交叉验证 -----------------------------
-def time_series_cv(df, target, is_classifier=True, features=None):
-    """5折时序交叉验证 (expanding window), 返回各折准确率/R² 与样本外预测"""
-    features = features or FEATURES
+def purged_walk_forward_splits(df, k=5, purge_days=PURGE_DAYS):
+    """按决策日展开训练窗口，并在训练/验证之间清除重叠标签。"""
     dates = sorted(df['date'].unique())
-    n = len(dates)
-    k = 5
-    fold_size = max(1, n // k)
+    fold_size = max(1, len(dates) // k)
+    for fold in range(1, k):
+        test_start = fold * fold_size
+        test_end = (fold + 1) * fold_size if fold < k - 1 else len(dates)
+        train_end = max(0, test_start - purge_days)
+        train_dates = dates[:train_end]
+        test_dates = dates[test_start:test_end]
+        if train_dates and test_dates:
+            yield fold, train_dates, test_dates
+
+
+def _fit_platt_calibrator(probabilities, targets):
+    """只用已经发生的OOF结果拟合一维Platt校准；样本不足时保持原概率。"""
+    probabilities = np.asarray(probabilities, dtype=float)
+    targets = np.asarray(targets, dtype=int)
+    if len(probabilities) < MIN_SELECTIVE_OBS or len(np.unique(targets)) < 2:
+        return None
+    p = np.clip(probabilities, 1e-6, 1 - 1e-6)
+    logits = np.log(p / (1 - p)).reshape(-1, 1)
+    calibrator = LogisticRegression(C=1.0, max_iter=2000)
+    calibrator.fit(logits, targets)
+    return calibrator
+
+
+def _apply_calibrator(calibrator, probabilities):
+    probabilities = np.asarray(probabilities, dtype=float)
+    if calibrator is None:
+        return probabilities
+    p = np.clip(probabilities, 1e-6, 1 - 1e-6)
+    logits = np.log(p / (1 - p)).reshape(-1, 1)
+    return calibrator.predict_proba(logits)[:, 1]
+
+
+def wilson_interval(wins, total, z=1.96):
+    """二项比例Wilson 95%区间，避免小样本显示虚假精确度。"""
+    if total <= 0:
+        return [None, None]
+    p = wins / total
+    denominator = 1 + z * z / total
+    centre = (p + z * z / (2 * total)) / denominator
+    margin = z * np.sqrt((p * (1 - p) + z * z / (4 * total)) / total) / denominator
+    return [round(float(max(0, centre - margin)), 6), round(float(min(1, centre + margin)), 6)]
+
+
+def simulate_selective_portfolio(frame, probabilities,
+                                 threshold=HIGH_CONFIDENCE_THRESHOLD, top_k=3):
+    """高置信日最多选3只，并锁定完整持有期，避免把重叠标签冒充独立交易。"""
+    probabilities = np.asarray(probabilities, dtype=float)
+    dates = sorted(frame['date'].unique())
+    selected = np.zeros(len(frame), dtype=bool)
+    trade_dates, portfolio_returns = [], []
+    locked_until = -1
+    frame_dates = frame['date'].to_numpy()
+    returns = frame['target_return'].to_numpy(dtype=float)
+    for date_index, decision_date in enumerate(dates):
+        if date_index <= locked_until:
+            continue
+        positions = np.flatnonzero(frame_dates == decision_date)
+        candidates = positions[probabilities[positions] >= threshold]
+        if not len(candidates):
+            continue
+        picks = candidates[np.argsort(probabilities[candidates])[-top_k:]]
+        selected[picks] = True
+        trade_dates.append(decision_date)
+        portfolio_returns.append(float(returns[picks].mean()))
+        locked_until = date_index + HOLDING_PERIOD - 1
+    return {
+        'selected_mask': selected,
+        'trade_dates': trade_dates,
+        'portfolio_returns': np.asarray(portfolio_returns, dtype=float),
+    }
+
+
+def purged_logit_oof(df, features=PREDICTIVE_FEATURES):
+    """严格前向Logit：日期分组、2日purge、仅用过去OOF结果做概率校准。"""
+    oof_raw = np.full(len(df), np.nan)
+    oof_prob = np.full(len(df), np.nan)
+    baseline_prob = np.full(len(df), np.nan)
+    fold_ids = np.full(len(df), np.nan)
+    fold_metrics = []
+    calibration_prob, calibration_y = [], []
+
+    for fold, train_dates, test_dates in purged_walk_forward_splits(df):
+        tr = df['date'].isin(train_dates)
+        te = df['date'].isin(test_dates)
+        Xtr = df.loc[tr, features].values.astype(float)
+        ytr = df.loc[tr, 'target_direction'].values.astype(int)
+        Xte = df.loc[te, features].values.astype(float)
+        yte = df.loc[te, 'target_direction'].values.astype(int)
+        scaler = StandardScaler()
+        model = LogisticRegression(C=PREDICTIVE_C, max_iter=5000)
+        model.fit(scaler.fit_transform(Xtr), ytr)
+        raw = model.predict_proba(scaler.transform(Xte))[:, 1]
+        calibrator = _fit_platt_calibrator(calibration_prob, calibration_y)
+        prob = _apply_calibrator(calibrator, raw)
+        base = float(ytr.mean())
+        positions = np.flatnonzero(te.to_numpy())
+        oof_raw[positions] = raw
+        oof_prob[positions] = prob
+        baseline_prob[positions] = base
+        fold_ids[positions] = fold
+
+        test_frame = df.loc[te]
+        simulation = simulate_selective_portfolio(test_frame, prob)
+        selected = simulation['selected_mask']
+        selected_returns = test_frame['target_return'].to_numpy()[selected]
+        portfolio_returns = simulation['portfolio_returns']
+        fold_metrics.append({
+            'fold': fold,
+            'train_start': train_dates[0], 'train_end': train_dates[-1],
+            'test_start': test_dates[0], 'test_end': test_dates[-1],
+            'purge_days': PURGE_DAYS,
+            'n_test_dates': len(test_dates), 'n_test_obs': int(len(yte)),
+            'accuracy': round(float(((prob >= 0.5) == yte).mean()), 6),
+            'baseline_accuracy': round(float(((base >= 0.5) == yte).mean()), 6),
+            'brier': round(float(np.mean((prob - yte) ** 2)), 6),
+            'baseline_brier': round(float(np.mean((base - yte) ** 2)), 6),
+            'selected_count': int(selected.sum()),
+            'selected_trade_dates': len(simulation['trade_dates']),
+            'opportunity_precision': (round(float((selected_returns > 0).mean()), 6)
+                                      if len(selected_returns) else None),
+            'portfolio_win_rate': (round(float((portfolio_returns > 0).mean()), 6)
+                                   if len(portfolio_returns) else None),
+            'portfolio_mean_net_alpha': (round(float(portfolio_returns.mean()), 6)
+                                         if len(portfolio_returns) else None),
+        })
+        calibration_prob.extend(raw.tolist())
+        calibration_y.extend(yte.tolist())
+
+    final_calibrator = _fit_platt_calibrator(oof_raw[~np.isnan(oof_raw)],
+                                              df.loc[~np.isnan(oof_raw), 'target_direction'])
+    return {
+        'raw_probability': oof_raw,
+        'probability': oof_prob,
+        'baseline_probability': baseline_prob,
+        'fold_ids': fold_ids,
+        'fold_metrics': fold_metrics,
+        'final_calibrator': final_calibrator,
+    }
+
+
+def time_series_cv(df, target, is_classifier=True, features=None):
+    """带标签隔离的5折时序交叉验证，供OLS等诊断模型复用。"""
+    features = features or FEATURES
     scores = []
     oof_pred = np.full(len(df), np.nan)
-    for f in range(1, k):
-        train_dates = dates[: f * fold_size]
-        if f < k - 1:
-            test_dates = dates[f * fold_size: (f + 1) * fold_size]
-        else:
-            test_dates = dates[f * fold_size:]
+    for _, train_dates, test_dates in purged_walk_forward_splits(df):
         tr = df['date'].isin(train_dates)
         te = df['date'].isin(test_dates)
         if tr.sum() == 0 or te.sum() == 0:
@@ -429,9 +603,9 @@ def time_series_cv(df, target, is_classifier=True, features=None):
 
 # ----------------------------- 2. Logit 模型 -----------------------------
 def run_logit_model(df, latest_df, latest_date):
-    """用经过逐日样本外检验的正则化 Logit 预测涨跌方向。"""
+    """预测未来3日成本后净Alpha，并以严格OOF结果决定是否有资格产生建议。"""
     X = df[PREDICTIVE_FEATURES].values.astype(float)
-    y = df['today_direction'].values.astype(int)
+    y = df['target_direction'].values.astype(int)
     scaler = StandardScaler()
     Xs = scaler.fit_transform(X)
     model = LogisticRegression(C=PREDICTIVE_C, max_iter=5000)
@@ -441,10 +615,71 @@ def run_logit_model(df, latest_df, latest_date):
     in_sample_accuracy = float((pred_dir == y).mean())
     pos_rate = float(y.mean())
 
-    # 唯一用于报告“准确率”的指标：按交易日展开、每折单独标准化的样本外结果。
-    cv_scores, oof_pred = time_series_cv(
-        df, 'today_direction', is_classifier=True, features=PREDICTIVE_FEATURES)
-    cv_mean = float(np.mean(cv_scores)) if cv_scores else 0.0
+    # 唯一用于能力判断的指标：按交易日分组、清除重叠标签、前向概率校准后的OOF结果。
+    oof = purged_logit_oof(df)
+    valid = ~np.isnan(oof['probability'])
+    oof_prob = oof['probability'][valid]
+    oof_base = oof['baseline_probability'][valid]
+    oof_y = y[valid]
+    oof_pred = (oof_prob >= 0.5).astype(int)
+    cv_accuracy = float((oof_pred == oof_y).mean()) if len(oof_y) else 0.0
+    baseline_accuracy = float(((oof_base >= 0.5) == oof_y).mean()) if len(oof_y) else 0.0
+    brier = float(np.mean((oof_prob - oof_y) ** 2)) if len(oof_y) else 1.0
+    baseline_brier = float(np.mean((oof_base - oof_y) ** 2)) if len(oof_y) else 1.0
+
+    valid_frame = df.loc[valid]
+    simulation = simulate_selective_portfolio(valid_frame, oof_prob)
+    selected = simulation['selected_mask']
+    selected_returns = valid_frame['target_return'].to_numpy()[selected]
+    portfolio_returns = simulation['portfolio_returns']
+    opportunity_wins = int((selected_returns > 0).sum())
+    portfolio_wins = int((portfolio_returns > 0).sum())
+    selected_count = int(len(selected_returns))
+    trade_count = int(len(portfolio_returns))
+    oof_dates = int(valid_frame['date'].nunique())
+    positive_folds = sum(
+        m['portfolio_mean_net_alpha'] is not None and m['portfolio_mean_net_alpha'] > 0
+        for m in oof['fold_metrics'])
+    selective = {
+        'threshold': HIGH_CONFIDENCE_THRESHOLD,
+        'top_k_per_date': 3,
+        'holding_period_days': HOLDING_PERIOD,
+        'selected_observations': selected_count,
+        'trade_count': trade_count,
+        'settled_trade_dates': simulation['trade_dates'],
+        'oof_observations': int(len(valid_frame)),
+        'oof_trade_dates': oof_dates,
+        'observation_coverage': round(selected_count / len(valid_frame), 6) if len(valid_frame) else 0.0,
+        'trade_date_coverage': round(trade_count / oof_dates, 6) if oof_dates else 0.0,
+        'opportunity_precision': (round(opportunity_wins / selected_count, 6)
+                                  if selected_count else None),
+        'portfolio_win_rate': (round(portfolio_wins / trade_count, 6)
+                               if trade_count else None),
+        'portfolio_win_rate_ci_95': wilson_interval(portfolio_wins, trade_count),
+        'mean_portfolio_net_alpha': (round(float(portfolio_returns.mean()), 6)
+                                     if trade_count else None),
+        # 兼容旧消费者；win_rate现在明确采用不重叠组合交易口径。
+        'selected_count': selected_count,
+        'selected_dates': trade_count,
+        'oof_dates': oof_dates,
+        'date_coverage': round(trade_count / oof_dates, 6) if oof_dates else 0.0,
+        'win_rate': (round(portfolio_wins / trade_count, 6) if trade_count else None),
+        'win_rate_ci_95': wilson_interval(portfolio_wins, trade_count),
+        'mean_net_alpha': (round(float(portfolio_returns.mean()), 6)
+                           if trade_count else None),
+        'positive_alpha_folds': int(positive_folds),
+        'n_folds': len(oof['fold_metrics']),
+    }
+    has_predictive_skill = bool(
+        cv_accuracy > baseline_accuracy + 0.02 and brier < baseline_brier)
+    gate_checks = {
+        'beats_accuracy_baseline_by_2pp': cv_accuracy > baseline_accuracy + 0.02,
+        'beats_brier_baseline': brier < baseline_brier,
+        'minimum_40_settled_trade_dates': trade_count >= MIN_SELECTIVE_OBS,
+        'positive_net_alpha_in_3_of_4_folds': (
+            len(oof['fold_metrics']) >= 4 and positive_folds >= 3),
+    }
+    production_eligible = bool(all(gate_checks.values()))
 
     # L1仅作稀疏诊断；固定强正则，避免在同一历史样本上再次随机CV调参。
     diagnostic_X = df[FEATURES].values.astype(float)
@@ -463,22 +698,35 @@ def run_logit_model(df, latest_df, latest_date):
     selected_features = [s['feature'] for s in lasso_selection if s['selected']]
     dropped_features = [s['feature'] for s in lasso_selection if not s['selected']]
 
-    # latest_predictions: 11个ETF今日预测
+    # 最新预测仍为shadow；只有全部样本外护栏通过后才允许产生正式建议。
     latest_X = latest_df[PREDICTIVE_FEATURES].values.astype(float)
-    latest_prob = model.predict_proba(scaler.transform(latest_X))[:, 1]
+    latest_raw_prob = model.predict_proba(scaler.transform(latest_X))[:, 1]
+    latest_prob = _apply_calibrator(oof['final_calibrator'], latest_raw_prob)
     latest_pred_dir = (latest_prob >= 0.5).astype(int)
 
     latest_predictions = []
-    for i, row in latest_df.iterrows():
+    for i, (_, row) in enumerate(latest_df.iterrows()):
+        prob = float(latest_prob[i])
+        if prob >= HIGH_CONFIDENCE_THRESHOLD:
+            shadow_action, band = 'buy_candidate', 'high'
+        elif prob <= LOW_CONFIDENCE_THRESHOLD:
+            shadow_action, band = 'avoid', 'low'
+        else:
+            shadow_action, band = 'abstain', 'medium'
         latest_predictions.append({
             'etf_code': row['etf_code'], 'etf_name': row['etf_name'], 'sector': row['sector'],
-            'prob_up': round(float(latest_prob[i]), 4),
+            'prob_up': round(prob, 4),  # 兼容旧看板；语义已改为P(净Alpha>0)
+            'prob_alpha_positive': round(prob, 4),
             'predicted_direction': 'up' if latest_pred_dir[i] == 1 else 'down',
+            'confidence_band': band,
+            'shadow_action': shadow_action,
+            'production_action': shadow_action if production_eligible else 'diagnostic_only',
             'features': {f: row[f] for f in PREDICTIVE_FEATURES},
         })
 
     return {
-        'model': 'Regularized Logit (walk-forward selected features)',
+        'model': 'Regularized Logit (purged walk-forward, 3-day net alpha)',
+        'target': 'T开盘至T+2收盘ETF收益 - 同期沪深300收益 - 往返成本',
         'n_obs': int(len(df)),
         'feature_names': ['const'] + PREDICTIVE_FEATURES,
         'coefficients': ([{'feature': 'const', 'coef': round(float(model.intercept_[0]), 6), 'pvalue': None}]
@@ -486,15 +734,25 @@ def run_logit_model(df, latest_df, latest_date):
                             for i, f in enumerate(PREDICTIVE_FEATURES)]),
         'pseudo_r2': None,
         'log_likelihood': None,
-        'accuracy': round(cv_mean, 6),
+        'accuracy': round(cv_accuracy, 6),
         'in_sample_accuracy': round(in_sample_accuracy, 6),
-        'accuracy_note': 'accuracy 为按交易日展开的样本外准确率；in_sample_accuracy 仅作拟合诊断。',
-        'has_predictive_skill': bool(cv_mean > max(pos_rate, 1 - pos_rate) + 0.02),
+        'accuracy_note': 'accuracy为日期分组、清除重叠标签并前向校准后的OOF准确率；样本内仅作诊断。',
+        'baseline_accuracy': round(baseline_accuracy, 6),
+        'accuracy_ci_95': wilson_interval(int((oof_pred == oof_y).sum()), len(oof_y)),
+        'brier_score': round(brier, 6),
+        'baseline_brier_score': round(baseline_brier, 6),
+        'has_predictive_skill': has_predictive_skill,
+        'production_eligible': production_eligible,
+        'eligibility_checks': gate_checks,
+        'selective_evaluation': selective,
         'positive_rate': round(pos_rate, 6),
         'time_series_cv': {
-            'n_folds': len(cv_scores),
-            'fold_scores': [round(s, 6) for s in cv_scores],
-            'mean_cv_accuracy': round(cv_mean, 6),
+            'method': 'date-grouped expanding walk-forward with 2-day purge and forward Platt calibration',
+            'n_folds': len(oof['fold_metrics']),
+            'purge_days': PURGE_DAYS,
+            'fold_scores': [m['accuracy'] for m in oof['fold_metrics']],
+            'mean_cv_accuracy': round(cv_accuracy, 6),
+            'fold_details': oof['fold_metrics'],
         },
         'lasso_variable_selection': lasso_selection,
         'selected_features': selected_features,
@@ -506,18 +764,21 @@ def run_logit_model(df, latest_df, latest_date):
         'latest_predictions': latest_predictions,
         'latest_predict_date': latest_date,
         'in_sample_pred_direction': [int(p) for p in pred_dir],
-        'oof_pred_direction': [None if np.isnan(p) else int(p) for p in oof_pred],
+        'oof_pred_direction': [None if not valid[i] else int(oof['probability'][i] >= 0.5)
+                               for i in range(len(df))],
+        'oof_pred_probability': [None if not valid[i] else round(float(oof['probability'][i]), 6)
+                                 for i in range(len(df))],
     }
 
 
 # ----------------------------- 3. OLS 模型 -----------------------------
 def run_ols_model(df, latest_df, latest_date):
-    """OLS 回归预测收益率"""
+    """OLS仅作未来3日成本后净Alpha的线性诊断。"""
     X = df[FEATURES].values.astype(float)
-    y = df['today_return'].values.astype(float)
+    y = df['target_return'].values.astype(float)
     Xc = add_const(X)
 
-    res = sm.OLS(y, Xc).fit()
+    res = sm.OLS(y, Xc).fit(cov_type='cluster', cov_kwds={'groups': df['date']})
     feature_names = ['const'] + FEATURES
     params = res.params
     pvalues = res.pvalues
@@ -564,16 +825,19 @@ def run_ols_model(df, latest_df, latest_date):
     for i, row in latest_df.iterrows():
         latest_predictions.append({
             'etf_code': row['etf_code'], 'etf_name': row['etf_name'], 'sector': row['sector'],
-            'predicted_return_pct': round(float(latest_pred[i]), 4),
+            'predicted_return_pct': round(float(latest_pred[i]), 4),  # 兼容旧字段
+            'predicted_net_alpha_pct': round(float(latest_pred[i]), 4),
             'predicted_direction': 'up' if latest_pred[i] > 0 else 'down',
             'features': {f: row[f] for f in FEATURES},
         })
 
     # OLS 时序CV R² (补充)
-    cv_scores, _ = time_series_cv(df, 'today_return', is_classifier=False)
+    cv_scores, _ = time_series_cv(df, 'target_return', is_classifier=False)
 
     return {
-        'model': 'OLS (today_return %)',
+        'model': 'OLS (3-day net alpha %, purged walk-forward)',
+        'target': 'T开盘至T+2收盘ETF收益 - 同期沪深300收益 - 往返成本',
+        'covariance': 'decision-date clustered standard errors',
         'n_obs': int(len(df)),
         'feature_names': feature_names,
         'coefficients': coefs,
@@ -601,97 +865,49 @@ def run_ols_model(df, latest_df, latest_date):
 
 # ----------------------------- 4. 规则模型 vs Logit 一致性 -----------------------------
 def cross_validate_models(df, logit_result, rule_result):
-    """规则模型 vs Logit 一致性比较 (直接传入规则模型结果, 避免依赖外部文件格式)"""
-    agreement_total = 0
-    compared = 0
-    bought = 0
-    bought_logit_up = 0
-    notbought = 0
-    notbought_logit_up = 0
-
-    rule = rule_result
-    if not rule:
+    """比较规则买入与Logit高置信净Alpha信号，忽略无交易日期和双重未买入。"""
+    if not rule_result:
         return {'status': '规则模型结果为空', 'agreement_rate': None}
 
-    # 当日规则模型买入的ETF集合 {date: set(etf_name)}
-    rule_bought_map = {}
-    for d in rule.get('all_daily_summaries', []):
-        rule_bought_map[d['date']] = set(d.get('etf_names', []))
-
-    # 一致性只能使用逐日样本外预测；首个训练窗口没有OOF结果，直接跳过。
+    rule_bought_map = {
+        d['date']: set(d.get('etf_names', []))
+        for d in rule_result.get('all_daily_summaries', [])}
     logit_pred = logit_result.get('oof_pred_direction', [])
+    logit_prob = logit_result.get('oof_pred_probability', [])
     if len(logit_pred) != len(df):
         return {'status': 'Logit预测与面板行数不匹配', 'agreement_rate': None}
 
-    # 逐行比较
-    per_day = {}  # date -> {rule_trend, logit_up_frac, n}
+    union_count = overlap = rule_buy_count = high_signal_count = 0
     for idx, (_, row) in enumerate(df.iterrows()):
-        if logit_pred[idx] is None:
-            continue
         date = row['date']
-        etf_name = row['etf_name']
-        logit_up = (logit_pred[idx] == 1)
-        rb = etf_name in rule_bought_map.get(date, set())
-
-        # 一致性: 规则买入<->Logit看涨 ; 规则未买<->Logit看跌
-        agree = (rb and logit_up) or ((not rb) and (not logit_up))
-        agreement_total += int(agree)
-        compared += 1
-        if rb:
-            bought += 1
-            if logit_up:
-                bought_logit_up += 1
-        else:
-            notbought += 1
-            if logit_up:
-                notbought_logit_up += 1
-
-        pd_day = per_day.setdefault(date, {'rule_buys': 0, 'logit_ups': 0, 'n': 0,
-                                           'rule_trend': rule_bought_map.get(date, set())})
-        pd_day['n'] += 1
-        if rb:
-            pd_day['rule_buys'] += 1
-        if logit_up:
-            pd_day['logit_ups'] += 1
-
-    # 趋势层面一致性: 规则趋势 vs Logit看涨比例
-    trend_map = {d['date']: d.get('trend') for d in rule.get('all_daily_summaries', [])}
-    trend_agree = 0
-    trend_compared = 0
-    for date, info in per_day.items():
-        if info['n'] == 0:
+        if date not in rule_bought_map or logit_pred[idx] is None:
             continue
-        up_frac = info['logit_ups'] / info['n']
-        rt = trend_map.get(date)
-        if rt is None:
-            continue
-        trend_compared += 1
-        if rt == 'bullish' and up_frac > 0.5:
-            trend_agree += 1
-        elif rt == 'bearish' and up_frac < 0.5:
-            trend_agree += 1
-        elif rt == 'neutral' and 0.4 <= up_frac <= 0.6:
-            trend_agree += 1
+        rule_buy = row['etf_name'] in rule_bought_map[date]
+        probability = logit_prob[idx] if len(logit_prob) == len(df) else None
+        high_signal = (probability >= HIGH_CONFIDENCE_THRESHOLD
+                       if probability is not None else logit_pred[idx] == 1)
+        rule_buy_count += int(rule_buy)
+        high_signal_count += int(high_signal)
+        if rule_buy or high_signal:
+            union_count += 1
+            overlap += int(rule_buy and high_signal)
 
-    bought_up_rate = bought_logit_up / bought if bought > 0 else 0.0
-    notbought_up_rate = notbought_logit_up / notbought if notbought > 0 else 0.0
+    rule_overlap = overlap / rule_buy_count if rule_buy_count else 0.0
+    high_overlap = overlap / high_signal_count if high_signal_count else 0.0
 
     return {
-        'n_compared': compared,
-        'rule_buy_count': bought,
-        'rule_notbuy_count': notbought,
-        'agreement_rate': round(agreement_total / compared, 6) if compared else 0.0,
-        'bought_logit_up_rate': round(bought_up_rate, 6),
-        'notbought_logit_up_rate': round(notbought_up_rate, 6),
-        'directional_consistency': round(bought_up_rate - notbought_up_rate, 6),
-        'trend_level_agreement': round(trend_agree / trend_compared, 6) if trend_compared else 0.0,
-        'trend_compared_days': trend_compared,
+        'n_compared': union_count,
+        'rule_buy_count': rule_buy_count,
+        'logit_high_confidence_count': high_signal_count,
+        'overlap_count': overlap,
+        'agreement_rate': round(overlap / union_count, 6) if union_count else 0.0,
+        'rule_buy_overlap_rate': round(rule_overlap, 6),
+        'logit_signal_overlap_rate': round(high_overlap, 6),
+        'directional_consistency': round(rule_overlap, 6),
         'interpretation': (
-            f"规则模型买入的ETF中Logit看涨比例 {bought_up_rate:.1%}，"
-            f"未买入的 {notbought_up_rate:.1%}，方向一致性差 "
-            f"{bought_up_rate - notbought_up_rate:.1%}。"
-            f"逐ETF-日整体一致率 {agreement_total / compared:.1%}。"
-            if compared else '无比较数据'
+            f"规则买入与Logit高置信净Alpha信号交集 {overlap} 个；"
+            f"覆盖规则买入 {rule_overlap:.1%}，覆盖Logit高置信信号 {high_overlap:.1%}。"
+            if union_count else '无可比较的高置信信号'
         ),
     }
 
@@ -713,7 +929,7 @@ def main():
     cv_result = cross_validate_models(df, logit_result, rule_result)
 
     def coverage(dates):
-        dates = sorted(d for d in dates if d)
+        dates = sorted(set(d for d in dates if d))
         return {'start': dates[0] if dates else None, 'end': dates[-1] if dates else None,
                 'n_dates': len(dates)}
 
@@ -729,8 +945,14 @@ def main():
         'n_dates': int(df['date'].nunique()),
         'date_range': [df['date'].min(), df['date'].max()],
         'features': FEATURES,
-        'targets': ['today_return', 'today_direction'],
-        'lookahead_note': '价格特征用前一日T-1数据; 情绪特征用当日T四大报(开盘前可得); 目标为当日T日内收益',
+        'targets': ['target_return', 'target_direction'],
+        'target_definition': 'ETF T开盘至T+2收盘收益 - 沪深300同期收益 - 0.05%往返成本',
+        'benchmark_code': HS300_CODE,
+        'holding_period_days': HOLDING_PERIOD,
+        'purge_days': PURGE_DAYS,
+        'round_trip_cost_rate': round(2 * (COMMISSION_RATE + SLIPPAGE_RATE), 6),
+        'lookahead_note': ('价格/成交、两融、无精确时刻的外部事件仅用T-1及更早数据；'
+                           '当日四大报须开盘前可得；目标为T开盘至T+2收盘成本后相对Alpha。'),
         'source_coverage': {
             'prices': coverage(df['date'].unique()),
             'newspapers': coverage(news_dates),
@@ -739,10 +961,10 @@ def main():
             'etf_shares': coverage(share_dates),
             'missing_policy': '缺失源当前按中性值0处理；评估时必须结合覆盖区间，不把缺失误解为真实中性。',
         },
-        'today_direction_balance': {
-            'up': int((df['today_direction'] == 1).sum()),
-            'down': int((df['today_direction'] == 0).sum()),
-            'up_rate': round(float(df['today_direction'].mean()), 4),
+        'target_direction_balance': {
+            'positive': int((df['target_direction'] == 1).sum()),
+            'non_positive': int((df['target_direction'] == 0).sum()),
+            'positive_rate': round(float(df['target_direction'].mean()), 4),
         },
         'feature_stats': {
             f: {'mean': round(float(df[f].mean()), 4), 'std': round(float(df[f].std()), 4),
@@ -770,8 +992,9 @@ if __name__ == '__main__':
     di = res['dataset_info']
     print(f"面板观测: {di['n_obs']}  ETF数: {di['n_etfs']}  日期数: {di['n_dates']}")
     print(f"日期范围: {di['date_range'][0]} ~ {di['date_range'][1]}")
-    print(f"涨跌平衡: 涨{di['today_direction_balance']['up']}/跌{di['today_direction_balance']['down']} "
-          f"(涨率{di['today_direction_balance']['up_rate']:.1%})")
+    balance = di['target_direction_balance']
+    print(f"净Alpha标签: 正{balance['positive']}/非正{balance['non_positive']} "
+          f"(正Alpha率{balance['positive_rate']:.1%})")
     lm = res['logit_model']
     print(f"\n[Logit] 伪R²={lm['pseudo_r2']}  准确率={lm['accuracy']:.4f}  "
           f"时序CV均值={lm['time_series_cv']['mean_cv_accuracy']:.4f}")

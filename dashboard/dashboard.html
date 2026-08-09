@@ -245,7 +245,7 @@ footer{font-size:.68rem;border-top:1px solid var(--ink);text-align:left;padding-
 <header class="report-masthead">
   <div class="report-kicker">FUCKETF · DAILY RESEARCH NOTE</div>
   <h1 class="report-title">老林的ETF量化模型</h1>
-  <div class="report-subtitle"><span>资金行为 · 情绪 · 市场状态 · 风险预算</span><span class="report-meta">报告日 2026-08-07 · 生成于 2026-08-09 21:11</span></div>
+  <div class="report-subtitle"><span>资金行为 · 情绪 · 市场状态 · 风险预算</span><span class="report-meta">报告日 2026-08-07 · 生成于 2026-08-09 21:59</span></div>
 </header>
 <div class="top-summary">
   <div class="core-view">
@@ -422,25 +422,26 @@ footer{font-size:.68rem;border-top:1px solid var(--ink);text-align:left;padding-
 
 <section class="report-section"><div class="sec-title">七、模型结果（可展开）</div>
 <details class="model-fold" open><summary>模型卡片：规则模型负责组合，Logit/OLS负责诊断（点击收起）</summary>
-<div class="model-grid"><div class="model-box"><div class="card-title">规则模型 · 实际决策公式</div><p class="formula">Score = 状态化趋势/回归 + 启动/资金代理 + 新闻预期差 + 市场一致性 − 陈旧拥挤 − 撤退风险</p><p>价格和资金使用 T-1；外部事件必须满足真实日期≤决策日。风险预算由宽度、20日动量、波动和回撤决定，持仓再按逆波动率分配。</p></div><div class="model-box"><div class="card-title">计量模型 · 交叉诊断</div><div class="model-number">Logit 51.3% · OLS R² 0.027</div><p>当前样本外预测力暂无；未超过简单基准时不参与主推荐，只用于发现因子失效和方向漂移。</p></div></div>
+<div class="model-grid"><div class="model-box"><div class="card-title">规则模型 · 实际决策公式</div><p class="formula">Score = 状态化趋势/回归 + 启动/资金代理 + 新闻预期差 + 市场一致性 − 陈旧拥挤 − 撤退风险</p><p>价格和资金使用 T-1；外部事件必须满足真实日期≤决策日。风险预算由宽度、20日动量、波动和回撤决定，持仓再按逆波动率分配。</p></div><div class="model-box"><div class="card-title">路径 A · 三日净Alpha模型</div><div class="model-number">Shadow观察</div><p>目标为ETF从 T 开盘持有至 T+2 收盘，相对沪深300并扣除0.05%往返成本。样本外能力检验未通过；未过护栏时不参与主推荐。</p></div></div>
 <div class="model-grid"><div class="model-box"><div class="card-title">当前参数护栏</div><p>买入门槛 0.35 · 持有期 3 日 · 情绪滞后系数 -1.0 · 份额流向暂只作诊断。</p></div><div class="model-box"><div class="card-title">日间交接</div><p>当日预测先进入 pending；持有期结束、收益和成本结算后，才允许写入经验库并参与滚动 OOS 复核。</p></div></div>
-<div class="model-grid"><div class="model-box"><div class="card-title">Logit · 方向诊断</div><div class="model-number">51.3%</div><p>时序交叉验证准确率。接近 50% 时，不作为顶部推荐依据。</p></div><div class="model-box"><div class="card-title">OLS · 收益诊断</div><div class="model-number">R² 0.027</div><p>解释力有限，主要用于观察因子方向和稳定性。</p></div></div>
+<div class="model-grid"><div class="model-box"><div class="card-title">Logit · Purged Walk-Forward</div><div class="model-number">OOF 54.3% · 基准 54.5%</div><p>Brier（越低越好）：0.2483 vs 基准 0.2484。训练与验证之间隔离2个交易日，并只用过去的OOF结果校准概率。</p></div><div class="model-box"><div class="card-title">高置信组合 · P(净Alpha&gt;0) ≥ 60%</div><div class="model-number">66.7% · 3笔</div><p>只统计最多3只、持有期不重叠的组合交易；95%区间 20.8%–93.9%，平均净Alpha -0.21%，覆盖 3/307 个OOF日期（1.0%）。</p></div></div>
+<div class="model-grid"><div class="model-box"><div class="card-title">概率模型状态</div><div class="model-number">Shadow观察</div><p>准确率需领先基准至少2个百分点、Brier优于基准、至少40个不重叠结算日，且4折中至少3折平均净Alpha为正。</p></div><div class="model-box"><div class="card-title">OLS · 净Alpha诊断</div><div class="model-number">OOS R² -0.016</div><p>标准误按决策日聚类；线性模型只用于观察因子方向和稳定性，不负责顶部推荐。</p></div></div>
 <details class="inner-fold"><summary>展开系数、因素重要性与图表</summary><h2>附录：特征显著性与模型诊断</h2>
 <div class="card">
-  <div class="card-title">正则化 Logit 系数（样本外准确率=51.2506%）</div>
+  <div class="card-title">净Alpha正则化 Logit 系数（样本外准确率=54.322199999999995%）</div>
   <table>
     <thead><tr><th>特征</th><th>系数</th><th>p值</th><th>显著性</th></tr></thead>
     <tbody>
-<tr><td>const</td><td class="up">+0.0969</td><td>N/A</td><td><b></b></td></tr>
-<tr><td>behavior_momentum</td><td class="up">+0.0052</td><td>N/A</td><td><b></b></td></tr>
-<tr><td>flow_proxy</td><td class="up">+0.0902</td><td>N/A</td><td><b></b></td></tr>
-<tr><td>acceleration</td><td class="down">-0.0880</td><td>N/A</td><td><b></b></td></tr>
-<tr><td>crowding</td><td class="down">-0.0784</td><td>N/A</td><td><b></b></td></tr>
-<tr><td>withdrawal_risk</td><td class="up">+0.1446</td><td>N/A</td><td><b></b></td></tr>
-<tr><td>early_entry</td><td class="down">-0.0958</td><td>N/A</td><td><b></b></td></tr>
-<tr><td>news_surprise</td><td class="down">-0.0331</td><td>N/A</td><td><b></b></td></tr>
-<tr><td>market_breadth</td><td class="down">-0.0492</td><td>N/A</td><td><b></b></td></tr>
-<tr><td>external_signal</td><td class="up">+0.0395</td><td>N/A</td><td><b></b></td></tr>
+<tr><td>const</td><td class="down">-0.1571</td><td>N/A</td><td><b></b></td></tr>
+<tr><td>behavior_momentum</td><td class="down">-0.0097</td><td>N/A</td><td><b></b></td></tr>
+<tr><td>flow_proxy</td><td class="up">+0.0468</td><td>N/A</td><td><b></b></td></tr>
+<tr><td>acceleration</td><td class="down">-0.0951</td><td>N/A</td><td><b></b></td></tr>
+<tr><td>crowding</td><td class="up">+0.0718</td><td>N/A</td><td><b></b></td></tr>
+<tr><td>withdrawal_risk</td><td class="up">+0.0291</td><td>N/A</td><td><b></b></td></tr>
+<tr><td>early_entry</td><td class="up">+0.0115</td><td>N/A</td><td><b></b></td></tr>
+<tr><td>news_surprise</td><td class="up">+0.0243</td><td>N/A</td><td><b></b></td></tr>
+<tr><td>market_breadth</td><td class="down">-0.0197</td><td>N/A</td><td><b></b></td></tr>
+<tr><td>external_signal</td><td class="down">-0.0132</td><td>N/A</td><td><b></b></td></tr>
     </tbody>
   </table>
 </div>
@@ -449,14 +450,14 @@ footer{font-size:.68rem;border-top:1px solid var(--ink);text-align:left;padding-
   <table>
     <thead><tr><th>因素</th><th>β</th><th>p值</th><th>重要性</th></tr></thead>
     <tbody>
-<tr><td>withdrawal_risk</td><td class="up">+0.0477</td><td>0.0000</td><td>0.0477</td></tr>
-<tr><td>hs300_mom_5d</td><td class="down">-0.0377</td><td>0.0000</td><td>0.0377</td></tr>
-<tr><td>external_news_count</td><td class="up">+0.0333</td><td>0.0000</td><td>0.0333</td></tr>
-<tr><td>sentiment_score</td><td class="down">-0.0306</td><td>0.0000</td><td>0.0306</td></tr>
-<tr><td>prev_intraday_return</td><td class="down">-0.0247</td><td>0.0000</td><td>0.0247</td></tr>
-<tr><td>share_flow_signal</td><td class="down">-0.0217</td><td>0.0000</td><td>0.0217</td></tr>
-<tr><td>vol_10d</td><td class="up">+0.0027</td><td>0.0037</td><td>0.0027</td></tr>
-<tr><td>sector_mentioned</td><td class="down">-0.0013</td><td>0.7884</td><td>0.0013</td></tr>
+<tr><td>crowding</td><td class="up">+0.0389</td><td>0.8369</td><td>0.0389</td></tr>
+<tr><td>withdrawal_risk</td><td class="up">+0.0307</td><td>0.4472</td><td>0.0307</td></tr>
+<tr><td>share_flow_signal</td><td class="down">-0.0277</td><td>0.0001</td><td>0.0277</td></tr>
+<tr><td>acceleration</td><td class="down">-0.0029</td><td>0.1568</td><td>0.0029</td></tr>
+<tr><td>news_price_gap</td><td class="down">-0.0004</td><td>0.0634</td><td>0.0004</td></tr>
+<tr><td>sentiment_score</td><td class="up">+0.0000</td><td>0.7537</td><td>0.0000</td></tr>
+<tr><td>bullish_count</td><td class="up">+0.0000</td><td>0.6739</td><td>0.0000</td></tr>
+<tr><td>bearish_count</td><td class="up">+0.0000</td><td>0.6824</td><td>0.0000</td></tr>
     </tbody>
   </table>
 </div>
