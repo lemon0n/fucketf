@@ -20,6 +20,8 @@ import html
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
+from etf_model_run import BUY_THRESHOLD, HOLDING_PERIOD
+
 # ============================================================
 #  路径配置
 # ============================================================
@@ -34,6 +36,7 @@ HANDOFF_PATH        = os.path.join(DATA_DIR, 'next_day_handoff.json')
 HTML_OUT            = os.path.join(DASHBOARD_DIR, 'dashboard.html')
 CHARTS_JS_OUT       = os.path.join(DASHBOARD_DIR, 'assets', 'charts.js')
 ECHARTS_JS_REF      = '_shared/js/echarts.min.js'
+WITHDRAWAL_WATCH_THRESHOLD = 0.35
 
 # ============================================================
 #  变量说明字典
@@ -277,8 +280,8 @@ def _build_last_week_performance(daily):
     return {'model_return': mr, 'hs300_return': hr, 'alpha': mr - hr}
 
 
-def _build_external_review():
-    """把外部新闻缓存标准化为报告可读的来源、类别和标题摘要。"""
+def _build_external_review(decision_date):
+    """按决策日切分已纳入事件与盘后新增事件，避免展示时点混淆。"""
     try:
         raw = load_json(EXTERNAL_NEWS_PATH)
         items = raw.get('items', []) if isinstance(raw, dict) else []
@@ -293,16 +296,33 @@ def _build_external_review():
         source_counts[source] = source_counts.get(source, 0) + 1
         source_categories[source] = item.get('category', 'other')
         category_counts[category] = category_counts.get(category, 0) + 1
-    valid = [x for x in items if x.get('date_quality') not in (None, 'unknown', 'listing') and x.get('published_at')]
-    valid.sort(key=lambda x: x.get('published_at', ''), reverse=True)
+    valid = [x for x in items if x.get('date_quality') not in (None, 'unknown', 'listing')
+             and x.get('published_at')]
+    unique_events = []
+    seen_events = set()
+    for item in sorted(valid, key=lambda x: x['published_at'], reverse=True):
+        published_date = str(item['published_at'])[:10]
+        key = (published_date, item.get('source', ''), item.get('title', '').strip())
+        if key in seen_events:
+            continue
+        seen_events.add(key)
+        unique_events.append(item)
+    model_inputs = sorted((x for x in unique_events
+                           if str(x['published_at'])[:10] <= decision_date),
+                          key=lambda x: x['published_at'], reverse=True)
+    post_decision = sorted((x for x in unique_events
+                            if str(x['published_at'])[:10] > decision_date),
+                           key=lambda x: x['published_at'], reverse=True)
     return {
         'updated_at': raw.get('updated_at', '') if isinstance(raw, dict) else '',
         'count': len(items),
         'source_counts': source_counts,
         'source_categories': source_categories,
         'category_counts': category_counts,
-        'headlines': valid[:8],
-        'events': valid[:3],
+        'decision_date': decision_date,
+        'headlines': model_inputs[:8],
+        'events': model_inputs[:3],
+        'post_decision_events': post_decision[:3],
     }
 
 
@@ -388,7 +408,8 @@ def normalize_model_data(raw):
             for p in ld.get('etf_selection', [])
         ],
         'reason': ld.get('reason', ''),
-        'confidence': f'{ld.get("market_state", {}).get("risk_budget", 0):.0%}',
+        'risk_budget': float(ld.get('market_state', {}).get('risk_budget', 0)),
+        'confidence': '未单独校准',
         'bull_signals': sent.get('bullish_count', 0),
         'bear_signals': sent.get('bearish_count', 0),
         'sentiment_score': sent.get('score', 0),
@@ -432,7 +453,7 @@ def normalize_model_data(raw):
     m['market_review'] = _build_market_review(raw)
     m['weekly_performance'] = _build_weekly_performance(daily)
     m['last_week_performance'] = _build_last_week_performance(daily)
-    m['external_review'] = _build_external_review()
+    m['external_review'] = _build_external_review(ld['date'])
     m['adaptation_review'] = _build_adaptation_review(daily, summary)
     m['handoff'] = load_json(HANDOFF_PATH) if os.path.exists(HANDOFF_PATH) else {}
 
@@ -632,36 +653,6 @@ CSS = r"""
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:radial-gradient(ellipse 600px 400px at 15% 5%,rgba(0,113,227,0.15),transparent 60%),radial-gradient(ellipse 500px 350px at 85% 15%,rgba(0,113,227,0.10),transparent 60%),radial-gradient(ellipse 700px 500px at 50% 45%,rgba(0,113,227,0.08),transparent 70%),var(--bg);background-attachment:fixed;color:var(--ink);font-family:var(--IS);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
 
-/* Decorative blurred color blobs for glass refraction visibility */
-body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle 200px at 20% 30%,rgba(0,113,227,0.12),transparent),radial-gradient(circle 250px at 60% 70%,rgba(0,113,227,0.08),transparent),radial-gradient(circle 200px at 90% 50%,rgba(0,113,227,0.06),transparent);filter:blur(40px);z-index:-1;pointer-events:none}
-
-/* ====== Liquid Glass Effect (shuding/liquid-glass) ====== */
-.core-view,.signal-card,.metric,.callout,.card,.chart-card,.rpt,.decision,.np-card,.formula-box,.pick,.reason{
-  backdrop-filter:url(#liquid-glass) blur(24px) saturate(180%) brightness(106%) contrast(108%);
-  -webkit-backdrop-filter:blur(24px) saturate(180%) brightness(106%) contrast(108%);
-  background:rgba(255,255,255,0.32)!important;
-  border-color:rgba(255,255,255,0.6)!important;
-  box-shadow:0 4px 16px rgba(0,0,0,0.06),0 1px 3px rgba(0,0,0,0.03),inset 0 1px 1px rgba(255,255,255,0.8),inset 0 -1px 1px rgba(0,0,0,0.02)!important;
-  position:relative;overflow:hidden
-}
-.core-view::before,.signal-card::before,.card::before,.chart-card::before,.decision::before{
-  content:'';position:absolute;inset:0;border-radius:inherit;
-  background:linear-gradient(135deg,rgba(255,255,255,0.45) 0%,rgba(255,255,255,0) 30%,rgba(255,255,255,0) 70%,rgba(255,255,255,0.2) 100%);
-  pointer-events:none;z-index:0
-}
-.core-view::after,.signal-card::after,.card::after,.chart-card::after,.decision::after{
-  content:'';position:absolute;top:0;left:15%;right:15%;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.9),transparent);
-  pointer-events:none;z-index:1
-}
-.core-view>*,.signal-card>*,.card>*,.chart-card>*,.decision>*{position:relative;z-index:2}
-
-/* Floating draggable liquid glass orb */
-#lg-orb{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:200px;height:140px;border-radius:100px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.12),0 -8px 20px inset rgba(0,0,0,0.08),0 4px 8px inset rgba(255,255,255,0.3);backdrop-filter:url(#liquid-glass) blur(0.25px) contrast(1.2) brightness(1.05) saturate(1.1);-webkit-backdrop-filter:blur(0.25px) contrast(1.2) brightness(1.05) saturate(1.1);cursor:grab;z-index:9999;pointer-events:auto;transition:box-shadow 200ms var(--ease-out)}
-#lg-orb:active{cursor:grabbing}
-#lg-orb:hover{box-shadow:0 12px 40px rgba(0,0,0,0.15),0 -8px 20px inset rgba(0,0,0,0.08),0 4px 8px inset rgba(255,255,255,0.4)}
-#lg-orb-hint{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:0.6rem;color:rgba(0,0,0,0.3);white-space:nowrap;pointer-events:none;letter-spacing:0.05em}
-
 .container{max-width:var(--maxw);margin:0 auto;padding:24px 20px 60px}
 
 .date-bar{text-align:center;margin-bottom:28px}
@@ -776,7 +767,6 @@ footer{text-align:center;font-size:0.7rem;color:var(--muted);margin-top:36px;pad
   .np-grid{grid-template-columns:1fr}
   .rec-2col{grid-template-columns:1fr}
   .signal-grid{grid-template-columns:1fr}
-  #lg-orb{display:none!important}
 }
 
 /* Research-note skin: quiet, editorial, information-first. */
@@ -789,7 +779,6 @@ footer{text-align:center;font-size:0.7rem;color:var(--muted);margin-top:36px;pad
   --JM:'SFMono-Regular',Consolas,'Liberation Mono',monospace;
 }
 body{background:var(--bg);color:var(--ink);font-size:14px;line-height:1.72}
-body::before{display:none}
 .container{max-width:var(--maxw);padding:28px 32px 64px}
 .report-masthead{border-bottom:1px solid var(--ink);padding:10px 0 20px;margin-bottom:28px}
 .report-kicker{color:var(--accent);font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
@@ -799,8 +788,8 @@ body::before{display:none}
 .date-bar{display:none}
 .sec-title{font-family:Georgia,'Songti SC','STSong',serif;text-transform:none;letter-spacing:-.01em;color:var(--ink);font-size:1.22rem;font-weight:700;margin:34px 0 12px;padding:0;border-bottom:1px solid var(--rule);padding-bottom:7px}
 .sec-title:first-letter{color:var(--accent)}
-.card,.chart-card,.rpt,.decision,.core-view,.signal-card,.metric,.callout,.formula-box,.pick,.reason{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:var(--bg3)!important;border:1px solid var(--rule)!important;box-shadow:var(--shadow-sm)!important;border-radius:var(--radius)!important}
-.card:hover,.chart-card:hover,.metric:hover{transform:none;box-shadow:var(--shadow-md)!important}
+.card,.chart-card,.rpt,.decision,.core-view,.signal-card,.metric,.callout,.formula-box,.pick,.reason{background:var(--bg3)!important;border:1px solid var(--rule)!important;box-shadow:var(--shadow-sm)!important;border-radius:var(--radius)!important}
+.card:hover,.chart-card:hover,.metric:hover,.signal-card:hover{transform:none;box-shadow:var(--shadow-md)!important}
 .card,.chart-card,.rpt{padding:18px 20px;margin-bottom:14px}
 .card-title{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700;margin-bottom:13px}
 .metrics{gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden}
@@ -808,19 +797,21 @@ body::before{display:none}
 .ml{font-size:.7rem;color:var(--muted);letter-spacing:.04em}.mv{font-size:1.32rem}.ms{font-size:.68rem}
 .core-view{text-align:left;padding:22px 24px;border-top:3px solid var(--accent)!important;margin-bottom:14px}
 .core-view .cv-label{color:var(--accent);font-size:.68rem;letter-spacing:.14em}.core-view .cv-text{font-family:Georgia,'Songti SC','STSong',serif;font-size:1.16rem;line-height:1.7}
+.strategy-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:18px}.strategy-cell{background:var(--bg3);padding:11px 12px}.strategy-cell span{display:block;color:var(--muted);font-size:.68rem}.strategy-cell b{display:block;font-family:var(--JM);font-size:.94rem;margin-top:3px}
 .signal-grid,.rec-2col{gap:14px}.signal-card{padding:17px 20px}.signal-card.long{border-left:3px solid var(--green)!important}.signal-card.short{border-left:3px solid var(--accent2)!important}
-.signal-card .sig-header{border-bottom:1px solid var(--rule)}.signal-card .sig-title{font-size:.9rem}.signal-card .sig-item{border-bottom:1px solid var(--bg2);padding:8px 0}
+.signal-card .sig-header{border-bottom:1px solid var(--rule)}.signal-card .sig-title{font-size:.9rem}.signal-card .sig-item{border-bottom:1px solid var(--bg2);padding:10px 0}.trade-item{gap:16px}.sig-copy{display:grid;gap:2px;min-width:132px}.sig-copy .sig-meta{display:block}.sig-facts{display:grid;grid-template-columns:auto auto;justify-content:end;align-items:center;gap:2px 12px;text-align:right;font-family:var(--JM);font-size:.7rem;color:var(--muted)}.sig-facts b{grid-row:1 / span 2;color:var(--ink);font-size:.78rem}.signal-card.long .sig-facts b{color:var(--green)}.signal-card.short .sig-facts b{color:var(--accent2)}
+.execution-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.execution-note{background:var(--bg3);border:1px solid var(--rule);padding:13px 14px}.execution-note b{display:block;color:var(--accent);font-size:.72rem;margin-bottom:5px}.execution-note span{display:block;color:var(--muted);font-size:.72rem;line-height:1.55}.execution-note.caution{border-left:3px solid var(--accent2)}
 .pick{box-shadow:none!important}.reason{box-shadow:none!important}
 table{font-size:.78rem}thead th{border-bottom:1px solid var(--ink);padding:8px}tbody td{padding:7px 8px;border-bottom:1px solid var(--bg2)}
 .tag{border-radius:3px}.t-bull{background:#e5efe8;color:var(--green)}.t-bear{background:#f4e5e2;color:var(--accent2)}.t-neutral{background:var(--bg2);color:var(--muted)}
 .chart{height:280px}.formula-box{background:#f8f6f1!important}.formula{font-size:.76rem}
 footer{font-size:.68rem;border-top:1px solid var(--ink);text-align:left;padding-top:12px}
-#lg-orb{display:none!important}
 .state-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden}
 .state-cell{background:var(--bg3);padding:15px 14px;min-height:105px}.state-label{font-size:.7rem;color:var(--muted);letter-spacing:.04em}.state-value{font-family:var(--JM);font-size:1.15rem;font-weight:700;margin:7px 0 3px}.state-note{font-size:.66rem;color:var(--muted);line-height:1.45}
 .section-note{font-size:.76rem;color:var(--muted);padding:10px 2px 0}.external-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}.gap-list{display:grid;gap:9px}.gap-list div{border-left:2px solid var(--accent);padding:7px 10px;background:var(--bg2)}.gap-list b{display:block;font-size:.76rem}.gap-list span{font-size:.72rem;color:var(--muted)}.headline-card ul{list-style:none}.headline-card li{padding:7px 0;border-bottom:1px solid var(--bg2);font-size:.75rem}.headline-card li:last-child{border-bottom:0}.headline-card li span{font-family:var(--JM);color:var(--muted);margin-right:8px}.headline-card a{color:var(--accent);margin-left:6px;text-decoration:none}
-.adapt-grid,.model-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.adapt-box,.model-box{background:var(--bg3);border:1px solid var(--rule);padding:16px 18px}.adapt-box b{font-size:.78rem;color:var(--accent)}.adapt-box p,.model-box p{font-size:.78rem;margin-top:6px}.model-number{font-family:var(--JM);font-size:1.6rem;font-weight:700;margin:8px 0}.formula{font-family:var(--JM);line-height:1.8;color:var(--ink)}.event-card{padding:12px 0;border-bottom:1px solid var(--rule)}.event-card:last-child{border-bottom:0}.event-meta{font-size:.7rem;color:var(--muted);letter-spacing:.02em}.event-title{font-weight:700;margin:6px 0}.event-title a{font-size:.7rem;color:var(--accent);font-weight:400}.event-card p{font-size:.78rem;line-height:1.65;margin:4px 0}.empty-note{color:var(--muted);padding:18px 0;font-size:.8rem}.model-fold,.inner-fold{background:var(--bg3);border:1px solid var(--rule);padding:15px 18px}.model-fold summary,.inner-fold summary{cursor:pointer;color:var(--accent);font-weight:700;font-size:.8rem}.model-fold[open]{box-shadow:var(--shadow-md)}.inner-fold{margin-top:14px;background:var(--bg)}
-@media(max-width:760px){.container{padding:20px 16px 48px}.report-title{font-size:1.75rem}.report-subtitle{display:block}.report-meta{margin-top:5px}.metrics{grid-template-columns:repeat(2,1fr)!important}.metric{min-height:78px;padding:12px}.mv{font-size:1.08rem}.state-grid{grid-template-columns:repeat(2,1fr)}.external-layout,.adapt-grid,.model-grid,.core-grid{grid-template-columns:1fr}}
+.adapt-grid,.model-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.adapt-box,.model-box{background:var(--bg3);border:1px solid var(--rule);padding:16px 18px}.adapt-box b{font-size:.78rem;color:var(--accent)}.adapt-box p,.model-box p{font-size:.78rem;margin-top:6px}.model-number{font-family:var(--JM);font-size:1.6rem;font-weight:700;margin:8px 0}.formula{font-family:var(--JM);line-height:1.8;color:var(--ink)}.event-card{padding:12px 0;border-bottom:1px solid var(--rule)}.event-card:last-child{border-bottom:0}.event-meta{font-size:.7rem;color:var(--muted);letter-spacing:.02em}.event-title{font-weight:700;margin:6px 0}.event-title a{font-size:.7rem;color:var(--accent);font-weight:400}.event-card p{font-size:.78rem;line-height:1.65;margin:4px 0}.post-news{margin-top:12px;border-top:1px solid var(--rule);padding-top:10px}.post-news summary{cursor:pointer;color:var(--accent);font-weight:700;font-size:.74rem}.empty-note{color:var(--muted);padding:18px 0;font-size:.8rem}.model-fold,.inner-fold,.detail-fold{background:var(--bg3);border:1px solid var(--rule);padding:15px 18px}.model-fold summary,.inner-fold summary,.detail-fold summary{cursor:pointer;color:var(--accent);font-weight:700;font-size:.8rem}.model-fold[open]{box-shadow:var(--shadow-md)}.inner-fold{margin-top:14px;background:var(--bg)}.detail-fold{margin-top:14px}.detail-fold .card{margin-top:14px}
+@media(max-width:760px){.container{padding:20px 16px 48px}.report-title{font-size:1.75rem}.report-subtitle{display:block}.report-subtitle>span{display:block}.report-meta{margin-top:5px}.metrics{grid-template-columns:repeat(2,1fr)!important}.metric{min-height:78px;padding:12px}.mv{font-size:1.08rem}.state-grid,.strategy-strip{grid-template-columns:repeat(2,1fr)}.strategy-cell:last-child{grid-column:1/-1}.external-layout,.adapt-grid,.model-grid,.core-grid,.execution-grid{grid-template-columns:1fr}.trade-item{align-items:flex-start}.sig-facts{grid-template-columns:1fr;gap:2px}.sig-facts b{grid-row:auto}}
+@media(prefers-reduced-motion:reduce){.card,.chart-card,.metric,.signal-card{transition:none!important}}
 """
 
 # ============================================================
@@ -965,104 +956,106 @@ def generate_charts_js(model_data, econ_data):
 #  HTML 各段生成
 # ============================================================
 
+def build_signal_views(model_data):
+    """把实际多头组合与相对弱势观察分开；当前模型不产生空头交易。"""
+    decision = model_data['latest_decision']
+    long_candidates = [p for p in decision.get('picks', []) if float(p.get('weight', 0)) > 0]
+    long_codes = {p.get('code') for p in long_candidates}
+    avoid_watch = [
+        item for item in decision.get('rankings', [])
+        if item.get('code') not in long_codes
+        and (float(item.get('score', 0)) < 0
+             or float(item.get('withdrawal_risk', 0)) >= WITHDRAWAL_WATCH_THRESHOLD)
+    ]
+    avoid_watch.sort(key=lambda item: (float(item.get('score', 0)),
+                                       -float(item.get('withdrawal_risk', 0))))
+    return {
+        'long_candidates': long_candidates,
+        'avoid_watch': avoid_watch[:3],
+        'short_candidates': [],
+    }
+
 def gen_top_summary(model_data, econ_data):
-    """生成顶部核心观点 + 三大做多/做空摘要"""
+    """生成信息优先的今日执行摘要：实际多头组合、弱势观察与交易边界。"""
     d = model_data['latest_decision']
-    s = model_data['summary']
-    logit_preds = econ_data['logit'].get('latest_predictions', [])
-
-    # ── 核心观点：根据趋势、情绪、动量自动生成 ──
-    trend = d.get('trend', '震荡')
-    sent_score = d.get('sentiment_score', 0)
-    bull = d.get('bull_signals', 0)
-    bear = d.get('bear_signals', 0)
-    ret = s.get('cumulative_return', 0)
-    win_rate = s.get('win_rate', 0)
     state = d.get('market_state', {})
-    rankings = d.get('rankings', [])
-    sector_perf = d.get('sector_performance', {})
-    top_sector = sector_perf.get('top5', [])[:3]
-    bottom_sector = sector_perf.get('bottom5', [])[:3]
-
-    if trend == '看涨':
-        if sent_score > 0:
-            core_text = f'市场状态偏进攻（宽度{state.get("breadth", 0.5):.0%}），趋势看涨，关注资金加速方向。'
-        else:
-            core_text = f'趋势偏多但新闻情绪谨慎（{bull}多/{bear}空），建议轻仓验证资金持续性。'
-    elif trend == '看跌':
-        if sent_score < 0:
-            core_text = f'市场进入压力状态（宽度{state.get("breadth", 0.5):.0%}），优先防守并回避撤退风险。'
-        else:
-            core_text = f'趋势看跌但情绪尚可（{bull}多/{bear}空），建议控制仓位，等待企稳信号。'
-    else:
-        core_text = f'市场处于中性轮动（宽度{state.get("breadth", 0.5):.0%}），只选择低拥挤的资金启动方向。'
-    core_text += (f' 风险预算{state.get("risk_budget", 0):.0%}，首选方向为'
-                  f'{rankings[0].get("sector", "低拥挤方向") if rankings else "低拥挤方向"}。')
-
+    views = build_signal_views(model_data)
+    longs = views['long_candidates']
+    avoids = views['avoid_watch']
+    planned_position = min(1.0, sum(float(p.get('weight', 0)) for p in longs))
+    risk_cap = float(state.get('risk_budget', d.get('risk_budget', 0)) or 0)
+    cash_position = max(0.0, 1.0 - planned_position)
+    handoff = model_data.get('handoff', {})
     state_name = {'risk_on': '风险偏好', 'neutral': '中性轮动', 'stress': '压力防守'}.get(state.get('name'), state.get('name', '未知'))
-    macro_text = (f'宏观环境处于{state_name}状态：市场宽度{state.get("breadth", 0):.0%}，'
-                  f'但20日动量{state.get("momentum_20d", 0):.2f}%、20日波动{state.get("volatility_20d", 0):.1f}%，'
-                  f'回撤{state.get("drawdown_20d", 0):.2f}%。因此不是全面进攻环境，当前风险预算为{state.get("risk_budget", 0):.0%}。')
-    sector_names = '、'.join(x.get('sector', x.get('name', '')) for x in top_sector) or '暂无明显强势板块'
-    candidate_names = '、'.join(x.get('sector', '') for x in rankings[:3]) or '暂无'
-    sector_text = (f'短线相对强势：{sector_names}；模型候选集中在{candidate_names}。'
-                   '原因是启动度、动量和拥挤度仍在可接受区间，但强势板块不等于立即追涨。')
-    path_text = ('若市场宽度维持、20日动量止跌，并且成交与 ETF 份额继续确认，可逐步增加低拥挤方向；'
-                 '若动量继续走弱或撤退风险升高，则降低高波动主题，保留黄金、债券或现金类防守仓位。')
-    weak_names = '、'.join(x.get('sector', '') for x in bottom_sector) or '金融/红利方向'
-    risk_text = (f'主要风险：{weak_names}偏弱，以及外部情绪与价格资金尚未完全同步。'
-                 '建议先小仓位验证，连续确认后再提高风险预算。')
+    long_names = '、'.join(p.get('name', '') for p in longs) or '暂无实际入选ETF'
+    avoid_names = '、'.join(p.get('name', '') for p in avoids) or '暂无达到回避条件的ETF'
+    if longs:
+        core_text = (f'{state_name}：执行{d.get("decision", "观望")}，计划仓位{planned_position:.1%}，'
+                     f'做多{long_names}；{avoid_names}列入弱势观察。')
+    else:
+        core_text = (f'{state_name}：当前没有通过规则门槛的多头仓位，保持观望；'
+                     f'{avoid_names}列入弱势观察。')
 
-    # 行为评分是主决策；Logit样本外无超额预测力时不得占据顶部建议。
-    top3_long = rankings[:3]
     long_items = ""
-    for lp in top3_long:
-        name = lp.get('name', '')
-        score = float(lp.get('score', 0))
+    for lp in longs:
         long_items += (
-            f'<div class="sig-item">'
-            f'<span class="sig-name">{esc(name)}</span>'
-            f'<span class="sig-meta">板块: {esc(lp.get("sector", ""))}</span>'
-            f'<span class="sig-score" style="color:var(--green)">行为分 {score:.2f}</span>'
+            f'<div class="sig-item trade-item">'
+            f'<span class="sig-copy"><span class="sig-name">{esc(lp.get("name", ""))}</span>'
+            f'<span class="sig-meta">{esc(lp.get("code", ""))} · {esc(lp.get("sector", ""))}</span></span>'
+            f'<span class="sig-facts"><b>仓位 {float(lp.get("weight", 0)):.1%}</b>'
+            f'<span>评分 {float(lp.get("score", 0)):+.2f}</span>'
+            f'<span>启动 {float(lp.get("early_entry", 0)):.2f} · 拥挤 {float(lp.get("crowding", 0)):.2f}</span></span>'
             f'</div>\n'
         )
+    if not long_items:
+        long_items = '<div class="empty-note">当前无实际多头仓位；不会用全池排名前三自动补位。</div>'
 
-    top3_short = list(reversed(rankings[-3:]))
     short_items = ""
-    for lp in top3_short:
-        name = lp.get('name', '')
+    for lp in avoids:
+        withdrawal = float(lp.get('withdrawal_risk', 0))
+        action = '降低暴露' if withdrawal >= WITHDRAWAL_WATCH_THRESHOLD else '暂不新增'
         short_items += (
-            f'<div class="sig-item">'
-            f'<span class="sig-name">{esc(name)}</span>'
-            f'<span class="sig-meta">板块: {esc(lp.get("sector", ""))}</span>'
-            f'<span class="sig-score" style="color:var(--accent2)">撤退 {float(lp.get("withdrawal_risk", 0)):.2f}</span>'
+            f'<div class="sig-item trade-item">'
+            f'<span class="sig-copy"><span class="sig-name">{esc(lp.get("name", ""))}</span>'
+            f'<span class="sig-meta">{esc(lp.get("code", ""))} · {esc(lp.get("sector", ""))}</span></span>'
+            f'<span class="sig-facts"><b>{action}</b>'
+            f'<span>评分 {float(lp.get("score", 0)):+.2f}</span>'
+            f'<span>撤退风险 {withdrawal:.2f}</span></span>'
             f'</div>\n'
         )
+    if not short_items:
+        short_items = '<div class="empty-note">当前无达到回避条件的ETF，也无已验证空头信号。</div>'
 
     return f"""<div class="top-summary">
   <div class="core-view">
-    <div class="cv-label">核心观点</div>
+    <div class="cv-label">今日执行摘要</div>
     <div class="cv-text">{esc(core_text)}</div>
-    <div class="core-grid">
-      <div class="core-note"><b>宏观环境</b><span>{esc(macro_text)}</span></div>
-      <div class="core-note"><b>板块判断</b><span>{esc(sector_text)}</span></div>
-      <div class="core-note"><b>后续路径</b><span>{esc(path_text)}</span></div>
-      <div class="core-note risk"><b>风险提示</b><span>{esc(risk_text)}</span></div>
+    <div class="strategy-strip">
+      <div class="strategy-cell"><span>市场状态</span><b>{esc(state_name)}</b></div>
+      <div class="strategy-cell"><span>组合决策</span><b>{esc(d.get('decision', '观望'))}</b></div>
+      <div class="strategy-cell"><span>计划仓位</span><b>{planned_position:.1%}</b></div>
+      <div class="strategy-cell"><span>风险上限</span><b>{risk_cap:.0%}</b></div>
+      <div class="strategy-cell"><span>现金/未配置</span><b>{cash_position:.1%}</b></div>
     </div>
   </div>
   <div class="signal-grid">
     <div class="signal-card long">
       <div class="sig-header">
-        <span class="sig-title">三大候选</span>
-        <span class="sig-tag">行为评分</span>
+        <span class="sig-title">做多计划 · 规则主模型</span>
+        <span class="sig-tag">目标 {planned_position:.1%}</span>
       </div>
 {long_items}    </div>
     <div class="signal-card short">
       <div class="sig-header">
-        <span class="sig-title">三大回避</span>
-        <span class="sig-tag">低分/撤退</span>
+        <span class="sig-title">做空观察 / 回避</span>
+        <span class="sig-tag">非空头交易</span>
       </div>
 {short_items}    </div>
+  </div>
+  <div class="execution-grid">
+    <div class="execution-note"><b>复核与结算</b><span>下一流水线复核日 {esc(handoff.get('next_trading_date', '待确认'))}；本条决策按历史标签口径自 {esc(d.get('date', ''))} 起算，持有 {HOLDING_PERIOD} 个交易日，预计 {esc(handoff.get('settlement_date', '待确认'))} 结算。若到下一交易日才首次执行，必须先重跑流水线。</span></div>
+    <div class="execution-note"><b>失效与退出</b><span>下一次日更若不再进入实际多头组合，则取消新增；当前模型没有盘中止损价，不在页面虚构价格点位。</span></div>
+    <div class="execution-note caution"><b>做空边界</b><span>弱势排名只表示回避或降低暴露，不代表可直接融券做空；当前模型未验证券源、借券成本及空头收益。</span></div>
   </div>
 </div>"""
 
@@ -1094,10 +1087,18 @@ def gen_external_review(model_data, econ_data):
     ext = d.get('external_sentiment', {})
     review = model_data.get('external_review', {})
     events = review.get('events', [])[:3]
-    event_cards = ''.join(f'''<article class="event-card"><div class="event-meta">{esc(x.get('published_at',''))} · {esc(x.get('source',''))} · {esc(x.get('event_type',''))} · 影响{esc(x.get('impact','未知'))} · T-{int(x.get('age_days', 0))}</div>
+    post_events = review.get('post_decision_events', [])[:3]
+
+    def render_event(x, status):
+        return f'''<article class="event-card"><div class="event-meta">{esc(x.get('published_at',''))} · {esc(x.get('source',''))} · {esc(x.get('event_type',''))} · 影响{esc(x.get('impact','未知'))} · {esc(status)}</div>
 <div class="event-title">{esc(x.get('title',''))} <a href="{esc(x.get('url','#'))}" target="_blank" rel="noopener">原文 ↗</a></div>
-<p><b>判断：</b>{esc(x.get('implication',''))}</p><p><b>涉及：</b>{esc('、'.join(x.get('sectors', [])))} · <b>方向：</b>{esc(x.get('direction','中性'))}</p></article>''' for x in events)
+<p><b>判断：</b>{esc(x.get('implication',''))}</p><p><b>涉及：</b>{esc('、'.join(x.get('sectors', [])))} · <b>方向：</b>{esc(x.get('direction','中性'))}</p></article>'''
+
+    event_cards = ''.join(render_event(x, '已纳入本次信息集') for x in events)
     if not event_cards: event_cards = '<div class="empty-note">暂无通过日期校验的近期事件；本日不使用无法确认日期的标题。</div>'
+    post_cards = ''.join(render_event(x, '盘后新增 · 未进入本次信号') for x in post_events)
+    post_section = (f'<details class="post-news"><summary>盘后新增观察（{len(post_events)}条，未进入本次信号）</summary>{post_cards}</details>'
+                    if post_cards else '')
     newspapers = model_data.get('latest_newspapers', {})
     paper_names = ['中国证券报', '上海证券报', '证券时报', '证券日报']
     newspaper_date = d.get('date', model_data.get('summary', {}).get('report_date', ''))
@@ -1107,8 +1108,8 @@ def gen_external_review(model_data, econ_data):
         items = ''.join(f'<li>{esc(title)}</li>' for title in titles) or '<li style="color:var(--muted)">今日暂无数据</li>'
         paper_cards += f'<div class="np-card"><div class="np-src">{esc(paper)}</div><ul>{items}</ul></div>'
     return f'''<section class="report-section"><div class="sec-title">二、外部信息与资金行为</div>
-<div class="external-layout"><div class="card"><div class="card-title">近期事件分析 · 只显示真实日期事件</div>{event_cards}
-<div class="section-note">外部情绪分 <strong class="{cls_val(ext.get('score', 0))}">{float(ext.get('score', 0)):.3f}</strong> · 日期证据优先原文页，其次 URL；无法确认日期的内容不进入模型。</div></div>
+<div class="external-layout"><div class="card"><div class="card-title">本次模型输入 · 发布日≤{esc(d.get('date', ''))}</div>{event_cards}{post_section}
+<div class="section-note">外部情绪分 <strong class="{cls_val(ext.get('score', 0))}">{float(ext.get('score', 0)):.3f}</strong> · 盘后新增事件单独展示，不回填本次决策；无法确认日期的内容不进入模型。</div></div>
 <div class="card"><div class="card-title">四大报 · 当日全部标题（{esc(newspaper_date)}）</div>
 <div class="np-grid compact-paper-grid">{paper_cards}</div>
 <div class="section-note">四大报只作为机构情绪和叙事参考，不单独触发买入；需要与价格、成交和资金行为交叉确认。</div></div></div>
@@ -1118,7 +1119,7 @@ def gen_external_review(model_data, econ_data):
 def gen_adaptation_review(model_data, econ_data):
     review = model_data.get('adaptation_review', {})
     rows = ''.join(f'<tr><td>{esc(k)}</td><td class="{cls_val(v["model"])}">{fmt_pct(v["model"])}</td><td>{fmt_pct(v["bench"])}</td><td class="{cls_val(v["alpha"])}">{fmt_pct(v["alpha"])}</td><td>{v["win_rate"]:.1f}%</td></tr>' for k, v in review.get('windows', {}).items())
-    return f'''<section class="report-section"><div class="sec-title">六、历史回顾与下一轮调优</div>
+    return f'''<section class="report-section"><div class="sec-title">四、历史回顾与下一轮调优</div>
 <div class="card"><div class="card-title">滚动样本外回顾</div><table><thead><tr><th>窗口</th><th>模型</th><th>沪深300</th><th>Alpha</th><th>胜率</th></tr></thead><tbody>{rows}</tbody></table>
 <div class="section-note">全样本基准采用同期买入持有；滚动窗口采用决策日匹配收益。最大复合净值回撤约 <strong>{float(review.get('max_drawdown', 0)):.2f}%</strong>。{esc(review.get('action', ''))}</div></div>
 <div class="adapt-grid"><div class="adapt-box"><b>当前结论</b><p>{esc(review.get('action', '暂不调参'))}</p></div><div class="adapt-box"><b>调优护栏</b><p>{esc(review.get('guardrail', ''))}</p></div></div>
@@ -1145,10 +1146,10 @@ def gen_model_fold(model_data, econ_data):
                if len(ci) == 2 and ci[0] is not None and ci[1] is not None else '暂无')
     mean_alpha = selective.get('mean_portfolio_net_alpha', selective.get('mean_net_alpha'))
     alpha_text = f'{float(mean_alpha):+.2f}%' if mean_alpha is not None else '暂无'
-    return f'''<section class="report-section"><div class="sec-title">七、模型结果（可展开）</div>
-<details class="model-fold" open><summary>模型卡片：规则模型负责组合，Logit/OLS负责诊断（点击收起）</summary>
+    return f'''<section class="report-section"><div class="sec-title">五、模型结果（可展开）</div>
+<details class="model-fold"><summary>模型卡片：规则模型负责组合，Logit/OLS负责诊断（点击展开）</summary>
 <div class="model-grid"><div class="model-box"><div class="card-title">规则模型 · 实际决策公式</div><p class="formula">Score = 状态化趋势/回归 + 启动/资金代理 + 新闻预期差 + 市场一致性 − 陈旧拥挤 − 撤退风险</p><p>价格和资金使用 T-1；外部事件必须满足真实日期≤决策日。风险预算由宽度、20日动量、波动和回撤决定，持仓再按逆波动率分配。</p></div><div class="model-box"><div class="card-title">路径 A · 三日净Alpha模型</div><div class="model-number">{status}</div><p>目标为ETF从 T 开盘持有至 T+2 收盘，相对沪深300并扣除0.05%往返成本。样本外能力检验{skill}；未过护栏时不参与主推荐。</p></div></div>
-<div class="model-grid"><div class="model-box"><div class="card-title">当前参数护栏</div><p>买入门槛 0.35 · 持有期 3 日 · 情绪滞后系数 -1.0 · 份额流向暂只作诊断。</p></div><div class="model-box"><div class="card-title">日间交接</div><p>当日预测先进入 pending；持有期结束、收益和成本结算后，才允许写入经验库并参与滚动 OOS 复核。</p></div></div>
+<div class="model-grid"><div class="model-box"><div class="card-title">当前参数护栏</div><p>买入门槛 {BUY_THRESHOLD:.2f} · 持有期 {HOLDING_PERIOD} 日 · 情绪滞后系数 -1.0 · 份额流向暂只作诊断。</p></div><div class="model-box"><div class="card-title">日间交接</div><p>当日预测先进入 pending；持有期结束、收益和成本结算后，才允许写入经验库并参与滚动 OOS 复核。</p></div></div>
 <div class="model-grid"><div class="model-box"><div class="card-title">Logit · Purged Walk-Forward</div><div class="model-number">OOF {logit.get('cv_accuracy', 0):.1f}% · 基准 {logit.get('baseline_accuracy', 0):.1f}%</div><p>Brier（越低越好）：{brier_text}。训练与验证之间隔离2个交易日，并只用过去的OOF结果校准概率。</p></div><div class="model-box"><div class="card-title">高置信组合 · P(净Alpha&gt;0) ≥ 60%</div><div class="model-number">{win_text} · {trades}笔</div><p>只统计最多3只、持有期不重叠的组合交易；95%区间 {ci_text}，平均净Alpha {alpha_text}，覆盖 {trades}/{oof_dates} 个OOF日期（{coverage:.1%}）。</p></div></div>
 <div class="model-grid"><div class="model-box"><div class="card-title">概率模型状态</div><div class="model-number">{status}</div><p>准确率需领先基准至少2个百分点、Brier优于基准、至少40个不重叠结算日，且4折中至少3折平均净Alpha为正。</p></div><div class="model-box"><div class="card-title">OLS · 净Alpha诊断</div><div class="model-number">OOS R² {float(ols.get('cv_r2', 0)):.3f}</div><p>标准误按决策日聚类；线性模型只用于观察因子方向和稳定性，不负责顶部推荐。</p></div></div>
 <details class="inner-fold"><summary>展开系数、因素重要性与图表</summary>{gen_section_5_features(model_data, econ_data)}</details>
@@ -1180,48 +1181,6 @@ def gen_section_1_conclusion(model_data, econ_data):
 </div>'''
 
     return callout + '\n' + cards
-
-
-def gen_section_2_prediction(model_data, econ_data):
-    """二、模型预测 — 决策 + 看好/看空板块"""
-    d = model_data['latest_decision']
-    s = model_data['summary']
-    logit_preds = econ_data['logit'].get('latest_predictions', [])
-
-    # 决策callout
-    decision_html = f'''<h2>三、{esc(s["report_date"])} 组合建议</h2>
-<div class="callout">
-  <p><strong>决策：{esc(d.get("decision","持币观望"))}</strong></p>
-  <p>趋势：{trend_tag(d.get("trend","震荡"))} | 置信度：{esc(d.get("confidence",""))} | 看多{d.get("bull_signals",0)}/看空{d.get("bear_signals",0)}</p>
-</div>'''
-
-    rankings = d.get('rankings', [])
-    top3_bullish = rankings[:3]
-    top3_bearish = list(reversed(rankings[-3:]))
-
-    bullish_items = ""
-    for lp in top3_bullish:
-        name = lp.get('name', '')
-        bullish_items += f'<div class="pick"><span class="pick-name">{esc(name)}</span><span class="pick-w">评分 {float(lp.get("score",0)):.2f}</span></div>\n'
-
-    bearish_items = ""
-    for lp in top3_bearish:
-        name = lp.get('name', '')
-        bearish_items += f'<div class="pick"><span class="pick-name">{esc(name)}</span><span class="pick-w" style="background:var(--accent2);color:#fff">撤退 {float(lp.get("withdrawal_risk",0)):.2f}</span></div>\n'
-
-    return f'''{decision_html}
-<div class="rec-2col">
-  <div class="card" style="border-color:var(--green);border-width:1.5px">
-    <div class="card-title" style="color:var(--green)">看好板块</div>
-    <div class="picks" style="flex-direction:column">
-{bullish_items}    </div>
-  </div>
-  <div class="card" style="border-color:var(--accent2);border-width:1.5px">
-    <div class="card-title" style="color:var(--accent2)">看空预警</div>
-    <div class="picks" style="flex-direction:column">
-{bearish_items}    </div>
-  </div>
-</div>'''
 
 
 def gen_section_3_sentiment(model_data, econ_data):
@@ -1321,13 +1280,13 @@ def gen_section_4_performance(model_data, econ_data):
   </table>
 </div>'''
 
-    return f'''<h2>五、历史表现与回测（截至{esc(s["end_date"])}）</h2>
+    return f'''<section class="report-section"><div class="sec-title">三、历史表现与回测（已结算至{esc(s["end_date"])}）</div>
 <div class="metrics" style="grid-template-columns:repeat(3,1fr)">
 {cards}
 </div>
 {charts}
-{perf_table}
-{rec_table}'''
+<details class="detail-fold"><summary>展开各ETF表现与最近20条交易</summary>{perf_table}{rec_table}</details>
+</section>'''
 
 
 def gen_section_5_features(model_data, econ_data):
@@ -1374,27 +1333,6 @@ def gen_section_5_features(model_data, econ_data):
 {logit_table}
 {fi_table}
 {charts}'''
-
-
-def gen_section_6_advice(model_data, econ_data):
-    """六、操作建议"""
-    d = model_data['latest_decision']
-    s = model_data['summary']
-
-    return f'''<h2>四、执行与风控</h2>
-<div class="callout warning">
-  <p><strong>综合建议：{esc(d.get("decision", "持币观望"))}</strong></p>
-  <p>1. <strong>模型</strong>：趋势{esc(d.get("trend","震荡"))}，置信度{esc(d.get("confidence",""))}</p>
-  <p>2. <strong>情绪</strong>：四大报情绪{d.get("sentiment_score",0):.2f}（看多{d.get("bull_signals",0)}/看空{d.get("bear_signals",0)}）</p>
-  <p>3. <strong>历史表现</strong>：胜率{s["win_rate"]:.1f}%，盈亏比{s["profit_loss_ratio"]:.2f}</p>
-</div>
-<div class="rpt">
-  <h3>关注信号</h3>
-  <p>若后续出现以下变化，可考虑转为积极：</p>
-  <p><strong>1. 情绪反转</strong>：四大报情绪由负转正，或看多标题增多</p>
-  <p><strong>2. 趋势确认</strong>：趋势信号转为看涨，且置信度提升</p>
-  <p><strong>3. 量能配合</strong>：市场成交量放大，板块轮动加速</p>
-</div>'''
 
 
 def gen_date_badge(model_data):
@@ -2000,8 +1938,6 @@ def generate_html(model_data, econ_data):
         gen_top_summary(model_data, econ_data),
         gen_market_state(model_data, econ_data),
         gen_external_review(model_data, econ_data),
-        gen_section_2_prediction(model_data, econ_data),
-        gen_section_6_advice(model_data, econ_data),
         gen_section_4_performance(model_data, econ_data),
         gen_adaptation_review(model_data, econ_data),
         gen_model_fold(model_data, econ_data),
@@ -2027,19 +1963,6 @@ def generate_html(model_data, econ_data):
 </head>
 <body>
 
-<!-- ====== Liquid Glass SVG Filter (shuding/liquid-glass) ====== -->
-<svg style="position:fixed;top:0;left:0;width:0;height:0;pointer-events:none" aria-hidden="true">
-  <defs>
-    <filter id="liquid-glass" filterUnits="objectBoundingBox" x="0" y="0" width="1" height="1" colorInterpolationFilters="sRGB">
-      <feImage id="lg-map" preserveAspectRatio="none" width="100" height="100" result="map"/>
-      <feDisplacementMap in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="G" scale="30" result="displaced"/>
-    </filter>
-  </defs>
-</svg>
-
-<!-- ====== Floating Draggable Liquid Glass Orb ====== -->
-<div id="lg-orb"><span id="lg-orb-hint">drag me</span></div>
-
 <div class="container">
 {masthead}
 {body}
@@ -2047,34 +1970,6 @@ def generate_html(model_data, econ_data):
 </div>
 <script src="{ECHARTS_JS_REF}"></script>
 <script src="assets/charts.js"></script>
-
-<!-- ====== Liquid Glass — Displacement Map Generator (shuding/liquid-glass) ====== -->
-<script>
-(function(){{
-  'use strict';
-  function smoothStep(a,b,t){{t=Math.max(0,Math.min(1,(t-a)/(b-a)));return t*t*(3-2*t)}}
-  function length(x,y){{return Math.sqrt(x*x+y*y)}}
-  function roundedRectSDF(x,y,w,h,r){{var qx=Math.abs(x)-w+r,qy=Math.abs(y)-h+r;return Math.min(Math.max(qx,qy),0)+length(Math.max(qx,0),Math.max(qy,0))-r}}
-  var W=100,H=100,canvas=document.createElement('canvas');canvas.width=W;canvas.height=H;
-  var ctx=canvas.getContext('2d'),data=new Uint8ClampedArray(W*H*4),maxScale=0,rawValues=[];
-  for(var i=0;i<W*H;i++){{var x=i%W,y=Math.floor(i/W),ix=x/W-0.5,iy=y/H-0.5;var de=roundedRectSDF(ix,iy,0.3,0.2,0.6);var dp=smoothStep(0.8,0,de-0.15);var sc=smoothStep(0,1,dp);var dx=(ix*sc+0.5)*W-x,dy=(iy*sc+0.5)*H-y;maxScale=Math.max(maxScale,Math.abs(dx),Math.abs(dy));rawValues.push(dx,dy)}}
-  maxScale*=0.5;var idx=0;
-  for(var j=0;j<data.length;j+=4){{data[j]=rawValues[idx++]/maxScale*255+127.5;data[j+1]=rawValues[idx++]/maxScale*255+127.5;data[j+2]=0;data[j+3]=255}}
-  ctx.putImageData(new ImageData(data,W,H),0,0);
-  var dataURI=canvas.toDataURL();
-  var feImage=document.getElementById('lg-map');
-  if(feImage){{feImage.setAttribute('href',dataURI);feImage.setAttributeNS('http://www.w3.org/1999/xlink','href',dataURI)}}
-  var orb=document.getElementById('lg-orb');
-  if(orb){{
-    var isDragging=false,startX,startY,initialX,initialY,offset=10;
-    function constrain(x,y){{var maxX=window.innerWidth-orb.offsetWidth-offset,maxY=window.innerHeight-orb.offsetHeight-offset;return{{x:Math.max(offset,Math.min(maxX,x)),y:Math.max(offset,Math.min(maxY,y))}}}}
-    orb.addEventListener('mousedown',function(e){{isDragging=true;startX=e.clientX;startY=e.clientY;var rect=orb.getBoundingClientRect();initialX=rect.left;initialY=rect.top;e.preventDefault()}});
-    document.addEventListener('mousemove',function(e){{if(isDragging){{var c=constrain(initialX+e.clientX-startX,initialY+e.clientY-startY);orb.style.left=c.x+'px';orb.style.top=c.y+'px';orb.style.transform='none'}}}});
-    document.addEventListener('mouseup',function(){{isDragging=false}});
-    window.addEventListener('resize',function(){{var rect=orb.getBoundingClientRect();var c=constrain(rect.left,rect.top);if(rect.left!==c.x||rect.top!==c.y){{orb.style.left=c.x+'px';orb.style.top=c.y+'px';orb.style.transform='none'}}}});
-  }}
-}})();
-</script>
 </body>
 </html>"""
 

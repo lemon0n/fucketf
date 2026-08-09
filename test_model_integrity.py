@@ -14,6 +14,7 @@ from etf_model_run import (
     get_trading_days, holding_end_index, load_json, risk_adjusted_score,
 )
 from generate_daily_handoff import future_trading_days
+import generate_dashboard as dashboard
 
 
 class ModelIntegrityTests(unittest.TestCase):
@@ -77,6 +78,44 @@ class ModelIntegrityTests(unittest.TestCase):
             dates, quality = future_trading_days('2026-08-07', 2)
         self.assertEqual(dates, ['2026-08-10', '2026-08-11'])
         self.assertEqual(quality, 'weekday_fallback')
+
+    def test_dashboard_separates_trades_from_weakness_watch(self):
+        model = dashboard.normalize_model_data(
+            dashboard.load_json(dashboard.MODEL_RESULTS_PATH)
+        )
+        econ = dashboard.normalize_econ_data(
+            dashboard.load_json(dashboard.ECON_RESULTS_PATH), model
+        )
+        views = dashboard.build_signal_views(model)
+        expected_longs = {
+            item['code'] for item in model['latest_decision']['picks']
+            if float(item.get('weight', 0)) > 0
+        }
+        actual_longs = {item['code'] for item in views['long_candidates']}
+        avoid_codes = {item['code'] for item in views['avoid_watch']}
+        self.assertEqual(actual_longs, expected_longs)
+        self.assertTrue(actual_longs.isdisjoint(avoid_codes))
+        self.assertEqual(views['short_candidates'], [])
+
+        html = dashboard.gen_top_summary(model, econ)
+        self.assertIn('做多计划 · 规则主模型', html)
+        self.assertIn('做空观察 / 回避', html)
+        self.assertIn('非空头交易', html)
+        self.assertNotIn('置信度：35%', html)
+
+    def test_dashboard_external_news_respects_decision_cutoff(self):
+        model = dashboard.normalize_model_data(
+            dashboard.load_json(dashboard.MODEL_RESULTS_PATH)
+        )
+        cutoff = model['latest_decision']['date']
+        review = model['external_review']
+        self.assertTrue(all(item['published_at'][:10] <= cutoff
+                            for item in review['events']))
+        self.assertTrue(all(item['published_at'][:10] > cutoff
+                            for item in review['post_decision_events']))
+        keys = [(item['published_at'][:10], item.get('source'), item.get('title'))
+                for item in review['events'] + review['post_decision_events']]
+        self.assertEqual(len(keys), len(set(keys)))
 
 
 if __name__ == '__main__':
