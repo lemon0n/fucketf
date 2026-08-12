@@ -1,61 +1,31 @@
 {
-  "as_of_date": "2026-08-12",
-  "decision_date": "2026-08-12",
-  "next_trading_date": "2026-08-13",
-  "settlement_date": "2026-08-14",
+  "as_of_date": "2026-08-13",
+  "decision_date": "2026-08-13",
+  "next_trading_date": "2026-08-14",
+  "settlement_date": "2026-08-17",
   "calendar_quality": "exchange_calendar",
   "cutoff_policy": "价格/成交截至前一交易日；外部事件必须有原文或URL日期且published_at<=decision_date；未结算预测不得进入经验库。",
   "market_state": {
     "name": "neutral",
-    "risk_budget": 0.5,
-    "breadth": 0.1739,
-    "volatility_20d": 23.9717
+    "risk_budget": 0.65,
+    "breadth": 0.6087,
+    "volatility_20d": 24.038
   },
   "selected_etfs": [
-    {
-      "code": "510500",
-      "name": "中证500ETF",
-      "sector": "中盘",
-      "weight": 0.0495,
-      "total_score": 0.5469,
-      "early_entry": 0.5599,
-      "crowding": 0.1694,
-      "withdrawal_risk": 0.0187,
-      "flow_proxy": 0.2125,
-      "external_signal": -0.3143,
-      "news_price_gap": -1.0,
-      "news_flow_gap": -0.5268,
-      "share_flow_signal": -0.5569
-    },
-    {
-      "code": "512100",
-      "name": "中证1000ETF",
-      "sector": "小盘",
-      "weight": 0.044,
-      "total_score": 0.5114,
-      "early_entry": 0.4754,
-      "crowding": 0.186,
-      "withdrawal_risk": 0.0129,
-      "flow_proxy": 0.159,
-      "external_signal": -0.3143,
-      "news_price_gap": -1.0,
-      "news_flow_gap": -0.4733,
-      "share_flow_signal": -1.0
-    },
     {
       "code": "515120",
       "name": "创新药ETF",
       "sector": "创新药",
-      "weight": 0.0315,
-      "total_score": 0.4241,
-      "early_entry": 0.6689,
-      "crowding": 0.4996,
-      "withdrawal_risk": 0.0,
-      "flow_proxy": 0.5535,
+      "weight": 0.2282,
+      "total_score": 0.6484,
+      "early_entry": 0.7074,
+      "crowding": 0.2515,
+      "withdrawal_risk": 0.0182,
+      "flow_proxy": 0.4155,
       "external_signal": -0.3143,
       "news_price_gap": -1.0,
-      "news_flow_gap": -0.8678,
-      "share_flow_signal": -0.5654
+      "news_flow_gap": -0.7298,
+      "share_flow_signal": -1.0
     }
   ],
   "monitor": [
@@ -67,31 +37,31 @@
     "market_breadth",
     "volatility_20d"
   ],
-  "external_event_count": 73,
+  "external_event_count": 75,
   "external_latest_dates": [
+    "2026-08-12",
     "2026-08-11",
     "2026-08-10",
     "2026-08-09",
-    "2026-08-07",
-    "2026-08-06"
+    "2026-08-07"
   ],
   "pending_labels": [
-    {
-      "decision_date": "2026-08-11",
-      "settle_after": "2026-08-13",
-      "status": "pending",
-      "rule": "完整持有期结束后才计算净收益并写入经验库"
-    },
     {
       "decision_date": "2026-08-12",
       "settle_after": "2026-08-14",
       "status": "pending",
       "rule": "完整持有期结束后才计算净收益并写入经验库"
+    },
+    {
+      "decision_date": "2026-08-13",
+      "settle_after": "2026-08-17",
+      "status": "pending",
+      "rule": "完整持有期结束后才计算净收益并写入经验库"
     }
   ],
   "source_health": {
-    "external_news": 73,
-    "margin_records": 145,
+    "external_news": 75,
+    "margin_records": 146,
     "share_snapshots": 80
   },
   "experience_policy": "只用真实成交/结算后的结果更新经验；不使用手工输入跌幅、不按单日噪声自动改权重；参数仅在滚动样本外验证通过后升级。"
