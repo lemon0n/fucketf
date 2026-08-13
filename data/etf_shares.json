@@ -1,8 +1,17 @@
 {
-  "updated_at": "2026-08-12",
+  "updated_at": "2026-08-13T23:32:48+00:00",
   "coverage": {
-    "sse": "weekly historical snapshots",
-    "szse": "latest snapshot only"
+    "sse": "weekly historical snapshots plus latest refresh",
+    "szse": "pipeline snapshots; flow requires two distinct dates"
+  },
+  "source_health": {
+    "sse": {
+      "status": "沿用缓存；1次请求未更新",
+      "new_snapshots": 0
+    },
+    "szse": {
+      "status": "可用"
+    }
   },
   "history": {
     "2025-01-02": {
@@ -2064,6 +2073,10 @@
     "2026-08-12": {
       "159592": 610310460.0,
       "159995": 23451126012.0
+    },
+    "2026-08-13": {
+      "159592": 608310460.0,
+      "159995": 23431126012.0
     }
   }
 }

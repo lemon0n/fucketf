@@ -1,11 +1,11 @@
 {
   "summary": {
-    "report_date": "2026-08-13",
+    "report_date": "2026-08-14",
     "cumulative_return": 3.52,
-    "hs300_return": 24.65,
-    "hs300_cumulative_return": 24.65,
+    "hs300_return": 24.15,
+    "hs300_cumulative_return": 24.15,
     "decision_calendar_hs300_return": 32.45,
-    "alpha": -21.13,
+    "alpha": -20.63,
     "win_rate": 55.56,
     "annualized_return": 2.18,
     "max_drawdown": -4.17,
@@ -13,7 +13,7 @@
     "trading_days": 173,
     "total_trades": 108,
     "experience_count": 108,
-    "etf_avg_performance": 28.03,
+    "etf_avg_performance": 27.44,
     "final_capital": 1035163.25,
     "initial_capital": 1000000.0,
     "commission_rate": 5e-05,
@@ -26,7 +26,7 @@
     "start_date": "2025-01-03"
   },
   "latest_decision": {
-    "date": "2026-08-13",
+    "date": "2026-08-14",
     "trend": "neutral",
     "decision": "buy",
     "etf_selection": [
@@ -34,193 +34,205 @@
         "code": "515120",
         "name": "创新药ETF",
         "sector": "创新药",
-        "weight": 0.0968,
-        "total_score": 0.7605,
-        "early_entry": 0.7074,
-        "crowding": 0.2515,
-        "withdrawal_risk": 0.0182,
-        "flow_proxy": 0.4155,
-        "external_signal": 0.0338,
-        "news_price_gap": -0.9662,
-        "news_flow_gap": -0.3817,
+        "weight": 0.0884,
+        "total_score": 0.7995,
+        "early_entry": 0.7289,
+        "crowding": 0.3499,
+        "withdrawal_risk": 0.0,
+        "flow_proxy": 0.5754,
+        "external_signal": 0.0365,
+        "news_price_gap": -0.9635,
+        "news_flow_gap": -0.5389,
         "share_flow_signal": -1.0
       },
       {
-        "code": "510880",
-        "name": "红利ETF",
-        "sector": "红利",
-        "weight": 0.14,
-        "total_score": 0.47,
-        "early_entry": 0.5446,
-        "crowding": 0.1978,
-        "withdrawal_risk": 0.006,
-        "flow_proxy": 0.2664,
-        "external_signal": 0.0338,
-        "news_price_gap": -0.3551,
-        "news_flow_gap": -0.2326,
-        "share_flow_signal": -0.7464
+        "code": "510150",
+        "name": "消费ETF",
+        "sector": "消费",
+        "weight": 0.139,
+        "total_score": 0.6312,
+        "early_entry": 0.6519,
+        "crowding": 0.2417,
+        "withdrawal_risk": 0.0,
+        "flow_proxy": 0.3971,
+        "external_signal": 0.0365,
+        "news_price_gap": -0.6135,
+        "news_flow_gap": -0.3606,
+        "share_flow_signal": -0.9311
       },
       {
-        "code": "512200",
-        "name": "房地产ETF",
-        "sector": "房地产",
-        "weight": 0.077,
-        "total_score": 0.3742,
-        "early_entry": 0.5268,
-        "crowding": 0.5448,
+        "code": "512800",
+        "name": "银行ETF",
+        "sector": "银行",
+        "weight": 0.1163,
+        "total_score": 0.4576,
+        "early_entry": 0.6676,
+        "crowding": 0.1497,
         "withdrawal_risk": 0.0,
-        "flow_proxy": 0.6068,
-        "external_signal": 0.0338,
-        "news_price_gap": -0.9662,
-        "news_flow_gap": -0.573,
-        "share_flow_signal": 0.0963
+        "flow_proxy": 0.6577,
+        "external_signal": 0.0365,
+        "news_price_gap": 0.2677,
+        "news_flow_gap": -0.6212,
+        "share_flow_signal": -0.5087
       }
     ],
-    "weight": 0.3138,
-    "reason": "趋势neutral，首选创新药ETF(总分0.76)，新闻预期差(-0.02)、动量(1.00)、量比(0.42)、均值回归(-0.82)、经验(0.04)、启动0.71/拥挤0.25/撤退0.02",
+    "weight": 0.3437,
+    "reason": "趋势neutral，首选创新药ETF(总分0.80)，新闻预期差(-0.06)、动量(1.00)、量比(0.58)、均值回归(-1.00)、经验(0.04)、启动0.73/拥挤0.35/撤退0.00",
     "sentiment": {
-      "score": 0.125,
-      "bullish_count": 2,
-      "bearish_count": 0,
+      "score": 0.25,
+      "bullish_count": 5,
+      "bearish_count": 1,
       "hot_sectors": [
         {
           "sector": "AI算力",
           "count": 2
         },
         {
-          "sector": "银行",
+          "sector": "红利",
           "count": 1
         },
         {
-          "sector": "房地产",
+          "sector": "半导体",
+          "count": 1
+        },
+        {
+          "sector": "芯片",
+          "count": 1
+        },
+        {
+          "sector": "创新药",
+          "count": 1
+        },
+        {
+          "sector": "医疗",
           "count": 1
         }
       ],
-      "summary": "四大报共16条去重标题，明确偏多2/偏空0，方向覆盖12%，叙事净分+0.12；热点: AI算力, 银行, 房地产"
+      "summary": "四大报共16条去重标题，明确偏多5/偏空1，方向覆盖38%，叙事净分+0.25；热点: AI算力, 红利, 半导体"
     },
     "sector_performance": {
-      "date": "2026-08-12",
-      "prev_date": "2026-08-11",
+      "date": "2026-08-13",
+      "prev_date": "2026-08-12",
       "top5": [
         {
-          "code": "512200",
-          "name": "房地产ETF",
-          "sector": "房地产",
-          "change_pct": 4.1803,
-          "close": 1.271,
-          "volume": 1491438
-        },
-        {
-          "code": "159995",
-          "name": "芯片ETF",
-          "sector": "芯片",
-          "change_pct": 1.8534,
-          "close": 1.209,
-          "volume": 5657757
-        },
-        {
-          "code": "512760",
-          "name": "半导体ETF",
-          "sector": "半导体",
-          "change_pct": 1.6667,
-          "close": 1.159,
-          "volume": 3694355
-        },
-        {
-          "code": "515790",
-          "name": "光伏ETF",
-          "sector": "光伏",
-          "change_pct": 1.6129,
-          "close": 0.882,
-          "volume": 2505585
-        },
-        {
-          "code": "515980",
-          "name": "人工智能ETF",
-          "sector": "AI算力",
-          "change_pct": 1.3346,
-          "close": 1.063,
-          "volume": 1698209
-        }
-      ],
-      "bottom5": [
-        {
-          "code": "513050",
-          "name": "中概互联网ETF",
-          "sector": "中概互联网",
-          "change_pct": -2.1552,
-          "close": 1.135,
-          "volume": 19763086
-        },
-        {
-          "code": "513180",
-          "name": "恒生科技ETF",
-          "sector": "港股科技",
-          "change_pct": -0.9836,
-          "close": 0.604,
-          "volume": 32689321
-        },
-        {
-          "code": "513500",
-          "name": "标普500ETF",
-          "sector": "标普500",
-          "change_pct": -0.6627,
-          "close": 2.698,
-          "volume": 1932346
-        },
-        {
-          "code": "510150",
-          "name": "消费ETF",
-          "sector": "消费",
-          "change_pct": -0.5792,
-          "close": 0.515,
-          "volume": 504934
+          "code": "512170",
+          "name": "医疗ETF",
+          "sector": "医疗",
+          "change_pct": 1.4286,
+          "close": 0.355,
+          "volume": 25232671
         },
         {
           "code": "515120",
           "name": "创新药ETF",
           "sector": "创新药",
-          "change_pct": -0.4342,
-          "close": 0.688,
-          "volume": 9777628
+          "change_pct": 1.0174,
+          "close": 0.695,
+          "volume": 15506331
+        },
+        {
+          "code": "513500",
+          "name": "标普500ETF",
+          "sector": "标普500",
+          "change_pct": 0.4818,
+          "close": 2.711,
+          "volume": 1472224
+        },
+        {
+          "code": "512000",
+          "name": "券商ETF",
+          "sector": "券商",
+          "change_pct": 0.3817,
+          "close": 0.526,
+          "volume": 22673597
+        },
+        {
+          "code": "512800",
+          "name": "银行ETF",
+          "sector": "银行",
+          "change_pct": 0.375,
+          "close": 0.803,
+          "volume": 11291851
         }
       ],
-      "hs300": 0.423,
-      "avg": 0.4231
+      "bottom5": [
+        {
+          "code": "512200",
+          "name": "房地产ETF",
+          "sector": "房地产",
+          "change_pct": -2.439,
+          "close": 1.24,
+          "volume": 1480623
+        },
+        {
+          "code": "515790",
+          "name": "光伏ETF",
+          "sector": "光伏",
+          "change_pct": -2.1542,
+          "close": 0.863,
+          "volume": 2490361
+        },
+        {
+          "code": "513050",
+          "name": "中概互联网ETF",
+          "sector": "中概互联网",
+          "change_pct": -1.7621,
+          "close": 1.115,
+          "volume": 18829755
+        },
+        {
+          "code": "512760",
+          "name": "半导体ETF",
+          "sector": "半导体",
+          "change_pct": -1.6393,
+          "close": 1.14,
+          "volume": 5574697
+        },
+        {
+          "code": "159995",
+          "name": "芯片ETF",
+          "sector": "芯片",
+          "change_pct": -1.4061,
+          "close": 1.192,
+          "volume": 6851059
+        }
+      ],
+      "hs300": -0.4002,
+      "avg": -0.4259
     },
-    "avg_score": 0.0693,
+    "avg_score": -0.056,
     "market_state": {
       "name": "neutral",
       "risk_budget": 0.65,
-      "breadth": 0.6087,
-      "momentum_5d": 0.7213,
-      "momentum_20d": -1.8603,
-      "volatility_20d": 24.038,
-      "drawdown_20d": -0.8147
+      "breadth": 0.3478,
+      "momentum_5d": 0.4247,
+      "momentum_20d": -0.5049,
+      "volatility_20d": 23.2939,
+      "drawdown_20d": -1.2116
     },
     "external_sentiment": {
-      "score": 0.0615,
+      "score": 0.0663,
       "bullish_count": 1,
       "bearish_count": 1,
-      "count": 60,
+      "count": 65,
       "categories": {
+        "industry": {
+          "count": 11,
+          "bullish": 0,
+          "bearish": 0,
+          "score": 0.0
+        },
         "policy": {
-          "count": 46,
+          "count": 49,
           "bullish": 0,
           "bearish": 1,
-          "score": -0.0344
+          "score": -0.0329
         },
         "macro": {
           "count": 5,
           "bullish": 1,
           "bearish": 0,
-          "score": 0.1925
-        },
-        "industry": {
-          "count": 9,
-          "bullish": 0,
-          "bearish": 0,
-          "score": 0.0
+          "score": 0.2034
         }
       },
       "sector_scores": {
@@ -239,7 +251,7 @@
         "新能源": 0.0,
         "光伏": 0.0,
         "消费": 0.0,
-        "券商": -0.1875,
+        "券商": -0.1667,
         "银行": 0.0,
         "房地产": 0.0,
         "军工": 0.0,
@@ -258,244 +270,244 @@
         "code": "515120",
         "name": "创新药ETF",
         "sector": "创新药",
-        "score": 0.7605,
-        "early_entry": 0.7074,
-        "crowding": 0.2515,
-        "withdrawal_risk": 0.0182
+        "score": 0.7995,
+        "early_entry": 0.7289,
+        "crowding": 0.3499,
+        "withdrawal_risk": 0.0
       },
       {
-        "code": "510880",
-        "name": "红利ETF",
-        "sector": "红利",
-        "score": 0.47,
-        "early_entry": 0.5446,
-        "crowding": 0.1978,
-        "withdrawal_risk": 0.006
+        "code": "510150",
+        "name": "消费ETF",
+        "sector": "消费",
+        "score": 0.6312,
+        "early_entry": 0.6519,
+        "crowding": 0.2417,
+        "withdrawal_risk": 0.0
       },
       {
-        "code": "512200",
-        "name": "房地产ETF",
-        "sector": "房地产",
-        "score": 0.3742,
-        "early_entry": 0.5268,
-        "crowding": 0.5448,
+        "code": "512170",
+        "name": "医疗ETF",
+        "sector": "医疗",
+        "score": 0.5048,
+        "early_entry": 0.6968,
+        "crowding": 0.501,
         "withdrawal_risk": 0.0
       },
       {
         "code": "512800",
         "name": "银行ETF",
         "sector": "银行",
-        "score": 0.3439,
-        "early_entry": 0.4316,
-        "crowding": 0.0817,
-        "withdrawal_risk": 0.0
-      },
-      {
-        "code": "512760",
-        "name": "半导体ETF",
-        "sector": "半导体",
-        "score": 0.3027,
-        "early_entry": 0.5156,
-        "crowding": 0.4522,
+        "score": 0.4576,
+        "early_entry": 0.6676,
+        "crowding": 0.1497,
         "withdrawal_risk": 0.0
       },
       {
         "code": "512890",
         "name": "红利低波ETF",
         "sector": "红利低波",
-        "score": 0.2799,
-        "early_entry": 0.3336,
-        "crowding": 0.0304,
-        "withdrawal_risk": 0.0041
+        "score": 0.3584,
+        "early_entry": 0.5037,
+        "crowding": 0.0701,
+        "withdrawal_risk": 0.002
       },
       {
-        "code": "512100",
-        "name": "中证1000ETF",
-        "sector": "小盘",
-        "score": 0.2035,
-        "early_entry": 0.0848,
-        "crowding": 0.1863,
-        "withdrawal_risk": 0.0228
-      },
-      {
-        "code": "518880",
-        "name": "黄金ETF",
-        "sector": "黄金",
-        "score": 0.1731,
-        "early_entry": 0.4251,
-        "crowding": 0.5098,
-        "withdrawal_risk": 0.0
-      },
-      {
-        "code": "510500",
-        "name": "中证500ETF",
-        "sector": "中盘",
-        "score": 0.1417,
-        "early_entry": 0.0484,
-        "crowding": 0.1683,
-        "withdrawal_risk": 0.0084
-      },
-      {
-        "code": "510150",
-        "name": "消费ETF",
-        "sector": "消费",
-        "score": 0.1378,
-        "early_entry": 0.1126,
-        "crowding": 0.2317,
-        "withdrawal_risk": 0.0323
-      },
-      {
-        "code": "515790",
-        "name": "光伏ETF",
-        "sector": "光伏",
-        "score": 0.1308,
-        "early_entry": 0.0277,
-        "crowding": 0.3075,
-        "withdrawal_risk": 0.0415
-      },
-      {
-        "code": "159995",
-        "name": "芯片ETF",
-        "sector": "芯片",
-        "score": 0.1098,
-        "early_entry": 0.2685,
-        "crowding": 0.4612,
+        "code": "512000",
+        "name": "券商ETF",
+        "sector": "券商",
+        "score": 0.2431,
+        "early_entry": 0.2395,
+        "crowding": 0.0559,
         "withdrawal_risk": 0.0
       },
       {
         "code": "510050",
         "name": "上证50ETF",
         "sector": "大盘价值",
-        "score": 0.0791,
-        "early_entry": 0.0386,
-        "crowding": 0.0167,
-        "withdrawal_risk": 0.0
+        "score": 0.0422,
+        "early_entry": 0.01,
+        "crowding": 0.0617,
+        "withdrawal_risk": 0.007
+      },
+      {
+        "code": "510880",
+        "name": "红利ETF",
+        "sector": "红利",
+        "score": 0.0074,
+        "early_entry": 0.0505,
+        "crowding": 0.2123,
+        "withdrawal_risk": 0.0565
       },
       {
         "code": "510300",
         "name": "沪深300ETF",
         "sector": "宽基",
-        "score": 0.0603,
-        "early_entry": 0.0068,
-        "crowding": 0.0483,
-        "withdrawal_risk": 0.002
+        "score": 0.0052,
+        "early_entry": 0.0144,
+        "crowding": 0.0424,
+        "withdrawal_risk": 0.0174
       },
       {
         "code": "159592",
         "name": "卫星产业ETF",
         "sector": "商业航天",
-        "score": 0.0278,
+        "score": -0.0121,
         "early_entry": 0.0,
-        "crowding": 0.0724,
-        "withdrawal_risk": 0.0022
-      },
-      {
-        "code": "512170",
-        "name": "医疗ETF",
-        "sector": "医疗",
-        "score": -0.0038,
-        "early_entry": 0.072,
-        "crowding": 0.3833,
-        "withdrawal_risk": 0.0182
-      },
-      {
-        "code": "511880",
-        "name": "货币ETF",
-        "sector": "现金",
-        "score": -0.0198,
-        "early_entry": 0.0024,
-        "crowding": 0.0045,
-        "withdrawal_risk": 0.0
-      },
-      {
-        "code": "512660",
-        "name": "军工ETF",
-        "sector": "军工",
-        "score": -0.0264,
-        "early_entry": 0.0202,
-        "crowding": 0.1786,
-        "withdrawal_risk": 0.0309
-      },
-      {
-        "code": "512000",
-        "name": "券商ETF",
-        "sector": "券商",
-        "score": -0.0327,
-        "early_entry": 0.0,
-        "crowding": 0.0,
-        "withdrawal_risk": 0.0
-      },
-      {
-        "code": "516160",
-        "name": "新能源ETF",
-        "sector": "新能源",
-        "score": -0.0608,
-        "early_entry": 0.0,
-        "crowding": 0.3436,
-        "withdrawal_risk": 0.0522
-      },
-      {
-        "code": "511010",
-        "name": "国债ETF",
-        "sector": "国债",
-        "score": -0.0654,
-        "early_entry": 0.0002,
-        "crowding": 0.0284,
-        "withdrawal_risk": 0.0001
-      },
-      {
-        "code": "511260",
-        "name": "十年国债ETF",
-        "sector": "长债",
-        "score": -0.0969,
-        "early_entry": 0.0,
-        "crowding": 0.0222,
-        "withdrawal_risk": 0.0003
-      },
-      {
-        "code": "513500",
-        "name": "标普500ETF",
-        "sector": "标普500",
-        "score": -0.121,
-        "early_entry": 0.0,
-        "crowding": 0.3157,
-        "withdrawal_risk": 0.1583
-      },
-      {
-        "code": "513100",
-        "name": "纳指ETF",
-        "sector": "纳斯达克",
-        "score": -0.1617,
-        "early_entry": 0.0,
-        "crowding": 0.1657,
-        "withdrawal_risk": 0.0552
+        "crowding": 0.1199,
+        "withdrawal_risk": 0.0298
       },
       {
         "code": "513180",
         "name": "恒生科技ETF",
         "sector": "港股科技",
-        "score": -0.2674,
+        "score": -0.0339,
         "early_entry": 0.0,
-        "crowding": 0.0999,
-        "withdrawal_risk": 0.0533
+        "crowding": 0.0868,
+        "withdrawal_risk": 0.0071
       },
       {
-        "code": "515980",
-        "name": "人工智能ETF",
-        "sector": "AI算力",
-        "score": -0.4044,
+        "code": "511880",
+        "name": "货币ETF",
+        "sector": "现金",
+        "score": -0.0378,
+        "early_entry": 0.004,
+        "crowding": 0.0043,
+        "withdrawal_risk": 0.0
+      },
+      {
+        "code": "512100",
+        "name": "中证1000ETF",
+        "sector": "小盘",
+        "score": -0.0489,
+        "early_entry": 0.0667,
+        "crowding": 0.238,
+        "withdrawal_risk": 0.1829
+      },
+      {
+        "code": "513500",
+        "name": "标普500ETF",
+        "sector": "标普500",
+        "score": -0.0558,
+        "early_entry": 0.0128,
+        "crowding": 0.2796,
+        "withdrawal_risk": 0.0932
+      },
+      {
+        "code": "511010",
+        "name": "国债ETF",
+        "sector": "国债",
+        "score": -0.0616,
+        "early_entry": 0.0289,
+        "crowding": 0.1889,
+        "withdrawal_risk": 0.0005
+      },
+      {
+        "code": "510500",
+        "name": "中证500ETF",
+        "sector": "中盘",
+        "score": -0.071,
+        "early_entry": 0.0477,
+        "crowding": 0.177,
+        "withdrawal_risk": 0.1368
+      },
+      {
+        "code": "511260",
+        "name": "十年国债ETF",
+        "sector": "长债",
+        "score": -0.1068,
         "early_entry": 0.0,
-        "crowding": 0.42,
-        "withdrawal_risk": 0.14
+        "crowding": 0.025,
+        "withdrawal_risk": 0.0001
+      },
+      {
+        "code": "513100",
+        "name": "纳指ETF",
+        "sector": "纳斯达克",
+        "score": -0.133,
+        "early_entry": 0.0,
+        "crowding": 0.2129,
+        "withdrawal_risk": 0.09
+      },
+      {
+        "code": "512660",
+        "name": "军工ETF",
+        "sector": "军工",
+        "score": -0.2305,
+        "early_entry": 0.0037,
+        "crowding": 0.2408,
+        "withdrawal_risk": 0.1634
+      },
+      {
+        "code": "515790",
+        "name": "光伏ETF",
+        "sector": "光伏",
+        "score": -0.2446,
+        "early_entry": 0.0,
+        "crowding": 0.3376,
+        "withdrawal_risk": 0.3376
+      },
+      {
+        "code": "512200",
+        "name": "房地产ETF",
+        "sector": "房地产",
+        "score": -0.2609,
+        "early_entry": 0.0493,
+        "crowding": 0.367,
+        "withdrawal_risk": 0.3191
+      },
+      {
+        "code": "516160",
+        "name": "新能源ETF",
+        "sector": "新能源",
+        "score": -0.3744,
+        "early_entry": 0.0,
+        "crowding": 0.4083,
+        "withdrawal_risk": 0.2361
       },
       {
         "code": "513050",
         "name": "中概互联网ETF",
         "sector": "中概互联网",
-        "score": -0.464,
+        "score": -0.3791,
         "early_entry": 0.0,
-        "crowding": 0.2165,
-        "withdrawal_risk": 0.2002
+        "crowding": 0.1468,
+        "withdrawal_risk": 0.1066
+      },
+      {
+        "code": "518880",
+        "name": "黄金ETF",
+        "sector": "黄金",
+        "score": -0.4602,
+        "early_entry": 0.0,
+        "crowding": 0.4483,
+        "withdrawal_risk": 0.2313
+      },
+      {
+        "code": "515980",
+        "name": "人工智能ETF",
+        "sector": "AI算力",
+        "score": -0.6342,
+        "early_entry": 0.0,
+        "crowding": 0.5217,
+        "withdrawal_risk": 0.3559
+      },
+      {
+        "code": "512760",
+        "name": "半导体ETF",
+        "sector": "半导体",
+        "score": -0.6999,
+        "early_entry": 0.0,
+        "crowding": 0.432,
+        "withdrawal_risk": 0.432
+      },
+      {
+        "code": "159995",
+        "name": "芯片ETF",
+        "sector": "芯片",
+        "score": -0.7171,
+        "early_entry": 0.0,
+        "crowding": 0.4433,
+        "withdrawal_risk": 0.4433
       }
     ]
   },
@@ -5091,28 +5103,28 @@
   ],
   "latest_newspapers": {
     "中国证券报": [
-      "当锐度让位于稳健 量化私募的淘汰赛与融合战",
-      "央行：及时谋划出台务实管用增量政策",
-      "分红、回购、增持常态化推进 A股公司以实际行动稳市场强信心",
-      "宇树科技打新成绩单出炉 机构踊跃参与"
+      "科技浪潮改写资管格局 量化与全球配置打开新空间",
+      "全国碳排放权交易市场累计成交量突破9.3亿吨 生态环境部：积极推动碳足迹数据和标准体系建设",
+      "“创新红利”重塑估值逻辑 外资加速拥抱中国硬科技",
+      "资本赋能 技术突围 量子科技迈入产业化验证新阶段"
     ],
     "上海证券报": [
-      "AI服务器需求持续放量 MLCC板块迎景气行情",
-      "固态电池步入产业化攻坚期 关键温等静压设备或在明年取得突破",
-      "从技术展示到量产落地 具身智能企业“赶考”港交所",
-      "688775，重磅发布"
+      "今年以来近百家公司完成定增 合计募资逾1690亿元",
+      "联想集团新财季多项业绩指标超预期",
+      "生态环境部：碳排放权交易市场将扩至石化、化工等行业",
+      "吉比特半年盈利近11亿元 拟每10股派现100元"
     ],
     "证券时报": [
-      "本周新发基金数量创7月以来新高",
-      "从板块轮动中脱颖而出 超70只基金净值创历史新高",
-      "走出去用起来 人民币“跨境舞台”更大更精彩",
-      "限制进口中国光模块？ 美国这样干为什么会害己又损人"
+      "AI影视爆火催生多个新工种 有岗位平均月薪达3万元",
+      "专精特新激活内生动力 中小企业蓄力迈向高质量发展",
+      "国内两大芯片巨头二季度业绩超预期",
+      "聚焦五个重点统筹推进“双碳”工作，大力推进生态环境监管数智化转型 “十五五”美丽中国建设迈向系统性跃升"
     ],
     "证券日报": [
-      "6家银行理财子公司获配宇树科技逾14万股",
-      "多家上市公司加码液冷散热业务",
-      "95家公募获配宇树科技金额超18亿元",
-      "各地住房公积金装修提取政策密集出台"
+      "8月份医药板块热度抬升 创新药获机构重点关注",
+      "电解液添加剂产业链上市公司盈利能力修复",
+      "二季度货币政策执行报告释放了哪些新信号？",
+      "仰望具身智能未来星空 莫忘立足产业现实支撑"
     ]
   }
 }

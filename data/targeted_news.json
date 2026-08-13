@@ -1,17 +1,52 @@
 {
-  "updated_at": "2026-08-13T10:55:00+08:00",
+  "updated_at": "2026-08-13T23:32:53+00:00",
   "target_codes": [
     "515120",
-    "510880",
-    "512200",
+    "510150",
+    "512800",
+    "159995",
+    "512760",
     "515980",
-    "512170",
-    "512890"
+    "512100",
+    "510300",
+    "510500"
   ],
   "source_health": {
-    "seed_research": {
-      "status": "verified_by_search",
-      "records": 6
+    "510150": {
+      "status": "cached",
+      "error": "ParseError: syntax error: line 1, column 0"
+    },
+    "515120": {
+      "status": "cached",
+      "error": "ParseError: syntax error: line 1, column 0"
+    },
+    "512800": {
+      "status": "cached",
+      "error": "ParseError: syntax error: line 1, column 0"
+    },
+    "159995": {
+      "status": "cached",
+      "error": "ParseError: syntax error: line 1, column 0"
+    },
+    "512760": {
+      "status": "cached",
+      "error": "ParseError: syntax error: line 1, column 0"
+    },
+    "515980": {
+      "status": "cached",
+      "error": "ParseError: syntax error: line 1, column 0"
+    },
+    "512100": {
+      "status": "cached",
+      "error": "ParseError: syntax error: line 1, column 0"
+    },
+    "510300": {
+      "status": "cached",
+      "error": "ParseError: syntax error: line 1, column 0"
+    },
+    "510500": {
+      "status": "cached",
+      "error": "ParseError: syntax error: line 1, column 0"
     }
   },
   "items": [
@@ -25,8 +60,15 @@
       "date_quality": "search_verified",
       "direction": "偏正",
       "impact": "中",
-      "target_codes": ["510880", "512890"],
-      "matched_keywords": ["分红", "回购", "增持"],
+      "target_codes": [
+        "510880",
+        "512890"
+      ],
+      "matched_keywords": [
+        "分红",
+        "回购",
+        "增持"
+      ],
       "retrieval_kind": "targeted_search_discovery",
       "usage_policy": "报告补充；同日信息不回填当日规则信号"
     },
@@ -40,8 +82,13 @@
       "date_quality": "search_verified",
       "direction": "中性",
       "impact": "低",
-      "target_codes": ["515120", "512170"],
-      "matched_keywords": ["医药"],
+      "target_codes": [
+        "515120",
+        "512170"
+      ],
+      "matched_keywords": [
+        "医药"
+      ],
       "retrieval_kind": "targeted_search_discovery",
       "usage_policy": "报告补充；不回填当日规则信号"
     },
@@ -55,8 +102,14 @@
       "date_quality": "search_verified",
       "direction": "偏正",
       "impact": "高",
-      "target_codes": ["512200"],
-      "matched_keywords": ["房地产", "住房", "公积金"],
+      "target_codes": [
+        "512200"
+      ],
+      "matched_keywords": [
+        "房地产",
+        "住房",
+        "公积金"
+      ],
       "retrieval_kind": "targeted_search_discovery",
       "usage_policy": "报告补充；不回填当日规则信号"
     },
@@ -70,23 +123,13 @@
       "date_quality": "search_verified",
       "direction": "偏正",
       "impact": "中",
-      "target_codes": ["512200"],
-      "matched_keywords": ["住房", "公积金"],
-      "retrieval_kind": "targeted_search_discovery",
-      "usage_policy": "报告补充；不回填当日规则信号"
-    },
-    {
-      "source": "国家医保局网站转载页",
-      "source_tier": "官方原文",
-      "category": "policy",
-      "title": "2026年国家基本医保目录及商保创新药目录调整专家评审阶段性结果查询公告",
-      "url": "https://hunan.gov.cn/zqt/zcsd/202607/t20260731_34037357.html",
-      "published_at": "2026-07-31",
-      "date_quality": "search_verified",
-      "direction": "偏正",
-      "impact": "高",
-      "target_codes": ["515120", "512170"],
-      "matched_keywords": ["医保目录", "创新药"],
+      "target_codes": [
+        "512200"
+      ],
+      "matched_keywords": [
+        "住房",
+        "公积金"
+      ],
       "retrieval_kind": "targeted_search_discovery",
       "usage_policy": "报告补充；不回填当日规则信号"
     },
@@ -100,10 +143,36 @@
       "date_quality": "search_verified",
       "direction": "偏正",
       "impact": "中",
-      "target_codes": ["515980"],
-      "matched_keywords": ["AI服务器", "液冷"],
+      "target_codes": [
+        "515980"
+      ],
+      "matched_keywords": [
+        "AI服务器",
+        "液冷"
+      ],
       "retrieval_kind": "targeted_search_discovery",
       "usage_policy": "单家公司信息，仅作行业叙事补充；不回填当日规则信号"
+    },
+    {
+      "source": "国家医保局网站转载页",
+      "source_tier": "官方原文",
+      "category": "policy",
+      "title": "2026年国家基本医保目录及商保创新药目录调整专家评审阶段性结果查询公告",
+      "url": "https://hunan.gov.cn/zqt/zcsd/202607/t20260731_34037357.html",
+      "published_at": "2026-07-31",
+      "date_quality": "search_verified",
+      "direction": "偏正",
+      "impact": "高",
+      "target_codes": [
+        "515120",
+        "512170"
+      ],
+      "matched_keywords": [
+        "医保目录",
+        "创新药"
+      ],
+      "retrieval_kind": "targeted_search_discovery",
+      "usage_policy": "报告补充；不回填当日规则信号"
     }
   ],
   "usage_policy": "定向搜索只补充逐只ETF报告；不进入当日规则评分。"
