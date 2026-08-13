@@ -31,6 +31,7 @@ DASHBOARD_DIR = os.path.join(SCRIPT_DIR, 'dashboard')
 
 MODEL_RESULTS_PATH  = os.path.join(DATA_DIR, 'model_results.json')
 ECON_RESULTS_PATH   = os.path.join(DATA_DIR, 'econometric_results.json')
+DIAGNOSTICS_PATH    = os.path.join(DATA_DIR, 'market_diagnostics.json')
 EXTERNAL_NEWS_PATH  = os.path.join(DATA_DIR, 'external_news.json')
 HANDOFF_PATH        = os.path.join(DATA_DIR, 'next_day_handoff.json')
 HTML_OUT            = os.path.join(DASHBOARD_DIR, 'dashboard.html')
@@ -42,7 +43,7 @@ WITHDRAWAL_WATCH_THRESHOLD = 0.35
 #  变量说明字典
 # ============================================================
 FACTOR_DESC = {
-    'sentiment_score':      '机构情绪分（看涨−看跌次数）',
+    'sentiment_score':      '媒体叙事净分（有方向标题÷去重标题总数）',
     'bullish_count':        '看涨关键词出现次数',
     'bearish_count':        '看跌关键词出现次数',
     'prev_change_pct':      '前日涨跌幅%',
@@ -54,7 +55,7 @@ FACTOR_DESC = {
     'vol_10d':              '10日波动率%（近10日收益率标准差）',
     'retail_sentiment':     '大众情绪综合分（融资融券z-score加权, [-1,1]）',
     'rzjme_yi':             '融资净买入额（亿元）',
-    'sentiment_divergence': '机构-大众情绪分歧度',
+    'sentiment_divergence': '媒体叙事与融资情绪的绝对分歧度',
     'const':                '常数项/截距',
 }
 
@@ -456,6 +457,7 @@ def normalize_model_data(raw):
     m['external_review'] = _build_external_review(ld['date'])
     m['adaptation_review'] = _build_adaptation_review(daily, summary)
     m['handoff'] = load_json(HANDOFF_PATH) if os.path.exists(HANDOFF_PATH) else {}
+    m['diagnostics'] = load_json(DIAGNOSTICS_PATH) if os.path.exists(DIAGNOSTICS_PATH) else {}
 
     return m
 
@@ -810,7 +812,12 @@ footer{font-size:.68rem;border-top:1px solid var(--ink);text-align:left;padding-
 .state-cell{background:var(--bg3);padding:15px 14px;min-height:105px}.state-label{font-size:.7rem;color:var(--muted);letter-spacing:.04em}.state-value{font-family:var(--JM);font-size:1.15rem;font-weight:700;margin:7px 0 3px}.state-note{font-size:.66rem;color:var(--muted);line-height:1.45}
 .section-note{font-size:.76rem;color:var(--muted);padding:10px 2px 0}.external-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}.gap-list{display:grid;gap:9px}.gap-list div{border-left:2px solid var(--accent);padding:7px 10px;background:var(--bg2)}.gap-list b{display:block;font-size:.76rem}.gap-list span{font-size:.72rem;color:var(--muted)}.headline-card ul{list-style:none}.headline-card li{padding:7px 0;border-bottom:1px solid var(--bg2);font-size:.75rem}.headline-card li:last-child{border-bottom:0}.headline-card li span{font-family:var(--JM);color:var(--muted);margin-right:8px}.headline-card a{color:var(--accent);margin-left:6px;text-decoration:none}
 .adapt-grid,.model-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.adapt-box,.model-box{background:var(--bg3);border:1px solid var(--rule);padding:16px 18px}.adapt-box b{font-size:.78rem;color:var(--accent)}.adapt-box p,.model-box p{font-size:.78rem;margin-top:6px}.model-number{font-family:var(--JM);font-size:1.6rem;font-weight:700;margin:8px 0}.formula{font-family:var(--JM);line-height:1.8;color:var(--ink)}.event-card{padding:12px 0;border-bottom:1px solid var(--rule)}.event-card:last-child{border-bottom:0}.event-meta{font-size:.7rem;color:var(--muted);letter-spacing:.02em}.event-title{font-weight:700;margin:6px 0}.event-title a{font-size:.7rem;color:var(--accent);font-weight:400}.event-card p{font-size:.78rem;line-height:1.65;margin:4px 0}.post-news{margin-top:12px;border-top:1px solid var(--rule);padding-top:10px}.post-news summary{cursor:pointer;color:var(--accent);font-weight:700;font-size:.74rem}.empty-note{color:var(--muted);padding:18px 0;font-size:.8rem}.model-fold,.inner-fold,.detail-fold{background:var(--bg3);border:1px solid var(--rule);padding:15px 18px}.model-fold summary,.inner-fold summary,.detail-fold summary{cursor:pointer;color:var(--accent);font-weight:700;font-size:.8rem}.model-fold[open]{box-shadow:var(--shadow-md)}.inner-fold{margin-top:14px;background:var(--bg)}.detail-fold{margin-top:14px}.detail-fold .card{margin-top:14px}
-@media(max-width:760px){.container{padding:20px 16px 48px}.report-title{font-size:1.75rem}.report-subtitle{display:block}.report-subtitle>span{display:block}.report-meta{margin-top:5px}.metrics{grid-template-columns:repeat(2,1fr)!important}.metric{min-height:78px;padding:12px}.mv{font-size:1.08rem}.state-grid,.strategy-strip{grid-template-columns:repeat(2,1fr)}.strategy-cell:last-child{grid-column:1/-1}.external-layout,.adapt-grid,.model-grid,.core-grid,.execution-grid{grid-template-columns:1fr}.trade-item{align-items:flex-start}.sig-facts{grid-template-columns:1fr;gap:2px}.sig-facts b{grid-row:auto}}
+.today-brief{background:var(--ink);color:var(--bg3);padding:24px 26px;border-radius:var(--radius);margin-bottom:18px}.today-status{font-size:.7rem;letter-spacing:.12em;color:#d9d4ca;font-weight:700}.today-brief h2{font-family:Georgia,'Songti SC','STSong',serif;font-size:1.35rem;line-height:1.55;margin:8px 0}.today-action{font-size:.9rem;line-height:1.7;color:#f2eee6}.four-lines{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#575149;margin-top:18px}.brief-line{background:#312e29;padding:12px 14px}.brief-line b{display:block;color:#d8a581;font-size:.7rem;margin-bottom:4px}.brief-line span{display:block;font-size:.76rem;line-height:1.55;color:#eee9df}
+.module-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.module-card{background:var(--bg3);border:1px solid var(--rule);border-top:3px solid var(--muted);padding:17px 18px}.module-card.positive{border-top-color:var(--green)}.module-card.negative{border-top-color:var(--accent2)}.module-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.module-title{font-family:Georgia,'Songti SC','STSong',serif;font-size:1.02rem;font-weight:700}.module-state{white-space:nowrap;font-size:.67rem;padding:2px 7px;background:var(--bg2);color:var(--muted)}.module-conclusion{font-weight:700;font-size:.85rem;line-height:1.55;margin:11px 0}.evidence-list{list-style:none;border-top:1px solid var(--rule)}.evidence-list li{padding:8px 0;border-bottom:1px solid var(--bg2)}.evidence-label{display:block;color:var(--muted);font-size:.67rem}.evidence-value{display:block;font-size:.78rem;font-weight:600;line-height:1.5}.evidence-meta{display:block;color:var(--muted);font-size:.64rem}.evidence-meta a{color:var(--accent);text-decoration:none}.module-meaning,.module-watch{padding:9px 10px;margin-top:9px;font-size:.73rem;line-height:1.55}.module-meaning{background:#f1eee7}.module-watch{border-left:2px solid var(--accent);padding-left:10px}.module-meaning b,.module-watch b{display:block;font-size:.67rem;color:var(--accent);margin-bottom:2px}.module-limit{margin-top:9px;font-size:.67rem;color:var(--muted)}.module-limit summary{cursor:pointer}
+.daily-alert-bar{display:flex;justify-content:space-between;gap:14px;align-items:center;background:#312e29;color:#f5f3ee;padding:13px 16px;margin-bottom:10px}.daily-alert-title{font-family:Georgia,'Songti SC','STSong',serif;font-size:1.08rem;font-weight:700}.daily-alert-meta{font-size:.68rem;color:#d9d4ca;text-align:right}.focus-panel.recommend-panel{border-top:4px solid var(--green)}.focus-panel.avoid-panel{border-top:4px solid var(--accent2)}
+.focus-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.focus-panel{background:var(--bg3);border:1px solid var(--rule);padding:16px 18px}.focus-panel-head{display:flex;justify-content:space-between;gap:10px;align-items:baseline;margin-bottom:10px}.focus-panel-head b{font-family:Georgia,'Songti SC','STSong',serif;font-size:1rem}.focus-panel-head span{font-size:.66rem;color:var(--muted)}.focus-list{display:grid;gap:9px}.focus-card{border:1px solid var(--rule);border-left:4px solid var(--muted);padding:12px 13px;background:var(--bg)}.focus-card.recommend{border-left-color:var(--green)}.focus-card.avoid{border-left-color:var(--accent2)}.focus-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.focus-name{font-weight:700}.focus-name small{font-family:var(--JM);color:var(--muted);font-weight:400}.focus-action{font-size:.68rem;font-weight:700;text-align:right}.recommend .focus-action{color:var(--green)}.avoid .focus-action{color:var(--accent2)}.focus-why{font-size:.74rem;line-height:1.55;margin:7px 0}.focus-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule)}.focus-facts span{display:block;background:var(--bg3);padding:6px 7px;font-size:.65rem;color:var(--muted)}.focus-facts b{display:block;color:var(--ink);font-family:var(--JM);font-size:.68rem}.deep-dive-wrap{display:grid;gap:13px}.deep-card{background:var(--bg3);border:1px solid var(--rule);border-top:4px solid var(--muted);padding:17px 18px}.deep-card.recommend{border-top-color:var(--green)}.deep-card.avoid{border-top-color:var(--accent2)}.deep-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.deep-role{font-size:.66rem;font-weight:700;letter-spacing:.08em}.deep-card.recommend .deep-role{color:var(--green)}.deep-card.avoid .deep-role{color:var(--accent2)}.deep-title{font-family:Georgia,'Songti SC','STSong',serif;font-size:1.08rem;font-weight:700}.deep-title small{font-family:var(--JM);font-size:.68rem;color:var(--muted);font-weight:400}.deep-action{text-align:right;font-size:.72rem;font-weight:700;max-width:42%}.deep-columns{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:13px}.deep-box{background:var(--bg);border:1px solid var(--rule);padding:11px 12px}.deep-box h4{font-size:.72rem;color:var(--accent);margin:0 0 6px}.deep-box p{font-size:.73rem;line-height:1.55;margin:4px 0}.deep-metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;margin-top:8px}.deep-metrics span{background:var(--bg3);padding:6px 7px;font-size:.65rem;color:var(--muted)}.deep-metrics b{display:block;color:var(--ink);font-family:var(--JM)}.news-list{list-style:none;margin-top:7px}.news-list li{padding:7px 0;border-top:1px solid var(--rule);font-size:.7rem;line-height:1.5}.news-list a{color:var(--ink);font-weight:600;text-decoration:none}.news-meta{display:block;color:var(--muted);font-size:.63rem}.context-badge{color:var(--accent);font-weight:700}.deep-cross{margin-top:10px;border-left:3px solid var(--accent);background:#f1eee7;padding:9px 11px;font-size:.73rem}.deep-next{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:9px}.deep-next div{padding:8px 10px;background:var(--bg2);font-size:.69rem}.deep-next b{display:block;color:var(--accent);margin-bottom:2px}.quality-fold{margin-top:12px;background:var(--bg3);border:1px solid var(--rule);padding:12px 14px}.quality-fold summary{cursor:pointer;color:var(--accent);font-weight:700;font-size:.75rem}.quality-table{margin-top:10px}
+@media(max-width:760px){.container{padding:20px 16px 48px}.report-title{font-size:1.75rem}.report-subtitle{display:block}.report-subtitle>span{display:block}.report-meta{margin-top:5px}.metrics{grid-template-columns:repeat(2,1fr)!important}.metric{min-height:78px;padding:12px}.mv{font-size:1.08rem}.state-grid,.strategy-strip{grid-template-columns:repeat(2,1fr)}.strategy-cell:last-child{grid-column:1/-1}.external-layout,.adapt-grid,.model-grid,.core-grid,.execution-grid,.module-grid,.four-lines,.focus-grid,.deep-columns,.deep-next{grid-template-columns:1fr}.focus-facts{grid-template-columns:1fr}.deep-action{max-width:48%}.trade-item{align-items:flex-start}.sig-facts{grid-template-columns:1fr;gap:2px}.sig-facts b{grid-row:auto}.today-brief{padding:20px 18px}}
+@media(max-width:760px){.daily-alert-bar{display:block}.daily-alert-meta{text-align:left;margin-top:5px}}
 @media(prefers-reduced-motion:reduce){.card,.chart-card,.metric,.signal-card{transition:none!important}}
 """
 
@@ -975,6 +982,151 @@ def build_signal_views(model_data):
         'short_candidates': [],
     }
 
+
+def gen_eight_module_brief(model_data, econ_data):
+    """固定输出推荐、回避、逐只深挖和八项诊断；不依赖生成式模型补结论。"""
+    diagnostics = model_data.get('diagnostics', {})
+    overall = diagnostics.get('overall', {})
+    modules = sorted(diagnostics.get('modules', []), key=lambda row: row.get('order', 99))
+    recommendations = diagnostics.get('recommendations', diagnostics.get('candidates', []))
+    avoids = diagnostics.get('avoid_etfs', [])
+    daily_alerts = diagnostics.get('daily_etf_alerts', {})
+    deep_dives = diagnostics.get('etf_deep_dives', recommendations + avoids)
+    if not modules:
+        return '''<section class="report-section"><div class="sec-title">今天先看结论</div>
+<div class="card"><b>八模块诊断尚未生成。</b><p>请先运行 market_diagnostics.py；缺失时不使用旧版泛化摘要代替。</p></div></section>'''
+
+    first_candidate = recommendations[0] if recommendations else {}
+    conflict = first_candidate.get('reason') or '当前没有通过规则门槛的候选。'
+
+    four_lines = [
+        ('市场判断', overall.get('conclusion', '数据不足')),
+        ('当前动作', overall.get('action', '等待下一次数据确认')),
+        ('模型能否执行', f"{overall.get('model_status', '研究观察')}：{overall.get('model_reason', '未完成样本外检验')}") ,
+        ('最大矛盾', conflict),
+    ]
+    lines_html = ''.join(
+        f'<div class="brief-line"><b>{esc(label)}</b><span>{esc(value)}</span></div>'
+        for label, value in four_lines
+    )
+
+    def signed(value, suffix=''):
+        return '数据不足' if value is None else f'{float(value):+.2f}{suffix}'
+
+    def focus_card(row, kind):
+        fund = row.get('fund_flow', {})
+        news = row.get('news_flow', {})
+        is_recommend = kind == 'recommend'
+        if is_recommend:
+            why = row.get('why_selected') or row.get('reason', '数据不足')
+            action = f"{row.get('alert_level', '待确认')}｜{row.get('verdict', '推荐观察')}"
+        else:
+            why = f"回避分{float(row.get('avoid_score', 0)):.1f}；{row.get('reason', '数据不足')}"
+            action = f"{row.get('alert_level', '中')}预警｜{row.get('action', '谨慎观察，不追涨')}"
+        share_fact = (
+            f"{fund.get('status', '数据不足')} {signed(fund.get('share_change_pct'), '%')}"
+            if fund.get('share_available') else '真实申赎 数据不足'
+        )
+        return f'''<article class="focus-card {kind}">
+  <div class="focus-top"><span class="focus-name">{esc(row.get('name', ''))} <small>{esc(row.get('code', ''))}</small></span><span class="focus-action">{esc(action)}</span></div>
+  <p class="focus-why">{esc(why)}</p>
+  <div class="focus-facts"><span>ETF份额<b>{esc(share_fact)}</b></span><span>5日相对沪深300<b>{esc(signed(fund.get('relative_5d'), 'pct'))}</b></span><span>近14日直接新闻<b>{int(news.get('direct_count', 0))}条 · {esc(news.get('status', '数据不足'))}</b></span></div>
+</article>'''
+
+    recommend_cards = ''.join(focus_card(row, 'recommend') for row in recommendations)
+    avoid_cards = ''.join(focus_card(row, 'avoid') for row in avoids)
+    if not recommend_cards:
+        recommend_cards = '<div class="empty-note">当前没有规则候选，不用排名靠前的ETF强行补位。</div>'
+    if not avoid_cards:
+        avoid_cards = '<div class="empty-note">当前没有达到回避阈值的ETF，不为凑数生成名单。</div>'
+
+    def news_items_html(news):
+        items = news.get('top_items', [])[:3]
+        if not items:
+            return '<li>未检索到直接匹配原文；新闻证据不足，不等于利空。</li>'
+        result = ''
+        for item in items:
+            usage = '已进入规则口径' if item.get('used_in_rule') else '报告补充·未回填规则'
+            title = esc(item.get('title', ''))
+            if item.get('url'):
+                title = f'<a href="{esc(item.get("url"))}" target="_blank" rel="noopener">{title} ↗</a>'
+            result += (
+                f'<li>{title}<span class="news-meta">{esc(item.get("published_at", "缺失"))} · '
+                f'{esc(item.get("source", "未知来源"))} · {esc(item.get("source_tier", "公开媒体"))} · '
+                f'<span class="context-badge">{esc(usage)}</span></span></li>'
+            )
+        return result
+
+    def deep_card(row):
+        fund = row.get('fund_flow', {})
+        news = row.get('news_flow', {})
+        is_recommend = row.get('role') == '推荐关注ETF'
+        kind = 'recommend' if is_recommend else 'avoid'
+        if is_recommend:
+            why = row.get('why_selected') or row.get('reason', '数据不足')
+            action = f"{row.get('alert_level', '待确认')}｜{row.get('verdict', '推荐观察')}｜{row.get('action', '等待确认')}"
+            next_left_label, next_left = '转为可跟踪条件', row.get('confirm_next', '数据不足')
+            next_right_label, next_right = '失效条件', row.get('invalidate', '数据不足')
+        else:
+            why = f"回避分{float(row.get('avoid_score', 0)):.1f}；{row.get('reason', '数据不足')}"
+            action = f"{row.get('alert_level', '中')}预警｜{row.get('action', '谨慎观察，不追涨')}"
+            next_left_label, next_left = '移出回避名单条件', row.get('reconsider', '数据不足')
+            next_right_label, next_right = '已有仓位说明', row.get('position_note', '只限制新增，不生成卖出指令。')
+        return f'''<article class="deep-card {kind}" data-etf-code="{esc(row.get('code', ''))}">
+  <div class="deep-head"><div><div class="deep-role">{esc(row.get('role', '研究观察'))}</div><div class="deep-title">{esc(row.get('name', ''))} <small>{esc(row.get('code', ''))}</small></div></div><div class="deep-action">{esc(action)}</div></div>
+  <p class="focus-why"><b>为什么：</b>{esc(why)}</p>
+  <div class="deep-columns">
+    <div class="deep-box"><h4>资金流｜先看真实份额，再看量价代理（行情截至 {esc(fund.get('price_as_of', '缺失'))}）</h4><p><b>{esc(fund.get('conclusion', '数据不足'))}</b></p><p>{esc(fund.get('share_evidence', '数据不足'))}</p><div class="deep-metrics"><span>5日相对沪深300<b>{esc(signed(fund.get('relative_5d'), 'pct'))}</b></span><span>20日相对沪深300<b>{esc(signed(fund.get('relative_20d'), 'pct'))}</b></span><span>20日量比<b>{esc(signed(fund.get('volume_ratio_20d'), 'x'))}</b></span><span>撤退风险<b>{esc(signed(fund.get('withdrawal_risk')))}</b></span></div><p>{esc(fund.get('market_leverage_context', '全市场两融数据不足。'))}</p></div>
+    <div class="deep-box"><h4>新闻流｜{esc(news.get('window_start', '缺失'))} 至 {esc(news.get('as_of_date', '缺失'))}，最多列3条原文</h4><p><b>{esc(news.get('conclusion', '新闻证据不足，不等于利空。'))}</b></p><ul class="news-list">{news_items_html(news)}</ul><p>{esc(news.get('limitation', '新闻不等于资金。'))}</p></div>
+  </div>
+  <div class="deep-cross"><b>资金×新闻交叉判断：</b>{esc(row.get('cross_read', '数据不足'))}</div>
+  <div class="deep-next"><div><b>{esc(next_left_label)}</b>{esc(next_left)}</div><div><b>{esc(next_right_label)}</b>{esc(next_right)}</div></div>
+</article>'''
+
+    deep_html = ''.join(deep_card(row) for row in deep_dives)
+    if not deep_html:
+        deep_html = '<div class="empty-note">暂无达到固定筛选阈值的ETF，逐只深挖不强行补位。</div>'
+
+    module_cards = ''
+    for item in modules:
+        evidence_html = ''
+        for row in item.get('evidence', []):
+            source_link = esc(row.get('source', ''))
+            if row.get('url'):
+                source_link = f'<a href="{esc(row.get("url"))}" target="_blank" rel="noopener">{source_link} ↗</a>'
+            evidence_html += (
+                '<li>'
+                f'<span class="evidence-label">{esc(row.get("label", ""))}</span>'
+                f'<span class="evidence-value">{esc(row.get("value", "数据不足"))}</span>'
+                f'<span class="evidence-meta">{esc(row.get("kind", "真实数据"))} · {source_link} · 截至 {esc(row.get("as_of", "缺失"))}</span>'
+                '</li>'
+            )
+        limitation = item.get('limitation') or '无额外限制说明。'
+        module_cards += f'''<article class="module-card {esc(item.get('tone', 'neutral'))}">
+  <div class="module-head"><div class="module-title">{int(item.get('order', 0))}. {esc(item.get('title', ''))}</div><div class="module-state">{esc(item.get('status', '中性'))} · 置信{esc(item.get('confidence', '低'))}</div></div>
+  <p class="module-conclusion">{esc(item.get('conclusion', '数据不足'))}</p>
+  <ul class="evidence-list">{evidence_html}</ul>
+  <div class="module-meaning"><b>对持仓意味着什么</b>{esc(item.get('implication', ''))}</div>
+  <div class="module-watch"><b>下一次看什么才算确认</b>{esc(item.get('watch', ''))}</div>
+  <details class="module-limit"><summary>口径与限制</summary><p>{esc(limitation)}</p></details>
+</article>'''
+
+    quality_rows = ''.join(
+        f'<tr><td>{esc(row.get("source", ""))}</td><td>{esc(row.get("latest") or "缺失")}</td><td>{esc(row.get("status", ""))}</td><td>{esc(row.get("use", ""))}</td></tr>'
+        for row in diagnostics.get('data_quality', [])
+    )
+    return f'''<section class="report-section evidence-first">
+<div class="sec-title">今天先看结论</div>
+<div class="today-brief"><div class="today-status">{esc(overall.get('model_status', '研究观察'))} · 市场{esc(overall.get('status', '中性'))} · 截至{esc(diagnostics.get('market_data_date', diagnostics.get('as_of_date', '')))}</div>
+<h2>{esc(overall.get('conclusion', '数据不足'))}</h2><p class="today-action">{esc(overall.get('action', ''))}</p><div class="four-lines">{lines_html}</div></div>
+<div class="sec-title">每日ETF推荐与回避预警</div>
+<div class="daily-alert-bar"><div class="daily-alert-title">{esc(daily_alerts.get('display_title', f'今日推荐关注 {len(recommendations)} 只｜今日回避预警 {len(avoids)} 只'))}</div><div class="daily-alert-meta">预警日 {esc(daily_alerts.get('date', diagnostics.get('as_of_date', '缺失')))}<br>每日流水线重新计算，名单不固定</div></div>
+<div class="focus-grid"><section class="focus-panel recommend-panel"><div class="focus-panel-head"><b>今日推荐关注 · {len(recommendations)}只</b><span>研究名单，不等于自动买入</span></div><div class="focus-list">{recommend_cards}</div></section><section class="focus-panel avoid-panel"><div class="focus-panel-head"><b>今日回避预警 · {len(avoids)}只</b><span>限制新增，不等于卖出或做空</span></div><div class="focus-list">{avoid_cards}</div></section></div>
+<div class="sec-title">逐只ETF资金流与新闻流深挖</div><div class="deep-dive-wrap">{deep_html}</div>
+<div class="sec-title">0–7 八项市场诊断</div><div class="module-grid">{module_cards}</div>
+<details class="quality-fold"><summary>数据新鲜度与缺口</summary><table class="quality-table"><thead><tr><th>来源</th><th>最新日期</th><th>状态</th><th>用途</th></tr></thead><tbody>{quality_rows}</tbody></table></details>
+</section>'''
+
 def gen_top_summary(model_data, econ_data):
     """生成信息优先的今日执行摘要：实际多头组合、弱势观察与交易边界。"""
     d = model_data['latest_decision']
@@ -1112,14 +1264,14 @@ def gen_external_review(model_data, econ_data):
 <div class="section-note">外部情绪分 <strong class="{cls_val(ext.get('score', 0))}">{float(ext.get('score', 0)):.3f}</strong> · 盘后新增事件单独展示，不回填本次决策；无法确认日期的内容不进入模型。</div></div>
 <div class="card"><div class="card-title">四大报 · 当日全部标题（{esc(newspaper_date)}）</div>
 <div class="np-grid compact-paper-grid">{paper_cards}</div>
-<div class="section-note">四大报只作为机构情绪和叙事参考，不单独触发买入；需要与价格、成交和资金行为交叉确认。</div></div></div>
+<div class="section-note">四大报只作为公开叙事参考，不代表机构仓位，也不单独触发买入；需要与价格、成交和资金行为交叉确认。</div></div></div>
 </section>'''
 
 
 def gen_adaptation_review(model_data, econ_data):
     review = model_data.get('adaptation_review', {})
     rows = ''.join(f'<tr><td>{esc(k)}</td><td class="{cls_val(v["model"])}">{fmt_pct(v["model"])}</td><td>{fmt_pct(v["bench"])}</td><td class="{cls_val(v["alpha"])}">{fmt_pct(v["alpha"])}</td><td>{v["win_rate"]:.1f}%</td></tr>' for k, v in review.get('windows', {}).items())
-    return f'''<section class="report-section"><div class="sec-title">四、历史回顾与下一轮调优</div>
+    return f'''<section class="report-section"><div class="sec-title">模型迭代：先看样本外是否真的改善</div>
 <div class="card"><div class="card-title">滚动样本外回顾</div><table><thead><tr><th>窗口</th><th>模型</th><th>沪深300</th><th>Alpha</th><th>胜率</th></tr></thead><tbody>{rows}</tbody></table>
 <div class="section-note">全样本基准采用同期买入持有；滚动窗口采用决策日匹配收益。最大复合净值回撤约 <strong>{float(review.get('max_drawdown', 0)):.2f}%</strong>。{esc(review.get('action', ''))}</div></div>
 <div class="adapt-grid"><div class="adapt-box"><b>当前结论</b><p>{esc(review.get('action', '暂不调参'))}</p></div><div class="adapt-box"><b>调优护栏</b><p>{esc(review.get('guardrail', ''))}</p></div></div>
@@ -1146,7 +1298,7 @@ def gen_model_fold(model_data, econ_data):
                if len(ci) == 2 and ci[0] is not None and ci[1] is not None else '暂无')
     mean_alpha = selective.get('mean_portfolio_net_alpha', selective.get('mean_net_alpha'))
     alpha_text = f'{float(mean_alpha):+.2f}%' if mean_alpha is not None else '暂无'
-    return f'''<section class="report-section"><div class="sec-title">五、模型结果（可展开）</div>
+    return f'''<section class="report-section"><div class="sec-title">技术模型附录（可展开）</div>
 <details class="model-fold"><summary>模型卡片：规则模型负责组合，Logit/OLS负责诊断（点击展开）</summary>
 <div class="model-grid"><div class="model-box"><div class="card-title">规则模型 · 实际决策公式</div><p class="formula">Score = 状态化趋势/回归 + 启动/资金代理 + 新闻预期差 + 市场一致性 − 陈旧拥挤 − 撤退风险</p><p>价格和资金使用 T-1；外部事件必须满足真实日期≤决策日。风险预算由宽度、20日动量、波动和回撤决定，持仓再按逆波动率分配。</p></div><div class="model-box"><div class="card-title">路径 A · 三日净Alpha模型</div><div class="model-number">{status}</div><p>目标为ETF从 T 开盘持有至 T+2 收盘，相对沪深300并扣除0.05%往返成本。样本外能力检验{skill}；未过护栏时不参与主推荐。</p></div></div>
 <div class="model-grid"><div class="model-box"><div class="card-title">当前参数护栏</div><p>买入门槛 {BUY_THRESHOLD:.2f} · 持有期 {HOLDING_PERIOD} 日 · 情绪滞后系数 -1.0 · 份额流向暂只作诊断。</p></div><div class="model-box"><div class="card-title">日间交接</div><p>当日预测先进入 pending；持有期结束、收益和成本结算后，才允许写入经验库并参与滚动 OOS 复核。</p></div></div>
@@ -1184,7 +1336,7 @@ def gen_section_1_conclusion(model_data, econ_data):
 
 
 def gen_section_3_sentiment(model_data, econ_data):
-    """三、双视角情绪诊断 — 情绪卡片 + 四大报标题"""
+    """媒体叙事与融资情绪诊断 — 情绪卡片 + 四大报标题"""
     d = model_data['latest_decision']
     newspapers = model_data.get('latest_newspapers', {})
     sent = d.get('sentiment_score', 0)
@@ -1199,7 +1351,7 @@ def gen_section_3_sentiment(model_data, econ_data):
         title_str = ' / '.join(titles[:3]) if titles else '今日暂无数据'
         np_rows += f'<tr><td>{esc(name)}</td><td style="font-size:0.78rem">{esc(title_str)}</td></tr>\n'
 
-    return f'''<h2>三、双视角情绪诊断</h2>
+    return f'''<h2>媒体叙事与融资情绪诊断</h2>
 <div class="card">
   <div class="card-title">外部政策/行业/宏观情绪</div>
   <div class="metrics" style="grid-template-columns:repeat(3,1fr)">
@@ -1209,7 +1361,7 @@ def gen_section_3_sentiment(model_data, econ_data):
   </div>
 </div>
 <div class="card">
-  <div class="card-title">机构情绪（四大报）</div>
+  <div class="card-title">媒体叙事（四大报）</div>
   <div class="metrics" style="grid-template-columns:repeat(3,1fr)">
     <div class="metric"><div class="ml">情绪分</div><div class="mv {cls_val(sent)}">{sent:.3f}</div></div>
     <div class="metric"><div class="ml">看多标题</div><div class="mv" style="color:var(--green)">{bull}</div></div>
@@ -1280,7 +1432,7 @@ def gen_section_4_performance(model_data, econ_data):
   </table>
 </div>'''
 
-    return f'''<section class="report-section"><div class="sec-title">三、历史表现与回测（已结算至{esc(s["end_date"])}）</div>
+    return f'''<section class="report-section"><div class="sec-title">历史表现与回测（已结算至{esc(s["end_date"])}）</div>
 <div class="metrics" style="grid-template-columns:repeat(3,1fr)">
 {cards}
 </div>
@@ -1935,9 +2087,7 @@ def generate_html(model_data, econ_data):
     report_date = model_data['summary']['report_date']
 
     sections = [
-        gen_top_summary(model_data, econ_data),
-        gen_market_state(model_data, econ_data),
-        gen_external_review(model_data, econ_data),
+        gen_eight_module_brief(model_data, econ_data),
         gen_section_4_performance(model_data, econ_data),
         gen_adaptation_review(model_data, econ_data),
         gen_model_fold(model_data, econ_data),
@@ -1947,7 +2097,7 @@ def generate_html(model_data, econ_data):
     masthead = f'''<header class="report-masthead">
   <div class="report-kicker">FUCKETF · DAILY RESEARCH NOTE</div>
   <h1 class="report-title">老林的ETF量化模型</h1>
-  <div class="report-subtitle"><span>资金行为 · 情绪 · 市场状态 · 风险预算</span><span class="report-meta">报告日 {esc(report_date)} · 生成于 {esc(now)}</span></div>
+  <div class="report-subtitle"><span>推荐/回避ETF · 逐只资金与新闻深挖 · 八项市场诊断</span><span class="report-meta">报告日 {esc(report_date)} · 生成于 {esc(now)}</span></div>
 </header>'''
 
     return f"""<!-- Generated by Trae Work -->
@@ -1966,7 +2116,7 @@ def generate_html(model_data, econ_data):
 <div class="container">
 {masthead}
 {body}
-<footer>研究用途，不构成投资建议。规则模型为主，计量模型用于诊断；历史回测不代表未来收益。数据源：公开行情、四大报、融资融券及官方新闻页面。</footer>
+<footer>研究用途，不构成投资建议。推荐关注不等于自动买入，回避ETF不等于卖出或做空；真实申赎、价格成交代理和新闻叙事分开标注。历史回测不代表未来收益。</footer>
 </div>
 <script src="{ECHARTS_JS_REF}"></script>
 <script src="assets/charts.js"></script>

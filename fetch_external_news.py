@@ -79,7 +79,8 @@ def date_from_detail(body):
 def classify(title, category):
     t = title.lower()
     bullish = ['增长', '回升', '扩张', '放宽', '加快', '改善', '创新高', '超预期', '支持', '促进', '突破']
-    bearish = ['下滑', '收紧', '处罚', '下跌', '下降', '放缓', '违约', '亏损', '削减', '减少', '风险']
+    # “风险管理/风险提示”常出现在中性政策标题中，不能仅凭“风险”二字判负。
+    bearish = ['下滑', '收紧', '处罚', '下跌', '下降', '放缓', '违约', '亏损', '削减', '减少', '恶化']
     b, s = sum(k.lower() in t for k in bullish), sum(k.lower() in t for k in bearish)
     direction = '偏正' if b > s else '偏负' if s > b else '中性'
     high = any(k in title for k in ['重大', '重磅', '政策', '规划', '数据发布', '指数', '监管', '处罚', '降准', '降息'])

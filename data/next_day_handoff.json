@@ -3,7 +3,7 @@
   "decision_date": "2026-08-13",
   "next_trading_date": "2026-08-14",
   "settlement_date": "2026-08-17",
-  "calendar_quality": "exchange_calendar",
+  "calendar_quality": "weekday_fallback",
   "cutoff_policy": "价格/成交截至前一交易日；外部事件必须有原文或URL日期且published_at<=decision_date；未结算预测不得进入经验库。",
   "market_state": {
     "name": "neutral",
@@ -11,23 +11,1118 @@
     "breadth": 0.6087,
     "volatility_20d": 24.038
   },
-  "selected_etfs": [
+  "model_status": "研究观察",
+  "final_decision": {
+    "action": "等待确认",
+    "execution_allowed": false,
+    "position": 0.0,
+    "reason": "推荐关注：创新药ETF、红利ETF、房地产ETF，均先等待确认；回避新增：人工智能ETF、中概互联网ETF、中证1000ETF。不把单一价格启动或利好标题直接写成买点。",
+    "rule_output_role": "候选生成器；model_results.json中的buy不等于最终执行指令",
+    "canonical_source": "data/market_diagnostics.json"
+  },
+  "selected_etfs": [],
+  "research_candidates": [
     {
       "code": "515120",
       "name": "创新药ETF",
       "sector": "创新药",
-      "weight": 0.2282,
-      "total_score": 0.6484,
-      "early_entry": 0.7074,
-      "crowding": 0.2515,
-      "withdrawal_risk": 0.0182,
-      "flow_proxy": 0.4155,
-      "external_signal": -0.3143,
-      "news_price_gap": -1.0,
-      "news_flow_gap": -0.7298,
-      "share_flow_signal": -1.0
+      "group": "healthcare",
+      "role": "推荐关注ETF",
+      "alert_level": "待确认",
+      "action": "列入推荐关注，但样本外护栏未通过，当前不新增仓位。",
+      "model_weight": 0.0968,
+      "model_score": 0.7605,
+      "verdict": "推荐观察｜等待确认",
+      "confirmations": [
+        "价格与成交出现启动",
+        "5日跑赢沪深300 5.45个百分点"
+      ],
+      "conflicts": [
+        "份额下降6.68%（估算-8.72亿元）"
+      ],
+      "reason": "价格与成交出现启动；5日跑赢沪深300 5.45个百分点；份额下降6.68%（估算-8.72亿元）",
+      "why_selected": "规则评分+0.76；5日相对沪深300 +5.45个百分点；启动强度0.71。",
+      "fund_flow": {
+        "price_as_of": "2026-08-12",
+        "status": "净赎回",
+        "score": -0.2169,
+        "conclusion": "价格相对走强但ETF份额净赎回，量价启动尚未得到真实申赎确认。",
+        "share_available": true,
+        "share_change_pct": -6.6828,
+        "estimated_flow_yi": -8.717,
+        "share_period": "2026-08-06→2026-08-12",
+        "share_evidence": "2026-08-06→2026-08-12份额-6.68%，估算资金-8.72亿元",
+        "return_1d": -0.434,
+        "return_5d": 6.173,
+        "return_20d": 0.585,
+        "relative_5d": 5.452,
+        "relative_20d": 2.445,
+        "volume_ratio_20d": 0.633,
+        "price_volume_proxy": 0.4155,
+        "early_entry": 0.7074,
+        "withdrawal_risk": 0.0182,
+        "market_leverage_context": "全市场融资净买入+13.0亿元（2026-08-11）；该数据不能归因到单只ETF。",
+        "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
+      },
+      "news_flow": {
+        "as_of_date": "2026-08-13",
+        "window_start": "2026-07-31",
+        "lookback_days": 14,
+        "status": "偏正",
+        "score": 0.2874,
+        "direct_count": 7,
+        "positive_count": 2,
+        "negative_count": 0,
+        "neutral_count": 5,
+        "recent_3d_count": 3,
+        "attention": "升温",
+        "latest_date": "2026-08-12",
+        "conclusion": "近14日直接相关新闻7条（偏正2/偏负0/中性5），新闻流偏正；近3日3条，关注度升温。",
+        "top_items": [
+          {
+            "title": "险资二季度持仓净增1.83亿股 近期积极调研AI算力、医药与硬科技",
+            "source": "上海证券报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-08-12",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "医药"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": false,
+            "age_days": 1,
+            "report_context_only": true
+          },
+          {
+            "title": "中报窗口期机构密集调研 创新药步入业绩与国际化兑现期",
+            "source": "中国证券报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-08-11",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "创新药"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": false,
+            "age_days": 2,
+            "report_context_only": true
+          },
+          {
+            "title": "每周医药看点（8月3日—9日）",
+            "source": "中国医药报",
+            "url": "https://www.cnpharm.com/c/2026-08-11/1104275.shtml",
+            "published_at": "2026-08-11",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "低",
+            "category": "industry",
+            "origin": "targeted_search",
+            "matched_keywords": [
+              "医药"
+            ],
+            "source_tier": "专业媒体",
+            "used_in_rule": false,
+            "age_days": 2,
+            "report_context_only": true
+          },
+          {
+            "title": "创新药产业生态持续优化 头部企业步入业绩兑现期",
+            "source": "证券日报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-08-07",
+            "direction": "偏正",
+            "direction_value": 1,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "创新药"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": false,
+            "age_days": 6,
+            "report_context_only": true
+          }
+        ],
+        "limitation": "新闻流衡量公开信息方向与关注度，不等于资金流；同日搜索补充只作报告语境，不回填规则信号。"
+      },
+      "cross_read": "新闻流偏正但真实份额净赎回，属于叙事—资金背离；不把利好标题直接写成买点。",
+      "confirm_next": "份额止跌转增、5日相对强度保持为正且撤退风险低于0.35",
+      "invalidate": "跌出轮动前五、放量收低或撤退风险升至0.35以上"
+    },
+    {
+      "code": "510880",
+      "name": "红利ETF",
+      "sector": "红利",
+      "group": "dividend",
+      "role": "推荐关注ETF",
+      "alert_level": "待确认",
+      "action": "列入推荐关注，但样本外护栏未通过，当前不新增仓位。",
+      "model_weight": 0.14,
+      "model_score": 0.47,
+      "verdict": "推荐观察｜等待确认",
+      "confirmations": [
+        "价格与成交出现启动",
+        "5日跑赢沪深300 1.60个百分点"
+      ],
+      "conflicts": [
+        "份额下降3.73%（估算-7.99亿元）"
+      ],
+      "reason": "价格与成交出现启动；5日跑赢沪深300 1.60个百分点；份额下降3.73%（估算-7.99亿元）",
+      "why_selected": "规则评分+0.47；5日相对沪深300 +1.60个百分点；启动强度0.54。",
+      "fund_flow": {
+        "price_as_of": "2026-08-12",
+        "status": "净赎回",
+        "score": -0.2771,
+        "conclusion": "价格相对走强但ETF份额净赎回，量价启动尚未得到真实申赎确认。",
+        "share_available": true,
+        "share_change_pct": -3.7319,
+        "estimated_flow_yi": -7.9933,
+        "share_period": "2026-08-06→2026-08-12",
+        "share_evidence": "2026-08-06→2026-08-12份额-3.73%，估算资金-7.99亿元",
+        "return_1d": -0.181,
+        "return_5d": 2.323,
+        "return_20d": 3.705,
+        "relative_5d": 1.602,
+        "relative_20d": 5.565,
+        "volume_ratio_20d": 0.403,
+        "price_volume_proxy": 0.2664,
+        "early_entry": 0.5446,
+        "withdrawal_risk": 0.006,
+        "market_leverage_context": "全市场融资净买入+13.0亿元（2026-08-11）；该数据不能归因到单只ETF。",
+        "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
+      },
+      "news_flow": {
+        "as_of_date": "2026-08-13",
+        "window_start": "2026-07-31",
+        "lookback_days": 14,
+        "status": "偏正",
+        "score": 0.807,
+        "direct_count": 8,
+        "positive_count": 6,
+        "negative_count": 0,
+        "neutral_count": 2,
+        "recent_3d_count": 4,
+        "attention": "升温",
+        "latest_date": "2026-08-13",
+        "conclusion": "近14日直接相关新闻8条（偏正6/偏负0/中性2），新闻流偏正；近3日4条，关注度升温。",
+        "top_items": [
+          {
+            "title": "分红、回购、增持常态化推进 A股公司以实际行动稳市场强信心",
+            "source": "证券时报",
+            "url": "https://www.stcn.com/article/detail/4072505.html",
+            "published_at": "2026-08-13",
+            "direction": "偏正",
+            "direction_value": 1,
+            "impact": "中",
+            "category": "market",
+            "origin": "targeted_search",
+            "matched_keywords": [
+              "分红",
+              "回购",
+              "增持"
+            ],
+            "source_tier": "专业媒体",
+            "used_in_rule": false,
+            "age_days": 0,
+            "report_context_only": true
+          },
+          {
+            "title": "券商密集发布回购与股东增持计划",
+            "source": "证券日报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-08-12",
+            "direction": "偏正",
+            "direction_value": 1,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "回购",
+              "增持"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": false,
+            "age_days": 1,
+            "report_context_only": true
+          },
+          {
+            "title": "科德教育计划斥资不超2亿元回购股份",
+            "source": "证券日报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-08-12",
+            "direction": "偏正",
+            "direction_value": 1,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "回购"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": false,
+            "age_days": 1,
+            "report_context_only": true
+          },
+          {
+            "title": "年内红利ETF分红总额超28亿元",
+            "source": "证券日报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-08-11",
+            "direction": "偏正",
+            "direction_value": 1,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "红利",
+              "分红"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": false,
+            "age_days": 2,
+            "report_context_only": true
+          }
+        ],
+        "limitation": "新闻流衡量公开信息方向与关注度，不等于资金流；同日搜索补充只作报告语境，不回填规则信号。"
+      },
+      "cross_read": "新闻流偏正但真实份额净赎回，属于叙事—资金背离；不把利好标题直接写成买点。",
+      "confirm_next": "份额止跌转增、5日相对强度保持为正且撤退风险低于0.35",
+      "invalidate": "跌出轮动前五、放量收低或撤退风险升至0.35以上"
+    },
+    {
+      "code": "512200",
+      "name": "房地产ETF",
+      "sector": "房地产",
+      "group": "property",
+      "role": "推荐关注ETF",
+      "alert_level": "待确认",
+      "action": "列入推荐关注，但样本外护栏未通过，当前不新增仓位。",
+      "model_weight": 0.077,
+      "model_score": 0.3742,
+      "verdict": "推荐观察｜等待确认",
+      "confirmations": [
+        "价格与成交出现启动",
+        "5日跑赢沪深300 4.58个百分点"
+      ],
+      "conflicts": [],
+      "reason": "价格与成交出现启动；5日跑赢沪深300 4.58个百分点",
+      "why_selected": "规则评分+0.37；5日相对沪深300 +4.58个百分点；启动强度0.53。",
+      "fund_flow": {
+        "price_as_of": "2026-08-12",
+        "status": "基本稳定",
+        "score": 0.4034,
+        "conclusion": "ETF份额变化不大，当前方向主要由价格相对强弱决定。",
+        "share_available": true,
+        "share_change_pct": 0.4816,
+        "estimated_flow_yi": 0.1716,
+        "share_period": "2026-08-06→2026-08-12",
+        "share_evidence": "2026-08-06→2026-08-12份额+0.48%，估算资金+0.17亿元",
+        "return_1d": 4.18,
+        "return_5d": 5.302,
+        "return_20d": 6.36,
+        "relative_5d": 4.581,
+        "relative_20d": 8.22,
+        "volume_ratio_20d": 1.475,
+        "price_volume_proxy": 0.6068,
+        "early_entry": 0.5268,
+        "withdrawal_risk": 0.0,
+        "market_leverage_context": "全市场融资净买入+13.0亿元（2026-08-11）；该数据不能归因到单只ETF。",
+        "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
+      },
+      "news_flow": {
+        "as_of_date": "2026-08-13",
+        "window_start": "2026-07-31",
+        "lookback_days": 14,
+        "status": "偏正",
+        "score": 0.4965,
+        "direct_count": 5,
+        "positive_count": 2,
+        "negative_count": 0,
+        "neutral_count": 3,
+        "recent_3d_count": 1,
+        "attention": "平稳",
+        "latest_date": "2026-08-13",
+        "conclusion": "近14日直接相关新闻5条（偏正2/偏负0/中性3），新闻流偏正；近3日1条，关注度平稳。",
+        "top_items": [
+          {
+            "title": "各地住房公积金装修提取政策密集出台",
+            "source": "证券日报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-08-13",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "住房",
+              "公积金"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": true,
+            "age_days": 0,
+            "report_context_only": false
+          },
+          {
+            "title": "关于进一步优化调整房地产相关政策的通知",
+            "source": "北京市住房和城乡建设委员会等",
+            "url": "https://zjw.beijing.gov.cn/bjjs/xxgk/zcwj2024/qtzcwj/xxyx13/744089337/index.shtml",
+            "published_at": "2026-08-07",
+            "direction": "偏正",
+            "direction_value": 1,
+            "impact": "高",
+            "category": "policy",
+            "origin": "targeted_search",
+            "matched_keywords": [
+              "房地产",
+              "地产"
+            ],
+            "source_tier": "官方原文",
+            "used_in_rule": false,
+            "age_days": 6,
+            "report_context_only": true
+          },
+          {
+            "title": "住房公积金：从“购房工具”到全周期支撑",
+            "source": "证券时报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-08-07",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "住房",
+              "公积金"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": false,
+            "age_days": 6,
+            "report_context_only": true
+          },
+          {
+            "title": "住房公积金制度改革提速 更好满足多样化住房消费需求",
+            "source": "证券日报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-08-04",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "住房",
+              "公积金"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": false,
+            "age_days": 9,
+            "report_context_only": true
+          }
+        ],
+        "limitation": "新闻流衡量公开信息方向与关注度，不等于资金流；同日搜索补充只作报告语境，不回填规则信号。"
+      },
+      "cross_read": "新闻流与资金/价格方向同向，但仍需下一交易日继续确认，不能据一次共振追涨。",
+      "confirm_next": "份额止跌转增、5日相对强度保持为正且撤退风险低于0.35",
+      "invalidate": "跌出轮动前五、放量收低或撤退风险升至0.35以上"
     }
   ],
+  "recommendations": [
+    {
+      "code": "515120",
+      "name": "创新药ETF",
+      "sector": "创新药",
+      "group": "healthcare",
+      "role": "推荐关注ETF",
+      "alert_level": "待确认",
+      "action": "列入推荐关注，但样本外护栏未通过，当前不新增仓位。",
+      "model_weight": 0.0968,
+      "model_score": 0.7605,
+      "verdict": "推荐观察｜等待确认",
+      "confirmations": [
+        "价格与成交出现启动",
+        "5日跑赢沪深300 5.45个百分点"
+      ],
+      "conflicts": [
+        "份额下降6.68%（估算-8.72亿元）"
+      ],
+      "reason": "价格与成交出现启动；5日跑赢沪深300 5.45个百分点；份额下降6.68%（估算-8.72亿元）",
+      "why_selected": "规则评分+0.76；5日相对沪深300 +5.45个百分点；启动强度0.71。",
+      "fund_flow": {
+        "price_as_of": "2026-08-12",
+        "status": "净赎回",
+        "score": -0.2169,
+        "conclusion": "价格相对走强但ETF份额净赎回，量价启动尚未得到真实申赎确认。",
+        "share_available": true,
+        "share_change_pct": -6.6828,
+        "estimated_flow_yi": -8.717,
+        "share_period": "2026-08-06→2026-08-12",
+        "share_evidence": "2026-08-06→2026-08-12份额-6.68%，估算资金-8.72亿元",
+        "return_1d": -0.434,
+        "return_5d": 6.173,
+        "return_20d": 0.585,
+        "relative_5d": 5.452,
+        "relative_20d": 2.445,
+        "volume_ratio_20d": 0.633,
+        "price_volume_proxy": 0.4155,
+        "early_entry": 0.7074,
+        "withdrawal_risk": 0.0182,
+        "market_leverage_context": "全市场融资净买入+13.0亿元（2026-08-11）；该数据不能归因到单只ETF。",
+        "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
+      },
+      "news_flow": {
+        "as_of_date": "2026-08-13",
+        "window_start": "2026-07-31",
+        "lookback_days": 14,
+        "status": "偏正",
+        "score": 0.2874,
+        "direct_count": 7,
+        "positive_count": 2,
+        "negative_count": 0,
+        "neutral_count": 5,
+        "recent_3d_count": 3,
+        "attention": "升温",
+        "latest_date": "2026-08-12",
+        "conclusion": "近14日直接相关新闻7条（偏正2/偏负0/中性5），新闻流偏正；近3日3条，关注度升温。",
+        "top_items": [
+          {
+            "title": "险资二季度持仓净增1.83亿股 近期积极调研AI算力、医药与硬科技",
+            "source": "上海证券报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-08-12",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "医药"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": false,
+            "age_days": 1,
+            "report_context_only": true
+          },
+          {
+            "title": "中报窗口期机构密集调研 创新药步入业绩与国际化兑现期",
+            "source": "中国证券报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-08-11",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "创新药"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": false,
+            "age_days": 2,
+            "report_context_only": true
+          },
+          {
+            "title": "每周医药看点（8月3日—9日）",
+            "source": "中国医药报",
+            "url": "https://www.cnpharm.com/c/2026-08-11/1104275.shtml",
+            "published_at": "2026-08-11",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "低",
+            "category": "industry",
+            "origin": "targeted_search",
+            "matched_keywords": [
+              "医药"
+            ],
+            "source_tier": "专业媒体",
+            "used_in_rule": false,
+            "age_days": 2,
+            "report_context_only": true
+          },
+          {
+            "title": "创新药产业生态持续优化 头部企业步入业绩兑现期",
+            "source": "证券日报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-08-07",
+            "direction": "偏正",
+            "direction_value": 1,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "创新药"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": false,
+            "age_days": 6,
+            "report_context_only": true
+          }
+        ],
+        "limitation": "新闻流衡量公开信息方向与关注度，不等于资金流；同日搜索补充只作报告语境，不回填规则信号。"
+      },
+      "cross_read": "新闻流偏正但真实份额净赎回，属于叙事—资金背离；不把利好标题直接写成买点。",
+      "confirm_next": "份额止跌转增、5日相对强度保持为正且撤退风险低于0.35",
+      "invalidate": "跌出轮动前五、放量收低或撤退风险升至0.35以上"
+    },
+    {
+      "code": "510880",
+      "name": "红利ETF",
+      "sector": "红利",
+      "group": "dividend",
+      "role": "推荐关注ETF",
+      "alert_level": "待确认",
+      "action": "列入推荐关注，但样本外护栏未通过，当前不新增仓位。",
+      "model_weight": 0.14,
+      "model_score": 0.47,
+      "verdict": "推荐观察｜等待确认",
+      "confirmations": [
+        "价格与成交出现启动",
+        "5日跑赢沪深300 1.60个百分点"
+      ],
+      "conflicts": [
+        "份额下降3.73%（估算-7.99亿元）"
+      ],
+      "reason": "价格与成交出现启动；5日跑赢沪深300 1.60个百分点；份额下降3.73%（估算-7.99亿元）",
+      "why_selected": "规则评分+0.47；5日相对沪深300 +1.60个百分点；启动强度0.54。",
+      "fund_flow": {
+        "price_as_of": "2026-08-12",
+        "status": "净赎回",
+        "score": -0.2771,
+        "conclusion": "价格相对走强但ETF份额净赎回，量价启动尚未得到真实申赎确认。",
+        "share_available": true,
+        "share_change_pct": -3.7319,
+        "estimated_flow_yi": -7.9933,
+        "share_period": "2026-08-06→2026-08-12",
+        "share_evidence": "2026-08-06→2026-08-12份额-3.73%，估算资金-7.99亿元",
+        "return_1d": -0.181,
+        "return_5d": 2.323,
+        "return_20d": 3.705,
+        "relative_5d": 1.602,
+        "relative_20d": 5.565,
+        "volume_ratio_20d": 0.403,
+        "price_volume_proxy": 0.2664,
+        "early_entry": 0.5446,
+        "withdrawal_risk": 0.006,
+        "market_leverage_context": "全市场融资净买入+13.0亿元（2026-08-11）；该数据不能归因到单只ETF。",
+        "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
+      },
+      "news_flow": {
+        "as_of_date": "2026-08-13",
+        "window_start": "2026-07-31",
+        "lookback_days": 14,
+        "status": "偏正",
+        "score": 0.807,
+        "direct_count": 8,
+        "positive_count": 6,
+        "negative_count": 0,
+        "neutral_count": 2,
+        "recent_3d_count": 4,
+        "attention": "升温",
+        "latest_date": "2026-08-13",
+        "conclusion": "近14日直接相关新闻8条（偏正6/偏负0/中性2），新闻流偏正；近3日4条，关注度升温。",
+        "top_items": [
+          {
+            "title": "分红、回购、增持常态化推进 A股公司以实际行动稳市场强信心",
+            "source": "证券时报",
+            "url": "https://www.stcn.com/article/detail/4072505.html",
+            "published_at": "2026-08-13",
+            "direction": "偏正",
+            "direction_value": 1,
+            "impact": "中",
+            "category": "market",
+            "origin": "targeted_search",
+            "matched_keywords": [
+              "分红",
+              "回购",
+              "增持"
+            ],
+            "source_tier": "专业媒体",
+            "used_in_rule": false,
+            "age_days": 0,
+            "report_context_only": true
+          },
+          {
+            "title": "券商密集发布回购与股东增持计划",
+            "source": "证券日报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-08-12",
+            "direction": "偏正",
+            "direction_value": 1,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "回购",
+              "增持"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": false,
+            "age_days": 1,
+            "report_context_only": true
+          },
+          {
+            "title": "科德教育计划斥资不超2亿元回购股份",
+            "source": "证券日报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-08-12",
+            "direction": "偏正",
+            "direction_value": 1,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "回购"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": false,
+            "age_days": 1,
+            "report_context_only": true
+          },
+          {
+            "title": "年内红利ETF分红总额超28亿元",
+            "source": "证券日报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-08-11",
+            "direction": "偏正",
+            "direction_value": 1,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "红利",
+              "分红"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": false,
+            "age_days": 2,
+            "report_context_only": true
+          }
+        ],
+        "limitation": "新闻流衡量公开信息方向与关注度，不等于资金流；同日搜索补充只作报告语境，不回填规则信号。"
+      },
+      "cross_read": "新闻流偏正但真实份额净赎回，属于叙事—资金背离；不把利好标题直接写成买点。",
+      "confirm_next": "份额止跌转增、5日相对强度保持为正且撤退风险低于0.35",
+      "invalidate": "跌出轮动前五、放量收低或撤退风险升至0.35以上"
+    },
+    {
+      "code": "512200",
+      "name": "房地产ETF",
+      "sector": "房地产",
+      "group": "property",
+      "role": "推荐关注ETF",
+      "alert_level": "待确认",
+      "action": "列入推荐关注，但样本外护栏未通过，当前不新增仓位。",
+      "model_weight": 0.077,
+      "model_score": 0.3742,
+      "verdict": "推荐观察｜等待确认",
+      "confirmations": [
+        "价格与成交出现启动",
+        "5日跑赢沪深300 4.58个百分点"
+      ],
+      "conflicts": [],
+      "reason": "价格与成交出现启动；5日跑赢沪深300 4.58个百分点",
+      "why_selected": "规则评分+0.37；5日相对沪深300 +4.58个百分点；启动强度0.53。",
+      "fund_flow": {
+        "price_as_of": "2026-08-12",
+        "status": "基本稳定",
+        "score": 0.4034,
+        "conclusion": "ETF份额变化不大，当前方向主要由价格相对强弱决定。",
+        "share_available": true,
+        "share_change_pct": 0.4816,
+        "estimated_flow_yi": 0.1716,
+        "share_period": "2026-08-06→2026-08-12",
+        "share_evidence": "2026-08-06→2026-08-12份额+0.48%，估算资金+0.17亿元",
+        "return_1d": 4.18,
+        "return_5d": 5.302,
+        "return_20d": 6.36,
+        "relative_5d": 4.581,
+        "relative_20d": 8.22,
+        "volume_ratio_20d": 1.475,
+        "price_volume_proxy": 0.6068,
+        "early_entry": 0.5268,
+        "withdrawal_risk": 0.0,
+        "market_leverage_context": "全市场融资净买入+13.0亿元（2026-08-11）；该数据不能归因到单只ETF。",
+        "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
+      },
+      "news_flow": {
+        "as_of_date": "2026-08-13",
+        "window_start": "2026-07-31",
+        "lookback_days": 14,
+        "status": "偏正",
+        "score": 0.4965,
+        "direct_count": 5,
+        "positive_count": 2,
+        "negative_count": 0,
+        "neutral_count": 3,
+        "recent_3d_count": 1,
+        "attention": "平稳",
+        "latest_date": "2026-08-13",
+        "conclusion": "近14日直接相关新闻5条（偏正2/偏负0/中性3），新闻流偏正；近3日1条，关注度平稳。",
+        "top_items": [
+          {
+            "title": "各地住房公积金装修提取政策密集出台",
+            "source": "证券日报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-08-13",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "住房",
+              "公积金"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": true,
+            "age_days": 0,
+            "report_context_only": false
+          },
+          {
+            "title": "关于进一步优化调整房地产相关政策的通知",
+            "source": "北京市住房和城乡建设委员会等",
+            "url": "https://zjw.beijing.gov.cn/bjjs/xxgk/zcwj2024/qtzcwj/xxyx13/744089337/index.shtml",
+            "published_at": "2026-08-07",
+            "direction": "偏正",
+            "direction_value": 1,
+            "impact": "高",
+            "category": "policy",
+            "origin": "targeted_search",
+            "matched_keywords": [
+              "房地产",
+              "地产"
+            ],
+            "source_tier": "官方原文",
+            "used_in_rule": false,
+            "age_days": 6,
+            "report_context_only": true
+          },
+          {
+            "title": "住房公积金：从“购房工具”到全周期支撑",
+            "source": "证券时报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-08-07",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "住房",
+              "公积金"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": false,
+            "age_days": 6,
+            "report_context_only": true
+          },
+          {
+            "title": "住房公积金制度改革提速 更好满足多样化住房消费需求",
+            "source": "证券日报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-08-04",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "住房",
+              "公积金"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": false,
+            "age_days": 9,
+            "report_context_only": true
+          }
+        ],
+        "limitation": "新闻流衡量公开信息方向与关注度，不等于资金流；同日搜索补充只作报告语境，不回填规则信号。"
+      },
+      "cross_read": "新闻流与资金/价格方向同向，但仍需下一交易日继续确认，不能据一次共振追涨。",
+      "confirm_next": "份额止跌转增、5日相对强度保持为正且撤退风险低于0.35",
+      "invalidate": "跌出轮动前五、放量收低或撤退风险升至0.35以上"
+    }
+  ],
+  "avoid_etfs": [
+    {
+      "code": "515980",
+      "name": "人工智能ETF",
+      "sector": "AI算力",
+      "group": "ai",
+      "role": "回避ETF",
+      "action": "回避新增",
+      "alert_level": "高",
+      "avoid_score": 51.1,
+      "rule_score": -0.4044,
+      "reason": "5日跑输沪深300 1.38个百分点；20日跑输沪深300 7.29个百分点；规则评分-0.40；新闻偏正但价格未确认",
+      "reasons": [
+        "5日跑输沪深300 1.38个百分点",
+        "20日跑输沪深300 7.29个百分点",
+        "规则评分-0.40",
+        "新闻偏正但价格未确认"
+      ],
+      "fund_flow": {
+        "price_as_of": "2026-08-12",
+        "status": "净赎回",
+        "score": -0.2813,
+        "conclusion": "ETF份额净赎回且5日相对收益为负，资金与价格同时偏弱。",
+        "share_available": true,
+        "share_change_pct": -1.9322,
+        "estimated_flow_yi": -1.2118,
+        "share_period": "2026-08-06→2026-08-12",
+        "share_evidence": "2026-08-06→2026-08-12份额-1.93%，估算资金-1.21亿元",
+        "return_1d": 1.335,
+        "return_5d": -0.654,
+        "return_20d": -9.145,
+        "relative_5d": -1.375,
+        "relative_20d": -7.285,
+        "volume_ratio_20d": 0.509,
+        "price_volume_proxy": 0.0,
+        "early_entry": 0.0,
+        "withdrawal_risk": 0.0,
+        "market_leverage_context": "全市场融资净买入+13.0亿元（2026-08-11）；该数据不能归因到单只ETF。",
+        "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
+      },
+      "news_flow": {
+        "as_of_date": "2026-08-13",
+        "window_start": "2026-07-31",
+        "lookback_days": 14,
+        "status": "偏正",
+        "score": 0.1641,
+        "direct_count": 26,
+        "positive_count": 4,
+        "negative_count": 0,
+        "neutral_count": 22,
+        "recent_3d_count": 12,
+        "attention": "升温",
+        "latest_date": "2026-08-13",
+        "conclusion": "近14日直接相关新闻26条（偏正4/偏负0/中性22），新闻流偏正；近3日12条，关注度升温。",
+        "top_items": [
+          {
+            "title": "AI服务器需求持续放量 MLCC板块迎景气行情",
+            "source": "上海证券报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-08-13",
+            "direction": "偏正",
+            "direction_value": 1,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "AI",
+              "AI服务器"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": true,
+            "age_days": 0,
+            "report_context_only": false
+          },
+          {
+            "title": "宇树科技打新成绩单出炉 机构踊跃参与",
+            "source": "中国证券报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-08-13",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "宇树"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": true,
+            "age_days": 0,
+            "report_context_only": false
+          },
+          {
+            "title": "从技术展示到量产落地 具身智能企业“赶考”港交所",
+            "source": "上海证券报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-08-13",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "智能",
+              "具身智能"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": true,
+            "age_days": 0,
+            "report_context_only": false
+          },
+          {
+            "title": "6家银行理财子公司获配宇树科技逾14万股",
+            "source": "证券日报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-08-13",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "宇树"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": true,
+            "age_days": 0,
+            "report_context_only": false
+          }
+        ],
+        "limitation": "新闻流衡量公开信息方向与关注度，不等于资金流；同日搜索补充只作报告语境，不回填规则信号。"
+      },
+      "cross_read": "新闻流偏正但真实份额净赎回，属于叙事—资金背离；不把利好标题直接写成买点。",
+      "reconsider": "份额止跌转增、5日相对收益转正且规则评分回到0以上后，再移出回避名单。",
+      "position_note": "不知道用户是否持有；这里只限制新增，不自动生成卖出或做空指令。"
+    },
+    {
+      "code": "513050",
+      "name": "中概互联网ETF",
+      "sector": "中概互联网",
+      "group": "hk_tech",
+      "role": "回避ETF",
+      "action": "回避新增",
+      "alert_level": "高",
+      "avoid_score": 43.9,
+      "rule_score": -0.464,
+      "reason": "5日跑输沪深300 5.26个百分点；规则评分-0.46；撤退风险0.20",
+      "reasons": [
+        "5日跑输沪深300 5.26个百分点",
+        "规则评分-0.46",
+        "撤退风险0.20"
+      ],
+      "fund_flow": {
+        "price_as_of": "2026-08-12",
+        "status": "基本稳定",
+        "score": -0.25,
+        "conclusion": "ETF份额变化不大，当前方向主要由价格相对强弱决定。",
+        "share_available": true,
+        "share_change_pct": 0.0,
+        "estimated_flow_yi": 0.0,
+        "share_period": "2026-08-06→2026-08-12",
+        "share_evidence": "2026-08-06→2026-08-12份额+0.00%，估算资金+0.00亿元",
+        "return_1d": -2.155,
+        "return_5d": -4.542,
+        "return_20d": 1.339,
+        "relative_5d": -5.263,
+        "relative_20d": 3.2,
+        "volume_ratio_20d": 0.708,
+        "price_volume_proxy": 0.0,
+        "early_entry": 0.0,
+        "withdrawal_risk": 0.0,
+        "market_leverage_context": "全市场融资净买入+13.0亿元（2026-08-11）；该数据不能归因到单只ETF。",
+        "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
+      },
+      "news_flow": {
+        "as_of_date": "2026-08-13",
+        "window_start": "2026-07-31",
+        "lookback_days": 14,
+        "status": "无直接新闻",
+        "score": 0.0,
+        "direct_count": 0,
+        "positive_count": 0,
+        "negative_count": 0,
+        "neutral_count": 0,
+        "recent_3d_count": 0,
+        "attention": "数据不足",
+        "latest_date": null,
+        "conclusion": "近14日未检索到与中概互联网直接匹配的有效新闻；新闻证据不足，不等于利空。",
+        "top_items": [],
+        "limitation": "新闻流衡量公开信息方向与关注度，不等于资金流；同日搜索补充只作报告语境，不回填规则信号。"
+      },
+      "cross_read": "缺少直接新闻证据，当前判断以真实申赎和价格结构为主。",
+      "reconsider": "份额止跌转增、5日相对收益转正且规则评分回到0以上后，再移出回避名单。",
+      "position_note": "不知道用户是否持有；这里只限制新增，不自动生成卖出或做空指令。"
+    },
+    {
+      "code": "512100",
+      "name": "中证1000ETF",
+      "sector": "小盘",
+      "group": "small_cap",
+      "role": "回避ETF",
+      "action": "回避新增",
+      "alert_level": "高",
+      "avoid_score": 40.7,
+      "rule_score": 0.2035,
+      "reason": "份额-31.81%（估算-105.98亿元）",
+      "reasons": [
+        "份额-31.81%（估算-105.98亿元）"
+      ],
+      "fund_flow": {
+        "price_as_of": "2026-08-12",
+        "status": "净赎回",
+        "score": -0.3867,
+        "conclusion": "价格相对走强但ETF份额净赎回，量价启动尚未得到真实申赎确认。",
+        "share_available": true,
+        "share_change_pct": -31.8076,
+        "estimated_flow_yi": -105.9785,
+        "share_period": "2026-08-06→2026-08-12",
+        "share_evidence": "2026-08-06→2026-08-12份额-31.81%，估算资金-105.98亿元",
+        "return_1d": 1.154,
+        "return_5d": 3.987,
+        "return_20d": -0.41,
+        "relative_5d": 3.266,
+        "relative_20d": 1.45,
+        "volume_ratio_20d": 0.508,
+        "price_volume_proxy": 0.0,
+        "early_entry": 0.0,
+        "withdrawal_risk": 0.0,
+        "market_leverage_context": "全市场融资净买入+13.0亿元（2026-08-11）；该数据不能归因到单只ETF。",
+        "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
+      },
+      "news_flow": {
+        "as_of_date": "2026-08-13",
+        "window_start": "2026-07-31",
+        "lookback_days": 14,
+        "status": "无直接新闻",
+        "score": 0.0,
+        "direct_count": 0,
+        "positive_count": 0,
+        "negative_count": 0,
+        "neutral_count": 0,
+        "recent_3d_count": 0,
+        "attention": "数据不足",
+        "latest_date": null,
+        "conclusion": "近14日未检索到与小盘直接匹配的有效新闻；新闻证据不足，不等于利空。",
+        "top_items": [],
+        "limitation": "新闻流衡量公开信息方向与关注度，不等于资金流；同日搜索补充只作报告语境，不回填规则信号。"
+      },
+      "cross_read": "缺少直接新闻证据，当前判断以真实申赎和价格结构为主。",
+      "reconsider": "份额止跌转增、5日相对收益转正且规则评分回到0以上后，再移出回避名单。",
+      "position_note": "不知道用户是否持有；这里只限制新增，不自动生成卖出或做空指令。"
+    }
+  ],
+  "daily_etf_alerts": {
+    "date": "2026-08-13",
+    "recommendation_count": 3,
+    "avoid_count": 3,
+    "recommendation_codes": [
+      "515120",
+      "510880",
+      "512200"
+    ],
+    "avoid_codes": [
+      "515980",
+      "513050",
+      "512100"
+    ],
+    "display_title": "今日推荐关注 3 只｜今日回避预警 3 只",
+    "refresh_policy": "每日流水线按最新行情、真实ETF份额、相对强弱、成交结构和直接新闻重新计算；不沿用固定名单。"
+  },
   "monitor": [
     "crowding",
     "withdrawal_risk",

@@ -54,6 +54,7 @@ FEATURES = [
     'behavior_momentum', 'flow_proxy', 'acceleration', 'crowding',
     'withdrawal_risk', 'early_entry', 'news_surprise', 'market_breadth',
     'external_signal', 'external_news_count', 'news_price_gap', 'news_flow_gap', 'share_flow_signal',
+    'newspaper_available', 'margin_available', 'external_available', 'share_flow_available',
 ]
 
 # 预测器只使用在历史逐日样本外检验中稳定的市场/大众情绪因子；其余变量仍保留
@@ -216,14 +217,23 @@ def compute_retail_sentiment(date_str):
     return round(float(score), 4), round(float(cur_rzjme), 2)
 
 
-def compute_sentiment_divergence(inst_score, retail_score):
+def compute_sentiment_divergence(narrative_score, retail_score):
     """
-    机构-大众情绪分歧度
-    当两情绪方向相反时, 分歧度高 → 预测力最强
-    返回值: |inst - retail| * sign(inst) * (-sign(retail))
-    简化: 1 - inst*retail (两情绪同向时接近0, 反向时接近1)
+    媒体叙事-融资情绪分歧度
+    返回[0,1]的纯分歧距离；0=一致，1=两个极端方向相反。
+    是否具有预测力只能由样本外检验决定，函数本身不预设“分歧越高越有效”。
     """
-    return round(1.0 - float(inst_score) * float(retail_score), 4)
+    return round(min(1.0, abs(float(narrative_score) - float(retail_score)) / 2), 4)
+
+
+def margin_available(date_str):
+    """是否存在不晚于指定日期的两融观测；缺失不能与真实中性混为一谈。"""
+    return int(any(day <= date_str for day in load_margin_data()))
+
+
+def share_flow_available(code, date_str):
+    history = load_share_history()
+    return int(sum(day <= date_str and code in values for day, values in history.items()) >= 2)
 
 
 # ----------------------------- 1. 构建面板数据 -----------------------------
@@ -242,7 +252,7 @@ def build_dataset(etf_data, news_data):
         Tm2 = trading_days[i - 2]
         target_end = trading_days[i + HOLDING_PERIOD - 1]
 
-        # 当日四大报情绪 (开盘前可得) — 机构视角
+        # 当日四大报公开叙事（要求开盘前可得，不解释为机构持仓）
         news_T = news_data.get(T, {})
         sent = analyze_newspaper_sentiment(news_T)
 
@@ -254,8 +264,11 @@ def build_dataset(etf_data, news_data):
         market_state = compute_market_state(etf_data, Tm1)
         # 外部事件多数没有开盘前可见时刻；保守地仅使用T-1及更早信息。
         external_sent = analyze_external_sentiment(load_external_news(), Tm1)
+        newspaper_ok = int(bool(news_T and any(news_T.values())))
+        margin_ok = margin_available(Tm1)
+        external_ok = int(external_sent.get('count', 0) > 0)
 
-        # 大众情绪 (T-1融资融券数据, T开盘前可得) — 大众视角
+        # 融资情绪（T-1融资融券数据，T开盘前可得）
         retail_sent, rzjme_yi = compute_retail_sentiment(Tm1)
         sentiment_div = compute_sentiment_divergence(sent['score'], retail_sent)
 
@@ -297,6 +310,7 @@ def build_dataset(etf_data, news_data):
                 + 0.45 * np.clip(external_sent['sector_scores'].get(info['sector'], 0.0) / 3, -1, 1), -1, 1))
             expectation_gap = compute_news_expectation_gaps(external_signal, behavior)
             share_flow_signal = compute_share_flow_signal(code, Tm1)
+            share_flow_ok = share_flow_available(code, Tm1)
 
             rows.append({
                 'date': T, 'etf_code': code, 'etf_name': info['name'], 'sector': info['sector'],
@@ -326,6 +340,10 @@ def build_dataset(etf_data, news_data):
                 'news_price_gap': expectation_gap['news_price_gap'],
                 'news_flow_gap': expectation_gap['news_flow_gap'],
                 'share_flow_signal': share_flow_signal,
+                'newspaper_available': newspaper_ok,
+                'margin_available': margin_ok,
+                'external_available': external_ok,
+                'share_flow_available': share_flow_ok,
                 'target_end_date': target_end,
                 'holding_return': round(holding_return, 4),
                 'benchmark_return': round(benchmark_return, 4),
@@ -365,6 +383,9 @@ def build_latest_features(etf_data, news_data):
     market_state = compute_market_state(etf_data, Tm1) if Tm1 else {'breadth': 0.5}
     external_sent = analyze_external_sentiment(load_external_news(), Tm1) if Tm1 else {
         'score': 0.0, 'sector_scores': {}, 'count': 0}
+    newspaper_ok = int(bool(news_T and any(news_T.values())))
+    margin_ok = margin_available(Tm1) if Tm1 else 0
+    external_ok = int(external_sent.get('count', 0) > 0)
 
     # 大众情绪 (T-1融资融券数据, T开盘前可得)
     retail_sent, rzjme_yi = compute_retail_sentiment(Tm1) if Tm1 else (0.0, 0.0)
@@ -389,6 +410,7 @@ def build_latest_features(etf_data, news_data):
             + 0.45 * np.clip(external_sent['sector_scores'].get(info['sector'], 0.0) / 3, -1, 1), -1, 1))
         expectation_gap = compute_news_expectation_gaps(external_signal, behavior)
         share_flow_signal = compute_share_flow_signal(code, Tm1)
+        share_flow_ok = share_flow_available(code, Tm1)
         rows.append({
             'predict_date': T, 'prev_date': Tm1, 'etf_code': code,
             'etf_name': info['name'], 'sector': info['sector'],
@@ -418,6 +440,10 @@ def build_latest_features(etf_data, news_data):
             'news_price_gap': expectation_gap['news_price_gap'],
             'news_flow_gap': expectation_gap['news_flow_gap'],
             'share_flow_signal': share_flow_signal,
+            'newspaper_available': newspaper_ok,
+            'margin_available': margin_ok,
+            'external_available': external_ok,
+            'share_flow_available': share_flow_ok,
         })
     return pd.DataFrame(rows), T
 
@@ -959,7 +985,8 @@ def main():
             'margin': coverage(margin_dates),
             'external_news': coverage(external_dates),
             'etf_shares': coverage(share_dates),
-            'missing_policy': '缺失源当前按中性值0处理；评估时必须结合覆盖区间，不把缺失误解为真实中性。',
+            'missing_policy': ('数值缺失仍以0进入兼容字段，但同时加入newspaper/margin/external/share_flow_available标记；'
+                               '解释时必须区分“真实中性”和“没有数据”。'),
         },
         'target_direction_balance': {
             'positive': int((df['target_direction'] == 1).sum()),

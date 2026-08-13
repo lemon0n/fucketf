@@ -17,9 +17,23 @@ def load(name, default):
 
 def future_trading_days(as_of, count):
     """优先使用交易所日历；网络不可用时退化为工作日并显式标记。"""
+    skip_remote = os.environ.get('ETF_SKIP_REMOTE_CALENDAR', '').lower() in {'1', 'true', 'yes'}
     try:
-        import akshare as ak
-        calendar = [str(x)[:10] for x in ak.tool_trade_date_hist_sina()['trade_date']]
+        if skip_remote:
+            raise RuntimeError('remote calendar disabled')
+        import requests
+        import py_mini_racer
+        from akshare.stock.cons import hk_js_decode
+
+        response = requests.get(
+            'https://finance.sina.com.cn/realstock/company/klc_td_sh.txt',
+            timeout=(4, 10),
+        )
+        response.raise_for_status()
+        encoded = response.text.split('=', 1)[1].split(';', 1)[0].replace('"', '')
+        decoder = py_mini_racer.MiniRacer()
+        decoder.eval(hk_js_decode)
+        calendar = [str(x)[:10] for x in decoder.call('d', encoded)]
         future = [x for x in calendar if x > as_of][:count]
         if len(future) == count:
             return future, 'exchange_calendar'
@@ -37,6 +51,7 @@ def main():
     ext = load('external_news.json', {})
     margin = load('margin_trading.json', {})
     shares = load('etf_shares.json', {})
+    diagnostics = load('market_diagnostics.json', {})
     previous = load('next_day_handoff.json', {})
     latest = model.get('latest_decision', {})
     as_of = latest.get('date') or date.today().isoformat()
@@ -48,7 +63,15 @@ def main():
     valid = [x for x in items if x.get('published_at', '')[:10] <= as_of and x.get('date_quality') not in (None, 'unknown', 'listing')]
     pending = [p for p in previous.get('pending_labels', [])
                if p.get('status') == 'pending' and p.get('settle_after') and p['settle_after'] > as_of]
-    if latest.get('etf_selection') and not any(p.get('decision_date') == as_of for p in pending):
+    final_decision = diagnostics.get('final_decision', {})
+    model_status = diagnostics.get('overall', {}).get('model_status', '研究观察')
+    recommendations = diagnostics.get('recommendations', diagnostics.get('candidates', []))
+    avoid_etfs = diagnostics.get('avoid_etfs', [])
+    executable = [
+        row for row in recommendations
+        if row.get('verdict') == '可小仓跟踪'
+    ] if final_decision.get('execution_allowed') else []
+    if executable and not any(p.get('decision_date') == as_of for p in pending):
         pending.append({'decision_date': as_of, 'settle_after': settle_day, 'status': 'pending',
                         'rule': '完整持有期结束后才计算净收益并写入经验库'})
     share_snapshots = len(shares.get('history', {})) + len(shares.get('szse_snapshot', {})) if isinstance(shares, dict) else 0
@@ -57,7 +80,13 @@ def main():
         'settlement_date': settle_day, 'calendar_quality': calendar_quality,
         'cutoff_policy': '价格/成交截至前一交易日；外部事件必须有原文或URL日期且published_at<=decision_date；未结算预测不得进入经验库。',
         'market_state': {'name': state.get('name'), 'risk_budget': state.get('risk_budget'), 'breadth': state.get('breadth'), 'volatility_20d': state.get('volatility_20d')},
-        'selected_etfs': latest.get('etf_selection', latest.get('rankings', [])[:3]),
+        'model_status': model_status,
+        'final_decision': final_decision,
+        'selected_etfs': executable,
+        'research_candidates': recommendations,
+        'recommendations': recommendations,
+        'avoid_etfs': avoid_etfs,
+        'daily_etf_alerts': diagnostics.get('daily_etf_alerts', {}),
         'monitor': ['crowding', 'withdrawal_risk', 'share_flow_signal', 'news_price_gap', 'news_flow_gap', 'market_breadth', 'volatility_20d'],
         'external_event_count': len(valid),
         'external_latest_dates': sorted({x.get('published_at', '')[:10] for x in valid}, reverse=True)[:5],

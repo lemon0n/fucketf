@@ -107,19 +107,26 @@ def get_prev_date(trading_days, date):
 
 # ----------------------------- 情绪分析 -----------------------------
 def analyze_newspaper_sentiment(newspapers):
-    """分析四大报情绪，返回 score/bullish_count/bearish_count/hot_sectors/summary"""
+    """分析四大报公开叙事；中性标题也进入分母，避免两条关键词制造极端分数。"""
     if not newspapers:
         return {
             'score': 0.0, 'bullish_count': 0, 'bearish_count': 0,
             'hot_sectors': [], 'summary': '当日无四大报数据，情绪中性',
-            'total_titles': 0, 'paper_counts': {}
+            'total_titles': 0, 'paper_counts': {}, 'directional_coverage': 0.0,
+            'paper_coverage': 0,
         }
 
-    all_titles = []
+    all_titles, seen_titles = [], set()
     paper_counts = {}
     for paper, titles in newspapers.items():
-        paper_counts[paper] = len(titles)
-        all_titles.extend(titles)
+        clean_titles = []
+        for title in titles:
+            normalized = ' '.join(str(title).split()).strip()
+            if normalized and normalized not in seen_titles:
+                seen_titles.add(normalized)
+                clean_titles.append(normalized)
+                all_titles.append(normalized)
+        paper_counts[paper] = len(clean_titles)
 
     bullish_count = 0
     bearish_count = 0
@@ -136,20 +143,25 @@ def analyze_newspaper_sentiment(newspapers):
                     sector_counts[info['sector']] += 1
                     break  # 每个板块每条标题只计一次
 
-    total = bullish_count + bearish_count
-    score = round((bullish_count - bearish_count) / (total + 1), 4)
+    directional = bullish_count + bearish_count
+    # 旧公式只用方向性标题作分母，16条中仅2条偏多也会得到0.67。
+    # 新公式让所有标题进入分母，并把同一标题只计算一次。
+    score = round((bullish_count - bearish_count) / max(len(all_titles), 1), 4)
+    directional_coverage = round(directional / max(len(all_titles), 1), 4)
     hot_sectors = [
         {'sector': s, 'count': c}
         for s, c in sorted(sector_counts.items(), key=lambda x: -x[1]) if c > 0
     ]
     top_names = ', '.join(s['sector'] for s in hot_sectors[:3]) or '无'
-    summary = (f"四大报共{len(all_titles)}条标题(看多{bullish_count}/看空{bearish_count})，"
-               f"情绪分{score}，热点板块: {top_names}")
+    summary = (f"四大报共{len(all_titles)}条去重标题，明确偏多{bullish_count}/偏空{bearish_count}，"
+               f"方向覆盖{directional_coverage:.0%}，叙事净分{score:+.2f}；热点: {top_names}")
 
     return {
         'score': score, 'bullish_count': bullish_count, 'bearish_count': bearish_count,
         'hot_sectors': hot_sectors, 'summary': summary,
-        'total_titles': len(all_titles), 'paper_counts': paper_counts
+        'total_titles': len(all_titles), 'paper_counts': paper_counts,
+        'directional_coverage': directional_coverage,
+        'paper_coverage': sum(count > 0 for count in paper_counts.values()),
     }
 
 
@@ -164,7 +176,7 @@ def load_external_news():
 
 
 def analyze_external_sentiment(items, date_str):
-    """官方/行业/宏观标题的轻量事件情绪；只使用发布时间不晚于决策日的数据。"""
+    """官方事件的时间衰减、分类平衡情绪；数量多的单一来源不能淹没其他类别。"""
     usable = []
     for x in items:
         published = x.get('published_at', '')[:10]
@@ -176,26 +188,54 @@ def analyze_external_sentiment(items, date_str):
     bullish = bearish = 0
     categories = {}
     sector_scores = {info['sector']: 0.0 for info in SECTOR_ETF_MAP.values()}
+    seen = set()
     for item in usable:
-        title = item.get('title', '')
+        title = ' '.join(str(item.get('title', '')).split()).strip()
+        key = (item.get('source', ''), title)
+        if not title or key in seen:
+            continue
+        seen.add(key)
         b = sum(k in title for k in EXTERNAL_BULLISH)
         s = sum(k in title for k in EXTERNAL_BEARISH)
         bullish += b > 0
         bearish += s > 0
         category = item.get('category', 'other')
-        bucket = categories.setdefault(category, {'count': 0, 'bullish': 0, 'bearish': 0})
+        bucket = categories.setdefault(category, {
+            'count': 0, 'bullish': 0, 'bearish': 0, 'weighted_sum': 0.0, 'weight': 0.0})
         bucket['count'] += 1
         bucket['bullish'] += int(b > 0)
         bucket['bearish'] += int(s > 0)
-        direction = _clip((b - s) / 2)
+        age = max(0, (datetime.strptime(date_str, '%Y-%m-%d').date()
+                      - datetime.strptime(item.get('published_at', '')[:10], '%Y-%m-%d').date()).days)
+        time_weight = 1 / (1 + age / 3)
+        impact_weight = {'高': 1.0, '中': 0.65, '低': 0.35}.get(item.get('impact'), 0.5)
+        weight = time_weight * impact_weight
+        direction = _clip((b - s) / max(b + s, 1))
+        bucket['weighted_sum'] += direction * weight
+        bucket['weight'] += weight
         for info in SECTOR_ETF_MAP.values():
             if any(k.lower() in title.lower() for k in info['keywords']):
-                sector_scores[info['sector']] += direction
-    total = bullish + bearish
-    score = (bullish - bearish) / (total + 1) if total else 0.0
+                sector_scores[info['sector']] += direction * weight
+
+    # 各类别先求均值，再按固定权重合成；政策标题再多也不会独占总分。
+    category_weights = {'policy': 0.35, 'macro': 0.35, 'industry': 0.20, 'exchange': 0.10, 'other': 0.05}
+    present = [(category, bucket) for category, bucket in categories.items() if bucket['weight'] > 0]
+    total_category_weight = sum(category_weights.get(category, 0.05) for category, _ in present)
+    score = 0.0
+    if total_category_weight:
+        score = sum(
+            category_weights.get(category, 0.05) / total_category_weight
+            * bucket['weighted_sum'] / bucket['weight']
+            for category, bucket in present
+        )
+    for bucket in categories.values():
+        bucket['score'] = round(bucket['weighted_sum'] / bucket['weight'], 4) if bucket['weight'] else 0.0
+        bucket.pop('weighted_sum', None)
+        bucket.pop('weight', None)
     return {'score': round(_clip(score), 4), 'bullish_count': int(bullish),
-            'bearish_count': int(bearish), 'count': len(usable),
-            'categories': categories, 'sector_scores': sector_scores}
+            'bearish_count': int(bearish), 'count': len(seen),
+            'categories': categories,
+            'sector_scores': {key: round(_clip(value / 2), 4) for key, value in sector_scores.items()}}
 
 
 # ----------------------------- 板块表现 -----------------------------
@@ -515,7 +555,8 @@ def make_decision(date, prev_date, etf_data, newspapers, experiences):
     新闻预期差和大众情绪；买入门槛0.35，默认完整持有3个交易日。
     """
     sentiment = analyze_newspaper_sentiment(newspapers.get(date))
-    external_sentiment = analyze_external_sentiment(load_external_news(), date)
+    # 官方事件通常没有精确到开盘前的时间戳；规则模型保守地只使用T-1及更早事件。
+    external_sentiment = analyze_external_sentiment(load_external_news(), prev_date or date)
     sector_perf = calculate_sector_performance(etf_data, prev_date) if prev_date else None
     retail_sent = compute_retail_sentiment(prev_date) if prev_date else 0.0
     market_state = compute_market_state(etf_data, prev_date) if prev_date else compute_market_state({}, '')
