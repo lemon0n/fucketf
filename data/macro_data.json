@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-13T23:32:50",
+  "updated_at": "2026-08-16T23:32:09",
   "indicators": {
     "manufacturing_pmi": [
       {
@@ -7379,15 +7379,6 @@
     ],
     "m2_yoy": [
       {
-        "release_date": "2016-07-01",
-        "period": "2016年07月份",
-        "value": 10.2,
-        "unit": "%",
-        "collector": "东方财富宏观数据接口",
-        "authoritative_reference": "https://www.pbc.gov.cn/diaochatongjisi/116219/index.html",
-        "report_name": "RPT_ECONOMY_CURRENCY_SUPPLY"
-      },
-      {
         "release_date": "2016-08-01",
         "period": "2016年08月份",
         "value": 11.4,
@@ -8457,18 +8448,18 @@
         "collector": "东方财富宏观数据接口",
         "authoritative_reference": "https://www.pbc.gov.cn/diaochatongjisi/116219/index.html",
         "report_name": "RPT_ECONOMY_CURRENCY_SUPPLY"
-      }
-    ],
-    "m1_yoy": [
+      },
       {
-        "release_date": "2016-07-01",
-        "period": "2016年07月份",
-        "value": 25.4,
+        "release_date": "2026-07-01",
+        "period": "2026年07月份",
+        "value": 7.7,
         "unit": "%",
         "collector": "东方财富宏观数据接口",
         "authoritative_reference": "https://www.pbc.gov.cn/diaochatongjisi/116219/index.html",
         "report_name": "RPT_ECONOMY_CURRENCY_SUPPLY"
-      },
+      }
+    ],
+    "m1_yoy": [
       {
         "release_date": "2016-08-01",
         "period": "2016年08月份",
@@ -9534,6 +9525,15 @@
       {
         "release_date": "2026-06-01",
         "period": "2026年06月份",
+        "value": 4.0,
+        "unit": "%",
+        "collector": "东方财富宏观数据接口",
+        "authoritative_reference": "https://www.pbc.gov.cn/diaochatongjisi/116219/index.html",
+        "report_name": "RPT_ECONOMY_CURRENCY_SUPPLY"
+      },
+      {
+        "release_date": "2026-07-01",
+        "period": "2026年07月份",
         "value": 4.0,
         "unit": "%",
         "collector": "东方财富宏观数据接口",

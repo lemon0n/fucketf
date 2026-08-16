@@ -88,11 +88,11 @@
     animation:false,
     tooltip:{trigger:'axis',appendToBody:true},
     grid:{left:'3%',right:'4%',bottom:'10%',containLabel:true},
-    xAxis:{type:'category',data:["crowding", "withdrawal_risk", "share_flow_signal", "external_available", "sentiment_score", "bullish_count", "bearish_count", "prev_change_pct", "prev_volume_ratio", "prev_intraday_return", "sector_mentioned", "sector_mention_count", "hs300_mom_5d", "vol_10d", "retail_sentiment", "rzjme_yi", "sentiment_divergence", "behavior_momentum", "flow_proxy", "acceleration", "early_entry", "news_surprise", "market_breadth", "external_signal", "external_news_count", "news_price_gap", "news_flow_gap", "newspaper_available", "margin_available", "share_flow_available"],axisLabel:{color:muted,fontSize:9,rotate:25},axisLine:{lineStyle:{color:rule}}},
+    xAxis:{type:'category',data:["crowding", "withdrawal_risk", "share_flow_signal", "external_available", "vol_10d", "sentiment_score", "bullish_count", "bearish_count", "prev_change_pct", "prev_volume_ratio", "prev_intraday_return", "sector_mentioned", "sector_mention_count", "hs300_mom_5d", "retail_sentiment", "rzjme_yi", "sentiment_divergence", "behavior_momentum", "flow_proxy", "acceleration", "early_entry", "news_surprise", "market_breadth", "external_signal", "external_news_count", "news_price_gap", "news_flow_gap", "newspaper_available", "margin_available", "share_flow_available"],axisLabel:{color:muted,fontSize:9,rotate:25},axisLine:{lineStyle:{color:rule}}},
     yAxis:{type:'value',axisLabel:{color:muted},splitLine:{lineStyle:{color:rule}}},
     series:[{
       type:'bar',
-      data:[0.03918, 0.031053, 0.027527, 0.01917, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+      data:[0.039334, 0.029922, 0.02761, 0.018149, 0.000682, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
       itemStyle:{color:gold},
       barWidth:'45%',
       label:{show:true,position:'top',formatter:'{c}',color:muted,fontSize:9}
