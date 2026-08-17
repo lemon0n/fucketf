@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-16T23:32:09",
+  "updated_at": "2026-08-17T23:32:18",
   "indicators": {
     "manufacturing_pmi": [
       {
@@ -6392,6 +6392,15 @@
         "collector": "东方财富宏观数据接口",
         "authoritative_reference": "https://www.stats.gov.cn/sj/zxfb/",
         "report_name": "RPT_ECONOMY_INDUS_GROW"
+      },
+      {
+        "release_date": "2026-07-01",
+        "period": "2026年07月份",
+        "value": 4.5,
+        "unit": "%",
+        "collector": "东方财富宏观数据接口",
+        "authoritative_reference": "https://www.stats.gov.cn/sj/zxfb/",
+        "report_name": "RPT_ECONOMY_INDUS_GROW"
       }
     ],
     "retail_sales_yoy": [
@@ -7371,6 +7380,15 @@
         "release_date": "2026-06-01",
         "period": "2026年06月份",
         "value": 1.0,
+        "unit": "%",
+        "collector": "东方财富宏观数据接口",
+        "authoritative_reference": "https://www.stats.gov.cn/sj/zxfb/",
+        "report_name": "RPT_ECONOMY_TOTAL_RETAIL"
+      },
+      {
+        "release_date": "2026-07-01",
+        "period": "2026年07月份",
+        "value": 0.6,
         "unit": "%",
         "collector": "东方财富宏观数据接口",
         "authoritative_reference": "https://www.stats.gov.cn/sj/zxfb/",
