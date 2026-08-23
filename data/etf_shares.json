@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-08-20T23:31:48+00:00",
+  "updated_at": "2026-08-23T23:32:04+00:00",
   "coverage": {
     "sse": "weekly historical snapshots plus latest refresh",
     "szse": "pipeline snapshots; flow requires two distinct dates"
   },
   "source_health": {
     "sse": {
-      "status": "可用",
-      "new_snapshots": 2
+      "status": "沿用缓存；1次请求未更新",
+      "new_snapshots": 0
     },
     "szse": {
       "status": "可用"
@@ -2227,6 +2227,10 @@
     "2026-08-20": {
       "159592": 604310460.0,
       "159995": 23951126012.0
+    },
+    "2026-08-21": {
+      "159592": 596310460.0,
+      "159995": 24001126012.0
     }
   }
 }
