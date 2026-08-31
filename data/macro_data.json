@@ -1,16 +1,7 @@
 {
-  "updated_at": "2026-08-30T23:32:32",
+  "updated_at": "2026-08-31T23:31:34",
   "indicators": {
     "manufacturing_pmi": [
-      {
-        "release_date": "2016-08-01",
-        "period": "2016年08月份",
-        "value": 50.4,
-        "unit": "index",
-        "collector": "东方财富宏观数据接口",
-        "authoritative_reference": "https://www.stats.gov.cn/sj/zxfb/",
-        "report_name": "RPT_ECONOMY_PMI"
-      },
       {
         "release_date": "2016-09-01",
         "period": "2016年09月份",
@@ -1081,18 +1072,18 @@
         "collector": "东方财富宏观数据接口",
         "authoritative_reference": "https://www.stats.gov.cn/sj/zxfb/",
         "report_name": "RPT_ECONOMY_PMI"
-      }
-    ],
-    "non_manufacturing_pmi": [
+      },
       {
-        "release_date": "2016-08-01",
-        "period": "2016年08月份",
-        "value": 53.5,
+        "release_date": "2026-08-01",
+        "period": "2026年08月份",
+        "value": 49.8,
         "unit": "index",
         "collector": "东方财富宏观数据接口",
         "authoritative_reference": "https://www.stats.gov.cn/sj/zxfb/",
         "report_name": "RPT_ECONOMY_PMI"
-      },
+      }
+    ],
+    "non_manufacturing_pmi": [
       {
         "release_date": "2016-09-01",
         "period": "2016年09月份",
@@ -2158,6 +2149,15 @@
       {
         "release_date": "2026-07-01",
         "period": "2026年07月份",
+        "value": 49.0,
+        "unit": "index",
+        "collector": "东方财富宏观数据接口",
+        "authoritative_reference": "https://www.stats.gov.cn/sj/zxfb/",
+        "report_name": "RPT_ECONOMY_PMI"
+      },
+      {
+        "release_date": "2026-08-01",
+        "period": "2026年08月份",
         "value": 49.0,
         "unit": "index",
         "collector": "东方财富宏观数据接口",

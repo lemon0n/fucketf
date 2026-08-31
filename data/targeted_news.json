@@ -1,26 +1,22 @@
 {
-  "updated_at": "2026-08-30T23:32:35+00:00",
+  "updated_at": "2026-08-31T23:31:37+00:00",
   "target_codes": [
-    "512000",
-    "512200",
-    "512660",
-    "515120",
-    "513050",
-    "512170",
     "510300",
+    "512000",
+    "512660",
+    "510880",
+    "512800",
+    "512890",
+    "512100",
     "510050",
-    "512100"
+    "516160"
   ],
   "source_health": {
+    "512800": {
+      "status": "cached",
+      "error": "ParseError: syntax error: line 1, column 0"
+    },
     "512000": {
-      "status": "cached",
-      "error": "ParseError: syntax error: line 1, column 0"
-    },
-    "513050": {
-      "status": "cached",
-      "error": "ParseError: syntax error: line 1, column 0"
-    },
-    "512200": {
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     },
@@ -28,15 +24,15 @@
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     },
-    "515120": {
-      "status": "cached",
-      "error": "ParseError: syntax error: line 1, column 0"
-    },
-    "512170": {
-      "status": "cached",
-      "error": "ParseError: syntax error: line 1, column 0"
-    },
     "510300": {
+      "status": "cached",
+      "error": "ParseError: syntax error: line 1, column 0"
+    },
+    "510880": {
+      "status": "cached",
+      "error": "ParseError: syntax error: line 1, column 0"
+    },
+    "512890": {
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     },
@@ -45,6 +41,10 @@
       "error": "ParseError: syntax error: line 1, column 0"
     },
     "512100": {
+      "status": "cached",
+      "error": "ParseError: syntax error: line 1, column 0"
+    },
+    "516160": {
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     }
@@ -152,27 +152,6 @@
       ],
       "retrieval_kind": "targeted_search_discovery",
       "usage_policy": "单家公司信息，仅作行业叙事补充；不回填当日规则信号"
-    },
-    {
-      "source": "国家医保局网站转载页",
-      "source_tier": "官方原文",
-      "category": "policy",
-      "title": "2026年国家基本医保目录及商保创新药目录调整专家评审阶段性结果查询公告",
-      "url": "https://hunan.gov.cn/zqt/zcsd/202607/t20260731_34037357.html",
-      "published_at": "2026-07-31",
-      "date_quality": "search_verified",
-      "direction": "偏正",
-      "impact": "高",
-      "target_codes": [
-        "515120",
-        "512170"
-      ],
-      "matched_keywords": [
-        "医保目录",
-        "创新药"
-      ],
-      "retrieval_kind": "targeted_search_discovery",
-      "usage_policy": "报告补充；不回填当日规则信号"
     }
   ],
   "usage_policy": "定向搜索只补充逐只ETF报告；不进入当日规则评分。"
