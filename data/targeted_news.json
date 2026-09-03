@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-09-02T23:33:29+00:00",
+  "updated_at": "2026-09-03T23:31:39+00:00",
   "target_codes": [
-    "512660",
-    "515980",
-    "510880",
+    "159995",
+    "512760",
     "516160",
     "515790",
-    "159592",
+    "515980",
     "510500",
     "510300",
-    "512100"
+    "512100",
+    "512890"
   ],
   "source_health": {
-    "512660": {
+    "515980": {
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     },
@@ -20,19 +20,15 @@
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     },
-    "510880": {
-      "status": "cached",
-      "error": "ParseError: syntax error: line 1, column 0"
-    },
     "516160": {
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     },
-    "515980": {
+    "512760": {
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     },
-    "159592": {
+    "159995": {
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     },
@@ -45,6 +41,10 @@
       "error": "ParseError: syntax error: line 1, column 0"
     },
     "512100": {
+      "status": "cached",
+      "error": "ParseError: syntax error: line 1, column 0"
+    },
+    "512890": {
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     }
@@ -112,46 +112,6 @@
       ],
       "retrieval_kind": "targeted_search_discovery",
       "usage_policy": "报告补充；不回填当日规则信号"
-    },
-    {
-      "source": "汉中市人民政府",
-      "source_tier": "官方原文",
-      "category": "policy",
-      "title": "汉中市住房公积金提取新政8月3日落地 新增五大提取场景",
-      "url": "https://www.shcn.gov.cn/col5943/20260804/1316382.html",
-      "published_at": "2026-08-03",
-      "date_quality": "search_verified",
-      "direction": "偏正",
-      "impact": "中",
-      "target_codes": [
-        "512200"
-      ],
-      "matched_keywords": [
-        "住房",
-        "公积金"
-      ],
-      "retrieval_kind": "targeted_search_discovery",
-      "usage_policy": "报告补充；不回填当日规则信号"
-    },
-    {
-      "source": "腾讯新闻企业动态",
-      "source_tier": "公开媒体",
-      "category": "industry",
-      "title": "昊华科技：针对AI液冷服务器已布局形成多产品矩阵",
-      "url": "https://news.qq.com/rain/a/20260803A0BCEJ00",
-      "published_at": "2026-08-03",
-      "date_quality": "search_verified",
-      "direction": "偏正",
-      "impact": "中",
-      "target_codes": [
-        "515980"
-      ],
-      "matched_keywords": [
-        "AI服务器",
-        "液冷"
-      ],
-      "retrieval_kind": "targeted_search_discovery",
-      "usage_policy": "单家公司信息，仅作行业叙事补充；不回填当日规则信号"
     }
   ],
   "usage_policy": "定向搜索只补充逐只ETF报告；不进入当日规则评分。"
