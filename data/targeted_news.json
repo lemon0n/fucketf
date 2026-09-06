@@ -1,33 +1,17 @@
 {
-  "updated_at": "2026-09-03T23:31:39+00:00",
+  "updated_at": "2026-09-06T23:32:58+00:00",
   "target_codes": [
+    "512800",
     "159995",
-    "512760",
-    "516160",
-    "515790",
-    "515980",
     "510500",
-    "510300",
-    "512100",
-    "512890"
+    "512760",
+    "515980",
+    "512200",
+    "512890",
+    "512000",
+    "510880"
   ],
   "source_health": {
-    "515980": {
-      "status": "cached",
-      "error": "ParseError: syntax error: line 1, column 0"
-    },
-    "515790": {
-      "status": "cached",
-      "error": "ParseError: syntax error: line 1, column 0"
-    },
-    "516160": {
-      "status": "cached",
-      "error": "ParseError: syntax error: line 1, column 0"
-    },
-    "512760": {
-      "status": "cached",
-      "error": "ParseError: syntax error: line 1, column 0"
-    },
     "159995": {
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
@@ -36,15 +20,31 @@
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     },
-    "510300": {
+    "515980": {
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     },
-    "512100": {
+    "512760": {
+      "status": "cached",
+      "error": "ParseError: syntax error: line 1, column 0"
+    },
+    "512800": {
+      "status": "cached",
+      "error": "ParseError: syntax error: line 1, column 0"
+    },
+    "512200": {
+      "status": "cached",
+      "error": "ParseError: syntax error: line 1, column 0"
+    },
+    "512000": {
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     },
     "512890": {
+      "status": "cached",
+      "error": "ParseError: syntax error: line 1, column 0"
+    },
+    "510880": {
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     }

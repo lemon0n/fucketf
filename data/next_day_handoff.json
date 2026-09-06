@@ -1,145 +1,299 @@
 {
-  "as_of_date": "2026-09-04",
-  "decision_date": "2026-09-04",
-  "next_trading_date": "2026-09-07",
-  "settlement_date": "2026-09-08",
+  "as_of_date": "2026-09-07",
+  "decision_date": "2026-09-07",
+  "next_trading_date": "2026-09-08",
+  "settlement_date": "2026-09-09",
   "calendar_quality": "exchange_calendar",
   "cutoff_policy": "价格/成交截至前一交易日；外部事件必须有原文或URL日期且published_at<=decision_date；未结算预测不得进入经验库。",
   "market_state": {
     "name": "neutral",
     "risk_budget": 0.5,
-    "breadth": 0.6087,
-    "volatility_20d": 14.501
+    "breadth": 0.5652,
+    "volatility_20d": 14.0536
   },
   "model_status": "研究观察",
   "final_decision": {
     "action": "等待确认",
     "execution_allowed": false,
     "position": 0.0,
-    "reason": "推荐关注：暂无，均先等待确认；回避新增：中证500ETF、中证1000ETF、芯片ETF。不把单一价格启动或利好标题直接写成买点。",
+    "reason": "推荐关注：银行ETF，均先等待确认；回避新增：芯片ETF、新能源ETF、人工智能ETF。不把单一价格启动或利好标题直接写成买点。",
     "rule_output_role": "候选生成器；model_results.json中的buy不等于最终执行指令",
     "canonical_source": "data/market_diagnostics.json"
   },
   "selected_etfs": [],
-  "research_candidates": [],
-  "recommendations": [],
+  "research_candidates": [
+    {
+      "code": "512800",
+      "name": "银行ETF",
+      "sector": "银行",
+      "group": "bank",
+      "role": "推荐关注ETF",
+      "alert_level": "待确认",
+      "action": "列入推荐关注，但样本外护栏未通过，当前不新增仓位。",
+      "model_weight": 0.125,
+      "model_score": 0.5478,
+      "verdict": "推荐观察｜等待确认",
+      "confirmations": [
+        "价格与成交出现启动",
+        "5日跑赢沪深300 5.14个百分点"
+      ],
+      "conflicts": [],
+      "reason": "价格与成交出现启动；5日跑赢沪深300 5.14个百分点",
+      "why_selected": "规则评分+0.55；5日相对沪深300 +5.14个百分点；启动强度0.61。",
+      "fund_flow": {
+        "price_as_of": "2026-09-04",
+        "status": "基本稳定",
+        "score": 0.2728,
+        "conclusion": "ETF份额变化不大，当前方向主要由价格相对强弱决定。",
+        "share_available": true,
+        "share_change_pct": -0.6287,
+        "estimated_flow_yi": -0.6258,
+        "share_period": "2026-09-03→2026-09-04",
+        "share_evidence": "2026-09-03→2026-09-04份额-0.63%，估算资金-0.63亿元",
+        "return_1d": 0.952,
+        "return_5d": 3.794,
+        "return_20d": 6.266,
+        "relative_5d": 5.141,
+        "relative_20d": 9.107,
+        "volume_ratio_20d": 0.955,
+        "price_volume_proxy": 0.4597,
+        "early_entry": 0.6131,
+        "withdrawal_risk": 0.0,
+        "market_leverage_context": "全市场融资净买入-40.4亿元（2026-09-03）；该数据不能归因到单只ETF。",
+        "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
+      },
+      "news_flow": {
+        "as_of_date": "2026-09-07",
+        "window_start": "2026-08-25",
+        "lookback_days": 14,
+        "status": "偏正",
+        "score": 0.1724,
+        "direct_count": 14,
+        "positive_count": 2,
+        "negative_count": 0,
+        "neutral_count": 12,
+        "recent_3d_count": 4,
+        "attention": "平稳",
+        "latest_date": "2026-09-07",
+        "conclusion": "近14日直接相关新闻14条（偏正2/偏负0/中性12），新闻流偏正；近3日4条，关注度平稳。",
+        "top_items": [
+          {
+            "title": "投资硬科技业绩回报显著 9家银行AIC总资产合计突破7000亿元",
+            "source": "证券时报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-09-07",
+            "direction": "偏正",
+            "direction_value": 1,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "银行"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": true,
+            "age_days": 0,
+            "report_context_only": false
+          },
+          {
+            "title": "财政部注资银行保险业： 为“主力军”添弹药，为“稳定器”加砝码",
+            "source": "上海证券报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-09-07",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "银行"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": true,
+            "age_days": 0,
+            "report_context_only": false
+          },
+          {
+            "title": "八家中央金融企业拟合计增资三千六百亿元 定向注资对象首次纳入大型国有保险公司",
+            "source": "证券时报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-09-07",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "金融"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": true,
+            "age_days": 0,
+            "report_context_only": false
+          },
+          {
+            "title": "8家中央金融企业拟增资3600亿元补充资本",
+            "source": "证券日报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-09-07",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "金融"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": true,
+            "age_days": 0,
+            "report_context_only": false
+          }
+        ],
+        "limitation": "新闻流衡量公开信息方向与关注度，不等于资金流；同日搜索补充只作报告语境，不回填规则信号。"
+      },
+      "cross_read": "新闻流与资金/价格方向同向，但仍需下一交易日继续确认，不能据一次共振追涨。",
+      "confirm_next": "份额止跌转增、5日相对强度保持为正且撤退风险低于0.35",
+      "invalidate": "跌出轮动前五、放量收低或撤退风险升至0.35以上"
+    }
+  ],
+  "recommendations": [
+    {
+      "code": "512800",
+      "name": "银行ETF",
+      "sector": "银行",
+      "group": "bank",
+      "role": "推荐关注ETF",
+      "alert_level": "待确认",
+      "action": "列入推荐关注，但样本外护栏未通过，当前不新增仓位。",
+      "model_weight": 0.125,
+      "model_score": 0.5478,
+      "verdict": "推荐观察｜等待确认",
+      "confirmations": [
+        "价格与成交出现启动",
+        "5日跑赢沪深300 5.14个百分点"
+      ],
+      "conflicts": [],
+      "reason": "价格与成交出现启动；5日跑赢沪深300 5.14个百分点",
+      "why_selected": "规则评分+0.55；5日相对沪深300 +5.14个百分点；启动强度0.61。",
+      "fund_flow": {
+        "price_as_of": "2026-09-04",
+        "status": "基本稳定",
+        "score": 0.2728,
+        "conclusion": "ETF份额变化不大，当前方向主要由价格相对强弱决定。",
+        "share_available": true,
+        "share_change_pct": -0.6287,
+        "estimated_flow_yi": -0.6258,
+        "share_period": "2026-09-03→2026-09-04",
+        "share_evidence": "2026-09-03→2026-09-04份额-0.63%，估算资金-0.63亿元",
+        "return_1d": 0.952,
+        "return_5d": 3.794,
+        "return_20d": 6.266,
+        "relative_5d": 5.141,
+        "relative_20d": 9.107,
+        "volume_ratio_20d": 0.955,
+        "price_volume_proxy": 0.4597,
+        "early_entry": 0.6131,
+        "withdrawal_risk": 0.0,
+        "market_leverage_context": "全市场融资净买入-40.4亿元（2026-09-03）；该数据不能归因到单只ETF。",
+        "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
+      },
+      "news_flow": {
+        "as_of_date": "2026-09-07",
+        "window_start": "2026-08-25",
+        "lookback_days": 14,
+        "status": "偏正",
+        "score": 0.1724,
+        "direct_count": 14,
+        "positive_count": 2,
+        "negative_count": 0,
+        "neutral_count": 12,
+        "recent_3d_count": 4,
+        "attention": "平稳",
+        "latest_date": "2026-09-07",
+        "conclusion": "近14日直接相关新闻14条（偏正2/偏负0/中性12），新闻流偏正；近3日4条，关注度平稳。",
+        "top_items": [
+          {
+            "title": "投资硬科技业绩回报显著 9家银行AIC总资产合计突破7000亿元",
+            "source": "证券时报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-09-07",
+            "direction": "偏正",
+            "direction_value": 1,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "银行"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": true,
+            "age_days": 0,
+            "report_context_only": false
+          },
+          {
+            "title": "财政部注资银行保险业： 为“主力军”添弹药，为“稳定器”加砝码",
+            "source": "上海证券报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-09-07",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "银行"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": true,
+            "age_days": 0,
+            "report_context_only": false
+          },
+          {
+            "title": "八家中央金融企业拟合计增资三千六百亿元 定向注资对象首次纳入大型国有保险公司",
+            "source": "证券时报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-09-07",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "金融"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": true,
+            "age_days": 0,
+            "report_context_only": false
+          },
+          {
+            "title": "8家中央金融企业拟增资3600亿元补充资本",
+            "source": "证券日报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-09-07",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "金融"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": true,
+            "age_days": 0,
+            "report_context_only": false
+          }
+        ],
+        "limitation": "新闻流衡量公开信息方向与关注度，不等于资金流；同日搜索补充只作报告语境，不回填规则信号。"
+      },
+      "cross_read": "新闻流与资金/价格方向同向，但仍需下一交易日继续确认，不能据一次共振追涨。",
+      "confirm_next": "份额止跌转增、5日相对强度保持为正且撤退风险低于0.35",
+      "invalidate": "跌出轮动前五、放量收低或撤退风险升至0.35以上"
+    }
+  ],
   "avoid_etfs": [
-    {
-      "code": "510500",
-      "name": "中证500ETF",
-      "sector": "中盘",
-      "group": "mid_cap",
-      "role": "回避ETF",
-      "action": "回避新增",
-      "alert_level": "高",
-      "avoid_score": 57.7,
-      "rule_score": -0.2879,
-      "reason": "份额-6.28%（估算-26.29亿元）；规则评分-0.29",
-      "reasons": [
-        "份额-6.28%（估算-26.29亿元）",
-        "规则评分-0.29"
-      ],
-      "fund_flow": {
-        "price_as_of": "2026-09-03",
-        "status": "净赎回",
-        "score": -0.5958,
-        "conclusion": "ETF份额净赎回且5日相对收益为负，资金与价格同时偏弱。",
-        "share_available": true,
-        "share_change_pct": -6.2785,
-        "estimated_flow_yi": -26.2914,
-        "share_period": "2026-08-31→2026-09-02",
-        "share_evidence": "2026-08-31→2026-09-02份额-6.28%，估算资金-26.29亿元",
-        "return_1d": 0.387,
-        "return_5d": -2.408,
-        "return_20d": -0.651,
-        "relative_5d": -0.916,
-        "relative_20d": 1.218,
-        "volume_ratio_20d": 0.946,
-        "price_volume_proxy": 0.0,
-        "early_entry": 0.0,
-        "withdrawal_risk": 0.0,
-        "market_leverage_context": "全市场融资净买入-53.5亿元（2026-09-02）；该数据不能归因到单只ETF。",
-        "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
-      },
-      "news_flow": {
-        "as_of_date": "2026-09-04",
-        "window_start": "2026-08-22",
-        "lookback_days": 14,
-        "status": "无直接新闻",
-        "score": 0.0,
-        "direct_count": 0,
-        "positive_count": 0,
-        "negative_count": 0,
-        "neutral_count": 0,
-        "recent_3d_count": 0,
-        "attention": "数据不足",
-        "latest_date": null,
-        "conclusion": "近14日未检索到与中盘直接匹配的有效新闻；新闻证据不足，不等于利空。",
-        "top_items": [],
-        "limitation": "新闻流衡量公开信息方向与关注度，不等于资金流；同日搜索补充只作报告语境，不回填规则信号。"
-      },
-      "cross_read": "缺少直接新闻证据，当前判断以真实申赎和价格结构为主。",
-      "reconsider": "份额止跌转增、5日相对收益转正且规则评分回到0以上后，再移出回避名单。",
-      "position_note": "不知道用户是否持有；这里只限制新增，不自动生成卖出或做空指令。"
-    },
-    {
-      "code": "512100",
-      "name": "中证1000ETF",
-      "sector": "小盘",
-      "group": "small_cap",
-      "role": "回避ETF",
-      "action": "回避新增",
-      "alert_level": "高",
-      "avoid_score": 52.7,
-      "rule_score": -0.2229,
-      "reason": "份额-7.36%（估算-14.84亿元）；规则评分-0.22",
-      "reasons": [
-        "份额-7.36%（估算-14.84亿元）",
-        "规则评分-0.22"
-      ],
-      "fund_flow": {
-        "price_as_of": "2026-09-03",
-        "status": "净赎回",
-        "score": -0.5567,
-        "conclusion": "ETF份额净赎回且5日相对收益为负，资金与价格同时偏弱。",
-        "share_available": true,
-        "share_change_pct": -7.3619,
-        "estimated_flow_yi": -14.836,
-        "share_period": "2026-08-31→2026-09-02",
-        "share_evidence": "2026-08-31→2026-09-02份额-7.36%，估算资金-14.84亿元",
-        "return_1d": 0.26,
-        "return_5d": -1.626,
-        "return_20d": 1.214,
-        "relative_5d": -0.134,
-        "relative_20d": 3.082,
-        "volume_ratio_20d": 0.567,
-        "price_volume_proxy": 0.0,
-        "early_entry": 0.0,
-        "withdrawal_risk": 0.0,
-        "market_leverage_context": "全市场融资净买入-53.5亿元（2026-09-02）；该数据不能归因到单只ETF。",
-        "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
-      },
-      "news_flow": {
-        "as_of_date": "2026-09-04",
-        "window_start": "2026-08-22",
-        "lookback_days": 14,
-        "status": "无直接新闻",
-        "score": 0.0,
-        "direct_count": 0,
-        "positive_count": 0,
-        "negative_count": 0,
-        "neutral_count": 0,
-        "recent_3d_count": 0,
-        "attention": "数据不足",
-        "latest_date": null,
-        "conclusion": "近14日未检索到与小盘直接匹配的有效新闻；新闻证据不足，不等于利空。",
-        "top_items": [],
-        "limitation": "新闻流衡量公开信息方向与关注度，不等于资金流；同日搜索补充只作报告语境，不回填规则信号。"
-      },
-      "cross_read": "缺少直接新闻证据，当前判断以真实申赎和价格结构为主。",
-      "reconsider": "份额止跌转增、5日相对收益转正且规则评分回到0以上后，再移出回避名单。",
-      "position_note": "不知道用户是否持有；这里只限制新增，不自动生成卖出或做空指令。"
-    },
     {
       "code": "159995",
       "name": "芯片ETF",
@@ -148,51 +302,52 @@
       "role": "回避ETF",
       "action": "回避新增",
       "alert_level": "高",
-      "avoid_score": 45.2,
-      "rule_score": -0.6202,
-      "reason": "5日跑输沪深300 4.10个百分点；规则评分-0.62；撤退风险0.16；新闻偏正但价格未确认",
+      "avoid_score": 53.7,
+      "rule_score": -0.7978,
+      "reason": "5日跑输沪深300 4.55个百分点；20日跑输沪深300 7.55个百分点；规则评分-0.80；撤退风险0.26",
       "reasons": [
-        "5日跑输沪深300 4.10个百分点",
-        "规则评分-0.62",
-        "撤退风险0.16",
+        "5日跑输沪深300 4.55个百分点",
+        "20日跑输沪深300 7.55个百分点",
+        "规则评分-0.80",
+        "撤退风险0.26",
         "新闻偏正但价格未确认"
       ],
       "fund_flow": {
-        "price_as_of": "2026-09-03",
-        "status": "基本稳定",
-        "score": -0.1755,
-        "conclusion": "ETF份额变化不大，当前方向主要由价格相对强弱决定。",
+        "price_as_of": "2026-09-04",
+        "status": "净申购",
+        "score": -0.0946,
+        "conclusion": "ETF份额净申购但价格尚未跑赢基准，属于资金先行、价格待确认。",
         "share_available": true,
-        "share_change_pct": 0.2665,
-        "estimated_flow_yi": 0.7248,
-        "share_period": "2026-09-02→2026-09-03",
-        "share_evidence": "2026-09-02→2026-09-03份额+0.27%，估算资金+0.72亿元",
-        "return_1d": -0.535,
-        "return_5d": -5.588,
-        "return_20d": -5.268,
-        "relative_5d": -4.096,
-        "relative_20d": -3.399,
-        "volume_ratio_20d": 0.639,
+        "share_change_pct": 1.2062,
+        "estimated_flow_yi": 3.2037,
+        "share_period": "2026-09-03→2026-09-04",
+        "share_evidence": "2026-09-03→2026-09-04份额+1.21%，估算资金+3.20亿元",
+        "return_1d": -2.601,
+        "return_5d": -5.893,
+        "return_20d": -10.396,
+        "relative_5d": -4.546,
+        "relative_20d": -7.555,
+        "volume_ratio_20d": 1.152,
         "price_volume_proxy": 0.0,
         "early_entry": 0.0,
         "withdrawal_risk": 0.0,
-        "market_leverage_context": "全市场融资净买入-53.5亿元（2026-09-02）；该数据不能归因到单只ETF。",
+        "market_leverage_context": "全市场融资净买入-40.4亿元（2026-09-03）；该数据不能归因到单只ETF。",
         "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
       },
       "news_flow": {
-        "as_of_date": "2026-09-04",
-        "window_start": "2026-08-22",
+        "as_of_date": "2026-09-07",
+        "window_start": "2026-08-25",
         "lookback_days": 14,
         "status": "偏正",
-        "score": 0.5915,
+        "score": 0.5222,
         "direct_count": 3,
         "positive_count": 1,
         "negative_count": 0,
         "neutral_count": 2,
-        "recent_3d_count": 1,
-        "attention": "升温",
+        "recent_3d_count": 0,
+        "attention": "降温",
         "latest_date": "2026-09-04",
-        "conclusion": "近14日直接相关新闻3条（偏正1/偏负0/中性2），新闻流偏正；近3日1条，关注度升温。",
+        "conclusion": "近14日直接相关新闻3条（偏正1/偏负0/中性2），新闻流偏正；近3日0条，关注度降温。",
         "top_items": [
           {
             "title": "存储器产业链上市公司密集回购传递信心",
@@ -208,9 +363,9 @@
               "存储"
             ],
             "source_tier": "四大报叙事",
-            "used_in_rule": true,
-            "age_days": 0,
-            "report_context_only": false
+            "used_in_rule": false,
+            "age_days": 3,
+            "report_context_only": true
           },
           {
             "title": "5000亿市值半导体设备龙头 公布“成绩单”",
@@ -227,7 +382,7 @@
             ],
             "source_tier": "四大报叙事",
             "used_in_rule": false,
-            "age_days": 9,
+            "age_days": 12,
             "report_context_only": true
           },
           {
@@ -245,7 +400,219 @@
             ],
             "source_tier": "四大报叙事",
             "used_in_rule": false,
-            "age_days": 10,
+            "age_days": 13,
+            "report_context_only": true
+          }
+        ],
+        "limitation": "新闻流衡量公开信息方向与关注度，不等于资金流；同日搜索补充只作报告语境，不回填规则信号。"
+      },
+      "cross_read": "新闻方向中性或与资金不一致，交易判断以真实申赎、相对强度和成交确认为先。",
+      "reconsider": "份额止跌转增、5日相对收益转正且规则评分回到0以上后，再移出回避名单。",
+      "position_note": "不知道用户是否持有；这里只限制新增，不自动生成卖出或做空指令。"
+    },
+    {
+      "code": "516160",
+      "name": "新能源ETF",
+      "sector": "新能源",
+      "group": "new_energy",
+      "role": "回避ETF",
+      "action": "回避新增",
+      "alert_level": "高",
+      "avoid_score": 41.7,
+      "rule_score": -0.472,
+      "reason": "5日跑输沪深300 4.05个百分点；20日跑输沪深300 5.40个百分点；规则评分-0.47",
+      "reasons": [
+        "5日跑输沪深300 4.05个百分点",
+        "20日跑输沪深300 5.40个百分点",
+        "规则评分-0.47"
+      ],
+      "fund_flow": {
+        "price_as_of": "2026-09-04",
+        "status": "基本稳定",
+        "score": -0.1879,
+        "conclusion": "ETF份额变化不大，当前方向主要由价格相对强弱决定。",
+        "share_available": true,
+        "share_change_pct": 0.1324,
+        "estimated_flow_yi": 0.047,
+        "share_period": "2026-09-03→2026-09-04",
+        "share_evidence": "2026-09-03→2026-09-04份额+0.13%，估算资金+0.05亿元",
+        "return_1d": -0.886,
+        "return_5d": -5.397,
+        "return_20d": -8.242,
+        "relative_5d": -4.05,
+        "relative_20d": -5.401,
+        "volume_ratio_20d": 0.816,
+        "price_volume_proxy": 0.0,
+        "early_entry": 0.0,
+        "withdrawal_risk": 0.0,
+        "market_leverage_context": "全市场融资净买入-40.4亿元（2026-09-03）；该数据不能归因到单只ETF。",
+        "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
+      },
+      "news_flow": {
+        "as_of_date": "2026-09-07",
+        "window_start": "2026-08-25",
+        "lookback_days": 14,
+        "status": "中性",
+        "score": 0.0,
+        "direct_count": 1,
+        "positive_count": 0,
+        "negative_count": 0,
+        "neutral_count": 1,
+        "recent_3d_count": 0,
+        "attention": "降温",
+        "latest_date": "2026-08-27",
+        "conclusion": "近14日直接相关新闻1条（偏正0/偏负0/中性1），新闻流中性；近3日0条，关注度降温。",
+        "top_items": [
+          {
+            "title": "从产品输出走向生态扎根 新能源商用车出海驶入快车道",
+            "source": "上海证券报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-08-27",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "新能源"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": false,
+            "age_days": 11,
+            "report_context_only": true
+          }
+        ],
+        "limitation": "新闻流衡量公开信息方向与关注度，不等于资金流；同日搜索补充只作报告语境，不回填规则信号。"
+      },
+      "cross_read": "新闻方向中性或与资金不一致，交易判断以真实申赎、相对强度和成交确认为先。",
+      "reconsider": "份额止跌转增、5日相对收益转正且规则评分回到0以上后，再移出回避名单。",
+      "position_note": "不知道用户是否持有；这里只限制新增，不自动生成卖出或做空指令。"
+    },
+    {
+      "code": "515980",
+      "name": "人工智能ETF",
+      "sector": "AI算力",
+      "group": "ai",
+      "role": "回避ETF",
+      "action": "回避新增",
+      "alert_level": "高",
+      "avoid_score": 40.1,
+      "rule_score": -0.5794,
+      "reason": "规则评分-0.58；撤退风险0.24；新闻偏正但价格未确认",
+      "reasons": [
+        "规则评分-0.58",
+        "撤退风险0.24",
+        "新闻偏正但价格未确认"
+      ],
+      "fund_flow": {
+        "price_as_of": "2026-09-04",
+        "status": "基本稳定",
+        "score": -0.0578,
+        "conclusion": "ETF份额变化不大，当前方向主要由价格相对强弱决定。",
+        "share_available": true,
+        "share_change_pct": -0.3327,
+        "estimated_flow_yi": -0.2098,
+        "share_period": "2026-09-03→2026-09-04",
+        "share_evidence": "2026-09-03→2026-09-04份额-0.33%，估算资金-0.21亿元",
+        "return_1d": -1.866,
+        "return_5d": -1.77,
+        "return_20d": -7.242,
+        "relative_5d": -0.423,
+        "relative_20d": -4.401,
+        "volume_ratio_20d": 1.215,
+        "price_volume_proxy": 0.0,
+        "early_entry": 0.0,
+        "withdrawal_risk": 0.0,
+        "market_leverage_context": "全市场融资净买入-40.4亿元（2026-09-03）；该数据不能归因到单只ETF。",
+        "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
+      },
+      "news_flow": {
+        "as_of_date": "2026-09-07",
+        "window_start": "2026-08-25",
+        "lookback_days": 14,
+        "status": "偏正",
+        "score": 0.2028,
+        "direct_count": 13,
+        "positive_count": 2,
+        "negative_count": 0,
+        "neutral_count": 11,
+        "recent_3d_count": 3,
+        "attention": "平稳",
+        "latest_date": "2026-09-07",
+        "conclusion": "近14日直接相关新闻13条（偏正2/偏负0/中性11），新闻流偏正；近3日3条，关注度平稳。",
+        "top_items": [
+          {
+            "title": "投资硬科技业绩回报显著 9家银行AIC总资产合计突破7000亿元",
+            "source": "证券时报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-09-07",
+            "direction": "偏正",
+            "direction_value": 1,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "AI"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": true,
+            "age_days": 0,
+            "report_context_only": false
+          },
+          {
+            "title": "英矽智能联合首席执行官兼首席科学官任峰： AI制药新范式破解传统研发三大瓶颈",
+            "source": "中国证券报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-09-07",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "AI",
+              "智能"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": true,
+            "age_days": 0,
+            "report_context_only": false
+          },
+          {
+            "title": "AI重塑人形机器人产业",
+            "source": "上海证券报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-09-07",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "AI"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": true,
+            "age_days": 0,
+            "report_context_only": false
+          },
+          {
+            "title": "智能体走进办公场景 多家科技大厂发布相关产品 AI员工上岗了",
+            "source": "上海证券报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-09-03",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "AI",
+              "智能"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": false,
+            "age_days": 4,
             "report_context_only": true
           }
         ],
@@ -257,16 +624,18 @@
     }
   ],
   "daily_etf_alerts": {
-    "date": "2026-09-04",
-    "recommendation_count": 0,
+    "date": "2026-09-07",
+    "recommendation_count": 1,
     "avoid_count": 3,
-    "recommendation_codes": [],
-    "avoid_codes": [
-      "510500",
-      "512100",
-      "159995"
+    "recommendation_codes": [
+      "512800"
     ],
-    "display_title": "今日推荐关注 0 只｜今日回避预警 3 只",
+    "avoid_codes": [
+      "159995",
+      "516160",
+      "515980"
+    ],
+    "display_title": "今日推荐关注 1 只｜今日回避预警 3 只",
     "refresh_policy": "每日流水线按最新行情、真实ETF份额、相对强弱、成交结构和直接新闻重新计算；不沿用固定名单。"
   },
   "monitor": [
@@ -278,19 +647,19 @@
     "market_breadth",
     "volatility_20d"
   ],
-  "external_event_count": 161,
+  "external_event_count": 172,
   "external_latest_dates": [
+    "2026-09-05",
+    "2026-09-04",
     "2026-09-03",
     "2026-09-02",
-    "2026-09-01",
-    "2026-08-31",
-    "2026-08-28"
+    "2026-09-01"
   ],
   "pending_labels": [],
   "source_health": {
-    "external_news": 161,
-    "margin_records": 162,
-    "share_snapshots": 106
+    "external_news": 172,
+    "margin_records": 163,
+    "share_snapshots": 109
   },
   "experience_policy": "只用真实成交/结算后的结果更新经验；不使用手工输入跌幅、不按单日噪声自动改权重；参数仅在滚动样本外验证通过后升级。"
 }
