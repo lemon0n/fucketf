@@ -1,6 +1,74 @@
 {
-  "updated_at": "2026-09-06T23:32:50",
+  "updated_at": "2026-09-07T23:32:47",
   "items": [
+    {
+      "source": "证监会",
+      "category": "policy",
+      "title": "中国证券登记结算有限责任公司",
+      "url": "http://www.chinaclear.cn",
+      "published_at": "2026-09-07",
+      "date_quality": "detail_page_text",
+      "fetched_at": "2026-09-07T23:32:33",
+      "event_type": "政策/监管事件",
+      "direction": "中性",
+      "impact": "低",
+      "sectors": [
+        "券商"
+      ],
+      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
+      "age_days": 0
+    },
+    {
+      "source": "证监会",
+      "category": "policy",
+      "title": "2026年第34周（2026-08-31至2026-09-04）期货市场主要品种交易统计情况表",
+      "url": "https://www.csrc.gov.cn/csrc/c100121/c7657029/content.shtml",
+      "published_at": "2026-09-07",
+      "date_quality": "detail_page",
+      "fetched_at": "2026-09-07T23:32:29",
+      "event_type": "政策/监管事件",
+      "direction": "中性",
+      "impact": "低",
+      "sectors": [
+        "宽基/市场整体"
+      ],
+      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
+      "age_days": 0
+    },
+    {
+      "source": "证监会",
+      "category": "policy",
+      "title": "关于核准开源证券股份有限公司上市证券做市交易业务资格的批复",
+      "url": "https://www.csrc.gov.cn/csrc/c101857/c7656827/content.shtml",
+      "published_at": "2026-09-07",
+      "date_quality": "detail_page_text",
+      "fetched_at": "2026-09-07T23:32:26",
+      "event_type": "政策/监管事件",
+      "direction": "中性",
+      "impact": "低",
+      "sectors": [
+        "券商"
+      ],
+      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
+      "age_days": 0
+    },
+    {
+      "source": "证监会",
+      "category": "policy",
+      "title": "上海辖区证券期货市场概况（2026年8月）",
+      "url": "https://www.csrc.gov.cn/shanghai/c100581/c7657037/content.shtml",
+      "published_at": "2026-09-07",
+      "date_quality": "detail_page",
+      "fetched_at": "2026-09-07T23:32:21",
+      "event_type": "政策/监管事件",
+      "direction": "中性",
+      "impact": "低",
+      "sectors": [
+        "券商"
+      ],
+      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
+      "age_days": 0
+    },
     {
       "source": "工信部",
       "category": "industry",
@@ -8,7 +76,7 @@
       "url": "https://wap.miit.gov.cn/xwfb/bldhd/art/2026/art_7982b459b09e4adb907255c723f152c8.html",
       "published_at": "2026-09-05",
       "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:35",
+      "fetched_at": "2026-09-07T23:32:33",
       "event_type": "行业景气事件",
       "direction": "中性",
       "impact": "高",
@@ -16,7 +84,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 1
+      "age_days": 2
     },
     {
       "source": "工信部",
@@ -25,7 +93,7 @@
       "url": "http://www.miit.gov.cn/xwfb/bldhd/art/2026/art_7982b459b09e4adb907255c723f152c8.html",
       "published_at": "2026-09-05",
       "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:35",
+      "fetched_at": "2026-09-07T23:32:33",
       "event_type": "行业景气事件",
       "direction": "中性",
       "impact": "高",
@@ -33,7 +101,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 1
+      "age_days": 2
     },
     {
       "source": "证监会",
@@ -42,7 +110,7 @@
       "url": "https://www.csrc.gov.cn/csrc/c100119/c7656953/content.shtml",
       "published_at": "2026-09-05",
       "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:30",
+      "fetched_at": "2026-09-07T23:32:28",
       "event_type": "政策/监管事件",
       "direction": "中性",
       "impact": "低",
@@ -50,24 +118,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 1
-    },
-    {
-      "source": "证监会",
-      "category": "policy",
-      "title": "关于核准开源证券股份有限公司上市证券做市交易业务资格的批复",
-      "url": "https://www.csrc.gov.cn/csrc/c101857/c7656827/content.shtml",
-      "published_at": "2026-09-05",
-      "date_quality": "detail_page_text",
-      "fetched_at": "2026-09-06T23:32:29",
-      "event_type": "政策/监管事件",
-      "direction": "中性",
-      "impact": "低",
-      "sectors": [
-        "券商"
-      ],
-      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 1
+      "age_days": 2
     },
     {
       "source": "国家统计局",
@@ -76,7 +127,7 @@
       "url": "https://www.stats.gov.cn/sj/zxfb/202609/t20260903_1965182.html",
       "published_at": "2026-09-04",
       "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:39",
+      "fetched_at": "2026-09-07T23:32:36",
       "event_type": "宏观数据事件",
       "direction": "中性",
       "impact": "低",
@@ -84,178 +135,7 @@
         "宽基/市场整体"
       ],
       "implication": "宏观数据事件：中性，先影响市场风险偏好；需由价格、成交和 ETF 份额确认，不能把单次数据直接当成趋势。",
-      "age_days": 2
-    },
-    {
-      "source": "证监会",
-      "category": "policy",
-      "title": "中国证监会关于《私募投资基金募集监督管理办法（征求意见稿）》公开征求意见的通知",
-      "url": "https://www.csrc.gov.cn/csrc/c101981/c7656693/content.shtml",
-      "published_at": "2026-09-04",
-      "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:29",
-      "event_type": "政策/监管事件",
-      "direction": "中性",
-      "impact": "低",
-      "sectors": [
-        "宽基/市场整体"
-      ],
-      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 2
-    },
-    {
-      "source": "证监会",
-      "category": "policy",
-      "title": "关于准予广发新城吾悦封闭式商业不动产证券投资基金注册的批复",
-      "url": "https://www.csrc.gov.cn/csrc/c101895/c7656590/content.shtml",
-      "published_at": "2026-09-04",
-      "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:28",
-      "event_type": "政策/监管事件",
-      "direction": "中性",
-      "impact": "低",
-      "sectors": [
-        "券商"
-      ],
-      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 2
-    },
-    {
-      "source": "证监会",
-      "category": "policy",
-      "title": "关于准予中金菜鸟仓储物流封闭式基础设施证券投资基金注册的批复",
-      "url": "https://www.csrc.gov.cn/csrc/c101895/c7656589/content.shtml",
-      "published_at": "2026-09-04",
-      "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:28",
-      "event_type": "政策/监管事件",
-      "direction": "中性",
-      "impact": "低",
-      "sectors": [
-        "券商"
-      ],
-      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 2
-    },
-    {
-      "source": "证监会",
-      "category": "policy",
-      "title": "关于准予中金杭州安居保障性租赁住房封闭式基础设施证券投资基金注册的批复",
-      "url": "https://www.csrc.gov.cn/csrc/c101895/c7656583/content.shtml",
-      "published_at": "2026-09-04",
-      "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:28",
-      "event_type": "政策/监管事件",
-      "direction": "中性",
-      "impact": "低",
-      "sectors": [
-        "券商",
-        "房地产"
-      ],
-      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 2
-    },
-    {
-      "source": "证监会",
-      "category": "policy",
-      "title": "关于准予银华粤海水务水利封闭式基础设施证券投资基金注册的批复",
-      "url": "https://www.csrc.gov.cn/csrc/c101895/c7656581/content.shtml",
-      "published_at": "2026-09-04",
-      "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:28",
-      "event_type": "政策/监管事件",
-      "direction": "中性",
-      "impact": "低",
-      "sectors": [
-        "券商"
-      ],
-      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 2
-    },
-    {
-      "source": "证监会",
-      "category": "policy",
-      "title": "【行政许可事项】证券、基金经营机构行政许可申请受理及审核情况公示",
-      "url": "https://www.csrc.gov.cn/csrc/c106250/c1029662/content.shtml",
-      "published_at": "2026-09-04",
-      "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:27",
-      "event_type": "政策/监管事件",
-      "direction": "中性",
-      "impact": "低",
-      "sectors": [
-        "券商"
-      ],
-      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 2
-    },
-    {
-      "source": "证监会",
-      "category": "policy",
-      "title": "中国证券监督管理委员会行政处罚决定书",
-      "url": "https://www.csrc.gov.cn/csrc/c101928/c7656663/content.shtml",
-      "published_at": "2026-09-04",
-      "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:25",
-      "event_type": "政策/监管事件",
-      "direction": "偏负",
-      "impact": "高",
-      "sectors": [
-        "券商"
-      ],
-      "implication": "政策/监管事件：偏负，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 2
-    },
-    {
-      "source": "证监会",
-      "category": "policy",
-      "title": "中国证券监督管理委员会行政处罚决定书",
-      "url": "https://www.csrc.gov.cn/csrc/c101928/c7656661/content.shtml",
-      "published_at": "2026-09-04",
-      "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:25",
-      "event_type": "政策/监管事件",
-      "direction": "偏负",
-      "impact": "高",
-      "sectors": [
-        "券商"
-      ],
-      "implication": "政策/监管事件：偏负，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 2
-    },
-    {
-      "source": "证监会",
-      "category": "policy",
-      "title": "中国证监会就《私募投资基金募集监督管理办法（征求意见稿）》公开征求意见",
-      "url": "https://www.csrc.gov.cn/csrc/c100028/c7656676/content.shtml",
-      "published_at": "2026-09-04",
-      "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:24",
-      "event_type": "政策/监管事件",
-      "direction": "中性",
-      "impact": "低",
-      "sectors": [
-        "宽基/市场整体"
-      ],
-      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 2
-    },
-    {
-      "source": "证监会",
-      "category": "policy",
-      "title": "关于对中盐内蒙古化工股份有限公司、周杰、王广斌、陈云泉采取监管谈话措施的决定",
-      "url": "https://www.csrc.gov.cn/neimenggu/c103724/c7656682/content.shtml",
-      "published_at": "2026-09-04",
-      "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:24",
-      "event_type": "政策/监管事件",
-      "direction": "中性",
-      "impact": "高",
-      "sectors": [
-        "宽基/市场整体"
-      ],
-      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 2
+      "age_days": 3
     },
     {
       "source": "证监会",
@@ -264,7 +144,7 @@
       "url": "https://www.csrc.gov.cn/xiamen/c104096/c7656672/content.shtml",
       "published_at": "2026-09-04",
       "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:24",
+      "fetched_at": "2026-09-07T23:32:32",
       "event_type": "政策/监管事件",
       "direction": "中性",
       "impact": "低",
@@ -272,7 +152,178 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 2
+      "age_days": 3
+    },
+    {
+      "source": "证监会",
+      "category": "policy",
+      "title": "中国证监会关于《私募投资基金募集监督管理办法（征求意见稿）》公开征求意见的通知",
+      "url": "https://www.csrc.gov.cn/csrc/c101981/c7656693/content.shtml",
+      "published_at": "2026-09-04",
+      "date_quality": "detail_page",
+      "fetched_at": "2026-09-07T23:32:26",
+      "event_type": "政策/监管事件",
+      "direction": "中性",
+      "impact": "低",
+      "sectors": [
+        "宽基/市场整体"
+      ],
+      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
+      "age_days": 3
+    },
+    {
+      "source": "证监会",
+      "category": "policy",
+      "title": "关于准予广发新城吾悦封闭式商业不动产证券投资基金注册的批复",
+      "url": "https://www.csrc.gov.cn/csrc/c101895/c7656590/content.shtml",
+      "published_at": "2026-09-04",
+      "date_quality": "detail_page",
+      "fetched_at": "2026-09-07T23:32:25",
+      "event_type": "政策/监管事件",
+      "direction": "中性",
+      "impact": "低",
+      "sectors": [
+        "券商"
+      ],
+      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
+      "age_days": 3
+    },
+    {
+      "source": "证监会",
+      "category": "policy",
+      "title": "关于准予中金菜鸟仓储物流封闭式基础设施证券投资基金注册的批复",
+      "url": "https://www.csrc.gov.cn/csrc/c101895/c7656589/content.shtml",
+      "published_at": "2026-09-04",
+      "date_quality": "detail_page",
+      "fetched_at": "2026-09-07T23:32:25",
+      "event_type": "政策/监管事件",
+      "direction": "中性",
+      "impact": "低",
+      "sectors": [
+        "券商"
+      ],
+      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
+      "age_days": 3
+    },
+    {
+      "source": "证监会",
+      "category": "policy",
+      "title": "关于准予中金杭州安居保障性租赁住房封闭式基础设施证券投资基金注册的批复",
+      "url": "https://www.csrc.gov.cn/csrc/c101895/c7656583/content.shtml",
+      "published_at": "2026-09-04",
+      "date_quality": "detail_page",
+      "fetched_at": "2026-09-07T23:32:25",
+      "event_type": "政策/监管事件",
+      "direction": "中性",
+      "impact": "低",
+      "sectors": [
+        "券商",
+        "房地产"
+      ],
+      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
+      "age_days": 3
+    },
+    {
+      "source": "证监会",
+      "category": "policy",
+      "title": "关于准予银华粤海水务水利封闭式基础设施证券投资基金注册的批复",
+      "url": "https://www.csrc.gov.cn/csrc/c101895/c7656581/content.shtml",
+      "published_at": "2026-09-04",
+      "date_quality": "detail_page",
+      "fetched_at": "2026-09-07T23:32:25",
+      "event_type": "政策/监管事件",
+      "direction": "中性",
+      "impact": "低",
+      "sectors": [
+        "券商"
+      ],
+      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
+      "age_days": 3
+    },
+    {
+      "source": "证监会",
+      "category": "policy",
+      "title": "【行政许可事项】证券、基金经营机构行政许可申请受理及审核情况公示",
+      "url": "https://www.csrc.gov.cn/csrc/c106250/c1029662/content.shtml",
+      "published_at": "2026-09-04",
+      "date_quality": "detail_page",
+      "fetched_at": "2026-09-07T23:32:24",
+      "event_type": "政策/监管事件",
+      "direction": "中性",
+      "impact": "低",
+      "sectors": [
+        "券商"
+      ],
+      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
+      "age_days": 3
+    },
+    {
+      "source": "证监会",
+      "category": "policy",
+      "title": "中国证券监督管理委员会行政处罚决定书",
+      "url": "https://www.csrc.gov.cn/csrc/c101928/c7656663/content.shtml",
+      "published_at": "2026-09-04",
+      "date_quality": "detail_page",
+      "fetched_at": "2026-09-07T23:32:22",
+      "event_type": "政策/监管事件",
+      "direction": "偏负",
+      "impact": "高",
+      "sectors": [
+        "券商"
+      ],
+      "implication": "政策/监管事件：偏负，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
+      "age_days": 3
+    },
+    {
+      "source": "证监会",
+      "category": "policy",
+      "title": "中国证券监督管理委员会行政处罚决定书",
+      "url": "https://www.csrc.gov.cn/csrc/c101928/c7656661/content.shtml",
+      "published_at": "2026-09-04",
+      "date_quality": "detail_page",
+      "fetched_at": "2026-09-07T23:32:22",
+      "event_type": "政策/监管事件",
+      "direction": "偏负",
+      "impact": "高",
+      "sectors": [
+        "券商"
+      ],
+      "implication": "政策/监管事件：偏负，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
+      "age_days": 3
+    },
+    {
+      "source": "证监会",
+      "category": "policy",
+      "title": "关于对中盐内蒙古化工股份有限公司、周杰、王广斌、陈云泉采取监管谈话措施的决定",
+      "url": "https://www.csrc.gov.cn/neimenggu/c103724/c7656682/content.shtml",
+      "published_at": "2026-09-04",
+      "date_quality": "detail_page",
+      "fetched_at": "2026-09-07T23:32:21",
+      "event_type": "政策/监管事件",
+      "direction": "中性",
+      "impact": "高",
+      "sectors": [
+        "宽基/市场整体"
+      ],
+      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
+      "age_days": 3
+    },
+    {
+      "source": "证监会",
+      "category": "policy",
+      "title": "中国证监会就《私募投资基金募集监督管理办法（征求意见稿）》公开征求意见",
+      "url": "https://www.csrc.gov.cn/csrc/c100028/c7656676/content.shtml",
+      "published_at": "2026-09-04",
+      "date_quality": "detail_page",
+      "fetched_at": "2026-09-07T23:32:20",
+      "event_type": "政策/监管事件",
+      "direction": "中性",
+      "impact": "低",
+      "sectors": [
+        "宽基/市场整体"
+      ],
+      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
+      "age_days": 3
     },
     {
       "source": "证监会",
@@ -287,23 +338,6 @@
       "impact": "高",
       "sectors": [
         "宽基/市场整体"
-      ],
-      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 2
-    },
-    {
-      "source": "证监会",
-      "category": "policy",
-      "title": "中国证券登记结算有限责任公司",
-      "url": "http://www.chinaclear.cn",
-      "published_at": "2026-09-03",
-      "date_quality": "detail_page_text",
-      "fetched_at": "2026-09-06T23:32:34",
-      "event_type": "政策/监管事件",
-      "direction": "中性",
-      "impact": "低",
-      "sectors": [
-        "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
       "age_days": 3
@@ -323,7 +357,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 3
+      "age_days": 4
     },
     {
       "source": "证监会",
@@ -340,7 +374,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 3
+      "age_days": 4
     },
     {
       "source": "工信部",
@@ -349,7 +383,7 @@
       "url": "https://wap.miit.gov.cn/gzcy/yjzj/art/2026/art_8d59ab7eb6f84d13ad4912fda6f90354.html",
       "published_at": "2026-09-02",
       "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:37",
+      "fetched_at": "2026-09-07T23:32:35",
       "event_type": "行业景气事件",
       "direction": "中性",
       "impact": "低",
@@ -357,7 +391,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 4
+      "age_days": 5
     },
     {
       "source": "工信部",
@@ -366,7 +400,7 @@
       "url": "https://wap.miit.gov.cn/zwgk/zcwj/wjfb/gg/art/2026/art_74c4c2a0052143fcacd282226eedba23.html",
       "published_at": "2026-09-02",
       "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:36",
+      "fetched_at": "2026-09-07T23:32:33",
       "event_type": "行业景气事件",
       "direction": "中性",
       "impact": "低",
@@ -374,7 +408,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 4
+      "age_days": 5
     },
     {
       "source": "工信部",
@@ -391,7 +425,7 @@
         "AI算力"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 4
+      "age_days": 5
     },
     {
       "source": "证监会",
@@ -408,7 +442,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 4
+      "age_days": 5
     },
     {
       "source": "证监会",
@@ -425,7 +459,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 4
+      "age_days": 5
     },
     {
       "source": "证监会",
@@ -442,7 +476,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 4
+      "age_days": 5
     },
     {
       "source": "证监会",
@@ -451,7 +485,7 @@
       "url": "https://www.csrc.gov.cn/csrc/c100122/c7655658/content.shtml",
       "published_at": "2026-09-01",
       "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:31",
+      "fetched_at": "2026-09-07T23:32:29",
       "event_type": "政策/监管事件",
       "direction": "中性",
       "impact": "低",
@@ -459,7 +493,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 5
+      "age_days": 6
     },
     {
       "source": "工信部",
@@ -476,7 +510,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 5
+      "age_days": 6
     },
     {
       "source": "证监会",
@@ -493,7 +527,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 5
+      "age_days": 6
     },
     {
       "source": "证监会",
@@ -510,7 +544,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 5
+      "age_days": 6
     },
     {
       "source": "工信部",
@@ -519,7 +553,7 @@
       "url": "https://wap.miit.gov.cn/gxsj/tjfx/rjy/art/2026/art_3588c41c7dd34514868a93b3cb2c020c.html",
       "published_at": "2026-08-31",
       "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:37",
+      "fetched_at": "2026-09-07T23:32:35",
       "event_type": "行业景气事件",
       "direction": "中性",
       "impact": "低",
@@ -527,7 +561,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 6
+      "age_days": 7
     },
     {
       "source": "证监会",
@@ -536,7 +570,7 @@
       "url": "https://www.csrc.gov.cn/csrc/c100121/c7655574/content.shtml",
       "published_at": "2026-08-31",
       "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:31",
+      "fetched_at": "2026-09-07T23:32:29",
       "event_type": "政策/监管事件",
       "direction": "中性",
       "impact": "低",
@@ -544,7 +578,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 6
+      "age_days": 7
     },
     {
       "source": "工信部",
@@ -561,7 +595,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 6
+      "age_days": 7
     },
     {
       "source": "工信部",
@@ -578,7 +612,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：偏正，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 6
+      "age_days": 7
     },
     {
       "source": "工信部",
@@ -595,7 +629,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：偏正，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 6
+      "age_days": 7
     },
     {
       "source": "工信部",
@@ -612,7 +646,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 6
+      "age_days": 7
     },
     {
       "source": "证监会",
@@ -629,7 +663,7 @@
         "银行"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 6
+      "age_days": 7
     },
     {
       "source": "工信部",
@@ -646,7 +680,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 6
+      "age_days": 7
     },
     {
       "source": "证监会",
@@ -663,7 +697,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 6
+      "age_days": 7
     },
     {
       "source": "证监会",
@@ -680,7 +714,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 6
+      "age_days": 7
     },
     {
       "source": "工信部",
@@ -689,7 +723,7 @@
       "url": "https://wap.miit.gov.cn/gxsj/tjfx/txy/art/2026/art_d78fc2fbd1d9467286f9a71986bdafe7.html",
       "published_at": "2026-08-28",
       "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:37",
+      "fetched_at": "2026-09-07T23:32:35",
       "event_type": "行业景气事件",
       "direction": "中性",
       "impact": "低",
@@ -697,7 +731,93 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 9
+      "age_days": 10
+    },
+    {
+      "source": "证监会",
+      "category": "policy",
+      "title": "中国证监会发布《关于资本市场支持构建房地产发展新模式的意见》",
+      "url": "https://www.csrc.gov.cn/csrc/c100028/c7655025/content.shtml",
+      "published_at": "2026-08-28",
+      "date_quality": "detail_page",
+      "fetched_at": "2026-09-07T23:32:31",
+      "event_type": "政策/监管事件",
+      "direction": "偏正",
+      "impact": "中",
+      "sectors": [
+        "房地产"
+      ],
+      "implication": "政策/监管事件：偏正，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
+      "age_days": 10
+    },
+    {
+      "source": "证监会",
+      "category": "policy",
+      "title": "【行政许可事项】债券监管司公开发行公司（企业）债券审核工作流程及申请企业情况",
+      "url": "https://www.csrc.gov.cn/csrc/c106307/c1045428/content.shtml",
+      "published_at": "2026-08-28",
+      "date_quality": "detail_page",
+      "fetched_at": "2026-09-07T23:32:24",
+      "event_type": "政策/监管事件",
+      "direction": "中性",
+      "impact": "高",
+      "sectors": [
+        "国债",
+        "长债"
+      ],
+      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
+      "age_days": 10
+    },
+    {
+      "source": "证监会",
+      "category": "policy",
+      "title": "中国证券监督管理委员会行政处罚决定书",
+      "url": "https://www.csrc.gov.cn/csrc/c101928/c7655149/content.shtml",
+      "published_at": "2026-08-28",
+      "date_quality": "detail_page",
+      "fetched_at": "2026-09-07T23:32:22",
+      "event_type": "政策/监管事件",
+      "direction": "偏负",
+      "impact": "高",
+      "sectors": [
+        "券商"
+      ],
+      "implication": "政策/监管事件：偏负，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
+      "age_days": 10
+    },
+    {
+      "source": "证监会",
+      "category": "policy",
+      "title": "中国证券监督管理委员会行政处罚决定书",
+      "url": "https://www.csrc.gov.cn/csrc/c101928/c7655161/content.shtml",
+      "published_at": "2026-08-28",
+      "date_quality": "detail_page",
+      "fetched_at": "2026-09-07T23:32:22",
+      "event_type": "政策/监管事件",
+      "direction": "偏负",
+      "impact": "高",
+      "sectors": [
+        "券商"
+      ],
+      "implication": "政策/监管事件：偏负，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
+      "age_days": 10
+    },
+    {
+      "source": "证监会",
+      "category": "policy",
+      "title": "关于资本市场支持构建房地产发展新模式的意见",
+      "url": "https://www.csrc.gov.cn/csrc/c100028/c7655027/content.shtml",
+      "published_at": "2026-08-28",
+      "date_quality": "detail_page",
+      "fetched_at": "2026-09-07T23:32:20",
+      "event_type": "政策/监管事件",
+      "direction": "偏正",
+      "impact": "中",
+      "sectors": [
+        "房地产"
+      ],
+      "implication": "政策/监管事件：偏正，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
+      "age_days": 10
     },
     {
       "source": "证监会",
@@ -714,93 +834,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 9
-    },
-    {
-      "source": "证监会",
-      "category": "policy",
-      "title": "【行政许可事项】债券监管司公开发行公司（企业）债券审核工作流程及申请企业情况",
-      "url": "https://www.csrc.gov.cn/csrc/c106307/c1045428/content.shtml",
-      "published_at": "2026-08-28",
-      "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:28",
-      "event_type": "政策/监管事件",
-      "direction": "中性",
-      "impact": "高",
-      "sectors": [
-        "国债",
-        "长债"
-      ],
-      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 9
-    },
-    {
-      "source": "证监会",
-      "category": "policy",
-      "title": "中国证券监督管理委员会行政处罚决定书",
-      "url": "https://www.csrc.gov.cn/csrc/c101928/c7655149/content.shtml",
-      "published_at": "2026-08-28",
-      "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:25",
-      "event_type": "政策/监管事件",
-      "direction": "偏负",
-      "impact": "高",
-      "sectors": [
-        "券商"
-      ],
-      "implication": "政策/监管事件：偏负，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 9
-    },
-    {
-      "source": "证监会",
-      "category": "policy",
-      "title": "中国证券监督管理委员会行政处罚决定书",
-      "url": "https://www.csrc.gov.cn/csrc/c101928/c7655161/content.shtml",
-      "published_at": "2026-08-28",
-      "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:25",
-      "event_type": "政策/监管事件",
-      "direction": "偏负",
-      "impact": "高",
-      "sectors": [
-        "券商"
-      ],
-      "implication": "政策/监管事件：偏负，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 9
-    },
-    {
-      "source": "证监会",
-      "category": "policy",
-      "title": "中国证监会发布《关于资本市场支持构建房地产发展新模式的意见》",
-      "url": "https://www.csrc.gov.cn/csrc/c100028/c7655025/content.shtml",
-      "published_at": "2026-08-28",
-      "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:24",
-      "event_type": "政策/监管事件",
-      "direction": "偏正",
-      "impact": "中",
-      "sectors": [
-        "房地产"
-      ],
-      "implication": "政策/监管事件：偏正，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 9
-    },
-    {
-      "source": "证监会",
-      "category": "policy",
-      "title": "关于资本市场支持构建房地产发展新模式的意见",
-      "url": "https://www.csrc.gov.cn/csrc/c100028/c7655027/content.shtml",
-      "published_at": "2026-08-28",
-      "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:24",
-      "event_type": "政策/监管事件",
-      "direction": "偏正",
-      "impact": "中",
-      "sectors": [
-        "房地产"
-      ],
-      "implication": "政策/监管事件：偏正，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 9
+      "age_days": 10
     },
     {
       "source": "证监会",
@@ -817,7 +851,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：偏负，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 9
+      "age_days": 10
     },
     {
       "source": "证监会",
@@ -834,7 +868,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：偏负，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 9
+      "age_days": 10
     },
     {
       "source": "证监会",
@@ -851,7 +885,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 9
+      "age_days": 10
     },
     {
       "source": "证监会",
@@ -868,7 +902,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 9
+      "age_days": 10
     },
     {
       "source": "证监会",
@@ -885,7 +919,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 9
+      "age_days": 10
     },
     {
       "source": "证监会",
@@ -902,7 +936,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 9
+      "age_days": 10
     },
     {
       "source": "证监会",
@@ -919,7 +953,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 9
+      "age_days": 10
     },
     {
       "source": "国家统计局",
@@ -928,7 +962,7 @@
       "url": "https://www.stats.gov.cn/sj/zxfb/202608/t20260827_1965126.html",
       "published_at": "2026-08-27",
       "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:40",
+      "fetched_at": "2026-09-07T23:32:37",
       "event_type": "宏观数据事件",
       "direction": "偏正",
       "impact": "中",
@@ -936,7 +970,7 @@
         "宽基/市场整体"
       ],
       "implication": "宏观数据事件：偏正，先影响市场风险偏好；需由价格、成交和 ETF 份额确认，不能把单次数据直接当成趋势。",
-      "age_days": 10
+      "age_days": 11
     },
     {
       "source": "国家统计局",
@@ -945,7 +979,7 @@
       "url": "https://www.stats.gov.cn/sj/zxfb/202608/t20260827_1965129.html",
       "published_at": "2026-08-27",
       "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:39",
+      "fetched_at": "2026-09-07T23:32:37",
       "event_type": "宏观数据事件",
       "direction": "偏正",
       "impact": "高",
@@ -953,7 +987,7 @@
         "宽基/市场整体"
       ],
       "implication": "宏观数据事件：偏正，先影响市场风险偏好；需由价格、成交和 ETF 份额确认，不能把单次数据直接当成趋势。",
-      "age_days": 10
+      "age_days": 11
     },
     {
       "source": "工信部",
@@ -970,7 +1004,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 10
+      "age_days": 11
     },
     {
       "source": "证监会",
@@ -987,7 +1021,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 10
+      "age_days": 11
     },
     {
       "source": "证监会",
@@ -1004,7 +1038,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 10
+      "age_days": 11
     },
     {
       "source": "证监会",
@@ -1021,7 +1055,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 10
+      "age_days": 11
     },
     {
       "source": "证监会",
@@ -1030,7 +1064,7 @@
       "url": "https://www.csrc.gov.cn/csrc/c100119/c7654530/content.shtml",
       "published_at": "2026-08-26",
       "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:30",
+      "fetched_at": "2026-09-07T23:32:28",
       "event_type": "政策/监管事件",
       "direction": "中性",
       "impact": "低",
@@ -1038,7 +1072,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 11
+      "age_days": 12
     },
     {
       "source": "工信部",
@@ -1055,7 +1089,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 11
+      "age_days": 12
     },
     {
       "source": "工信部",
@@ -1072,7 +1106,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 11
+      "age_days": 12
     },
     {
       "source": "工信部",
@@ -1089,7 +1123,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 11
+      "age_days": 12
     },
     {
       "source": "工信部",
@@ -1106,7 +1140,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：偏正，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 11
+      "age_days": 12
     },
     {
       "source": "工信部",
@@ -1123,7 +1157,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 11
+      "age_days": 12
     },
     {
       "source": "工信部",
@@ -1140,7 +1174,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：偏正，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 11
+      "age_days": 12
     },
     {
       "source": "证监会",
@@ -1157,7 +1191,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 11
+      "age_days": 12
     },
     {
       "source": "工信部",
@@ -1174,7 +1208,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 12
+      "age_days": 13
     },
     {
       "source": "工信部",
@@ -1191,7 +1225,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 12
+      "age_days": 13
     },
     {
       "source": "证监会",
@@ -1209,7 +1243,7 @@
         "长债"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 12
+      "age_days": 13
     },
     {
       "source": "证监会",
@@ -1226,7 +1260,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 12
+      "age_days": 13
     },
     {
       "source": "证监会",
@@ -1243,7 +1277,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 12
+      "age_days": 13
     },
     {
       "source": "证监会",
@@ -1260,7 +1294,7 @@
         "国债"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 12
+      "age_days": 13
     },
     {
       "source": "国家统计局",
@@ -1269,7 +1303,7 @@
       "url": "https://www.stats.gov.cn/sj/zxfb/202608/t20260821_1965093.html",
       "published_at": "2026-08-24",
       "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:41",
+      "fetched_at": "2026-09-07T23:32:38",
       "event_type": "宏观数据事件",
       "direction": "中性",
       "impact": "低",
@@ -1277,7 +1311,7 @@
         "宽基/市场整体"
       ],
       "implication": "宏观数据事件：中性，先影响市场风险偏好；需由价格、成交和 ETF 份额确认，不能把单次数据直接当成趋势。",
-      "age_days": 13
+      "age_days": 14
     },
     {
       "source": "证监会",
@@ -1286,7 +1320,7 @@
       "url": "https://www.csrc.gov.cn/csrc/c100121/c7654088/content.shtml",
       "published_at": "2026-08-24",
       "date_quality": "detail_page",
-      "fetched_at": "2026-09-06T23:32:31",
+      "fetched_at": "2026-09-07T23:32:29",
       "event_type": "政策/监管事件",
       "direction": "中性",
       "impact": "低",
@@ -1294,7 +1328,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 13
+      "age_days": 14
     },
     {
       "source": "工信部",
@@ -1311,7 +1345,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 13
+      "age_days": 14
     },
     {
       "source": "工信部",
@@ -1328,7 +1362,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 13
+      "age_days": 14
     },
     {
       "source": "工信部",
@@ -1345,7 +1379,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 13
+      "age_days": 14
     },
     {
       "source": "证监会",
@@ -1362,7 +1396,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 13
+      "age_days": 14
     },
     {
       "source": "证监会",
@@ -1380,7 +1414,7 @@
         "长债"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 13
+      "age_days": 14
     },
     {
       "source": "工信部",
@@ -1397,7 +1431,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 14
+      "age_days": 15
     },
     {
       "source": "工信部",
@@ -1414,7 +1448,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 14
+      "age_days": 15
     },
     {
       "source": "证监会",
@@ -1431,7 +1465,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 15
+      "age_days": 16
     },
     {
       "source": "证监会",
@@ -1448,7 +1482,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 15
+      "age_days": 16
     },
     {
       "source": "证监会",
@@ -1465,7 +1499,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 15
+      "age_days": 16
     },
     {
       "source": "证监会",
@@ -1482,7 +1516,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 15
+      "age_days": 16
     },
     {
       "source": "证监会",
@@ -1499,7 +1533,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 15
+      "age_days": 16
     },
     {
       "source": "证监会",
@@ -1516,7 +1550,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 15
+      "age_days": 16
     },
     {
       "source": "证监会",
@@ -1533,7 +1567,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 15
+      "age_days": 16
     },
     {
       "source": "证监会",
@@ -1550,7 +1584,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 15
+      "age_days": 16
     },
     {
       "source": "证监会",
@@ -1567,7 +1601,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 15
+      "age_days": 16
     },
     {
       "source": "证监会",
@@ -1584,7 +1618,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 15
+      "age_days": 16
     },
     {
       "source": "证监会",
@@ -1601,7 +1635,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 15
+      "age_days": 16
     },
     {
       "source": "证监会",
@@ -1618,7 +1652,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 15
+      "age_days": 16
     },
     {
       "source": "证监会",
@@ -1635,7 +1669,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 15
+      "age_days": 16
     },
     {
       "source": "证监会",
@@ -1653,7 +1687,7 @@
         "长债"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 15
+      "age_days": 16
     },
     {
       "source": "证监会",
@@ -1670,7 +1704,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 15
+      "age_days": 16
     },
     {
       "source": "证监会",
@@ -1687,7 +1721,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：偏负，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 15
+      "age_days": 16
     },
     {
       "source": "证监会",
@@ -1704,7 +1738,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：偏负，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 15
+      "age_days": 16
     },
     {
       "source": "证监会",
@@ -1721,7 +1755,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：偏负，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 15
+      "age_days": 16
     },
     {
       "source": "证监会",
@@ -1738,7 +1772,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：偏负，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 15
+      "age_days": 16
     },
     {
       "source": "证监会",
@@ -1755,7 +1789,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：偏负，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 15
+      "age_days": 16
     },
     {
       "source": "证监会",
@@ -1772,7 +1806,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：偏负，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 15
+      "age_days": 16
     },
     {
       "source": "国家统计局",
@@ -1789,7 +1823,7 @@
         "宽基/市场整体"
       ],
       "implication": "宏观数据事件：中性，先影响市场风险偏好；需由价格、成交和 ETF 份额确认，不能把单次数据直接当成趋势。",
-      "age_days": 16
+      "age_days": 17
     },
     {
       "source": "工信部",
@@ -1806,7 +1840,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 16
+      "age_days": 17
     },
     {
       "source": "证监会",
@@ -1824,7 +1858,7 @@
         "银行"
       ],
       "implication": "政策/监管事件：偏正，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 16
+      "age_days": 17
     },
     {
       "source": "证监会",
@@ -1841,7 +1875,7 @@
         "银行"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 16
+      "age_days": 17
     },
     {
       "source": "证监会",
@@ -1858,7 +1892,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 16
+      "age_days": 17
     },
     {
       "source": "证监会",
@@ -1875,7 +1909,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 16
+      "age_days": 17
     },
     {
       "source": "证监会",
@@ -1892,7 +1926,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 17
+      "age_days": 18
     },
     {
       "source": "证监会",
@@ -1909,7 +1943,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 17
+      "age_days": 18
     },
     {
       "source": "证监会",
@@ -1926,7 +1960,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 17
+      "age_days": 18
     },
     {
       "source": "证监会",
@@ -1943,7 +1977,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 17
+      "age_days": 18
     },
     {
       "source": "证监会",
@@ -1960,7 +1994,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 18
+      "age_days": 19
     },
     {
       "source": "工信部",
@@ -1978,7 +2012,7 @@
         "光伏"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 19
+      "age_days": 20
     },
     {
       "source": "证监会",
@@ -1995,7 +2029,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 19
+      "age_days": 20
     },
     {
       "source": "证监会",
@@ -2013,7 +2047,7 @@
         "房地产"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 19
+      "age_days": 20
     },
     {
       "source": "证监会",
@@ -2030,7 +2064,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 19
+      "age_days": 20
     },
     {
       "source": "证监会",
@@ -2047,7 +2081,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 19
+      "age_days": 20
     },
     {
       "source": "证监会",
@@ -2064,7 +2098,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 19
+      "age_days": 20
     },
     {
       "source": "国家统计局",
@@ -2081,7 +2115,7 @@
         "宽基/市场整体"
       ],
       "implication": "宏观数据事件：中性，先影响市场风险偏好；需由价格、成交和 ETF 份额确认，不能把单次数据直接当成趋势。",
-      "age_days": 20
+      "age_days": 21
     },
     {
       "source": "国家统计局",
@@ -2098,7 +2132,7 @@
         "消费"
       ],
       "implication": "宏观数据事件：偏正，先影响市场风险偏好；需由价格、成交和 ETF 份额确认，不能把单次数据直接当成趋势。",
-      "age_days": 20
+      "age_days": 21
     },
     {
       "source": "国家统计局",
@@ -2115,7 +2149,7 @@
         "宽基/市场整体"
       ],
       "implication": "宏观数据事件：中性，先影响市场风险偏好；需由价格、成交和 ETF 份额确认，不能把单次数据直接当成趋势。",
-      "age_days": 20
+      "age_days": 21
     },
     {
       "source": "国家统计局",
@@ -2132,7 +2166,7 @@
         "宽基/市场整体"
       ],
       "implication": "宏观数据事件：偏正，先影响市场风险偏好；需由价格、成交和 ETF 份额确认，不能把单次数据直接当成趋势。",
-      "age_days": 20
+      "age_days": 21
     },
     {
       "source": "国家统计局",
@@ -2149,7 +2183,7 @@
         "宽基/市场整体"
       ],
       "implication": "宏观数据事件：中性，先影响市场风险偏好；需由价格、成交和 ETF 份额确认，不能把单次数据直接当成趋势。",
-      "age_days": 20
+      "age_days": 21
     },
     {
       "source": "证监会",
@@ -2166,7 +2200,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 20
+      "age_days": 21
     },
     {
       "source": "证监会",
@@ -2183,7 +2217,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 20
+      "age_days": 21
     },
     {
       "source": "证监会",
@@ -2200,7 +2234,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 20
+      "age_days": 21
     },
     {
       "source": "证监会",
@@ -2217,7 +2251,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 20
+      "age_days": 21
     },
     {
       "source": "证监会",
@@ -2234,7 +2268,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 20
+      "age_days": 21
     },
     {
       "source": "证监会",
@@ -2251,7 +2285,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 20
+      "age_days": 21
     },
     {
       "source": "证监会",
@@ -2268,7 +2302,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 20
+      "age_days": 21
     },
     {
       "source": "证监会",
@@ -2285,7 +2319,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 20
+      "age_days": 21
     },
     {
       "source": "证监会",
@@ -2302,7 +2336,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 20
+      "age_days": 21
     },
     {
       "source": "国家统计局",
@@ -2319,7 +2353,7 @@
         "宽基/市场整体"
       ],
       "implication": "宏观数据事件：中性，先影响市场风险偏好；需由价格、成交和 ETF 份额确认，不能把单次数据直接当成趋势。",
-      "age_days": 23
+      "age_days": 24
     },
     {
       "source": "工信部",
@@ -2336,7 +2370,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 23
+      "age_days": 24
     },
     {
       "source": "证监会",
@@ -2353,7 +2387,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 23
+      "age_days": 24
     },
     {
       "source": "工信部",
@@ -2370,7 +2404,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 23
+      "age_days": 24
     },
     {
       "source": "工信部",
@@ -2387,7 +2421,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 23
+      "age_days": 24
     },
     {
       "source": "证监会",
@@ -2404,7 +2438,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 23
+      "age_days": 24
     },
     {
       "source": "证监会",
@@ -2421,7 +2455,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 23
+      "age_days": 24
     },
     {
       "source": "证监会",
@@ -2438,7 +2472,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 23
+      "age_days": 24
     },
     {
       "source": "证监会",
@@ -2455,7 +2489,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 23
+      "age_days": 24
     },
     {
       "source": "证监会",
@@ -2472,7 +2506,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 23
+      "age_days": 24
     },
     {
       "source": "证监会",
@@ -2489,7 +2523,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 23
+      "age_days": 24
     },
     {
       "source": "证监会",
@@ -2506,7 +2540,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 23
+      "age_days": 24
     },
     {
       "source": "工信部",
@@ -2523,7 +2557,7 @@
         "待确认"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 24
+      "age_days": 25
     },
     {
       "source": "工信部",
@@ -2541,7 +2575,7 @@
         "光伏"
       ],
       "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 24
+      "age_days": 25
     },
     {
       "source": "证监会",
@@ -2558,7 +2592,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 24
+      "age_days": 25
     },
     {
       "source": "证监会",
@@ -2575,7 +2609,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 24
+      "age_days": 25
     },
     {
       "source": "证监会",
@@ -2592,7 +2626,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 25
+      "age_days": 26
     },
     {
       "source": "证监会",
@@ -2609,7 +2643,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 25
+      "age_days": 26
     },
     {
       "source": "证监会",
@@ -2626,7 +2660,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 26
+      "age_days": 27
     },
     {
       "source": "证监会",
@@ -2643,7 +2677,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 26
+      "age_days": 27
     },
     {
       "source": "证监会",
@@ -2660,7 +2694,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 26
+      "age_days": 27
     },
     {
       "source": "证监会",
@@ -2677,7 +2711,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 26
+      "age_days": 27
     },
     {
       "source": "证监会",
@@ -2694,7 +2728,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 26
+      "age_days": 27
     },
     {
       "source": "证监会",
@@ -2712,7 +2746,7 @@
         "银行"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 26
+      "age_days": 27
     },
     {
       "source": "证监会",
@@ -2729,7 +2763,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 27
+      "age_days": 28
     },
     {
       "source": "证监会",
@@ -2746,7 +2780,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 27
+      "age_days": 28
     },
     {
       "source": "证监会",
@@ -2763,7 +2797,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 27
+      "age_days": 28
     },
     {
       "source": "证监会",
@@ -2780,7 +2814,7 @@
         "券商"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 27
+      "age_days": 28
     },
     {
       "source": "证监会",
@@ -2797,7 +2831,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 27
+      "age_days": 28
     },
     {
       "source": "证监会",
@@ -2814,7 +2848,7 @@
         "宽基/市场整体"
       ],
       "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 27
+      "age_days": 28
     },
     {
       "source": "国家统计局",
@@ -2831,7 +2865,7 @@
         "宽基/市场整体"
       ],
       "implication": "宏观数据事件：中性，先影响市场风险偏好；需由价格、成交和 ETF 份额确认，不能把单次数据直接当成趋势。",
-      "age_days": 28
+      "age_days": 29
     },
     {
       "source": "国家统计局",
@@ -2848,92 +2882,7 @@
         "消费"
       ],
       "implication": "宏观数据事件：中性，先影响市场风险偏好；需由价格、成交和 ETF 份额确认，不能把单次数据直接当成趋势。",
-      "age_days": 28
-    },
-    {
-      "source": "工信部",
-      "category": "industry",
-      "title": "第十届金砖国家工业部长会议在印度斋浦尔召开",
-      "url": "http://www.miit.gov.cn/xwfb/bldhd/art/2026/art_f456e4f55daa44d8a9f524d7f7959d90.html",
-      "published_at": "2026-08-07",
-      "date_quality": "detail_page",
-      "fetched_at": "2026-08-20T23:31:30",
-      "event_type": "行业景气事件",
-      "direction": "中性",
-      "impact": "低",
-      "sectors": [
-        "待确认"
-      ],
-      "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 30
-    },
-    {
-      "source": "工信部",
-      "category": "industry",
-      "title": "第十届金砖国家工业部长会议在印度斋浦尔召开",
-      "url": "https://wap.miit.gov.cn/xwfb/bldhd/art/2026/art_f456e4f55daa44d8a9f524d7f7959d90.html",
-      "published_at": "2026-08-07",
-      "date_quality": "detail_page",
-      "fetched_at": "2026-08-20T23:31:29",
-      "event_type": "行业景气事件",
-      "direction": "中性",
-      "impact": "低",
-      "sectors": [
-        "待确认"
-      ],
-      "implication": "行业景气事件：中性，可能改变相关行业预期；需观察行业 ETF 相对宽基的强弱是否持续。",
-      "age_days": 30
-    },
-    {
-      "source": "证监会",
-      "category": "policy",
-      "title": "关于核准长安基金管理有限公司变更主要股东、实际控制人的批复",
-      "url": "https://www.csrc.gov.cn/csrc/c101881/c7650772/content.shtml",
-      "published_at": "2026-08-07",
-      "date_quality": "detail_page",
-      "fetched_at": "2026-08-17T23:31:46",
-      "event_type": "政策/监管事件",
-      "direction": "中性",
-      "impact": "低",
-      "sectors": [
-        "宽基/市场整体"
-      ],
-      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 30
-    },
-    {
-      "source": "证监会",
-      "category": "policy",
-      "title": "关于核准金信基金管理有限公司变更持股5%以上股东的批复",
-      "url": "https://www.csrc.gov.cn/csrc/c101881/c7650780/content.shtml",
-      "published_at": "2026-08-07",
-      "date_quality": "detail_page",
-      "fetched_at": "2026-08-13T23:32:16",
-      "event_type": "政策/监管事件",
-      "direction": "中性",
-      "impact": "低",
-      "sectors": [
-        "宽基/市场整体"
-      ],
-      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 30
-    },
-    {
-      "source": "证监会",
-      "category": "policy",
-      "title": "厦门证监局证券期货经营机构行政许可事项审核过程公示表2026-8-7",
-      "url": "https://www.csrc.gov.cn/xiamen/c104096/c7650325/content.shtml",
-      "published_at": "2026-08-07",
-      "date_quality": "detail_page",
-      "fetched_at": "2026-08-09T23:31:31",
-      "event_type": "政策/监管事件",
-      "direction": "中性",
-      "impact": "低",
-      "sectors": [
-        "券商"
-      ],
-      "implication": "政策/监管事件：中性，影响估值与预期；政策落地前只提高观察权，不直接追涨。",
-      "age_days": 30
+      "age_days": 29
     }
   ]
 }

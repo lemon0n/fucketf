@@ -1,26 +1,22 @@
 {
-  "updated_at": "2026-09-06T23:32:58+00:00",
+  "updated_at": "2026-09-07T23:32:54+00:00",
   "target_codes": [
-    "512800",
-    "159995",
     "510500",
     "512760",
+    "159995",
+    "510880",
     "515980",
-    "512200",
-    "512890",
-    "512000",
-    "510880"
+    "516160",
+    "512800",
+    "515790",
+    "159592"
   ],
   "source_health": {
     "159995": {
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     },
-    "510500": {
-      "status": "cached",
-      "error": "ParseError: syntax error: line 1, column 0"
-    },
-    "515980": {
+    "510880": {
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     },
@@ -28,23 +24,27 @@
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     },
+    "515980": {
+      "status": "cached",
+      "error": "ParseError: syntax error: line 1, column 0"
+    },
+    "510500": {
+      "status": "cached",
+      "error": "ParseError: syntax error: line 1, column 0"
+    },
+    "516160": {
+      "status": "cached",
+      "error": "ParseError: syntax error: line 1, column 0"
+    },
     "512800": {
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     },
-    "512200": {
+    "515790": {
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     },
-    "512000": {
-      "status": "cached",
-      "error": "ParseError: syntax error: line 1, column 0"
-    },
-    "512890": {
-      "status": "cached",
-      "error": "ParseError: syntax error: line 1, column 0"
-    },
-    "510880": {
+    "159592": {
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     }
@@ -88,27 +88,6 @@
       ],
       "matched_keywords": [
         "医药"
-      ],
-      "retrieval_kind": "targeted_search_discovery",
-      "usage_policy": "报告补充；不回填当日规则信号"
-    },
-    {
-      "source": "北京市住房和城乡建设委员会等",
-      "source_tier": "官方原文",
-      "category": "policy",
-      "title": "关于进一步优化调整房地产相关政策的通知",
-      "url": "https://zjw.beijing.gov.cn/bjjs/xxgk/zcwj2024/qtzcwj/xxyx13/744089337/index.shtml",
-      "published_at": "2026-08-07",
-      "date_quality": "search_verified",
-      "direction": "偏正",
-      "impact": "高",
-      "target_codes": [
-        "512200"
-      ],
-      "matched_keywords": [
-        "房地产",
-        "住房",
-        "公积金"
       ],
       "retrieval_kind": "targeted_search_discovery",
       "usage_policy": "报告补充；不回填当日规则信号"
