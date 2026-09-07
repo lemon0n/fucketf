@@ -150,16 +150,8 @@ footer{text-align:center;font-size:0.7rem;color:var(--muted);margin-top:36px;pad
   .signal-grid{grid-template-columns:1fr}
 }
 
-/* Research-note skin: quiet, editorial, information-first. */
-:root{
-  --bg:#f5f3ee;--bg2:#ebe8e1;--bg3:#fcfbf8;--ink:#25231f;--muted:#77736b;--rule:#d9d4ca;
-  --accent:#9a4d2d;--green:#2f6f52;--accent2:#a84b43;--gold:#a87524;
-  --positive:#2f6f52;--negative:#a84b43;--warn:#a87524;--radius:4px;--radius-sm:3px;--maxw:1120px;
-  --shadow-sm:0 1px 2px rgba(53,45,35,.05);--shadow-md:0 8px 24px rgba(53,45,35,.08);
-  --IS:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB',sans-serif;
-  --JM:'SFMono-Regular',Consolas,'Liberation Mono',monospace;
-}
-body{background:var(--bg);color:var(--ink);font-size:14px;line-height:1.72}
+/* v3.0 light theme (Apple-style): all components inherit the :root tokens above. */
+body{color:var(--ink);font-size:15px;line-height:1.6}
 .container{max-width:var(--maxw);padding:28px 32px 64px}
 .report-masthead{border-bottom:1px solid var(--ink);padding:10px 0 20px;margin-bottom:28px}
 .report-kicker{color:var(--accent);font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
@@ -207,8 +199,44 @@ footer{font-size:.68rem;border-top:1px solid var(--ink);text-align:left;padding-
 <header class="report-masthead">
   <div class="report-kicker">FUCKETF · DAILY RESEARCH NOTE</div>
   <h1 class="report-title">老林的ETF量化模型</h1>
-  <div class="report-subtitle"><span>推荐/回避ETF · 逐只资金与新闻深挖 · 八项市场诊断</span><span class="report-meta">报告日 2026-09-08 · 生成于 2026-09-08 07:33</span></div>
+  <div class="report-subtitle"><span>推荐/回避ETF · 逐只资金与新闻深挖 · 八项市场诊断</span><span class="report-meta">报告日 2026-09-08 · 生成于 2026-09-08 07:36</span></div>
 </header>
+<div class="top-summary">
+  <div class="core-view">
+    <div class="cv-label">今日执行摘要</div>
+    <div class="cv-text">中性轮动：当前没有通过规则门槛的多头仓位，保持观望；中证500ETF、半导体ETF、芯片ETF列入弱势观察。</div>
+    <div class="strategy-strip">
+      <div class="strategy-cell"><span>市场状态</span><b>中性轮动</b></div>
+      <div class="strategy-cell"><span>组合决策</span><b>观望</b></div>
+      <div class="strategy-cell"><span>计划仓位</span><b>0.0%</b></div>
+      <div class="strategy-cell"><span>风险上限</span><b>50%</b></div>
+      <div class="strategy-cell"><span>现金/未配置</span><b>100.0%</b></div>
+    </div>
+  </div>
+  <div class="signal-grid">
+    <div class="signal-card long">
+      <div class="sig-header">
+        <span class="sig-title">做多计划 · 规则主模型</span>
+        <span class="sig-tag">目标 0.0%</span>
+      </div>
+<div class="empty-note">当前无实际多头仓位；不会用全池排名前三自动补位。</div>    </div>
+    <div class="signal-card short">
+      <div class="sig-header">
+        <span class="sig-title">做空观察 / 回避</span>
+        <span class="sig-tag">非空头交易</span>
+      </div>
+<div class="sig-item trade-item"><span class="sig-copy"><span class="sig-name">中证500ETF</span><span class="sig-meta">510500 · 中盘</span></span><span class="sig-facts"><b>暂不新增</b><span>评分 -0.60</span><span>撤退风险 0.12</span></span></div>
+<div class="sig-item trade-item"><span class="sig-copy"><span class="sig-name">半导体ETF</span><span class="sig-meta">512760 · 半导体</span></span><span class="sig-facts"><b>暂不新增</b><span>评分 -0.58</span><span>撤退风险 0.07</span></span></div>
+<div class="sig-item trade-item"><span class="sig-copy"><span class="sig-name">芯片ETF</span><span class="sig-meta">159995 · 芯片</span></span><span class="sig-facts"><b>暂不新增</b><span>评分 -0.51</span><span>撤退风险 0.07</span></span></div>
+    </div>
+  </div>
+  <div class="execution-grid">
+    <div class="execution-note"><b>复核与结算</b><span>下一流水线复核日 2026-09-09；本条决策按历史标签口径自 2026-09-08 起算，持有 3 个交易日，预计 2026-09-10 结算。若到下一交易日才首次执行，必须先重跑流水线。</span></div>
+    <div class="execution-note"><b>失效与退出</b><span>下一次日更若不再进入实际多头组合，则取消新增；当前模型没有盘中止损价，不在页面虚构价格点位。</span></div>
+    <div class="execution-note caution"><b>做空边界</b><span>弱势排名只表示回避或降低暴露，不代表可直接融券做空；当前模型未验证券源、借券成本及空头收益。</span></div>
+  </div>
+</div>
+
 <section class="report-section evidence-first">
 <div class="sec-title">今天先看结论</div>
 <div class="today-brief"><div class="today-status">研究观察 · 市场中性 · 截至2026-09-07</div>

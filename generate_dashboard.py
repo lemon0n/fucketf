@@ -771,16 +771,8 @@ footer{text-align:center;font-size:0.7rem;color:var(--muted);margin-top:36px;pad
   .signal-grid{grid-template-columns:1fr}
 }
 
-/* Research-note skin: quiet, editorial, information-first. */
-:root{
-  --bg:#f5f3ee;--bg2:#ebe8e1;--bg3:#fcfbf8;--ink:#25231f;--muted:#77736b;--rule:#d9d4ca;
-  --accent:#9a4d2d;--green:#2f6f52;--accent2:#a84b43;--gold:#a87524;
-  --positive:#2f6f52;--negative:#a84b43;--warn:#a87524;--radius:4px;--radius-sm:3px;--maxw:1120px;
-  --shadow-sm:0 1px 2px rgba(53,45,35,.05);--shadow-md:0 8px 24px rgba(53,45,35,.08);
-  --IS:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB',sans-serif;
-  --JM:'SFMono-Regular',Consolas,'Liberation Mono',monospace;
-}
-body{background:var(--bg);color:var(--ink);font-size:14px;line-height:1.72}
+/* v3.0 light theme (Apple-style): all components inherit the :root tokens above. */
+body{color:var(--ink);font-size:15px;line-height:1.6}
 .container{max-width:var(--maxw);padding:28px 32px 64px}
 .report-masthead{border-bottom:1px solid var(--ink);padding:10px 0 20px;margin-bottom:28px}
 .report-kicker{color:var(--accent);font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
@@ -2087,6 +2079,7 @@ def generate_html(model_data, econ_data):
     report_date = model_data['summary']['report_date']
 
     sections = [
+        gen_top_summary(model_data, econ_data),
         gen_eight_module_brief(model_data, econ_data),
         gen_section_4_performance(model_data, econ_data),
         gen_adaptation_review(model_data, econ_data),
