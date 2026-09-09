@@ -78,7 +78,7 @@
     xAxis:{type:'category',data:["07-14", "07-15", "07-20", "07-23", "07-28", "07-31", "08-05", "08-10", "08-13", "08-18", "08-21", "08-26", "08-31", "09-03", "09-08"],axisLabel:{color:muted,fontSize:10,rotate:30},axisLine:{lineStyle:{color:rule}}},
     yAxis:{type:'value',axisLabel:{color:muted,formatter:'{value}%'},splitLine:{lineStyle:{color:rule}}},
     series:[
-      {name:'模型',type:'bar',data:[0.0, -0.27, 0.0, -0.29, -0.54, 0.01, 0.57, -0.04, 0.03, 0.14, -0.08, -0.09, -0.44, 0.11, 0.0],itemStyle:{color:function(p){return p.value>=0?green:red}},barWidth:'30%'},
+      {name:'模型',type:'bar',data:[0.0, -0.27, 0.0, -0.29, -0.54, 0.01, 0.57, -0.04, 0.03, 0.14, -0.09, -0.09, -0.44, 0.11, 0.0],itemStyle:{color:function(p){return p.value>=0?green:red}},barWidth:'30%'},
       {name:'沪深300',type:'bar',data:[1.96, -4.97, 2.92, -0.44, -1.81, -0.62, 2.84, -0.15, 0.65, -2.94, -0.69, 1.39, -0.43, 0.06, -0.3],itemStyle:{color:function(p){return p.value>=0?'rgba(0,113,227,0.5)':'rgba(255,59,48,0.5)'}},barWidth:'30%'}
     ]
   });
@@ -92,7 +92,7 @@
     yAxis:{type:'value',axisLabel:{color:muted},splitLine:{lineStyle:{color:rule}}},
     series:[{
       type:'bar',
-      data:[0.031293, 0.029895, 0.026388, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+      data:[0.031372, 0.030013, 0.02623, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
       itemStyle:{color:gold},
       barWidth:'45%',
       label:{show:true,position:'top',formatter:'{c}',color:muted,fontSize:9}
