@@ -1,8 +1,8 @@
 {
-  "as_of_date": "2026-09-25",
-  "decision_date": "2026-09-25",
-  "next_trading_date": "2026-09-28",
-  "settlement_date": "2026-09-29",
+  "as_of_date": "2026-09-28",
+  "decision_date": "2026-09-28",
+  "next_trading_date": "2026-09-29",
+  "settlement_date": "2026-09-30",
   "calendar_quality": "exchange_calendar",
   "cutoff_policy": "价格/成交截至前一交易日；外部事件必须有原文或URL日期且published_at<=decision_date；未结算预测不得进入经验库。",
   "market_state": {
@@ -30,8 +30,8 @@
       "role": "推荐关注ETF",
       "alert_level": "待确认",
       "action": "列入推荐关注，但样本外护栏未通过，当前不新增仓位。",
-      "model_weight": 0.087,
-      "model_score": 0.6606,
+      "model_weight": 0.0848,
+      "model_score": 0.6517,
       "verdict": "推荐观察｜等待确认",
       "confirmations": [
         "价格与成交出现启动",
@@ -40,7 +40,7 @@
       ],
       "conflicts": [],
       "reason": "价格与成交出现启动；5日跑赢沪深300 4.52个百分点；份额增加1.31%",
-      "why_selected": "规则评分+0.66；5日相对沪深300 +4.52个百分点；启动强度0.75。",
+      "why_selected": "规则评分+0.65；5日相对沪深300 +4.52个百分点；启动强度0.75。",
       "fund_flow": {
         "price_as_of": "2026-09-24",
         "status": "净申购",
@@ -64,8 +64,8 @@
         "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
       },
       "news_flow": {
-        "as_of_date": "2026-09-25",
-        "window_start": "2026-09-12",
+        "as_of_date": "2026-09-28",
+        "window_start": "2026-09-15",
         "lookback_days": 14,
         "status": "无直接新闻",
         "score": 0.0,
@@ -92,8 +92,8 @@
       "role": "推荐关注ETF",
       "alert_level": "待确认",
       "action": "列入推荐关注，但样本外护栏未通过，当前不新增仓位。",
-      "model_weight": 0.041,
-      "model_score": 0.6302,
+      "model_weight": 0.0398,
+      "model_score": 0.6185,
       "verdict": "推荐观察｜等待确认",
       "confirmations": [
         "价格与成交出现启动",
@@ -103,7 +103,7 @@
         "份额下降2.72%（估算-1.11亿元）"
       ],
       "reason": "价格与成交出现启动；5日跑赢沪深300 6.45个百分点；份额下降2.72%（估算-1.11亿元）",
-      "why_selected": "规则评分+0.63；5日相对沪深300 +6.45个百分点；启动强度0.76。",
+      "why_selected": "规则评分+0.62；5日相对沪深300 +6.45个百分点；启动强度0.76。",
       "fund_flow": {
         "price_as_of": "2026-09-24",
         "status": "净赎回",
@@ -127,20 +127,38 @@
         "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
       },
       "news_flow": {
-        "as_of_date": "2026-09-25",
-        "window_start": "2026-09-12",
+        "as_of_date": "2026-09-28",
+        "window_start": "2026-09-15",
         "lookback_days": 14,
-        "status": "偏正",
-        "score": 0.219,
-        "direct_count": 4,
+        "status": "中性",
+        "score": 0.1278,
+        "direct_count": 5,
         "positive_count": 1,
         "negative_count": 0,
-        "neutral_count": 3,
-        "recent_3d_count": 0,
-        "attention": "降温",
-        "latest_date": "2026-09-21",
-        "conclusion": "近14日直接相关新闻4条（偏正1/偏负0/中性3），新闻流偏正；近3日0条，关注度降温。",
+        "neutral_count": 4,
+        "recent_3d_count": 1,
+        "attention": "平稳",
+        "latest_date": "2026-09-28",
+        "conclusion": "近14日直接相关新闻5条（偏正1/偏负0/中性4），新闻流中性；近3日1条，关注度平稳。",
         "top_items": [
+          {
+            "title": "中秋假期一线城市楼市调研： “金九银十”活跃度提升 北上广深带看成交回温",
+            "source": "中国证券报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-09-28",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "楼市"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": true,
+            "age_days": 0,
+            "report_context_only": false
+          },
           {
             "title": "房地产开发既要“建好房”更要“管好房”",
             "source": "证券日报",
@@ -157,7 +175,7 @@
             ],
             "source_tier": "四大报叙事",
             "used_in_rule": false,
-            "age_days": 4,
+            "age_days": 7,
             "report_context_only": true
           },
           {
@@ -176,7 +194,7 @@
             ],
             "source_tier": "四大报叙事",
             "used_in_rule": false,
-            "age_days": 8,
+            "age_days": 11,
             "report_context_only": true
           },
           {
@@ -195,31 +213,13 @@
             ],
             "source_tier": "四大报叙事",
             "used_in_rule": false,
-            "age_days": 9,
-            "report_context_only": true
-          },
-          {
-            "title": "楼市新政后上市房企首单再融资 保利发展拟发行五十亿元定向可转债",
-            "source": "证券时报",
-            "url": "https://stock.10jqka.com.cn/bktt_list/",
-            "published_at": "2026-09-15",
-            "direction": "中性",
-            "direction_value": 0,
-            "impact": "中",
-            "category": "media",
-            "origin": "newspaper",
-            "matched_keywords": [
-              "楼市"
-            ],
-            "source_tier": "四大报叙事",
-            "used_in_rule": false,
-            "age_days": 10,
+            "age_days": 12,
             "report_context_only": true
           }
         ],
         "limitation": "新闻流衡量公开信息方向与关注度，不等于资金流；同日搜索补充只作报告语境，不回填规则信号。"
       },
-      "cross_read": "新闻流偏正但真实份额净赎回，属于叙事—资金背离；不把利好标题直接写成买点。",
+      "cross_read": "新闻方向中性或与资金不一致，交易判断以真实申赎、相对强度和成交确认为先。",
       "confirm_next": "份额止跌转增、5日相对强度保持为正且撤退风险低于0.35",
       "invalidate": "跌出轮动前五、放量收低或撤退风险升至0.35以上"
     },
@@ -231,15 +231,15 @@
       "role": "推荐关注ETF",
       "alert_level": "待确认",
       "action": "列入推荐关注，但样本外护栏未通过，当前不新增仓位。",
-      "model_weight": 0.0548,
-      "model_score": 0.4272,
+      "model_weight": 0.0529,
+      "model_score": 0.4176,
       "verdict": "推荐观察｜等待确认",
       "confirmations": [
         "价格与成交出现启动"
       ],
       "conflicts": [],
       "reason": "价格与成交出现启动",
-      "why_selected": "规则评分+0.43；5日相对沪深300 +0.67个百分点；启动强度0.69。",
+      "why_selected": "规则评分+0.42；5日相对沪深300 +0.67个百分点；启动强度0.69。",
       "fund_flow": {
         "price_as_of": "2026-09-24",
         "status": "基本稳定",
@@ -263,19 +263,19 @@
         "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
       },
       "news_flow": {
-        "as_of_date": "2026-09-25",
-        "window_start": "2026-09-12",
+        "as_of_date": "2026-09-28",
+        "window_start": "2026-09-15",
         "lookback_days": 14,
         "status": "偏正",
-        "score": 0.75,
+        "score": 0.6923,
         "direct_count": 2,
         "positive_count": 1,
         "negative_count": 0,
         "neutral_count": 1,
-        "recent_3d_count": 1,
-        "attention": "升温",
+        "recent_3d_count": 0,
+        "attention": "降温",
         "latest_date": "2026-09-25",
-        "conclusion": "近14日直接相关新闻2条（偏正1/偏负0/中性1），新闻流偏正；近3日1条，关注度升温。",
+        "conclusion": "近14日直接相关新闻2条（偏正1/偏负0/中性1），新闻流偏正；近3日0条，关注度降温。",
         "top_items": [
           {
             "title": "50亿元！中际旭创回购收官",
@@ -291,9 +291,9 @@
               "回购"
             ],
             "source_tier": "四大报叙事",
-            "used_in_rule": true,
-            "age_days": 0,
-            "report_context_only": false
+            "used_in_rule": false,
+            "age_days": 3,
+            "report_context_only": true
           },
           {
             "title": "海外“超级央行周”来临 A股高股息板块迎阶段性修复行情",
@@ -311,7 +311,7 @@
             ],
             "source_tier": "四大报叙事",
             "used_in_rule": false,
-            "age_days": 10,
+            "age_days": 13,
             "report_context_only": true
           }
         ],
@@ -331,8 +331,8 @@
       "role": "推荐关注ETF",
       "alert_level": "待确认",
       "action": "列入推荐关注，但样本外护栏未通过，当前不新增仓位。",
-      "model_weight": 0.087,
-      "model_score": 0.6606,
+      "model_weight": 0.0848,
+      "model_score": 0.6517,
       "verdict": "推荐观察｜等待确认",
       "confirmations": [
         "价格与成交出现启动",
@@ -341,7 +341,7 @@
       ],
       "conflicts": [],
       "reason": "价格与成交出现启动；5日跑赢沪深300 4.52个百分点；份额增加1.31%",
-      "why_selected": "规则评分+0.66；5日相对沪深300 +4.52个百分点；启动强度0.75。",
+      "why_selected": "规则评分+0.65；5日相对沪深300 +4.52个百分点；启动强度0.75。",
       "fund_flow": {
         "price_as_of": "2026-09-24",
         "status": "净申购",
@@ -365,8 +365,8 @@
         "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
       },
       "news_flow": {
-        "as_of_date": "2026-09-25",
-        "window_start": "2026-09-12",
+        "as_of_date": "2026-09-28",
+        "window_start": "2026-09-15",
         "lookback_days": 14,
         "status": "无直接新闻",
         "score": 0.0,
@@ -393,8 +393,8 @@
       "role": "推荐关注ETF",
       "alert_level": "待确认",
       "action": "列入推荐关注，但样本外护栏未通过，当前不新增仓位。",
-      "model_weight": 0.041,
-      "model_score": 0.6302,
+      "model_weight": 0.0398,
+      "model_score": 0.6185,
       "verdict": "推荐观察｜等待确认",
       "confirmations": [
         "价格与成交出现启动",
@@ -404,7 +404,7 @@
         "份额下降2.72%（估算-1.11亿元）"
       ],
       "reason": "价格与成交出现启动；5日跑赢沪深300 6.45个百分点；份额下降2.72%（估算-1.11亿元）",
-      "why_selected": "规则评分+0.63；5日相对沪深300 +6.45个百分点；启动强度0.76。",
+      "why_selected": "规则评分+0.62；5日相对沪深300 +6.45个百分点；启动强度0.76。",
       "fund_flow": {
         "price_as_of": "2026-09-24",
         "status": "净赎回",
@@ -428,20 +428,38 @@
         "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
       },
       "news_flow": {
-        "as_of_date": "2026-09-25",
-        "window_start": "2026-09-12",
+        "as_of_date": "2026-09-28",
+        "window_start": "2026-09-15",
         "lookback_days": 14,
-        "status": "偏正",
-        "score": 0.219,
-        "direct_count": 4,
+        "status": "中性",
+        "score": 0.1278,
+        "direct_count": 5,
         "positive_count": 1,
         "negative_count": 0,
-        "neutral_count": 3,
-        "recent_3d_count": 0,
-        "attention": "降温",
-        "latest_date": "2026-09-21",
-        "conclusion": "近14日直接相关新闻4条（偏正1/偏负0/中性3），新闻流偏正；近3日0条，关注度降温。",
+        "neutral_count": 4,
+        "recent_3d_count": 1,
+        "attention": "平稳",
+        "latest_date": "2026-09-28",
+        "conclusion": "近14日直接相关新闻5条（偏正1/偏负0/中性4），新闻流中性；近3日1条，关注度平稳。",
         "top_items": [
+          {
+            "title": "中秋假期一线城市楼市调研： “金九银十”活跃度提升 北上广深带看成交回温",
+            "source": "中国证券报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-09-28",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "楼市"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": true,
+            "age_days": 0,
+            "report_context_only": false
+          },
           {
             "title": "房地产开发既要“建好房”更要“管好房”",
             "source": "证券日报",
@@ -458,7 +476,7 @@
             ],
             "source_tier": "四大报叙事",
             "used_in_rule": false,
-            "age_days": 4,
+            "age_days": 7,
             "report_context_only": true
           },
           {
@@ -477,7 +495,7 @@
             ],
             "source_tier": "四大报叙事",
             "used_in_rule": false,
-            "age_days": 8,
+            "age_days": 11,
             "report_context_only": true
           },
           {
@@ -496,31 +514,13 @@
             ],
             "source_tier": "四大报叙事",
             "used_in_rule": false,
-            "age_days": 9,
-            "report_context_only": true
-          },
-          {
-            "title": "楼市新政后上市房企首单再融资 保利发展拟发行五十亿元定向可转债",
-            "source": "证券时报",
-            "url": "https://stock.10jqka.com.cn/bktt_list/",
-            "published_at": "2026-09-15",
-            "direction": "中性",
-            "direction_value": 0,
-            "impact": "中",
-            "category": "media",
-            "origin": "newspaper",
-            "matched_keywords": [
-              "楼市"
-            ],
-            "source_tier": "四大报叙事",
-            "used_in_rule": false,
-            "age_days": 10,
+            "age_days": 12,
             "report_context_only": true
           }
         ],
         "limitation": "新闻流衡量公开信息方向与关注度，不等于资金流；同日搜索补充只作报告语境，不回填规则信号。"
       },
-      "cross_read": "新闻流偏正但真实份额净赎回，属于叙事—资金背离；不把利好标题直接写成买点。",
+      "cross_read": "新闻方向中性或与资金不一致，交易判断以真实申赎、相对强度和成交确认为先。",
       "confirm_next": "份额止跌转增、5日相对强度保持为正且撤退风险低于0.35",
       "invalidate": "跌出轮动前五、放量收低或撤退风险升至0.35以上"
     },
@@ -532,15 +532,15 @@
       "role": "推荐关注ETF",
       "alert_level": "待确认",
       "action": "列入推荐关注，但样本外护栏未通过，当前不新增仓位。",
-      "model_weight": 0.0548,
-      "model_score": 0.4272,
+      "model_weight": 0.0529,
+      "model_score": 0.4176,
       "verdict": "推荐观察｜等待确认",
       "confirmations": [
         "价格与成交出现启动"
       ],
       "conflicts": [],
       "reason": "价格与成交出现启动",
-      "why_selected": "规则评分+0.43；5日相对沪深300 +0.67个百分点；启动强度0.69。",
+      "why_selected": "规则评分+0.42；5日相对沪深300 +0.67个百分点；启动强度0.69。",
       "fund_flow": {
         "price_as_of": "2026-09-24",
         "status": "基本稳定",
@@ -564,19 +564,19 @@
         "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
       },
       "news_flow": {
-        "as_of_date": "2026-09-25",
-        "window_start": "2026-09-12",
+        "as_of_date": "2026-09-28",
+        "window_start": "2026-09-15",
         "lookback_days": 14,
         "status": "偏正",
-        "score": 0.75,
+        "score": 0.6923,
         "direct_count": 2,
         "positive_count": 1,
         "negative_count": 0,
         "neutral_count": 1,
-        "recent_3d_count": 1,
-        "attention": "升温",
+        "recent_3d_count": 0,
+        "attention": "降温",
         "latest_date": "2026-09-25",
-        "conclusion": "近14日直接相关新闻2条（偏正1/偏负0/中性1），新闻流偏正；近3日1条，关注度升温。",
+        "conclusion": "近14日直接相关新闻2条（偏正1/偏负0/中性1），新闻流偏正；近3日0条，关注度降温。",
         "top_items": [
           {
             "title": "50亿元！中际旭创回购收官",
@@ -592,9 +592,9 @@
               "回购"
             ],
             "source_tier": "四大报叙事",
-            "used_in_rule": true,
-            "age_days": 0,
-            "report_context_only": false
+            "used_in_rule": false,
+            "age_days": 3,
+            "report_context_only": true
           },
           {
             "title": "海外“超级央行周”来临 A股高股息板块迎阶段性修复行情",
@@ -612,7 +612,7 @@
             ],
             "source_tier": "四大报叙事",
             "used_in_rule": false,
-            "age_days": 10,
+            "age_days": 13,
             "report_context_only": true
           }
         ],
@@ -633,7 +633,7 @@
       "action": "回避新增",
       "alert_level": "高",
       "avoid_score": 42.1,
-      "rule_score": 0.1484,
+      "rule_score": 0.138,
       "reason": "份额-6.79%（估算-15.45亿元）",
       "reasons": [
         "份额-6.79%（估算-15.45亿元）"
@@ -661,8 +661,8 @@
         "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
       },
       "news_flow": {
-        "as_of_date": "2026-09-25",
-        "window_start": "2026-09-12",
+        "as_of_date": "2026-09-28",
+        "window_start": "2026-09-15",
         "lookback_days": 14,
         "status": "中性",
         "score": 0.0,
@@ -670,10 +670,10 @@
         "positive_count": 0,
         "negative_count": 0,
         "neutral_count": 3,
-        "recent_3d_count": 1,
-        "attention": "升温",
+        "recent_3d_count": 0,
+        "attention": "降温",
         "latest_date": "2026-09-24",
-        "conclusion": "近14日直接相关新闻3条（偏正0/偏负0/中性3），新闻流中性；近3日1条，关注度升温。",
+        "conclusion": "近14日直接相关新闻3条（偏正0/偏负0/中性3），新闻流中性；近3日0条，关注度降温。",
         "top_items": [
           {
             "title": "非遗传承价值凸显 上市公司探索商业化新路径",
@@ -690,7 +690,7 @@
             ],
             "source_tier": "四大报叙事",
             "used_in_rule": false,
-            "age_days": 1,
+            "age_days": 4,
             "report_context_only": true
           },
           {
@@ -708,7 +708,7 @@
             ],
             "source_tier": "四大报叙事",
             "used_in_rule": false,
-            "age_days": 4,
+            "age_days": 7,
             "report_context_only": true
           },
           {
@@ -726,7 +726,7 @@
             ],
             "source_tier": "四大报叙事",
             "used_in_rule": false,
-            "age_days": 10,
+            "age_days": 13,
             "report_context_only": true
           }
         ],
@@ -738,7 +738,7 @@
     }
   ],
   "daily_etf_alerts": {
-    "date": "2026-09-25",
+    "date": "2026-09-28",
     "recommendation_count": 3,
     "avoid_count": 1,
     "recommendation_codes": [
@@ -761,7 +761,7 @@
     "market_breadth",
     "volatility_20d"
   ],
-  "external_event_count": 153,
+  "external_event_count": 133,
   "external_latest_dates": [
     "2026-09-24",
     "2026-09-23",
@@ -771,7 +771,7 @@
   ],
   "pending_labels": [],
   "source_health": {
-    "external_news": 153,
+    "external_news": 133,
     "margin_records": 177,
     "share_snapshots": 129
   },
