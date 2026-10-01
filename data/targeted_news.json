@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-01T00:20:16+00:00",
+  "updated_at": "2026-10-01T23:45:37+00:00",
   "target_codes": [
     "159995",
     "512760",
@@ -12,15 +12,11 @@
     "510300"
   ],
   "source_health": {
-    "512760": {
+    "515980": {
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     },
     "512660": {
-      "status": "cached",
-      "error": "ParseError: syntax error: line 1, column 0"
-    },
-    "515980": {
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     },
@@ -32,7 +28,11 @@
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     },
-    "515120": {
+    "512760": {
+      "status": "cached",
+      "error": "ParseError: syntax error: line 1, column 0"
+    },
+    "512100": {
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     },
@@ -40,7 +40,7 @@
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     },
-    "512100": {
+    "515120": {
       "status": "cached",
       "error": "ParseError: syntax error: line 1, column 0"
     },

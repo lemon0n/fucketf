@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-01T00:20:11+00:00",
+  "updated_at": "2026-10-01T23:45:31+00:00",
   "coverage": {
     "sse": "weekly historical snapshots plus latest refresh",
     "szse": "pipeline snapshots; flow requires two distinct dates"
   },
   "source_health": {
     "sse": {
-      "status": "可用",
-      "new_snapshots": 1
+      "status": "沿用缓存；1次请求未更新",
+      "new_snapshots": 0
     },
     "szse": {
       "status": "可用"
