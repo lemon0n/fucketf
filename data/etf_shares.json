@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-01T23:45:31+00:00",
+  "updated_at": "2026-10-04T23:46:51+00:00",
   "coverage": {
     "sse": "weekly historical snapshots plus latest refresh",
     "szse": "pipeline snapshots; flow requires two distinct dates"
