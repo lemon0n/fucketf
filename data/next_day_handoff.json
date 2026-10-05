@@ -1,6 +1,6 @@
 {
-  "as_of_date": "2026-10-05",
-  "decision_date": "2026-10-05",
+  "as_of_date": "2026-10-06",
+  "decision_date": "2026-10-06",
   "next_trading_date": "2026-10-08",
   "settlement_date": "2026-10-09",
   "calendar_quality": "exchange_calendar",
@@ -16,7 +16,7 @@
     "action": "等待确认",
     "execution_allowed": false,
     "position": 0.0,
-    "reason": "推荐关注：暂无，均先等待确认；回避新增：上证50ETF、芯片ETF、创新药ETF。不把单一价格启动或利好标题直接写成买点。",
+    "reason": "推荐关注：暂无，均先等待确认；回避新增：上证50ETF、创新药ETF、芯片ETF。不把单一价格启动或利好标题直接写成买点。",
     "rule_output_role": "候选生成器；model_results.json中的buy不等于最终执行指令",
     "canonical_source": "data/market_diagnostics.json"
   },
@@ -32,11 +32,11 @@
       "role": "回避ETF",
       "action": "回避新增",
       "alert_level": "高",
-      "avoid_score": 51.7,
-      "rule_score": -0.3499,
-      "reason": "规则评分-0.35",
+      "avoid_score": 52.3,
+      "rule_score": -0.363,
+      "reason": "规则评分-0.36",
       "reasons": [
-        "规则评分-0.35"
+        "规则评分-0.36"
       ],
       "fund_flow": {
         "price_as_of": "2026-09-30",
@@ -61,8 +61,8 @@
         "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
       },
       "news_flow": {
-        "as_of_date": "2026-10-05",
-        "window_start": "2026-09-22",
+        "as_of_date": "2026-10-06",
+        "window_start": "2026-09-23",
         "lookback_days": 14,
         "status": "中性",
         "score": 0.0,
@@ -90,7 +90,7 @@
             ],
             "source_tier": "四大报叙事",
             "used_in_rule": false,
-            "age_days": 5,
+            "age_days": 6,
             "report_context_only": true
           },
           {
@@ -108,103 +108,7 @@
             ],
             "source_tier": "四大报叙事",
             "used_in_rule": false,
-            "age_days": 11,
-            "report_context_only": true
-          }
-        ],
-        "limitation": "新闻流衡量公开信息方向与关注度，不等于资金流；同日搜索补充只作报告语境，不回填规则信号。"
-      },
-      "cross_read": "新闻方向中性或与资金不一致，交易判断以真实申赎、相对强度和成交确认为先。",
-      "reconsider": "份额止跌转增、5日相对收益转正且规则评分回到0以上后，再移出回避名单。",
-      "position_note": "不知道用户是否持有；这里只限制新增，不自动生成卖出或做空指令。"
-    },
-    {
-      "code": "159995",
-      "name": "芯片ETF",
-      "sector": "芯片",
-      "group": "chips",
-      "role": "回避ETF",
-      "action": "回避新增",
-      "alert_level": "高",
-      "avoid_score": 48.6,
-      "rule_score": -0.8624,
-      "reason": "5日跑输沪深300 5.84个百分点；规则评分-0.86；撤退风险0.22",
-      "reasons": [
-        "5日跑输沪深300 5.84个百分点",
-        "规则评分-0.86",
-        "撤退风险0.22"
-      ],
-      "fund_flow": {
-        "price_as_of": "2026-09-30",
-        "status": "净申购",
-        "score": -0.0847,
-        "conclusion": "ETF份额净申购但价格尚未跑赢基准，属于资金先行、价格待确认。",
-        "share_available": true,
-        "share_change_pct": 1.5023,
-        "estimated_flow_yi": 3.8434,
-        "share_period": "2026-09-29→2026-09-30",
-        "share_evidence": "2026-09-29→2026-09-30份额+1.50%，估算资金+3.84亿元",
-        "return_1d": -3.217,
-        "return_5d": -9.769,
-        "return_20d": -7.632,
-        "relative_5d": -5.845,
-        "relative_20d": -2.252,
-        "volume_ratio_20d": 1.197,
-        "price_volume_proxy": 0.0,
-        "early_entry": 0.0,
-        "withdrawal_risk": 0.0,
-        "market_leverage_context": "全市场融资净买入-20.1亿元（2026-09-29）；该数据不能归因到单只ETF。",
-        "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
-      },
-      "news_flow": {
-        "as_of_date": "2026-10-05",
-        "window_start": "2026-09-22",
-        "lookback_days": 14,
-        "status": "中性",
-        "score": 0.0,
-        "direct_count": 2,
-        "positive_count": 0,
-        "negative_count": 0,
-        "neutral_count": 2,
-        "recent_3d_count": 0,
-        "attention": "降温",
-        "latest_date": "2026-10-02",
-        "conclusion": "近14日直接相关新闻2条（偏正0/偏负0/中性2），新闻流中性；近3日0条，关注度降温。",
-        "top_items": [
-          {
-            "title": "美股转跌！存储巨头，意外下挫！原油飙涨",
-            "source": "证券时报",
-            "url": "https://stock.10jqka.com.cn/bktt_list/",
-            "published_at": "2026-10-02",
-            "direction": "中性",
-            "direction_value": 0,
-            "impact": "中",
-            "category": "media",
-            "origin": "newspaper",
-            "matched_keywords": [
-              "存储"
-            ],
-            "source_tier": "四大报叙事",
-            "used_in_rule": false,
-            "age_days": 3,
-            "report_context_only": true
-          },
-          {
-            "title": "行业步入高景气周期 功率半导体迎涨价潮",
-            "source": "证券时报",
-            "url": "https://stock.10jqka.com.cn/bktt_list/",
-            "published_at": "2026-09-22",
-            "direction": "中性",
-            "direction_value": 0,
-            "impact": "中",
-            "category": "media",
-            "origin": "newspaper",
-            "matched_keywords": [
-              "半导体"
-            ],
-            "source_tier": "四大报叙事",
-            "used_in_rule": false,
-            "age_days": 13,
+            "age_days": 12,
             "report_context_only": true
           }
         ],
@@ -222,11 +126,11 @@
       "role": "回避ETF",
       "action": "回避新增",
       "alert_level": "高",
-      "avoid_score": 47.9,
-      "rule_score": -0.4128,
-      "reason": "规则评分-0.41；撤退风险0.16",
+      "avoid_score": 48.6,
+      "rule_score": -0.4264,
+      "reason": "规则评分-0.43；撤退风险0.16",
       "reasons": [
-        "规则评分-0.41",
+        "规则评分-0.43",
         "撤退风险0.16"
       ],
       "fund_flow": {
@@ -252,8 +156,8 @@
         "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
       },
       "news_flow": {
-        "as_of_date": "2026-10-05",
-        "window_start": "2026-09-22",
+        "as_of_date": "2026-10-06",
+        "window_start": "2026-09-23",
         "lookback_days": 14,
         "status": "中性",
         "score": 0.0,
@@ -281,7 +185,7 @@
             ],
             "source_tier": "四大报叙事",
             "used_in_rule": false,
-            "age_days": 4,
+            "age_days": 5,
             "report_context_only": true
           },
           {
@@ -299,7 +203,85 @@
             ],
             "source_tier": "四大报叙事",
             "used_in_rule": false,
-            "age_days": 12,
+            "age_days": 13,
+            "report_context_only": true
+          }
+        ],
+        "limitation": "新闻流衡量公开信息方向与关注度，不等于资金流；同日搜索补充只作报告语境，不回填规则信号。"
+      },
+      "cross_read": "新闻方向中性或与资金不一致，交易判断以真实申赎、相对强度和成交确认为先。",
+      "reconsider": "份额止跌转增、5日相对收益转正且规则评分回到0以上后，再移出回避名单。",
+      "position_note": "不知道用户是否持有；这里只限制新增，不自动生成卖出或做空指令。"
+    },
+    {
+      "code": "159995",
+      "name": "芯片ETF",
+      "sector": "芯片",
+      "group": "chips",
+      "role": "回避ETF",
+      "action": "回避新增",
+      "alert_level": "高",
+      "avoid_score": 48.6,
+      "rule_score": -0.876,
+      "reason": "5日跑输沪深300 5.84个百分点；规则评分-0.88；撤退风险0.22",
+      "reasons": [
+        "5日跑输沪深300 5.84个百分点",
+        "规则评分-0.88",
+        "撤退风险0.22"
+      ],
+      "fund_flow": {
+        "price_as_of": "2026-09-30",
+        "status": "净申购",
+        "score": -0.0847,
+        "conclusion": "ETF份额净申购但价格尚未跑赢基准，属于资金先行、价格待确认。",
+        "share_available": true,
+        "share_change_pct": 1.5023,
+        "estimated_flow_yi": 3.8434,
+        "share_period": "2026-09-29→2026-09-30",
+        "share_evidence": "2026-09-29→2026-09-30份额+1.50%，估算资金+3.84亿元",
+        "return_1d": -3.217,
+        "return_5d": -9.769,
+        "return_20d": -7.632,
+        "relative_5d": -5.845,
+        "relative_20d": -2.252,
+        "volume_ratio_20d": 1.197,
+        "price_volume_proxy": 0.0,
+        "early_entry": 0.0,
+        "withdrawal_risk": 0.0,
+        "market_leverage_context": "全市场融资净买入-20.1亿元（2026-09-29）；该数据不能归因到单只ETF。",
+        "limitation": "申赎金额=份额变化×期末收盘价，为估算值；融资融券为全市场背景，不是该ETF专属资金。"
+      },
+      "news_flow": {
+        "as_of_date": "2026-10-06",
+        "window_start": "2026-09-23",
+        "lookback_days": 14,
+        "status": "中性",
+        "score": 0.0,
+        "direct_count": 1,
+        "positive_count": 0,
+        "negative_count": 0,
+        "neutral_count": 1,
+        "recent_3d_count": 0,
+        "attention": "降温",
+        "latest_date": "2026-10-02",
+        "conclusion": "近14日直接相关新闻1条（偏正0/偏负0/中性1），新闻流中性；近3日0条，关注度降温。",
+        "top_items": [
+          {
+            "title": "美股转跌！存储巨头，意外下挫！原油飙涨",
+            "source": "证券时报",
+            "url": "https://stock.10jqka.com.cn/bktt_list/",
+            "published_at": "2026-10-02",
+            "direction": "中性",
+            "direction_value": 0,
+            "impact": "中",
+            "category": "media",
+            "origin": "newspaper",
+            "matched_keywords": [
+              "存储"
+            ],
+            "source_tier": "四大报叙事",
+            "used_in_rule": false,
+            "age_days": 4,
             "report_context_only": true
           }
         ],
@@ -311,14 +293,14 @@
     }
   ],
   "daily_etf_alerts": {
-    "date": "2026-10-05",
+    "date": "2026-10-06",
     "recommendation_count": 0,
     "avoid_count": 3,
     "recommendation_codes": [],
     "avoid_codes": [
       "510050",
-      "159995",
-      "515120"
+      "515120",
+      "159995"
     ],
     "display_title": "今日推荐关注 0 只｜今日回避预警 3 只",
     "refresh_policy": "每日流水线按最新行情、真实ETF份额、相对强弱、成交结构和直接新闻重新计算；不沿用固定名单。"
@@ -332,7 +314,7 @@
     "market_breadth",
     "volatility_20d"
   ],
-  "external_event_count": 123,
+  "external_event_count": 111,
   "external_latest_dates": [
     "2026-09-30",
     "2026-09-29",
@@ -342,7 +324,7 @@
   ],
   "pending_labels": [],
   "source_health": {
-    "external_news": 123,
+    "external_news": 111,
     "margin_records": 180,
     "share_snapshots": 133
   },
